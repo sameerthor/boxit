@@ -10,6 +10,8 @@
                     <img src="img/logo2581-1.png">
                 </div>
                 <form method="POST" action="{{ route('login') }}" class="inp-brdr">
+                @csrf
+
                     <div class="form-group">
                         <img src="img/frame-11@2x.svg"><input type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         @error('email')
