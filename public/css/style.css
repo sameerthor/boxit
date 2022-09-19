@@ -85,16 +85,16 @@ position: relative;
 .inp-relv img{
 position: absolute;
 z-index: 9;
-width: 22px;
-top: 7px;
+width: 16px;
+top: 8px;
 left: 25px;
 }
 .inp-relv input {
-    padding: 6px 80px 6px 40px;
-    background-color: #F4F5F9;
-    border: none;
-    border-radius: 1px;
-    font-size: 14px;
+    padding: 6px 0px 6px 30px;
+    border: 1px solid rgba(105, 118, 140, 0.2);
+    border-radius: 3px;
+    font-size: 12px;
+    color: #69768C;
 }
 .p-15{
 	padding: 10px 15px;
@@ -156,14 +156,6 @@ border-radius: 9px;
 	border-top: 1px solid #F4F4F4 !important;
 }
 
-.table tbody tr:hover{
-box-shadow: 6px 10px 10px rgba(105, 118, 140, 0.09);
-border-radius: 1px;
-}
-.table tbody tr{
-	transition: 0.5s all;
-	position: relative;
-}
 .mb-100{
 	margin-bottom: 100px;
 }
@@ -405,11 +397,12 @@ background: #ECEDF1;
 }
 div#content .row {
     margin-left: 0px;
+    margin-right: 0px;
 }
 .mt-100{
 	margin-top: 53px;
 }
-.red-box p {
+.red-box a {
     background: #FCEEEC;
     padding: 20px 28px;
     font-size: 14px;
@@ -419,23 +412,35 @@ div#content .row {
     border-radius: 3px;
     width: 150px;
 }
+.red-box a:hover{
+	color: #FF5A5F;
+	text-decoration: none;
+}
+.pd-boxes{
+	padding: 53px 0px;
+}
+
 /*.mt-50{
 	margin-top: 50px;
 }*/
-.green-box p {
+.green-box a {
     background: #F1FFE9;
     padding: 20px 28px;
     font-size: 14px;
-    color: #16DB65;
+    color: #16DB65 !important;
     font-weight: 600;
     border-left: 2px solid #16DB65;
     border-radius: 3px;
     width: 150px;
 }
-.empty {
-    padding: 32px 0px;
+.green-box a:hover{
+	color: #16DB65;
+	text-decoration: none;
 }
-.yellow-box p{
+.empty {
+    padding: 5px 0px;
+}
+.yellow-box a{
 	   background: #FCF0E4;
     padding: 20px 28px;
     font-size: 14px;
@@ -444,6 +449,10 @@ div#content .row {
     border-left: 2px solid #F79256;
     border-radius: 3px;
     width: 150px;
+}
+.yellow-box a:hover{
+	color: #F79256;
+	text-decoration: none;
 }
 .margin-center{
 	margin: 1rem auto;
@@ -457,3 +466,174 @@ div#content .row {
     color: #172B4D !important;
 
 }
+.form-head span{
+	font-size: 20px;
+	font-weight: 600;
+	color: #172B4D;
+}
+#booking input ,#booking select ,#booking textarea{
+	font-size: 12px !important;
+	width: 100%;
+	border: 1px solid #EEEEEE !important;
+    border-radius: 8px !important;
+    padding: 15px !important;
+    color: #69768C !important; 
+}
+#booking select{
+height: inherit !important; 
+}
+#booking textarea{
+	height: 130px;
+}
+
+.form-btn button {
+    background: #172B4D;
+    font-size: 16px;
+    color: #fff;
+    border: 1px solid rgba(106, 106, 106, 0.68);
+    border-radius: 10px;
+    padding: 10px 30px;
+}
+.form-btn{
+	padding-top: 20px;
+}
+.form-head{
+	padding-bottom: 20px;
+}
+.card-new{
+	border: 1px solid #E7E7E7;
+    border-radius: 3px;
+    width: 95%;
+}
+.add-new-c p{
+	font-size: 15px;
+}
+.add-new-c {
+    display: flex;
+    align-items: center;
+}
+.add-new-c span {
+    margin-left: 5px;
+    color: #172B4D;
+}
+.select-style select{
+	font-size: 15px;
+	border: 1px solid #EEEEEE !important;
+    border-radius: 3px !important;
+    padding: 6px 10px;
+    color: #172B4D;
+}
+.pb-40{
+	padding-bottom: 40px;
+}
+.table-w-80{
+	width: 80% !important;
+}
+.tr-border tr{
+	border-bottom: 1px solid #eee;
+}
+.border-n tr th{
+	border: none !important;
+}
+.td-styles td{
+	font-size: 14px;
+    color: #69768C;
+}
+.td-styles b{
+	color: #172B4D;
+}
+.tr-hover tr:hover{
+	background-color: #F9F9F9;
+}
+.ptb-50{
+	padding: 50px 0px;
+}
+.project-flex{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.bdr-btm{
+	border-bottom: 1px solid #EEEEEE;
+}
+.ptb-25{
+	padding-bottom: 25px;
+	padding-top: 25px;
+}
+.p-name span{
+	color: #172B4D;
+	font-size: 14px;
+	font-weight: 700;
+}
+.v-name span{
+	color: #6A6A6A;
+	font-size: 14px;
+	font-weight: 500;
+}
+.v-name img{
+	margin-left: 10px;
+}
+.confirmed-txt span{
+	color: #16DB65 !important;
+	background: #F1FFE9;
+    border-radius: 3px;
+    padding: 2px 8px;
+}
+.th-size th{
+    font-size: 14px;
+    color: #69768C;
+}
+.address-txt span , .info-txt span , .status-txt span , .project-txt span{
+	font-size: 14px;
+	color: #172B4D;
+	font-weight: 600;
+	text-align: left;
+}
+.address-txt p , .info-txt p , .pods p , .steel p , .concrete p , .pumps p{
+	font-size: 14px;
+	color: #667185;
+	font-weight: 500;
+	text-align: left;
+	margin-bottom: 0px;
+}
+ .address-txt , .info-txt , .status-txt , .project-txt{
+ 	text-align: left;
+ }
+ .no-border{
+ 	border: none !important;
+ }
+ .pending-txt span{
+ 	color: #F79256;
+    background-color: #FCF0E4;
+    border-radius: 3px;
+    padding: 2px 8px;
+ }
+ .pop-flex{
+ 	display: flex;
+ 	align-items: center;
+ 	justify-content: space-between;
+ }
+ .pods , .steel , .concrete , .pumps{
+ 	padding: 7px 20px;
+ }
+ .info-txt{
+ 	padding: 10px 0px;
+ }
+ .mt-m-3{
+ 	margin-top: -3px;
+ }
+ .min-width-6{
+ 	min-width: 6rem !important;
+ }
+
+ a:hover {
+  color: white !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+a {
+	color: white !important;
+	text-decoration: none !important;
+	cursor: pointer !important;
+  }

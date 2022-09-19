@@ -41,11 +41,11 @@
 					<img src="img/logo2581-1.png">
 				</div>
 				<ul class="li-flex li-styles p-none list-none">
-					<li class="active"><img src="img/calendar.png">Calendar</li>
-					<li><img src="img/booking.png">Bookings</li>
-					<li><img src="img/contacts.png">Contacts</li>
-					<li><img src="img/projects.png">Projects</li>
-					<li><img src="img/job.png">Job Status</li>
+					<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="img/calendar.png">Calendar</a></li>
+					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="img/booking.png">Bookings</a></li>
+					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="img/contacts.png">Contacts</a></li>
+					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="img/projects.png">Projects</a></li>
+					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="img/job.png">Job Status</a></li>
 				</ul>
 
 				</div>
