@@ -104,14 +104,14 @@
 			<div class="row mt-50">
 				<div class="col-md-12 text-center">
 					<div class="red-box pd-boxes">
-						<p class="margin-center">99 Wembley</p>
+						<a class="margin-center">99 Wembley</a>
 					</div>
 				</div>
 			</div>
 			<div class="row mt-50">
 				<div class="col-md-12">
 					<div class="green-box pd-boxes">
-						<p>99 Wembley</p>
+						<a>99 Wembley</a>
 					</div>
 				</div>
 			</div>
@@ -125,7 +125,7 @@
 			<div class="row mt-50">
 				<div class="col-md-12">
 					<div class="yellow-box pd-boxes">
-						<p class="margin-center">98 Wembley</p>
+						<a class="margin-center">98 Wembley</a>
 					</div>
 				</div>
 			</div>

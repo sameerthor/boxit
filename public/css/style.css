@@ -626,13 +626,13 @@ height: inherit !important;
  	min-width: 6rem !important;
  }
 
- a:hover {
+ .nav_link:hover {
   color: white !important;
   text-decoration: none !important;
   cursor: pointer !important;
 }
 
-a {
+.nav_link {
 	color: white !important;
 	text-decoration: none !important;
 	cursor: pointer !important;
