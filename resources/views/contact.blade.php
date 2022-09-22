@@ -147,7 +147,7 @@ $(document).ready(function(){
         Swal.fire({
   position: 'top-end',
   icon: 'success',
-  title: 'Contact has been saved',
+  title: 'Contact has been saved successfully',
   showConfirmButton: false,
   timer: 1500
 })
