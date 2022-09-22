@@ -140,6 +140,10 @@ $(document).ready(function(){
         department_id: department
       },
       success: function(data) {
+        $("#contact_form").modal('hide');
+        $("#title").val();
+        $("#contact").val();
+        $("#email").val();
         Swal.fire({
   position: 'top-end',
   icon: 'success',
