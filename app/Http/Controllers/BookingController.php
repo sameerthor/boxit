@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Department;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +24,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('booking');
+        $departments = Department::all();
+        return view('booking',compact('departments'));
     }
 }

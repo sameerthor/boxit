@@ -18,11 +18,11 @@
           <input name="fName" type="text" placeholder="Address*" />
         </div>
         <div class="form-group col-md-6">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
+          <select class="form-control" style="width: 100%;" name="{{$departments[0]->id}}">
             <option value="">Building Company*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
+            @foreach($departments[0]->contacts as $res)
+            <option value="{{$res->id}}">{{$res->title}}</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -38,10 +38,10 @@
         <div class="col-xs-12 col-md-6 form-group">
           <div class="input-group input-group-xs">
           <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Building Company*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
+            <option value="">Foreman*</option>
+            @foreach($departments[1]->contacts as $res)
+            <option value="{{$res->id}}">{{$res->title}}</option>
+            @endforeach
           </select>
 
           </div>
@@ -52,9 +52,9 @@
         	 		<div class="input-group input-group-xs">
           <select class="form-control" style="width: 100%;" name="businessNeeds">
             <option value="">Plumber*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
+            @foreach($departments[2]->contacts as $res)
+            <option value="{{$res->id}}">{{$res->title}}</option>
+            @endforeach
           </select>
       </div>
         	 	</div>
@@ -66,33 +66,16 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 col-md-6 form-group">
-          <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Pods*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
+        @foreach($departments->slice(3) as $department)
         <div class="col-md-6">
         	 <div class="row">
         	 	<div class="col-md-7 form-group p-none">
         	 		<div class="input-group input-group-xs">
           <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Plumber*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
+            <option value="">{{$department->title}}*</option>
+            @foreach($department->contacts as $res)
+            <option value="{{$res->id}}">{{$res->title}}</option>
+            @endforeach
           </select>
       </div>
         	 	</div>
@@ -102,121 +85,9 @@
           
           </div>
         </div>
+        @endforeach
       </div>
-      <div class="row">
-        <div class="col-xs-12 col-md-6 form-group">
-          <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Pods*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-        <div class="col-md-6">
-        	 <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Plumber*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-md-6 form-group">
-          <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Pods*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-        <div class="col-md-6">
-        	 <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Plumber*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-md-6 form-group">
-          <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Pods*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-        <div class="col-md-6">
-        	 <div class="row">
-        	 	<div class="col-md-7 form-group p-none">
-        	 		<div class="input-group input-group-xs">
-          <select class="form-control" style="width: 100%;" name="businessNeeds">
-            <option value="">Plumber*</option>
-            <option value="IntDesign">Building Company* 1</option>
-            <option value="Ecom">Building Company* 2</option>
-            <option value="Retail">Building Company* 3</option>
-          </select>
-      </div>
-        	 	</div>
-        	 	<div class="col-md-5 form-group">
-        	 		<input name="compName" type="date" placeholder="" />
-        	 	</div>
-          
-          </div>
-        </div>
-      </div>
+      
       <div class="row">
       <div class="form-group col-md-6">
       <textarea placeholder="Notes"></textarea>
