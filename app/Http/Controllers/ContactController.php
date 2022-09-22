@@ -25,32 +25,49 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $departments=Department::all();
-        
-        return view('contact',compact('departments'));
+        $departments = Department::all();
+
+        return view('contact', compact('departments'));
     }
 
     public function contactsbydepartment(Request $request)
     {
-        $id=$request->get('department');
-        $search=$request->get('search');
-    //     $departments=Department::whereHas('contacts', function ($query,$search) {
-           
-    //             $query->where('title', 'like',$search.'%');
-            
-    //    })->find($id);
-    $departments = Department::with(["contacts" => function($q) use ($search) {
-        $q->where('title', 'like',$search."%");
-    }])->find($id);
-
-   
-   return view('contacttable',compact('departments'))->render();
+        $id = $request->get('department');
+        $search = $request->get('search');
+        $departments = Department::with(["contacts" => function ($q) use ($search) {
+            $q->where('title', 'like', $search . "%");
+        }])->find($id);
+        return view('contacttable', compact('departments'))->render();
     }
+
     public function add_contact(Request $request)
     {
         $contact = new Contact();
         $contact->fill($request->all());
         $contact->save();
-         return true;        
+        return true;
+    }
+    public function delete_contact(Request $request)
+    {
+        Contact::destroy($request->get('id'));
+        return true;
+    }
+
+    public function edit_contact(Request $request)
+    {
+        return  Contact::find($request->get('id'));
+    }
+
+    public function update_contact(Request $request)
+    {
+        $contact = Contact::find($request->get('id'));
+
+        $contact->email = $request->get('email');
+        $contact->title = $request->get('title');
+        $contact->contact = $request->get('contact');
+
+        $contact->save();
+
+        return  true;
     }
 }

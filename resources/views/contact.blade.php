@@ -48,7 +48,12 @@
                 <td><b>{{$contact->title}}</b></td>
                 <td>{{$contact->email}}</td>
                 <td>{{$contact->contact}}</td>
-                <td><img src="img/dots.png"></td>
+                <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
+                  <div class="dropdown-menu">
+                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
+                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="delete dropdown-item">Delete</a>
+                  </div>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -62,17 +67,18 @@
   </div>
 
 </div>
-<div class="modal" tabindex="-1" role="dialog" id="contact_form">
+<div class="modal fade" tabindex="-1" role="dialog" id="contact_form">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Contact</h5>
+        <h5 class="modal-title"><span id="modal_title"></span> Contact</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form>
+        <form>
+          <div style="display:none" id="modal_contact_id"></div>
           <div class="form-group">
             <label for="title" class="col-form-label">Company:</label>
             <input type="text" name="company" class="form-control" id="title">
@@ -88,8 +94,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" id="submit_contact" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="submit_contact" class="save_button btn btn-secondary">Save</button>
       </div>
     </div>
   </div>
@@ -120,42 +125,142 @@
       }
     });
   }
-  $(document).on("click", "#add_contact", function() {
-    $("#contact_form").modal('show');
-      })
-$(document).ready(function(){
-  $("#submit_contact").click(function(){
-        var title = $("#title").val();
-        var email = $("#email").val();
-        var contact = $("#contact").val();
-        var department = $("#department").val();
-        
-        jQuery.ajax({
+
+  $(document).on("click", ".edit", function() {
+    let id = $(this).data('id');
+    jQuery.ajax({
       type: 'POST',
-      url: "{{ route('contact.add') }}",
+      url: "{{ route('contact.edit') }}",
       data: {
-        title: title,
-        email: email,
-        contact: contact,
-        department_id: department
+        id: id,
       },
       success: function(data) {
-        $("#contact_form").modal('hide');
-        $("#title").val();
-        $("#contact").val();
-        $("#email").val();
-        Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Contact has been saved successfully',
-  showConfirmButton: false,
-  timer: 1500
-})
-refreshtable();
+        $("#modal_title").html("Edit");
+        $("#modal_contact_id").text(data.id);
+        $("#title").val(data.title);
+        $("#contact").val(data.contact);
+        $("#email").val(data.email);
+        $(".save_button").attr("id","update_contact")
+        $("#contact_form").modal('show');
+
+      }
+    })
+  });
+
+  $(document).on("click", "#add_contact", function() {
+    $(".save_button").attr("id","submit_contact")
+    $("#modal_contact_id").text("");
+    $("#modal_title").html("Add");
+    $("#title").val("");
+    $("#contact").val("");
+    $("#email").val("");
+    $("#contact_form").modal('show');
+  });
+
+  $(document).on("click", ".close", function() {
+    $("#contact_form").modal('hide');
+  });
+
+
+  $(document).on("click", ".delete", function() {
+    let id = $(this).data('id');
+    swal.fire({
+      title: "Confirmation!",
+      text: "Do you want to delete this contact ?.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel please!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }).then((result) => {
+      if (result.value) {
+        jQuery.ajax({
+          type: 'POST',
+          url: "{{ route('contact.delete') }}",
+          data: {
+            id: id,
+          },
+          success: function(data) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Contact has been deleted successfully',
+              showConfirmButton: false,
+            })
+            refreshtable();
+          }
+        })
       }
     });
-      }); 
-});
-     
+
+  });
+
+
+  $(document).ready(function() {
+
+    $(document).on('click',"#submit_contact",function() {
+      var title = $("#title").val();
+      var email = $("#email").val();
+      var contact = $("#contact").val();
+      var department = $("#department").val();
+
+      jQuery.ajax({
+        type: 'POST',
+        url: "{{ route('contact.add') }}",
+        data: {
+          title: title,
+          email: email,
+          contact: contact,
+          department_id: department
+        },
+        success: function(data) {
+          $("#contact_form").modal('hide');
+          $("#title").val("");
+          $("#contact").val("");
+          $("#email").val("");
+          Swal.fire({
+            icon: 'success',
+            title: 'Contact has been saved successfully',
+            showConfirmButton: false,
+          })
+          refreshtable();
+        }
+      });
+    });
+    $(document).on('click',"#update_contact",function() {
+      console.log("yes");
+      var title = $("#title").val();
+      var email = $("#email").val();
+      var contact = $("#contact").val();
+      var department = $("#department").val();
+      var id = $("#modal_contact_id").text();
+
+      jQuery.ajax({
+        type: 'POST',
+        url: "{{ route('contact.update') }}",
+        data: {
+          id:id,
+          title: title,
+          email: email,
+          contact: contact,
+          department_id: department
+        },
+        success: function(data) {
+          $("#contact_form").modal('hide');
+          $("#title").val("");
+          $("#contact").val("");
+          $("#email").val("");
+          $("#modal_contact_id").text("");
+          Swal.fire({
+            icon: 'success',
+            title: 'Contact has been updated successfully',
+            showConfirmButton: false,
+          })
+          refreshtable();
+        }
+      });
+    });
+  });
 </script>
 @endsection
