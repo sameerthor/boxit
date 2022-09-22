@@ -151,7 +151,7 @@ $(document).ready(function(){
   showConfirmButton: false,
   timer: 1500
 })
-
+refreshtable();
       }
     });
       }); 
