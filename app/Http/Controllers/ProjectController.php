@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Booking;
 class ProjectController extends Controller
 {
     /**
@@ -23,6 +23,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('project');
+        $projects=Booking::all();
+        return view('project',compact('projects'));
     }
 }

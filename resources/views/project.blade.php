@@ -11,58 +11,21 @@
 			</div>
 					</div>
 				</div>
-				<div class="row w-50">
-          <div class="col-md-12">
-         <div class="bdr-btm project-flex ptb-25">
-					<div class="p-name">
-            <span>Project Name</span>
-          </div>
-          <div class="v-name">
-            <span>View</span>
-            <img src="img/edit.png">
-          </div>
-        </div>
-          </div>
-				</div>
+				@foreach($projects as $project)
         <div class="row w-50">
           <div class="col-md-12">
          <div class="bdr-btm project-flex ptb-25">
           <div class="p-name">
-            <span>Project Name</span>
+            <span>{{$project->address}}</span>
           </div>
-          <div class="v-name">
+          <div class="v-name details" data-id="{{$project->id}}">
             <span>View</span>
             <img src="img/edit.png">
           </div>
         </div>
           </div>
         </div>
-        <div class="row w-50">
-          <div class="col-md-12">
-         <div class="bdr-btm project-flex ptb-25">
-          <div class="p-name">
-            <span>Project Name</span>
-          </div>
-          <div class="v-name">
-            <span>View</span>
-            <img src="img/edit.png">
-          </div>
-        </div>
-          </div>
-        </div>
-        <div class="row w-50">
-          <div class="col-md-12">
-         <div class="bdr-btm project-flex ptb-25">
-          <div class="p-name">
-            <span>Project Name</span>
-          </div>
-          <div class="v-name">
-            <span>View</span>
-            <img src="img/edit.png">
-          </div>
-        </div>
-          </div>
-        </div>
+       @endforeach
         <div class="row w-50">
           <div class="col-md-12">
          <div class="project-flex ptb-25">
@@ -77,4 +40,22 @@
 			</div>
  
 		</div>
+    <script>
+      $(document).on("click",".details",function(){
+        var id=$(this).data('id');
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/single-project') }}",
+                  method: 'post',
+                  data: {
+                     id: id,
+                  },
+                  success: function(result){
+                     jQuery('.card-new').html(result);
+                  }});      })
+      </script>
 @endsection

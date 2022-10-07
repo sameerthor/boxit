@@ -19,7 +19,6 @@ class CreateContactsTable extends Migration
             $table->string('email');
             $table->string('contact');
             $table->integer('department_id');
-            $table->foreign('department_id')->references('id')->on('departments');
             $table->timestamps();
         });
     }

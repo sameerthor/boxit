@@ -637,3 +637,17 @@ height: inherit !important;
 	text-decoration: none !important;
 	cursor: pointer !important;
   }
+
+  .error{
+	color:red;
+  }
+   input.error,  select.error,  textarea.error
+  {
+   border: 1px solid red !important;
+  }
+
+  .v-name,.add-new-c{
+	cursor: pointer;
+  }
+
+  

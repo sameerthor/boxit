@@ -22,12 +22,6 @@ class DepartmentSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'title' => 'Foreman',
-                'email' => 'test11@boxit.com',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
                 'title' => 'Plumber',
                 'email' => 'test2@boxit.com',
                 'created_at' => date('Y-m-d H:i:s'),

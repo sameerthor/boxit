@@ -39,14 +39,15 @@
 			<div class="col-md-2 blue-bg pos-rel p-none z-in1">
 				<div id="sidebar">
 				<div class="logo-sec">
-					<img src="img/logo2581-1.png">
+					<img src="/img/logo2581-1.png">
 				</div>
 				<ul class="li-flex li-styles p-none list-none">
-					<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="img/calendar.png">Calendar</a></li>
-					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="img/booking.png">Bookings</a></li>
-					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="img/contacts.png">Contacts</a></li>
-					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="img/projects.png">Projects</a></li>
-					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="img/job.png">Job Status</a></li>
+					<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
+					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a></li>
+					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
+					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
+					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="/img/job.png">Job Status</a></li>
+					<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
 				</ul>
 
 				</div>
@@ -56,16 +57,16 @@
 			<div id="header" class="mb-40 prl-30">
 				<div class="row d-flex">
 					<div class="col-md-8">
-						<img src="img/search.png">
+						<img src="/img/search.png">
 					</div>
 					<div class="col-md-1 pr-none text-right">
 						<div>
-						<img src="img/notification.png">
+						<img src="/img/notification.png">
 					    </div>
 				    </div>
 				    <div class="col-md-1 text-right">
 					    <div>
-						<img width="34px" src="img/m.png">
+						<img width="34px" src="/img/m.png">
 					    </div>
 				    </div>
 				    <div class="col-md-1 p-none">
@@ -77,7 +78,7 @@
 					</div>
 					<div class="col-md-1">
 					    <div>
-						<img src="img/arrow.png">
+						<img src="/img/arrow.png">
 					    </div>
 					</div>
 				</div>
@@ -95,5 +96,24 @@
         @endguest
     </div>
 </body>
-
+<script>
+	const Toast = Swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+<?php 
+if(session('succes_msg')) { ?>
+Toast.fire({
+  icon: 'success',
+  title: "<?php echo session('succes_msg'); ?>"
+})
+<?php } ?>
+</script>
 </html>
