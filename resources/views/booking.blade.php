@@ -14,7 +14,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<form id="booking" method="post" action="{{ url('booking') }}">
+					<form id="booking" method="post" action="{{ url('booking') }}" enctype="multipart/form-data">
             @csrf
 						  <div class="center_div">
       <div class="row">
@@ -22,7 +22,7 @@
           <input name="address" required type="text" placeholder="Address*" required />
         </div>
         <div class="form-group col-md-6">
-          <select class="form-control"  style="width: 100%;"  enctype='multipart/form-data' name="department[{{$departments[0]->id}}]" required>
+          <select class="form-control"  style="width: 100%;"  name="department[{{$departments[0]->id}}]" required>
             <option value="" disabled selected>Building Company*</option>
             @foreach($departments[0]->contacts as $res)
             <option value="{{$res->id}}">{{$res->title}}</option>

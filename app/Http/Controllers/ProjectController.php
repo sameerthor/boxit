@@ -24,6 +24,12 @@ class ProjectController extends Controller
     public function index()
     {
         $projects=Booking::all();
-        return view('project',compact('projects'));
+        return view('project',compact('projects'))->render();
+    }
+
+    public function renderproject(Request $request )
+    {   
+        $project=Booking::find($request->get('id'));
+        return view('single-project',compact('project'))->render();
     }
 }

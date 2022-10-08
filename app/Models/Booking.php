@@ -10,5 +10,13 @@ class Booking extends Model
     use HasFactory;
 
  
+    public function BookingData()
+    {
+        return $this->hasMany(BookingData::class);
+    }
 
+    public function foreman()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

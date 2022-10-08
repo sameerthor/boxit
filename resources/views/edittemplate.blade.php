@@ -73,7 +73,7 @@ plugins: 'print fullpage preview code powerpaste casechange importcss tinydrive 
         editor.on('Paste Change input Undo Redo', function (e) {
           var text=editor.getContent();
           console.log(text);
-             setTimeout(function(){document.getElementById("myFrame").srcdoc = text;},300);
+             setTimeout(function(){document.getElementById("myFrame").srcdoc = text;},100);
                
         });
     }

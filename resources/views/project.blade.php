@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="content">
-			<div class="container">
+			<div class="container main">
         <div class="card-new ptb-50">
 				<div class="row">
 					<div class="col-md-12">
@@ -45,7 +45,7 @@
         var id=$(this).data('id');
                $.ajaxSetup({
                   headers: {
-                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                   }
               });
                jQuery.ajax({
@@ -55,7 +55,7 @@
                      id: id,
                   },
                   success: function(result){
-                     jQuery('.card-new').html(result);
+                     jQuery('.main').html(result);
                   }});      })
       </script>
 @endsection
