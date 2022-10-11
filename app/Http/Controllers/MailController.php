@@ -39,11 +39,17 @@ class MailController extends Controller
     public function update(Request $request, $id)
     {
         $mailTemplate = MailTemplate::find($id);
-
-        $mailTemplate->title = $request->get('title');
         $mailTemplate->subject = $request->get('subject');
         $mailTemplate->body = $request->get('body');
         $mailTemplate->save();
         return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');
+    }
+
+    public function mail_status(Request $request)
+    {
+        $mailTemplate = MailTemplate::find($request->get('id'));
+        $mailTemplate->status = $request->get('status')=='true'?'1':0;
+        $mailTemplate->save();
+        return array('success'=>true);
     }
 }

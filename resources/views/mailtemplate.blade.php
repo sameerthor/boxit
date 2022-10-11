@@ -16,8 +16,8 @@
                         <tr>
                             <th>#</th>
                             <th>Department</th>
-                            <th>Title</th>
                             <th>Subject</th>
+                            <th>Status</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -27,8 +27,11 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{$item->department->title}}</td>
-                                <td>{{$item->title}}</td>
                                 <td>{{$item->subject}}</td>
+                                <td><div class="custom-control custom-switch">
+  <input type="checkbox" class="custom-control-input customSwitch" data-id="{{$item->id}}"  id="customSwitch{{ $loop->iteration }}" @if($item->status==1) checked @endif>
+  <label class="custom-control-label" for="customSwitch{{ $loop->iteration }}"></label>
+</div></td>
                                 <td>
                                     <a href="{{url('mail-template/' . $item->id)}}" class="btn btn-sm btn-outline-info btn-edit"><i class="fa fa-edit"></i> Edit</a>
                                 </td>
@@ -47,5 +50,30 @@
   </div>
 
 </div>
-
+<script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  $(".customSwitch").change(function(){
+    var  checked = $(this).is(':checked'); 
+    var  id = $(this).data('id'); 
+    jQuery.ajax({
+        type: 'POST',
+        url: "{{ route('mail.update') }}",
+        data: {
+          status:checked,
+          id:id
+        },
+        success: function(data) {
+          var text=checked===true?'activated':'deactivated';
+          Toast.fire({
+  icon: 'success',
+  title: "Mail template "+text+" successfuly."
+})
+        }
+      });
+  });
+</script>  
 @endsection

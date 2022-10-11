@@ -61,9 +61,13 @@
                     <td>{{$res->department->title}}</td>
                     <td>{{$res->contact->title}}</td>
                     <td>{{$res->date}}</td>
-                    <td>
+                    <td>@if($res->status=='0')
                         <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Pending</a>
-
+                        @elseif($res->status=='1')
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Confirmed</a>
+                        @else
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Cancelled</a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
