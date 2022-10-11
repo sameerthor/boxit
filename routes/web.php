@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
+Route::post('/reply', [App\Http\Controllers\BookingController::class, 'reply_confirmation'])->name('mail.reply');
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
 Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
 Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');
-Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
-Route::post('/reply', [App\Http\Controllers\BookingController::class, 'reply_confirmation'])->name('mail.reply');
+
 Route::get('/booking/{id}', [App\Http\Controllers\BookingController::class, 'booking']);
 Route::get('/contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
 Route::post('/add-contact', [App\Http\Controllers\ContactController::class, 'add_contact'])->name('contact.add');
