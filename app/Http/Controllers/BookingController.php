@@ -64,7 +64,7 @@ class BookingController extends Controller
                 'booking_id' => $booking_id
             ));
         }
-        return redirect()->to('booking/{booking_id}')->with('succes_msg', 'Your booking has been saved.Please check mail templates');
+        return redirect()->to('booking/'.$booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
     }
 
     public function booking($id)
