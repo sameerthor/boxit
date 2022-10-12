@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
 Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
+Route::post('/calender', [App\Http\Controllers\BookingController::class, 'calender']);
+Route::post('/calender-detail', [App\Http\Controllers\BookingController::class, 'modal_data']);
 Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');
 
 Route::get('/booking/{id}', [App\Http\Controllers\BookingController::class, 'booking']);

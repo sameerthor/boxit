@@ -2,28 +2,98 @@
 
 @section('content')
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
 	.list-enter-active {
-  animation: fade-in 0.20s ease-in-out;
-}
+		animation: fade-in 0.20s ease-in-out;
+	}
 
-.list-leave-active {
-  animation: fade-in 0.20s ease-in-out reverse;
-}
+	.list-leave-active {
+		animation: fade-in 0.20s ease-in-out reverse;
+	}
 
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    transform: translateY(0px);
-  } }
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		100% {
+			transform: translateY(0px);
+		}
+	}
+
+	.foo {
+		display: flex;
+		margin-left: 4%;
+		width: 97%;
+	}
+
+	.booked_div {
+		flex-basis: 100%;
+		text-align: center;
+		height: 46px !important;
+		font-size: 13px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.pd-boxes {
+		padding: 0px 0px !important;
+		padding-top: 27px !important;
+	}
+
+	.red_box {
+		background: #FCEEEC;
+		color: #FF5A5F;
+		border-left: 2px solid #FF5A5F;
+		border-radius: 3px;
+	}
+
+	.green_box {
+		background: #F1FFE9;
+		color: #16DB65 !important;
+		border-left: 2px solid #16DB65;
+		border-radius: 3px;
+	}
+
+	.orange_box {
+		background: #FCF0E4;
+		color: #F79256 !important;
+		border-left: 2px solid #F79256;
+		border-radius: 3px;
+	}
 </style>
 @verbatim
 <div id="content">
-
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header  no-border">
+					<!-- <span class="modal-title" id="exampleModalLabel">Project Name</span> -->
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="address-txt">
+						<span>Address</span>
+						<p id="booking_address">54 Park Lane</p>
+					</div>
+					<div class="info-txt">
+						<span>Information</span>
+						<p id="booking_notes">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
+					</div>
+					<div class="status-txt">
+						<span>Status</span >
+						<div class="card-new " style="margin-top: 12px;">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row p-15 prl-30 border-all">
 		<div class="col-md-3 cal-flex">
 			<div class="arrow-l-style">
@@ -69,8 +139,8 @@
 			<ul class="names-style">
 				<li><span>Foreman</span><br>Nick</li>
 				<li><span>Foreman</span><br>Dan</li>
-				<li><span>Foreman</span><br>Nick</li>
-				<li><span>Foreman</span><br>Dan</li>
+				<li><span>Foreman</span><br>Jimmy</li>
+				<li><span>Foreman</span><br>Darryl</li>
 				<li>Plumber</li>
 				<li>PODS</li>
 				<li>Steel</li>
@@ -100,38 +170,7 @@
 				<img src="img/arrow-d.png">
 			</div>
 		</div>
-		<div class="col-md-11 mt-100">
-			<div class="row mt-50">
-				<div class="col-md-12 text-center">
-					<div class="red-box pd-boxes">
-						<a class="margin-center">99 Wembley</a>
-					</div>
-				</div>
-			</div>
-			<div class="row mt-50">
-				<div class="col-md-12">
-					<div class="green-box pd-boxes">
-						<a>99 Wembley</a>
-					</div>
-				</div>
-			</div>
-			<div class="row mt-50">
-				<div class="col-md-12">
-					<div class="green-box empty">
-
-					</div>
-				</div>
-			</div>
-			<div class="row mt-50">
-				<div class="col-md-12">
-					<div class="yellow-box pd-boxes">
-						<a class="margin-center">98 Wembley</a>
-					</div>
-				</div>
-			</div>
-			<div class="row mt-50"></div>
-			<div class="row mt-50"></div>
-			<div class="row mt-50"></div>
+		<div class="col-md-11 mt-100 calender">
 
 		</div>
 	</div>
@@ -214,9 +253,9 @@
 		}
 		return weekgroup;
 	}
-
-	var cur_month = 8;
-	var cur_year = 2022;
+	const d = new Date();
+	var cur_month = d.getMonth();;
+	var cur_year = d.getFullYear();
 	const getInitialItems = (cur_month, cur_year) => test3(cur_month, cur_year)
 	Vue.createApp({
 		el: '#content',
@@ -230,15 +269,16 @@
 			let dd = today.getDate();
 			var index;
 			let data = this.items;
-			for (var i in data) 
-				for (var j = 0; j <7; j++) 
-                  if(data[i][j].day==dd && data[i][j].thisMonth===true)
-				  {
-                    index=i;
-					break;
-				  }
-			this.date=String(dd);	
+			for (var i in data)
+				for (var j = 0; j < 7; j++)
+					if (data[i][j].day == dd && data[i][j].thisMonth === true) {
+						index = i;
+						break;
+					}
+			this.date = String(dd);
 			this.activeStep = index;
+			this.getCalender()
+
 		},
 		data() {
 			return {
@@ -248,18 +288,33 @@
 				months: monthNames,
 				year: cur_year,
 				month_index: cur_month,
-				date:'test'
+				date: 'test'
 			}
 		},
 		methods: {
+			getCalender() {
+
+				axios.post('/calender', {
+						year: this.year,
+						month: this.month_index,
+						dates: this.items[this.activeStep]
+					})
+					.then((response) => {
+						$(".calender").html(response.data)
+					})
+			},
 			randomIndex: function() {
 				return Math.floor(Math.random() * this.items.length)
 			},
 			add: function() {
 				this.activeStep++;
+				this.getCalender();
+
 			},
 			remove: function() {
 				this.activeStep--;
+				this.getCalender();
+
 			},
 			month_nav: function(todo) {
 				var new_index = this.month_index + todo;
@@ -276,8 +331,25 @@
 
 				this.items = getInitialItems(this.month_index, this.year);
 				this.activeStep = 0;
+				this.getCalender();
+
 			}
 		}
 	}).mount("#content");
+	$(document).on('click', '.show_booking', function() {
+		var id=$(this).data('id');
+		axios.post('/calender-detail', {
+						id:id
+					})
+					.then((response) => {
+						$("#booking_address").html(response.data.address);
+						$("#booking_notes").html(response.data.notes);
+						$(".card-new").html(response.data.html);
+						$("#exampleModal").modal("show");
+					})
+	})
+	$(document).on('click', '.close', function() {
+		$("#exampleModal").modal("hide");
+	})
 </script>
 @endsection

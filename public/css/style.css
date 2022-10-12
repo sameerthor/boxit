@@ -598,6 +598,8 @@ height: inherit !important;
 }
  .address-txt , .info-txt , .status-txt , .project-txt{
  	text-align: left;
+	 margin-bottom: 20px;
+
  }
  .no-border{
  	border: none !important;
@@ -650,4 +652,9 @@ height: inherit !important;
 	cursor: pointer;
   }
 
-  
+  .cancelled-txt span {
+    color: #FF5A5F;
+    background-color: #FCEEEC;
+    border-radius: 3px;
+    padding: 2px 8px;
+}
