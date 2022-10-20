@@ -26,6 +26,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
+	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -43,11 +46,16 @@
 				</div>
 				<ul class="li-flex li-styles p-none list-none">
 					<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
+					@if(Auth::user()->hasRole('Admin'))
 					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a></li>
 					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
 					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="/img/job.png">Job Status</a></li>
 					<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
+				   @endif
+				   @if(Auth::user()->hasRole('Foreman'))
+					<li class="{{ request()->routeIs('check-mark') ? 'active' : '' }}"><a href="{{url('/check-mark')}}" class="nav_link"><img src="/img/booking.png">Check Mark</a></li>
+				 @endif
 				</ul>
 
 				</div>

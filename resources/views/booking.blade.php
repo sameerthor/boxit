@@ -64,7 +64,7 @@
       </div>
         	 	</div>
         	 	<div class="col-md-5 form-group">
-        	 		<input name="date[{{$department->id}}]" type="date" placeholder="" required />
+        	 		<input name="date[{{$department->id}}]" class="example" type="text" placeholder="" required />
         	 	</div>
           
           </div>
@@ -92,5 +92,11 @@
 		</div>
     <script>
 $("#booking").validate();
+$(function(){
+  $.datetimepicker.setDateFormatter('moment');
+  $('.example').datetimepicker({
+});
+});
+
     </script>
 @endsection

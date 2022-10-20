@@ -37,7 +37,13 @@
 						$res->body=str_replace('[time]',date("h:i:s",strtotime($date)),$res->body);
 						$enc_key=base64_encode($booking_data->id);
 						$url=URL("reply/$enc_key");
-						$res->body=str_replace('[link]',"<a href='".$url."'>Reply</a>",$res->body);
+						$res->body=str_replace('[link]',"<a href='".$url."' style='border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+	user-select: none;
+	text-decoration: none !important;
+    line-height: 1.5;
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>",$res->body);
 						$res->body=preg_replace('/[\[{\(].*?[\]}\)]/' ,"<input style='border-left: none;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'>", $res->body);
 						@endphp
 						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab"><?php echo $res->body ?></div>

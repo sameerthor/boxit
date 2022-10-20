@@ -30,17 +30,21 @@
           <div class="modal-body">
             <div id="confirm_text">
               <p>Address : <strong><u>{{$booking_data->booking->address}}</u></strong></p>
+              <p>Department : <strong><u>{{$booking_data->department->title}}</u></strong></p>
+              <p>Contact : <strong><u>{{$booking_data->contact->title}}</u></strong></p>
               <p>Floor Type : <strong><u>{{$booking_data->booking->floor_type}}</u></strong></p>
               <p>Floor Area : <strong><u>{{$booking_data->booking->floor_area}}</u></strong></p>
               <p>Date : <strong><u>{{$booking_data->date}}</u></strong></p>
-            
-              <h5>Do you want to confirm this booking ?</h5>
+              <br>
+              <h5>Do you want confirm  alternate datetime for this booking ?</h5>
+               @foreach($booking_data->new_date as $key=>$val)
+               <input type="radio" value="{{$key}}" id="{{$key}}_id" name="alternate_date" checked>
+               <label for="html">{{$val}}</label><br>
+               @endforeach
             </div>
             <div id="deny_text" style="display:none">
-              <p>Sorry to hear that. Please suggest few alternate options below:</p>
-              <input type="text" class="example" name="date1">
-              <input type="text" class="example" name="date2">
-              <input type="text" class="example" name="date3">
+              <p>Sorry to hear that. Please suggest  alternate option below:</p>
+              <input type="text" class="example" name="date">
             </div>
           </div>
           <div class="modal-footer">
@@ -49,7 +53,7 @@
               <button type="button" class="btn btn-danger no">No</button>
             </div>
             <div id="cancel_button" style="display:none">
-              <button type="button" class="btn btn-success submit" data-id="2">Submit</button>
+              <button type="button" class="btn btn-success submit" data-id="0">Submit</button>
             </div>
           </div>
         </div>
@@ -79,13 +83,12 @@
     var confirm = $(this).data('id');
     jQuery.ajax({
       type: 'POST',
-      url: "{{ route('mail.reply') }}",
+      url: "{{ route('admin.reply') }}",
       data: {
         booking_data_id: "{{$booking_data->id}}",
+        alternate_date: $("input[name='alternate_date']:checked").val(),
         confirm: confirm,
-        date1: $("input[name='date1']").val(),
-        date2: $("input[name='date2']").val(),
-        date3: $("input[name='date3']").val()
+        date: $("input[name='date']").val(),
       },
       success: function(data) {
         window.location.reload();
