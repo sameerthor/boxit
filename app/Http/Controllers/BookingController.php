@@ -101,7 +101,8 @@ class BookingController extends Controller
         $booking_data_id = base64_decode($id);
         $booking_data = BookingData::find($booking_data_id);
         if ($booking_data->status != '0') {
-            return 'Link has been used...';
+            $status=$booking_data->status;
+            return view('booking_confirmation', compact('status'));
         }
         return view('email_reply', compact('booking_data'));
     }

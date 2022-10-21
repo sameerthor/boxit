@@ -62,11 +62,11 @@
                     <td>{{$res->contact->title}}</td>
                     <td>{{$res->date}}</td>
                     <td>@if($res->status=='0')
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Pending</a>
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-warning"><i class="fa fa-camera"></i>Pending</a>
                         @elseif($res->status=='1')
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Confirmed</a>
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i>Confirmed</a>
                         @else
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-camera"></i>Cancelled</a>
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fa fa-camera"></i>Cancelled</a>
                         @endif
                     </td>
                 </tr>
