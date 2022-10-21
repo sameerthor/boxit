@@ -92,7 +92,7 @@
 					icon: 'success',
 					title: "Mail Sent successfuly."
 				}).then(() => {
-					window.location.reload();
+					window.location.href = "/";
 				});
 			}
 		});

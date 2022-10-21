@@ -658,3 +658,7 @@ height: inherit !important;
     border-radius: 3px;
     padding: 2px 8px;
 }
+
+img#dropdownMenuButton {
+    cursor: pointer !important;
+}
