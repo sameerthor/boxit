@@ -18,7 +18,7 @@ class CreateBookingsTable extends Migration
             $table->string('address');
             $table->string('floor_type');
             $table->string('floor_area');
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->string('file')->nullable();
             $table->integer('foreman_id');
             $table->timestamps();

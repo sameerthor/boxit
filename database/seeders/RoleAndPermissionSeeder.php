@@ -25,5 +25,13 @@ class RoleAndPermissionSeeder extends Seeder
         $user = $user->fresh();
         $user->assignRole('Admin');
 
+        $user=User::create([
+            'name' => 'jules',
+            'email' => 'admin@boxitfoundations.co.nz',
+            'password' => bcrypt('Boxit@123'),
+        ]);
+        $user = $user->fresh();
+        $user->assignRole('Admin');
+
     }
 }
