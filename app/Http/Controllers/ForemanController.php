@@ -166,4 +166,17 @@ class ForemanController extends Controller
 							
         return array('address' => $booking->address, 'notes' => $booking->notes, 'html' => $html);
     }
+
+    public function check_list()
+    {
+        $projects=Booking::where(array('foreman_id'=>Auth::id()))->get();
+        return view('foreman-project',compact('projects'));
+
+    }
+
+    public function renderproject(Request $request )
+    {   
+        $project=Booking::find($request->get('id'));
+        return view('foreman-single-project',compact('project'))->render();
+    }
 }

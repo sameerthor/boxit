@@ -54,7 +54,7 @@
 					<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
 				   @endif
 				   @if(Auth::user()->hasRole('Foreman'))
-					<li class="{{ request()->routeIs('check-mark') ? 'active' : '' }}"><a href="{{url('/check-mark')}}" class="nav_link"><img src="/img/booking.png">Check Mark</a></li>
+					<li class="{{ request()->routeIs('check-list') ? 'active' : '' }}"><a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Check List</a></li>
 				 @endif
 				</ul>
 

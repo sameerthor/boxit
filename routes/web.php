@@ -62,9 +62,10 @@ Route::middleware('role:Admin')->group(function () {
 });
 
 Route::middleware('role:Foreman')->group(function () {
-  Route::get('/check-list', [App\Http\Controllers\ForemanController::class, 'index']);
+  Route::get('/check-list', [App\Http\Controllers\ForemanController::class, 'check_list']);
   Route::post('/foreman-calender', [App\Http\Controllers\ForemanController::class, 'calender']);
   Route::post('/foreman-calender-detail', [App\Http\Controllers\ForemanController::class, 'modal_data']);
+  Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
 
 });
 
