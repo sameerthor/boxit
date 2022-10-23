@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\BookingData;
-use App\Jobs\BookingEmailJob;
-use App\Models\MailTemplate;
-use App\Models\Contact;
+use App\Models\QaChecklist;
+use App\Models\MarkoutChecklist;
+use App\Models\ProjectQaChecklist;
 use Auth;
 class ForemanController extends Controller
 {
@@ -177,6 +177,41 @@ class ForemanController extends Controller
     public function renderproject(Request $request )
     {   
         $project=Booking::find($request->get('id'));
-        return view('foreman-single-project',compact('project'))->render();
+        $markout_checklist=($project->MarkoutChecklist);
+        $qaChecklist=QaChecklist::all();
+        return view('foreman-single-project',compact('project','qaChecklist','markout_checklist'))->render();
+    }
+
+    public function storeQaChecklist(Request $request )
+    {   
+        $res=ProjectQaChecklist::where('project_id',$request->get('project_id'))->delete();
+        $initial=$request->get('initial');
+        $office_use=$request->get('office_use');
+        $project_id=$request->get('project_id');
+        $insert_array=[];
+        $final_array=[];
+        foreach($initial as $key=>$val)
+        {
+            $insert_array['project_id']=$project_id;
+            $insert_array['qa_checklist_id']=$key;
+            $insert_array['initial']=$val!=null?$val:'';
+            $insert_array['office_use']=$office_use[$key]!=null?$office_use[$key]:'';
+            $final_array[]=$insert_array;
+        }
+        ProjectQaChecklist::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
+
+    }
+
+    
+    public function storeMarkoutlist(Request $request )
+    {   
+        $project_id=$request->get('project_id');
+        $res=MarkoutChecklist::where('project_id',$project_id)->delete();
+        $final_array=$request->get('markout_data');
+        $final_array['project_id']=$project_id;
+        MarkoutChecklist::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
+
     }
 }
