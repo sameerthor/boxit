@@ -32,21 +32,48 @@
 						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
 						$date=$booking_data->date;
 						$id=$booking_data->id;
-						$res->body=str_replace('[address]',$booking->address,$res->body);
-						$res->body=str_replace('[date]',date("d-m-Y",strtotime($date)),$res->body);
-						$res->body=str_replace('[time]',date("h:i:s",strtotime($date)),$res->body);
+						if(!empty($res->products))
+						{
+						$res->body.="<br>";
+						foreach($res->products as $product)
+						{
+						$res->body.="<p class='product'>$product- <input style='border-left: none;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'></p>";
+						}
+						}
+
+						$date=date("d-m-Y",strtotime($date));
+						$time=date("h:i:s",strtotime($date));
 						$enc_key=base64_encode($booking_data->id);
 						$url=URL("reply/$enc_key");
-						$res->body=str_replace('[link]',"<a href='".$url."' style='border: 1px solid transparent;
+						$reply_link="<a href='".$url."' style='border: 1px solid transparent;
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>",$res->body);
-						$res->body=preg_replace('/[\[{\(].*?[\]}\)]/' ,"<input style='border-left: none;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'>", $res->body);
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
 						@endphp
-						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab"><?php echo $res->body ?></div>
+						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
+							<?php echo $res->body; ?>
+							<br>
+							For<br>
+							{{$booking->address}}
+							<br>
+							<br>
+							At
+							<br>{{$date}}
+							<br>{{$time}}
+							<br><br>
+							<?php echo $reply_link . "<br>" ?>
+							<br>
+							Thanks,</br>
+							Jules,</br>
+							BOXIT Sales</br>
+							<a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+							</br>
+							<a href="https://boxitfoundations.co.nz
+">https://boxitfoundations.co.nz</a></br>
+						</div>
 						@endforeach
 					</div>
 				</div>
@@ -71,7 +98,11 @@
 	$("#send_email").click(function() {
 		var mail_data = [];
 		$("#myTabContent").find("input").each(function() {
-			$(this).replaceWith($(this).val());
+			if ($(this).val() == '') {
+				$(this).parents(".product").remove();
+			} else {
+				$(this).replaceWith($(this).val());
+			}
 		});
 		$(".email_content").each(function() {
 

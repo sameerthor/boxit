@@ -12,6 +12,9 @@ class MailTemplate extends Model
     protected $fillable = [
         'title', 'subject', 'body','department_id'
     ];
+    protected $casts = [
+        'products' => 'array',
+    ];
 
     public function department(): BelongsTo
     {

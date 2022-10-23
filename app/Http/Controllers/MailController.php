@@ -41,6 +41,10 @@ class MailController extends Controller
         $mailTemplate = MailTemplate::find($id);
         $mailTemplate->subject = $request->get('subject');
         $mailTemplate->body = $request->get('body');
+        if(!empty($request->get('product')))
+        {
+            $mailTemplate->products = array_column($request->get('product'),'name');
+        }
         $mailTemplate->save();
         return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');
     }

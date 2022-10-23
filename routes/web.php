@@ -48,7 +48,34 @@ Route::middleware('role:Admin')->group(function () {
         Route::post('/update/{id}', [App\Http\Controllers\MailController::class, 'update']);
         Route::get('/preview/{id}', function ($id) {
             $mailTemplate = \App\Models\MailTemplate::find($id);
-            return $mailTemplate->body;
+            $html=$mailTemplate->body;
+            if(!empty($mailTemplate->products))
+						{
+                            $html.="<br>";
+						foreach($mailTemplate->products as $product)
+						{
+                            $html.="<p class='product'>$product- [qty]</p>";
+						}
+						}
+            $html.='<br>
+            For<br>
+            [address]
+            <br>
+            <br>
+            At
+            <br>[date]
+            <br>[time]
+            <br><br>
+            [link]
+            <br>
+            Thanks,</br>
+            Jules,</br>
+            BOXIT Sales</br>
+            <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+            </br>
+            <a href="https://boxitfoundations.co.nz
+">https://boxitfoundations.co.nz</a></br>'  ;          
+            return $html;
         });
     });
     Route::get('/send', function () {
