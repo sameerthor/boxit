@@ -12,6 +12,8 @@ use App\Models\MarkoutChecklist;
 use App\Models\ProjectQaChecklist;
 use App\Models\ProjectStatusLabel;
 use App\Models\ProjectStatus;
+use App\Jobs\BookingEmailJob;
+use App\Models\ForemanTemplates;
 use Auth;
 class ForemanController extends Controller
 {
@@ -221,7 +223,17 @@ class ForemanController extends Controller
     public function changeStatus(Request $request)
     {
         $matchThese = ['project_id'=>$request->get('project_id'),'status_label_id'=>$request->get('status_label_id')];
+        
         ProjectStatus::updateOrCreate($matchThese,['status'=>$request->get('status')]);
-     return true;
+        $email_template=ForemanTemplates::where(array('status'=>$request->get('status'),'project_status_label_id'=>$request->get('status_label_id')))->get();
+      if(count($email_template)>0)
+      {
+        $details['to'] = env('ADMIN_EMAIL');;
+        $details['name'] = 'test';
+        $details['subject'] = $email_template[0]->subject;
+        $details['body'] =$email_template[0]->body;
+        dispatch(new BookingEmailJob($details));
+      }  
+        return true;
     } 
 }

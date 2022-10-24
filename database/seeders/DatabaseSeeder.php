@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             DepartmentSeeder::class,
             foremanSeeder::class,
-            MailTemplateSeeder::class
+            MailTemplateSeeder::class,
+            QaChecklistSeeder::class,
+            RoleAndPermissionSeeder::class,
+            StatusLabelSeeder::class
         ]);
     }
 }

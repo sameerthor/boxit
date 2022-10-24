@@ -78,6 +78,13 @@ Route::middleware('role:Admin')->group(function () {
             return $html;
         });
     });
+    Route::get('/foreman-template/preview/{id}', function ($id) {
+        $mailTemplate = \App\Models\ForemanTemplates::find($id);
+        return $mailTemplate->body;
+    });
+    Route::get('/foreman-template/{id}',[App\Http\Controllers\MailController::class, 'foreman_edit']);
+    Route::post('/foreman-template/update/{id}',[App\Http\Controllers\MailController::class, 'foreman_update']);
+
     Route::get('/send', function () {
         $details['to'] = 'khanayan36042@gmail.com';
         $details['name'] = 'Sameer';

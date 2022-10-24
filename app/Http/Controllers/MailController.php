@@ -6,6 +6,8 @@ use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\MailTemplate;
+use App\Models\ForemanTemplates;
+
 
 class MailController extends Controller
 {
@@ -27,7 +29,8 @@ class MailController extends Controller
     public function index()
     {
         $templates = MailTemplate::all();
-        return view('mailtemplate', compact('templates'));
+        $foreman_templates=ForemanTemplates::all();
+        return view('mailtemplate', compact('templates','foreman_templates'));
     }
 
     public function edit(Request $request, $id)
@@ -55,5 +58,19 @@ class MailController extends Controller
         $mailTemplate->status = $request->get('status')=='true'?'1':0;
         $mailTemplate->save();
         return array('success'=>true);
+    }
+
+    public function foreman_edit(Request $request, $id)
+    {
+        $template = ForemanTemplates::find($id);
+        return view('foremanedittemplate', compact('template'));
+    }
+    public function foreman_update(Request $request, $id)
+    {
+        $mailTemplate = ForemanTemplates::find($id);
+        $mailTemplate->subject = $request->get('subject');
+        $mailTemplate->body = $request->get('body');
+        $mailTemplate->save();
+        return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');
     }
 }
