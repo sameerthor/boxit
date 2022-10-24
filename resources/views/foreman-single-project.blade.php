@@ -58,131 +58,42 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div style="padding:5%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
-                        <form>
+                        
                             <div class="row">
                                 <div>
                                     <table class="table">
 
                                         <tbody>
-
+                                         @foreach($ProjectStatusLabel as $label)
+                                         @php
+                                    $project_status= $label->ProjectStatus($project->id)->get();
+                                    if(count($project_status)>0)
+                                    {
+                                        $yes_checked=$project_status[0]->status==1?'checked':'';
+                                        $no_checked=$project_status[0]->status==0?'checked':'';;
+                                    }else
+                                    {
+                                    $yes_checked="";
+                                    $no_checked="";
+                                    }
+                                    @endphp
                                             <tr>
-                                                <td>Marked out</td>
+                                                <td>{{$label->label}}</td>
                                                 <td>
                                                     <div id="file1" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
+                                                        <label class="btn btn-success btn-sm"><input type="radio" {{$yes_checked}} class="project_status" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">Yes</label>
+                                                        <label class="btn btn-danger btn-sm"><input type="radio" {{$no_checked}} class="project_status" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">No</label>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Digout complete</td>
-                                                <td>
-                                                    <div id="file2" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Pods delivered</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Steel delivered</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Plumber complete</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ready to inspect</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Engineer inspection passed</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>BLC passed</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Council inspection</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Concrete poured</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Strip the boxing</td>
-                                                <td>
-                                                    <div id="file3" class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-success btn-sm"><input type="radio" name="radioGroup2" value="yes">Yes</label>
-                                                        <label class="btn btn-danger btn-sm"><input type="radio" name="radioGroup2" onclick="$('#mandatory1').val('no');">No</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                         @endforeach
                                         </tbody>
 
                                     </table>
                                 </div>
                             </div>
-                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button>
-
-                        </form>
+                        
                     </div>
-                </div>
                 <div style="padding:5%" d class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
                     <form action="{{URL('/qa_checklist')}}" method="post">
                         @csrf
@@ -313,13 +224,14 @@
 </div>
 </div>
 <script>
-    $(document).on("click", "#back", function() {
-        var id = $(this).data('id');
-        $.ajaxSetup({
+     $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+    $(document).on("click", "#back", function() {
+        var id = $(this).data('id');
+       
         jQuery.ajax({
             url: "{{ url('/check-list') }}",
             method: 'get',
@@ -329,5 +241,40 @@
                 jQuery('.container .main').html(ele.find(".container .main").html());
             }
         });
+    })
+    $(".project_status").on("change",function(){
+        var status=$(this).val();
+        var status_label_id = $(this).data('id');
+        var project_id = $(this).data('project');
+
+        Swal.fire({
+      title: "Do you want to change ?",
+      icon: "warning",
+      showCancelButton: true,
+  confirmButtonText: 'Yes',
+  confirmButtonColor: '#28a745',
+  cancelButtonColor: '#dc3545',
+  cancelButtonText: 'No',
+      dangerMode: true,
+    }).then(function(result) {
+      if (result.isConfirmed) {
+       
+        jQuery.ajax({
+            url: "{{ url('/change-project-status') }}",
+            method: 'post',
+            data:{
+              project_id:project_id,
+              status:status,
+              status_label_id:status_label_id
+            },
+            success: function(result) {
+                Toast.fire({
+  icon: 'success',
+  title: "Status changed successfuly."
+})
+            }
+        });
+      }
+    })
     })
 </script>

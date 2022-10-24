@@ -10,6 +10,8 @@ use App\Models\BookingData;
 use App\Models\QaChecklist;
 use App\Models\MarkoutChecklist;
 use App\Models\ProjectQaChecklist;
+use App\Models\ProjectStatusLabel;
+use App\Models\ProjectStatus;
 use Auth;
 class ForemanController extends Controller
 {
@@ -179,7 +181,8 @@ class ForemanController extends Controller
         $project=Booking::find($request->get('id'));
         $markout_checklist=($project->MarkoutChecklist);
         $qaChecklist=QaChecklist::all();
-        return view('foreman-single-project',compact('project','qaChecklist','markout_checklist'))->render();
+        $ProjectStatusLabel=ProjectStatusLabel::all();
+        return view('foreman-single-project',compact('project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
 
     public function storeQaChecklist(Request $request )
@@ -214,4 +217,11 @@ class ForemanController extends Controller
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
 
     }
+
+    public function changeStatus(Request $request)
+    {
+        $matchThese = ['project_id'=>$request->get('project_id'),'status_label_id'=>$request->get('status_label_id')];
+        ProjectStatus::updateOrCreate($matchThese,['status'=>$request->get('status')]);
+     return true;
+    } 
 }

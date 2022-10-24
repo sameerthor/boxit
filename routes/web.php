@@ -95,6 +95,7 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
   Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
   Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
+  Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
 
 });
 

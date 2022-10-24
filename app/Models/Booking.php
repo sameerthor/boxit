@@ -19,8 +19,14 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function MarkoutChecklist()
     {
         return $this->hasOne(MarkoutChecklist::class,'project_id','id');
+    }
+
+    public function ProjectStatus()
+    {
+        return $this->hasOne(ProjectStatus::class,'project_id','id');
     }
 }
