@@ -74,7 +74,7 @@
               @forelse($foreman_templates as $item)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{$item->ProjectStatusLabel->label}}</td>
+                <td>{{$item->ProjectStatusLabel->label}}({{$item->status==1?'Yes':'No'}})</td>
                 <td>{{$item->subject}}</td>
                 <td>
                   <a href="{{url('foreman-template/' . $item->id)}}" class="btn btn-sm btn-outline-info btn-edit"><i class="fa fa-edit"></i> Edit</a>

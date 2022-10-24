@@ -11,7 +11,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-head">
-                  <span>{{$template->ProjectStatusLabel->label}} Template</span>
+                  <span>{{$template->ProjectStatusLabel->label}} ({{$template->status==1?'Yes':'No'}}) Template</span>
                 </div>
               </div>
             </div>
