@@ -55,6 +55,9 @@
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="true">Mark Out Checklist</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="true">Safety Plan
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div style="padding:5%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
@@ -215,6 +218,394 @@
 
                 </form>
             </div>
+            </div>
+            <div style="padding:5%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
+            <h5>Safety plan</h5>
+            <br>
+            <div class="row safety_plan">
+            <p>This plan is to be completed with all workers prior to works beginning. All personnel must complete a site induction</p>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Site / Address:</th>
+                            <th colspan="2">Client:</th>
+                        </tr>
+                        <tr>
+                            <th colspan="">Completed By:</th>
+                            <th colspan="">Date:</th>
+                            <th colspan="">Time In:</th>
+                            <th colspan="">Time Out:</th>
+                        </tr>
+                    </tbody>
+                </table>
+            <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="6" style="text-align:center;background-color:#c9ced6;">EMERGENCY INFORMATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th rowspan="2" scope="rowgroup">Locations of
+                            Emergency
+                            Provisions:</th>
+                            <th>First Aid Kit
+                            </th>
+                            <th>Extinguisher
+                            </th>
+                            <th>Evacuation Assembly Point
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Site Vehicle
+                            </td>
+                            <td>
+                                Site Vehicle
+                            </td>
+                            <td>
+                                At Site Entrance
+                            </td>
+                        </tr>
+                        <tr>
+                        <th rowspan="2" scope="rowgroup">Key Emergency
+                            Contacts:</th>
+                            <td>
+                                Emergency Response Dial: 111
+                            </td>
+                            <td>
+                                Ch Hospital 03 364 0270
+                            </td>
+                            <td>
+                                Andy Knight 027 702 1055
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Moorhouse Medical: 03 365 7900
+                            </td>
+                            <td>
+                                24 Hr Medical: 03 365 7777
+                            </td>
+                            <td>
+                                Hayden Vessey 027 672 1812
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="8" style="background-color:#c9ced6;">1.0 SITE SET UP / FACILITIES
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="col">#
+                            </th>
+                            <th>ITEM
+                            </th>
+                            <th>&#10004 / &#x2717
+                            </th>
+                            <th>
+                                NOTES / ACTIONS
+                            </th>
+                        </tr>
+                        <tr>
+                           <td>1.1</td>
+                            <td >
+                                Is there safe access to the site? (clear / level / no overhead lines)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.2</td>
+                            <td>
+                                Have you read the site hazards board?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.3</td>
+                            <td>
+                                Do you have adequate PPE? Hi vis / steel caps
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.4</td>
+                            <td>
+                                Have you completed the Client safety documentation on site?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.5</td>
+                            <td>
+                                Are there others on site we need to communicate with?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.6</td>
+                            <td>
+                                Is the site tidy and clear for you work activity?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td>1.7</td>
+                            <td>
+                                Is the site secure, i.e. fenced / gate closed?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.8</td>
+                            <td>
+                                Are site hazards adequately controlled?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>1.9</td>
+                            <td>
+                                Do you have access to Power / Water / Toilet?
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="8" style="background-color:#c9ced6;">3.0 JOB SAFETY ANALYSIS AND HAZARD MANAGEMENT
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th  colspan="2" scope="colgroup">&#10004 JOB STEP
+                            </th>
+                            <th>RISK IDENTIFIED
+                            </th>
+                            <th>HAZARD CONTROL METHOD
+                                E Eliminate / M - Minimise
+                            </th>
+                            <th>
+                                &#10004
+                            </th>
+                        </tr>
+                        <tr>
+                           <td>1</td>
+                            <td >
+                                Foundation
+Install / Strip
+                            </td>
+                            <td>
+                                Power Tools
+                            </td>
+                            <td>
+                                M Ensure all electrical is tagged and made safeM - Check guards are in place   
+                            </td>
+                            <td>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Noise
+                            </td>
+                            <td>
+                                M Ear muffs to be worn  
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Dust
+                            </td>
+                            <td>
+                                M Dust masks to be worn   
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Hit by Plant
+                            </td>
+                            <td>
+                                M Hi Vis to be worn
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Poor Housekeeping
+                            </td>
+                            <td>
+                                M Keep the site tidy, stack materials in designated areas 
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Exposed Steel
+                            </td>
+                            <td>
+                                M Ensure exposed steel is identified / capped
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Loose Materials
+                            </td>
+                            <td>
+                                M Ensure materials are secured
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                Services
+                            </td>
+                            <td>
+                                M Check for overhead and underground services
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>All personnel and visitors have been shown and advised of all of the hazards and controls identified.
+                    All workers must be involved in completing this Site Safety Plan. All persons signed below fully
+                    understand and acknowledge their requirements</p>
+            
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="6" style="text-align:center;background-color:#c9ced6;">SIGN IN / INDUCTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Date
+                        </th>
+                        <th>Name
+                        </th>
+                        <th>Signature
+                        </th>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            </div>           
         </div>
     </div>
 </div>
