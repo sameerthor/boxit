@@ -27,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
 	<script src="{{ asset('js/repeater/repeater.js') }}" defer></script>
 	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}"/>

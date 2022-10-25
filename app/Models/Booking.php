@@ -29,4 +29,9 @@ class Booking extends Model
     {
         return $this->hasOne(ProjectStatus::class,'project_id','id');
     }
+
+    public function SafetyPlan()
+    {
+        return $this->hasOne(SafetyPlan::class,'project_id','id');
+    }
 }

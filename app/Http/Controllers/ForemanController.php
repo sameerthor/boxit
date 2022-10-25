@@ -14,6 +14,7 @@ use App\Models\ProjectStatusLabel;
 use App\Models\ProjectStatus;
 use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
+use App\Models\SafetyPlan;
 use Auth;
 class ForemanController extends Controller
 {
@@ -181,10 +182,11 @@ class ForemanController extends Controller
     public function renderproject(Request $request )
     {   
         $project=Booking::find($request->get('id'));
-        $markout_checklist=($project->MarkoutChecklist);
+        $markout_checklist=$project->MarkoutChecklist;
+        $safety=$project->SafetyPlan;
         $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::all();
-        return view('foreman-single-project',compact('project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('foreman-single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
 
     public function storeQaChecklist(Request $request )
@@ -236,4 +238,13 @@ class ForemanController extends Controller
       }  
         return true;
     } 
+
+    public function safety_plan(Request $request)
+    {
+      $data=$request->except('_method', '_token');
+      $post_data=$data['safety_plan'];
+      SafetyPlan::updateOrCreate(['project_id'=>$request->get('project_id')],$post_data);
+      return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
+
+    }
 }
