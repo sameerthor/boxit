@@ -47,6 +47,10 @@ class MailController extends Controller
         if(!empty($request->get('product')))
         {
             $mailTemplate->products = array_column($request->get('product'),'name');
+        }else
+        {
+            $mailTemplate->products = [];
+
         }
         $mailTemplate->save();
         return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');

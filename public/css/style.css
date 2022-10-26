@@ -662,3 +662,11 @@ height: inherit !important;
 img#dropdownMenuButton {
     cursor: pointer !important;
 }
+
+.profile_letter{
+	border: 2px solid #c6cbd3;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 9px;
+    border-radius: 7px;
+}

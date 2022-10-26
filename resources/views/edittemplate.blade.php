@@ -42,7 +42,7 @@
                   </div>
                   @if(!empty($template->products))
                   @foreach($template->products as $pro)
-                  <div class="items">
+                  <div class="items product_items">
                     <div class="item-content">
                       <input type="text" value="{{$pro}}" name="product[][name]" class="form-control product" id="product" placeholder="Product name">
                     </div>
@@ -101,12 +101,12 @@
 
   </div>
   <div class="hidden_html" style="display:none">
-    <div class="items">
+    <div class="items product_items">
       <div class="item-content">
         <input type="text" value="" name="product[][name]" class="form-control product" id="product" placeholder="Product name">
       </div>
       <div class="pull-right repeater-remove-btn">
-        <button id="remove-btn" class="btn btn-danger" onclick="$(this).parents('.items').remove()">
+        <button id="remove-btn" class="btn btn-danger" onclick="$(this).parents('.items').remove();getIframehtml();">
           Remove
         </button>
       </div>
@@ -140,9 +140,12 @@
       }
     });
     $(function() {
-      $(".product").on("keyup", function() {
+
+      $(document).on("keyup",".product_items", function() {
         getIframehtml();
-      });
+      }); 
+
+     
       $('.repeater-add-btn').click(function() {
         $("#repeater").append($(".hidden_html").html());
       })
@@ -151,9 +154,12 @@
     function getIframehtml() {
       var html= tinymce.get("editor").getContent();
       html+="<br>";
-      $(".items").each(function(){
+      $(".product_items").each(function(){
         var p_name=$(this).find("input").val();
+        if(p_name!='')
+        {
         html+="<p>"+p_name+"- [qty]</p>";
+        }
       });
       html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thanks,</br>Jules,</br>BOXIT Sales</br><a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a></br><a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a></br>';
       document.getElementById("myFrame").srcdoc = html;

@@ -21,7 +21,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <img class="pos-new" src="img/frame-13@2x.svg"><input type="password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password"><img class="pos-new-hid" src="img/frame-12@2x.svg">
+                        <img class="pos-new" src="img/frame-13@2x.svg"><input type="password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password"><img class="pos-new-hid toggle_password" src="img/frame-12@2x.svg">
                         @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -40,4 +40,15 @@
         <div class="col-md-4 wd-100"></div>
     </div>
 </div>
+<script>
+    $(".toggle_password").click(function(){
+          if($("input[name='password']").attr("type")=='password')
+          {
+            $("input[name='password']").attr("type","text");
+          }else
+          {
+            $("input[name='password']").attr("type","password");
+          }
+    });
+</script>
 @endsection

@@ -77,19 +77,26 @@
 				    </div>
 				    <div class="col-md-1 text-right">
 					    <div>
-						<img width="34px" src="/img/m.png">
-					    </div>
+						<span class="profile_letter">{{mb_substr(strtoupper(Auth::user()->name), 0, 1)}}</span>
+								    </div>
 				    </div>
 				    <div class="col-md-1 p-none">
 					    <div>
-						<p class="admin-s">Michal<br>
-                        <span>michal@gmail.com</span>
+						<p class="admin-s">{{ucfirst(Auth::user()->name)}}<br>
+                        <span>{{Auth::user()->email}}</span>
                         </p>
 					    </div>
 					</div>
 					<div class="col-md-1">
 					    <div>
-						<img src="/img/arrow.png">
+						<img src="/img/arrow.png" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
+						<div class="dropdown-menu" >
+                    <!-- <a href="javascript:void(0)"  class="dropdown-item">Edit</a> -->
+                    <a href="javascript:void(0)" class=" dropdown-item" onclick="event.preventDefault();document.getElementById('frm-logout').submit();">Logout</a>
+					<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
+                  </div>
 					    </div>
 					</div>
 				</div>

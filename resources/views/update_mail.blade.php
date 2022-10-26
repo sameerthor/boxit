@@ -98,7 +98,7 @@
 	$("#send_email").click(function() {
 		var mail_data = [];
 		$("#myTabContent").find("input").each(function() {
-			if ($(this).val() == '') {
+			if ($(this).val() == '' || $(this).val() == '0') {
 				$(this).parents(".product").remove();
 			} else {
 				$(this).replaceWith($(this).val());

@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            FormanTemplateSeeder::class,
             DepartmentSeeder::class,
             foremanSeeder::class,
+            FormanTemplateSeeder::class,
             MailTemplateSeeder::class,
             QaChecklistSeeder::class,
             RoleAndPermissionSeeder::class,
