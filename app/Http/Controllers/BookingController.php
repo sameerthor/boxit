@@ -241,7 +241,8 @@ class BookingController extends Controller
             }
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
-                $booking_data = BookingData::where(array('department_id' => $id, 'date' => $booking_date))->first();
+                $booking_data = BookingData::where(array('department_id' => $id))->whereDate('date', '=',$booking_date)
+                ->first();
                 $b_id = '';
                 if (!empty($booking_data)) {
                     $address = $booking_data->booking->address;

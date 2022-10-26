@@ -59,7 +59,7 @@
             </tbody>
           </table>
         </div>
-        <div style="padding:5%" d="" class="tab-pane fade active show" id="tab2" role="tabpanel" aria-labelledby="2-tab">
+        <div style="padding:5%" d="" class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
         <table class="table table-stripped">
             <thead>
               <tr>

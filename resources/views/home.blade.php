@@ -162,7 +162,7 @@
 
 				<transition-group name="list" tag="ul" class="cal-days">
 
-					<li v-for="step in currentitem" :key="step.day" v-bind:class="[date==step.day && 'active-day']" :style="{'color': step.thisMonth===false && '#ECEDF1'}"><span>{{step.name}}</span><br>{{step.day}}</li>
+					<li v-for="step in currentitem" :key="step.day" v-bind:class="[date==step.day && 'active-day']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}" ><span>{{step.name}}</span><br>{{step.day}}</li>
 				</transition-group>
 
 			</div>
@@ -257,6 +257,7 @@
 	var cur_month = d.getMonth();;
 	var cur_year = d.getFullYear();
 	const getInitialItems = (cur_month, cur_year) => test3(cur_month, cur_year)
+	console.log(getInitialItems(cur_month, cur_year));
 	Vue.createApp({
 		el: '#content',
 		computed: {

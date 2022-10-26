@@ -71,7 +71,7 @@ class ForemanController extends Controller
             foreach ($department_id as $id) {
                 $booking_data = BookingData::whereHas('booking', function($q) {
                     $q->where('foreman_id',Auth::id());
-                })->where(array('department_id' => $id, 'date' => $booking_date))->first();
+                })->where(array('department_id' => $id))->whereDate('date', '=',$booking_date)->first();
                 $b_id = '';
                 if (!empty($booking_data)) {
                     $address = $booking_data->booking->address;
