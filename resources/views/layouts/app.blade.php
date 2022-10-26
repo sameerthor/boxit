@@ -49,7 +49,8 @@
 				<ul class="li-flex li-styles p-none list-none">
 					<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
 					@if(Auth::user()->hasRole('Admin'))
-					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a></li>
+					<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
+					<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" style="margin-left:20px" class="nav_link"><img src="/img/booking.png">Drafts</a>
 					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
 					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="/img/job.png">Job Status</a></li>

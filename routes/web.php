@@ -27,6 +27,9 @@ Route::middleware('role_based_redirect')->group(function () {
 Route::middleware('role:Admin')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
+    Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
+    Route::get('/draft/{id}', [App\Http\Controllers\BookingController::class, 'draft'])->name('draft');
+    Route::get('/drafts', [App\Http\Controllers\BookingController::class, 'drafts'])->name('drafts');
     Route::post('/calender', [App\Http\Controllers\BookingController::class, 'calender']);
     Route::post('/calender-detail', [App\Http\Controllers\BookingController::class, 'modal_data']);
     Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');

@@ -9,50 +9,44 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-head">
-          <span>Booking Form</span>
+          <span> Draft</span>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-10"></div>
-      <div class="col-md-2">
-        <button type="button" class="btn btn-info draft" style="float:right">Save as draft</button>
-      </div>
-    </div>
-    <br>
-    <div class="row">
 
       <form id="booking" method="post" action="{{ url('booking') }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="draft_id" value="{{$draft->id}}">
         <div class="center_div">
           <div class="row">
             <div class="form-group col-md-6">
-              <input name="address" required type="text" placeholder="Address*" required />
+              <input name="address" required value="{{$draft->address}}" type="text" placeholder="Address*" required />
             </div>
             <div class="form-group col-md-6">
               <select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
-                <option value="">Building Company*</option>
+                <option value="" disabled selected>Building Company*</option>
                 @foreach($departments[0]->contacts as $res)
-                <option value="{{$res->id}}">{{$res->title}}</option>
+                <option value="{{$res->id}}" <?php if($draft->DraftData[0]->contact_id==$res->id){echo "selected";} ?>>{{$res->title}}</option>
                 @endforeach
               </select>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <input name="floor_type" required type="text" placeholder="Floor Type*" />
+              <input name="floor_type" required type="text" value="{{$draft->floor_type}}" placeholder="Floor Type*" />
             </div>
             <div class="form-group col-md-6">
-              <input name="floor_area" required type="text" placeholder="Floor Area*" />
+              <input name="floor_area" required type="text" value="{{$draft->floor_area}}" placeholder="Floor Area*" />
             </div>
           </div>
           <div class="row">
             <div class="col-xs-12 col-md-6 form-group">
               <div class="input-group input-group-xs">
                 <select class="form-control" style="width: 100%;" name="foreman" required>
-                  <option value="">Foreman*</option>
+                  <option value="" disabled selected>Foreman*</option>
                   @foreach($foreman as $res)
-                  <option value="{{$res->id}}">{{$res->name}}</option>
+                  <option value="{{$res->id}}" <?php if($draft->foreman_id==$res->id){echo "selected";} ?> >{{$res->name}}</option>
                   @endforeach
                 </select>
 
@@ -66,13 +60,13 @@
                     <select class="form-control" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
                       @foreach($department->contacts as $res)
-                      <option value="{{$res->id}}">{{$res->title}}</option>
+                      <option value="{{$res->id}}" <?php if($draft->DraftData[$department->id-1]->contact_id==$res->id){echo "selected";} ?>>{{$res->title}}</option>
                       @endforeach
                     </select>
                   </div>
                 </div>
                 <div class="col-md-5 form-group">
-                  <input name="date[{{$department->id}}]" class="example" type="text" placeholder="" required />
+                  <input name="date[{{$department->id}}]" class="example" value="<?php echo $draft->DraftData[$department->id-1]->date;?>" type="text" placeholder="" required />
                 </div>
 
               </div>
@@ -83,7 +77,7 @@
 
           <div class="row">
             <div class="form-group col-md-6">
-              <textarea placeholder="Notes" name="notes"></textarea>
+              <textarea placeholder="Notes"  name="notes">{{$draft->notes}}</textarea>
               <div class="form-btn">
                 <input class="submit" type="submit" value="Submit">
               </div>
@@ -104,25 +98,6 @@
     $.datetimepicker.setDateFormatter('moment');
     $('.example').datetimepicker({});
 
-    $(".draft").click(function() {
-      if($('input[name="address"]').val()=='')
-      {
-        alert("Please enter address to save as draft.");
-        return false;
-      }
-      var form = $('#booking')[0];
-      var formData = new FormData(form);
-      $.ajax({
-        url: "{{ url('/save-draft') }}",
-        method: "post",
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: function(id) {
-          window.location.href="/draft/"+id;
-        }
-      });
-    });
   });
 </script>
 @endsection

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\BookingData;
+use App\Models\Draft;
+use App\Models\DraftData;
 use App\Jobs\BookingEmailJob;
 use App\Models\MailTemplate;
 use App\Models\Contact;
@@ -64,7 +66,15 @@ class BookingController extends Controller
                 'booking_id' => $booking_id
             ));
         }
+        if(!empty($request->get('draft_id')))
+        {
+            $draft_id=$request->get('draft_id');
+          Draft::find($draft_id)->delete();
+          DraftData::where(array('draft_id'=>$draft_id))->delete();
+
+        }
         return redirect()->to('booking/' . $booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
+    
     }
 
     public function booking($id)
@@ -341,5 +351,51 @@ class BookingController extends Controller
 							$html.='</div></div>';
 							
         return array('address' => $booking->address, 'notes' => $booking->notes, 'html' => $html);
+    }
+
+    public function save_draft(Request $request)
+    {
+        $draft = new Draft;
+        $draft->address = $request->get('address');
+        $draft->floor_area = $request->get('floor_area');
+        $draft->floor_type = $request->get('floor_type');
+        $draft->notes = $request->get('notes');
+        $draft->foreman_id = $request->get('foreman');
+        if ($files = $request->file('file_upload')) {
+            $name = $files->getClientOriginalName();
+            $files->move('images', $name);
+            $draft->file = $name;
+        }
+        $draft->save();
+
+        $draft_id = $draft->id;
+        $requested_date = $request->get('date');
+        foreach ($request->get('department') as $key => $val) {
+            
+            DraftData::create(array(
+                'department_id' => $key,
+                'contact_id'  => $val,
+                'date' => @$requested_date[$key],
+                'draft_id' => $draft_id
+            ));
+        }
+        return $draft_id;
+    
+    }
+
+    public function draft($id)
+    {
+        $draft=Draft::find($id);
+        $departments = Department::all();
+        $foreman = User::whereHas("roles", function ($q) {
+            $q->where("name", "Foreman");
+        })->get();
+        return view('draft',compact('departments','foreman','draft'))->render();
+    }
+
+    public function drafts()
+    {
+        $drafts=Draft::all();
+        return view('draft-list',compact('drafts'));
     }
 }
