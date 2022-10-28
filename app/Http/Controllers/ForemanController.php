@@ -47,15 +47,19 @@ class ForemanController extends Controller
     {
         $dates = $request->get('dates');
         $year = $request->get('year');
-        $month = $request->get('month') + 1;
+        $requested_month = $request->get('month') + 1;
         $html = '';
         foreach ($dates as $date) {
             $html .= '<div class="foo pd-boxes">';
             if ($date['thisMonth'] != 1) {
                 if ($date['day'] >= 25)
-                    $month = $month - 1;
+                    $month = $requested_month - 1;
                 else
-                    $month = $month + 1;
+                    $month = $requested_month + 1;
+            }
+            else
+            {
+              $month=$requested_month;
             }
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
             $foreman = User::where("id",Auth::id())->get();
@@ -184,6 +188,7 @@ class ForemanController extends Controller
         $project=Booking::find($request->get('id'));
         $markout_checklist=$project->MarkoutChecklist;
         $safety=$project->SafetyPlan;
+//dd($safety);
         $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::all();
         return view('foreman-single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();

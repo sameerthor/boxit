@@ -46,9 +46,10 @@ class CreateSafetyPlansTable extends Migration
             $table->enum('exposed_steel', ['0', '1'])->nullable();
             $table->enum('loose_material', ['0', '1'])->nullable();
             $table->enum('services', ['0', '1'])->nullable();
-            $table->String('induction_date')->nullable();
-            $table->String('induction_name')->nullable();
-            $table->text('sign')->nullable();
+            $table->json('induction_date')->nullable();
+            $table->json('induction_name')->nullable();
+            $table->json('sign')->nullable();
+            $table->text('foreman_sign')->nullable();
             $table->timestamps();
         });
     }

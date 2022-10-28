@@ -159,7 +159,7 @@
 
 				<transition-group name="list" tag="ul" class="cal-days">
 
-					<li v-for="step in currentitem" :key="step.day" v-bind:class="[date==step.day && 'active-day']" :style="{'color': step.thisMonth===false && '#ECEDF1'}"><span>{{step.name}}</span><br>{{step.day}}</li>
+					<li v-for="step in currentitem" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false && '#ECEDF1'}"><span>{{step.name}}</span><br>{{step.day}}</li>
 				</transition-group>
 
 			</div>
@@ -194,6 +194,10 @@
 		var d = new Date(year, month - 1, number);
 		this.day = number;
 		this.thisMonth = isThisMonth;
+		if( d.setHours(0,0,0,0) === (new Date()).setHours(0,0,0,0) )
+		this.today='yes';
+        else
+		this.today='no';
 		this.name = daysOfTheWeek[d.getDay()];;
 		return this;
 	}

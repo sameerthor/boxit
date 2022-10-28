@@ -24,11 +24,12 @@ class MarkoutChecklist extends Migration
             $table->String("toilet")->nullable();
             $table->String("water")->nullable();
             $table->String("boundary_pegs")->nullable();
-            $table->String("draw_in")->nullable();
+            $table->text("draw_in")->nullable();
             $table->String("boundary_dimension")->nullable();
             $table->String("ffl_set")->nullable();
             $table->String("ffl_height_min")->nullable();
             $table->String("ffl_height_max")->nullable();
+            $table->text("foreman_sign")->nullable();
             $table->timestamps();
         });
     }
