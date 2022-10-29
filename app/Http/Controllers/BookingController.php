@@ -48,11 +48,19 @@ class BookingController extends Controller
         $booking->floor_type = $request->get('floor_type');
         $booking->notes = $request->get('notes');
         $booking->foreman_id = $request->get('foreman');
-        if ($files = $request->file('file_upload')) {
-            $name = $files->getClientOriginalName();
-            $files->move('images', $name);
-            $booking->file = $name;
-        }
+        
+        $files = [];
+        if($request->hasfile('file_upload'))
+         {
+            foreach($request->file('file_upload') as $file)
+            {
+                $file_name = $file->getClientOriginalName();
+                $name = time().rand(1,100).'-'.$file_name.'.'.$file->extension();
+                $file->move('images', $name);
+                $files[] = $name;  
+            }
+         }
+         $booking->file = $files;
         $booking->save();
 
         $booking_id = $booking->id;

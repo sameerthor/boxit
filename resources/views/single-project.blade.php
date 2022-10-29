@@ -57,7 +57,9 @@
         <div class="form-group col-md-6">
         <label >File</label>
         <br/>
-         <a href="/images/{{$project->file}}"><img style="width:200px" src="/images/{{$project->file}}"><a>
+        @foreach($project->file as $f)
+         <a href="/images/{{$f}}"><img style="width:200px;height:200px" src="/images/{{$f}}"><a>
+        @endforeach    
         </div>
         @endif
       </div>

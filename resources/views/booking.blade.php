@@ -88,10 +88,17 @@
                 <input class="submit" type="submit" value="Submit">
               </div>
             </div>
-            <div class="form-group col-md-6">
-              <input name="file_upload" type="file" />
-
-            </div>
+            <div class="form-group increment col-md-6" >
+      <input type="file" style="padding-top: 6px !important;" name="file_upload[]"  class="myfrm form-control">
+        <div class="add_html" style="float: right;" ><i class="fa fa-plus" aria-hidden="true"></i></div>
+    </div>
+    <div class="clone hide" style="display:none">
+      <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+        <input type="file" name="file_upload[]"  style="padding-top: 6px !important;" class="myfrm form-control">
+          <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
       </form>
     </div>
   </div>
@@ -124,5 +131,15 @@
       });
     });
   });
+    $(document).ready(function() {
+      $(".add_html").click(function(){ 
+          var lsthmtl = $(".clone").html();
+          $(".increment").append(lsthmtl);
+      });
+      $("body").on("click",".remove",function(){ 
+          $(this).parents(".hdtuto").remove();
+      });
+    });
+
 </script>
 @endsection
