@@ -27,5 +27,12 @@ class BookingData extends Model
     {
         return $this->belongsTo(Contact::class);
     }
+
+    public function ProjectStatus()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
+    
     
 }

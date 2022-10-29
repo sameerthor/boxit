@@ -51,7 +51,8 @@
                     <th>Department</th>
                     <th>Contact</th>
                     <th>Date</th>
-                    <th>Status</th>
+                    <th>Booking Status</th>
+                    <th>Project Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +69,21 @@
                         @else
                         <a href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fa fa-camera"></i>Cancelled</a>
                         @endif
+                    </td>
+                    <td>
+                        @php 
+                        $task_status='NA';
+                        if(!empty($res->department->ProjectStatus))
+                        {         
+                                        $project_status= $res->department->ProjectStatus->ProjectStatus($project->id)->get();
+                                        
+                                        if(count($project_status)>0)
+                                        {
+                                        $task_status=$project_status[0]->status==1?'<a href="#" target="_blank" class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i>'.$res->department->ProjectStatus->label.'</a>':'<a href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fa fa-camera"></i>'.$res->department->ProjectStatus->label.'</a>';
+                                        }
+                                    }           
+                        @endphp
+                    @php echo $task_status; @endphp
                     </td>
                 </tr>
                 @endforeach

@@ -16,6 +16,7 @@ class ProjectStatus extends Migration
         Schema::create('project_status_label', function (Blueprint $table) {
             $table->id();
             $table->String("label");
+            $table->String("department_id")->nullable();
             $table->timestamps();
         });
     }

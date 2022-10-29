@@ -53,7 +53,6 @@
 					<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" style="margin-left:20px" class="nav_link"><img src="/img/booking.png">Drafts</a>
 					<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 					<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
-					<li class="{{ request()->routeIs('job_status') ? 'active' : '' }}"><a href="{{url('/job-status')}}" class="nav_link"><img src="/img/job.png">Job Status</a></li>
 					<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
 				   @endif
 				   @if(Auth::user()->hasRole('Foreman'))

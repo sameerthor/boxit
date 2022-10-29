@@ -15,4 +15,9 @@ class Department extends Model
     return $this->hasMany(Contact::class);
 }
 
+public function ProjectStatus()
+{
+    return $this->hasOne(ProjectStatusLabel::class);
+}
+
 }
