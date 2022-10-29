@@ -55,7 +55,7 @@ class BookingController extends Controller
             foreach($request->file('file_upload') as $file)
             {
                 $file_name = $file->getClientOriginalName();
-                $name = time().rand(1,100).'-'.$file_name.'.'.$file->extension();
+                $name = time().rand(1,100).'-'.$file_name;
                 $file->move('images', $name);
                 $files[] = $name;  
             }
