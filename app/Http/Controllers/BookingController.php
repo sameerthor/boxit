@@ -420,4 +420,11 @@ class BookingController extends Controller
         $drafts=Draft::all();
         return view('draft-list',compact('drafts'));
     }
+
+    public function delete_draft($id)
+    {
+        Draft::find($id)->delete();
+        return redirect()->to('drafts/')->with('succes_msg', 'Draft has been deleted successfuly.');
+
+    }
 }
