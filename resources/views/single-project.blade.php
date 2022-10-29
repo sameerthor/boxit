@@ -1,3 +1,20 @@
+<style>
+    .green_box {
+    background: #F1FFE9;
+    color: #16DB65 !important;
+    text-align: center;
+}
+.orange_box {
+    background: #FCF0E4;
+    color: #F79256 !important;
+    text-align: center;
+}
+.red_box {
+    background: #FCEEEC;
+		color: #FF5A5F;
+    text-align: center;
+}
+ </style>   
 <div class="card-new">
     <div class="card-body">
         <div class="row">
@@ -44,6 +61,7 @@
         </div>
         @endif
       </div>
+      <h4>Booking Status</h4>
         <table class="table table-stripped">
             <thead>
                 <tr>
@@ -51,8 +69,7 @@
                     <th>Department</th>
                     <th>Contact</th>
                     <th>Date</th>
-                    <th>Booking Status</th>
-                    <th>Project Status</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,31 +80,46 @@
                     <td>{{$res->contact->title}}</td>
                     <td>{{$res->date}}</td>
                     <td>@if($res->status=='0')
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-warning"><i class="fa fa-camera"></i>Pending</a>
+                        <div class="orange_box">Pending</div>
                         @elseif($res->status=='1')
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i>Confirmed</a>
+                        <div class="green_box">Confirmed</div>
                         @else
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fa fa-camera"></i>Cancelled</a>
+                        <div class="red_box">Cancelled</div>
                         @endif
-                    </td>
-                    <td>
-                        @php 
-                        $task_status='NA';
-                        if(!empty($res->department->ProjectStatus))
-                        {         
-                                        $project_status= $res->department->ProjectStatus->ProjectStatus($project->id)->get();
-                                        
-                                        if(count($project_status)>0)
-                                        {
-                                        $task_status=$project_status[0]->status==1?'<a href="#" target="_blank" class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i>'.$res->department->ProjectStatus->label.'</a>':'<a href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fa fa-camera"></i>'.$res->department->ProjectStatus->label.'</a>';
-                                        }
-                                    }           
-                        @endphp
-                    @php echo $task_status; @endphp
                     </td>
                 </tr>
                 @endforeach
             </tbody>
+        </table>
+        <h4>Project Status</h4>
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                                        @foreach($ProjectStatusLabel as $label)
+                                        @php
+                                        $project_status= $label->ProjectStatus($project->id)->get();
+                                        if(count($project_status)>0)
+                                        {
+                                        $stat=$project_status[0]->status==1?'<div class="green_box">Yes</div>':'<div class="red_box">No</div>';
+                                        }else
+                                        {
+                                        $stat='<div class="orange_box">Pending</div>';
+                                        }
+                                        @endphp
+                                        <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                            <td>{{$label->label}}</td>
+                                            <td>
+                                               @php echo $stat @endphp
+                                            </td>
+                                        </tr>
+                                        @endforeach
         </table>
     </div>
 </div>

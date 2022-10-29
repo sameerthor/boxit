@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\ProjectStatusLabel;
 class ProjectController extends Controller
 {
     /**
@@ -30,6 +31,7 @@ class ProjectController extends Controller
     public function renderproject(Request $request )
     {   
         $project=Booking::find($request->get('id'));
-        return view('single-project',compact('project'))->render();
+        $ProjectStatusLabel=ProjectStatusLabel::all();
+        return view('single-project',compact('project','ProjectStatusLabel'))->render();
     }
 }
