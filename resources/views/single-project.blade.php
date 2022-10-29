@@ -58,7 +58,7 @@
         <label >File</label>
         <br/>
         @foreach($project->file as $f)
-         <a href="/images/{{$f}}"><embed style="width:200px;height:200px" src="/images/{{$f}}"></embed><a>
+         <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed style="width:150px;height:150px" src="/images/{{$f}}"></embed></a>
         @endforeach    
         </div>
         @endif

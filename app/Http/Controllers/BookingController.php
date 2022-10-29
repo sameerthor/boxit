@@ -50,6 +50,10 @@ class BookingController extends Controller
         $booking->foreman_id = $request->get('foreman');
         
         $files = [];
+        if(!empty($request->get('existing_file')))
+        {
+            $files=$request->get('existing_file');
+        }
         if($request->hasfile('file_upload'))
          {
             foreach($request->file('file_upload') as $file)
@@ -372,11 +376,18 @@ class BookingController extends Controller
         $draft->floor_type = $request->get('floor_type');
         $draft->notes = $request->get('notes');
         $draft->foreman_id = $request->get('foreman');
-        if ($files = $request->file('file_upload')) {
-            $name = $files->getClientOriginalName();
-            $files->move('images', $name);
-            $draft->file = $name;
-        }
+        $files = [];
+        if($request->hasfile('file_upload'))
+         {
+            foreach($request->file('file_upload') as $file)
+            {
+                $file_name = $file->getClientOriginalName();
+                $name = time().rand(1,100).'-'.$file_name;
+                $file->move('images', $name);
+                $files[] = $name;  
+            }
+         }
+         $draft->file = $files;
         $draft->save();
 
         $draft_id = $draft->id;

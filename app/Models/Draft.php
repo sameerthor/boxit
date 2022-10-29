@@ -9,7 +9,9 @@ class Draft extends Model
 {
     protected $guarded = [];  
     use HasFactory;
-
+    protected $casts = [
+        'file' => 'array'
+    ];
     
     public function DraftData()
     {
