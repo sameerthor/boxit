@@ -9,7 +9,10 @@ class Booking extends Model
 {
     use HasFactory;
 
- 
+    protected $casts = [
+        'file' => 'array'
+    ];
+
     public function BookingData()
     {
         return $this->hasMany(BookingData::class);

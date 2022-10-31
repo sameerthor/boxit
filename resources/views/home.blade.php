@@ -120,17 +120,7 @@
 			</select>
 		</div>
 		<div class="col-md-7 text-right">
-			<select class="select-styles">
-				<option>
-					Admin
-				</option>
-				<option>
-					Admin 1
-				</option>
-				<option>
-					Admin 2
-				</option>
-			</select>
+		
 		</div>
 	</div>
 	<div class="row ptb-30 bd-btm">

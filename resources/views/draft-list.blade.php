@@ -14,6 +14,7 @@
             </div>
         </div>
         <br/>
+        @if(count($drafts)>0)
         <table class="table table-stripped">
             <thead>
                 <tr>
@@ -29,15 +30,37 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$res->address}}</td>
                     <td>
-                        <a href="/draft/{{$res->id}}" target="_blank" class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i>View</a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-outline-warning"><i class="fa fa-trash"></i>Delete</a>
+                        <a href="/draft/{{$res->id}}"  class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i></a>
+                        <a href="javascript:void(0)" data-url="/delete-draft/{{$res->id}}"  class="btn btn-sm btn-outline-danger delete-draft"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 @endforeach
+                @else
+                <p>No draft is available.</p>
             </tbody>
         </table>
+        @endif
+
     </div>
 </div>
   </div>
 </div>
+<script>
+    $(".delete-draft").click(function(){
+        var url=$(this).data('url');
+        Swal.fire({
+            title: "Do you want to delete ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'No',
+            dangerMode: true,
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                window.location.href=url;
+            }});
+    })
+</script>
 @endsection

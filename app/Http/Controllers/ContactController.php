@@ -61,11 +61,11 @@ class ContactController extends Controller
     public function update_contact(Request $request)
     {
         $contact = Contact::find($request->get('id'));
-
+        print_r($request->all());
         $contact->email = $request->get('email');
         $contact->title = $request->get('title');
         $contact->contact = $request->get('contact');
-
+        $contact->sms_enabled = $request->get('sms_enabled');
         $contact->save();
 
         return  true;

@@ -13,7 +13,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-head">
-						<span>Update Mail Data</span>
+						<span>Review Email Content</span>
 					</div>
 				</div>
 			</div>
@@ -77,14 +77,14 @@
 						@endforeach
 					</div>
 				</div>
-				<div class="col-md-2"><button id="send_email" class="btn btn-secondary">Send Email</button>
+				<div class="col-md-2"><button id="send_email" class="btn btn-secondary">Send all emails</button>
 				</div>
 
 			</div>
 
 		</div>
 		@else
-		<p style="margin-top:20%">Mail sent already</p>
+		<p style="margin-top:20%">Mails sent already</p>
 		@endif
 	</div>
 

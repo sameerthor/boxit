@@ -106,7 +106,7 @@
 
                     </div>
                     <div style="padding:3%" d class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
-                        <form action="{{URL('/qa_checklist')}}" method="post">
+                        <form action="{{URL('/qa_checklist')}}" method="post" id="qa_form">
                             @csrf
                             <h5>Onsite & QA Checklist</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
@@ -911,6 +911,27 @@
         pad.clear();
     });
 
+    
+    $(document).on('submit', '#qa_form', function(e) {
+        if ($('#onsite_canvas').length > 0) {
+
+            var signaturePad = eval("onsite_signature");
+            if (!signaturePad.isEmpty()) {
+                var image_str = signaturePad.toDataURL();
+                $("<input />").attr("type", "hidden")
+                    .attr("name", "onsite_sign")
+                    .attr("value", image_str).appendTo("#qa_form");
+            } else {
+                $("<input />").attr("type", "hidden")
+                    .attr("name", "onsite_sign")
+                    .attr("value", "").appendTo("#qa_form");
+            }
+        } else {
+            $("<input />").attr("type", "hidden")
+                .attr("name", "onsite_sign")
+                .attr("value", $("#markout_sign").attr("src")).appendTo("#qa_form");
+        }
+    }); 
 
     $(document).on('submit', '#markout_form', function(e) {
         if ($('#markout_canvas').length > 0) {
