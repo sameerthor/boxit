@@ -70,13 +70,17 @@ class BookingController extends Controller
         $booking_id = $booking->id;
         $requested_date = $request->get('date');
         foreach ($request->get('department') as $key => $val) {
-
-            BookingData::create(array(
+            $book_array=array(
                 'department_id' => $key,
                 'contact_id'  => $val,
                 'date' => @$requested_date[$key],
                 'booking_id' => $booking_id
-            ));
+            );
+            if($key=='2')
+            {
+                $book_array['status']=1; 
+            }
+            BookingData::create($book_array);
         }
         if(!empty($request->get('draft_id')))
         {
