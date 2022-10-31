@@ -17,8 +17,8 @@ class ProjectQaChecklist extends Migration
             $table->id();
             $table->Integer("project_id");
             $table->Integer("qa_checklist_id");
-            $table->String("initial")->nullable();;
-            $table->String("office_use")->nullable();;
+            $table->text("initial")->nullable();;
+            $table->text("office_use")->nullable();;
             $table->timestamps();
         });
     }
