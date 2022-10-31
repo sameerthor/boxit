@@ -91,6 +91,10 @@
             <label for="contact" class="col-form-label">Contact No:</label>
             <input type="number" name="contact" class="form-control" id="contact">
           </div>
+          <div class="form-group">
+            <label for="sms_enabled" class="col-form-label">SMS Notification Enabled:</label>
+            <input type="checkbox" name="sms_enabled" value="1" id="sms_enabled">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -140,6 +144,11 @@
         $("#title").val(data.title);
         $("#contact").val(data.contact);
         $("#email").val(data.email);
+        if(data.sms_enabled=='1')
+        $('#sms_enabled').prop('checked', true); 
+        else
+        $('#sms_enabled').prop('checked', false); 
+
         $(".save_button").attr("id","update_contact")
         $("#contact_form").modal('show');
 
@@ -154,6 +163,7 @@
     $("#title").val("");
     $("#contact").val("");
     $("#email").val("");
+    $('#sms_enabled').prop('checked', false); 
     $("#contact_form").modal('show');
   });
 
@@ -233,6 +243,7 @@
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
+      var sms_enabled = $("#sms_enabled").val();
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
 
@@ -244,6 +255,7 @@
           title: title,
           email: email,
           contact: contact,
+          sms_enabled:sms_enabled,
           department_id: department
         },
         success: function(data) {
