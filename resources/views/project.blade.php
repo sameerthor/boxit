@@ -91,7 +91,7 @@
         id: id,
       },
       success: function(result) {
-        //window.location.reload();
+        window.location.reload();
       }
     });
       }
