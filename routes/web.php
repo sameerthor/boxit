@@ -44,6 +44,7 @@ Route::middleware('role:Admin')->group(function () {
     Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('project');
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
+    Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
     Route::group(['prefix' => 'mail-template'], function () {
         Route::get('/', [App\Http\Controllers\MailController::class, 'index'])->name('mail_template');

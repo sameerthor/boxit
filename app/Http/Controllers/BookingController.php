@@ -232,7 +232,7 @@ class BookingController extends Controller
             $email = $booking_data->contact->email;
             $html = '';
             $address = $booking->address;
-            $html .= "<p>Boixt has requested revised time for following booking.</p>";
+            $html .= "<p>Boxit has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
             $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
@@ -246,7 +246,14 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
-            $details['to'] = $email;;
+    $html.='<br>Thanks,<br>
+    Jules,<br>
+    BOXIT Sales<br>
+    <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+    <br>
+    <a href="https://boxitfoundations.co.nz
+">https://boxitfoundations.co.nz</a><br>';      
+    $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
@@ -434,6 +441,7 @@ class BookingController extends Controller
     public function delete_draft($id)
     {
         Draft::find($id)->delete();
+        DraftData::where(array('draft_id'=>$id))->delete();
         return redirect()->to('drafts/')->with('succes_msg', 'Draft has been deleted successfuly.');
     }
 }
