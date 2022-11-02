@@ -10,9 +10,12 @@ use App\Models\BookingData;
 use App\Models\Draft;
 use App\Models\DraftData;
 use App\Jobs\BookingEmailJob;
+use App\Mail\BookingMail;
 use App\Models\MailTemplate;
 use App\Models\Contact;
 use Exception;
+use Session;
+
 use Twilio\Rest\Client;
 
 class BookingController extends Controller
@@ -117,9 +120,8 @@ class BookingController extends Controller
             $details['subject'] = $res['subject'];
             $details['body'] = $res['body'];
             dispatch(new BookingEmailJob($details));
-            if($contact->sms_enabled=='1')
-            {
-                try{
+            if ($contact->sms_enabled == '1') {
+                try {
                     $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
                     $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
                     $client->messages->create(
@@ -130,12 +132,10 @@ class BookingController extends Controller
                             'body' => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($output_string))))
                         )
                     );
-                }catch(Exception $e)
-                {
-                   $e->getMessage();
+                } catch (Exception $e) {
+                    $e->getMessage();
                 }
             }
-            
         }
         Booking::where('id', $booking_id)
             ->update([
@@ -246,14 +246,14 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
-    $html.='<br>Thanks,<br>
+            $html .= '<br>Thanks,<br>
     Jules,<br>
     BOXIT Sales<br>
     <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
     <br>
     <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a><br>';      
-    $details['to'] = $email;;
+">https://boxitfoundations.co.nz</a><br>';
+            $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
@@ -441,7 +441,55 @@ class BookingController extends Controller
     public function delete_draft($id)
     {
         Draft::find($id)->delete();
-        DraftData::where(array('draft_id'=>$id))->delete();
+        DraftData::where(array('draft_id' => $id))->delete();
         return redirect()->to('drafts/')->with('succes_msg', 'Draft has been deleted successfuly.');
+    }
+
+    public function revised_date(Request $request)
+    {
+        $id = $request->get('booking_data_id');
+        $date = $request->get('date');
+        $booking_data = BookingData::find($id);
+        $booking = Booking::find($booking_data->booking_id);
+        $enc_key = base64_encode($booking_data->id);
+        $url = URL("reply/$enc_key");
+        $reply_link = "<a href='" . $url . "' style='border: 1px solid transparent;
+padding: 0.375rem 0.75rem;
+font-size: 1rem;
+user-select: none;
+text-decoration: none !important;
+line-height: 1.5;
+border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
+
+        $html = 'Hi,<br>';
+        $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
+        $old_date = date("d-m-Y", strtotime($booking_data->date));
+        $old_time = date("h:i:s", strtotime($booking_data->date));
+        $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
+        $new_date = date("d-m-Y", strtotime($date));
+        $new_time = date("h:i:s", strtotime($date));
+        $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
+        $html.='<p>'.$reply_link.'</p>';
+        $html .= 'Thanks,<br>
+      Jules,<br>
+      BOXIT Sales<br>
+      <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+      <br>
+      <a href="https://boxitfoundations.co.nz
+">https://boxitfoundations.co.nz</a><br>';
+
+        $contact = Contact::find($booking_data->contact_id);
+        $details['to'] = $contact->email;
+        $details['name'] = $contact->title;
+        $details['url'] = 'testing';
+        $details['subject'] = 'Booking Revised';
+        $details['body'] = $html;
+        dispatch(new BookingEmailJob($details));
+        $update_array = ['date' => $date];
+        if ($contact->department_id != '2') {
+            $update_array['status'] = 0;
+        }
+        Session::flash('succes_msg', 'Booking date changed successfuly.');
+        BookingData::where('id', $id)->update(['date' => $date]);
     }
 }

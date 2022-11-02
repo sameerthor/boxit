@@ -72,6 +72,7 @@
                     <th>Contact</th>
                     <th>Date</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +90,7 @@
                         <div class="red_box">Cancelled</div>
                         @endif
                     </td>
+                    <td><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -125,7 +127,66 @@
         </table>
     </div>
 </div>
+<div class="container">
+
+    <!-- Modal -->
+    <div class="modal" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Revised Date</h4>
+          </div>
+          <div class="modal-body">
+            
+            <div id="deny_text">
+              <p>Please suggest an alternate option below:</p>
+              <input type="text" placeholder="date/time" class="example form-control col-md-4" name="date">
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm save_date" data-id="1">Save</button>
+              <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 <script>
+    
+    $(function() {
+    $.datetimepicker.setDateFormatter('moment');
+    $('.example').datetimepicker({});
+  });
+
+$(".change_date").click(function(){
+    var id= $(this).data('id');
+    $(".save_date").attr('data-id',id);
+   $("#myModal").show();
+}) 
+
+$(".save_date").click(function() {
+    var id=$(this).data('id');
+    var confirm = $(this).data('id');
+    jQuery.ajax({
+      type: 'POST',
+      url: "/revised-date",
+      data: {
+        booking_data_id:id,
+        date: $("input[name='date']").val(),
+      },
+      success: function(data) {
+        window.location.reload();
+      }
+    });
+  });
+
+$(".cancel").click(function(){
+   $("#myModal").hide();
+}) 
    $(document).on("click","#back",function(){
         var id=$(this).data('id');
                $.ajaxSetup({

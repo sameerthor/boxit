@@ -14,6 +14,7 @@ use App\Jobs\BookingEmailJob;
 |
 */
 
+
 Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
 Route::get('/admin-reply/{id}', [App\Http\Controllers\BookingController::class, 'admin_reply']);
 Route::post('/reply', [App\Http\Controllers\BookingController::class, 'reply_confirmation'])->name('mail.reply');
@@ -26,6 +27,7 @@ Route::middleware('role_based_redirect')->group(function () {
 
 Route::middleware('role:Admin')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
+    Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
     Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
     Route::get('/delete-draft/{id}', [App\Http\Controllers\BookingController::class, 'delete_draft']);
