@@ -460,7 +460,7 @@ user-select: none;
 text-decoration: none !important;
 line-height: 1.5;
 border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
-
+$contact = Contact::find($booking_data->contact_id);
         $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
         $old_date = date("d-m-Y", strtotime($booking_data->date));
@@ -469,7 +469,9 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $new_date = date("d-m-Y", strtotime($date));
         $new_time = date("h:i:s", strtotime($date));
         $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
+        if ($contact->department_id != '2') {
         $html.='<p>'.$reply_link.'</p>';
+        }
         $html .= 'Thanks,<br>
       Jules,<br>
       BOXIT Sales<br>
@@ -478,7 +480,6 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
       <a href="https://boxitfoundations.co.nz
 ">https://boxitfoundations.co.nz</a><br>';
 
-        $contact = Contact::find($booking_data->contact_id);
         $details['to'] = $contact->email;
         $details['name'] = $contact->title;
         $details['url'] = 'testing';
