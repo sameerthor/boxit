@@ -34,6 +34,7 @@ Route::middleware('role:Admin')->group(function () {
     Route::get('/draft/{id}', [App\Http\Controllers\BookingController::class, 'draft'])->name('draft');
     Route::get('/drafts', [App\Http\Controllers\BookingController::class, 'drafts'])->name('drafts');
     Route::post('/calender', [App\Http\Controllers\BookingController::class, 'calender']);
+    Route::post('/calender-monthly', [App\Http\Controllers\BookingController::class, 'monthly_calender']);
     Route::post('/calender-detail', [App\Http\Controllers\BookingController::class, 'modal_data']);
     Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');
 

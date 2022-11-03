@@ -29,13 +29,40 @@
 		width: 97%;
 	}
 
+	.foo_monthly {
+		display: flex;
+		margin-left: 7%;
+		width: 92%;
+	}
+
+	.week_div {
+		display: flex;
+		margin-left: 7%;
+		width: 92%;
+	}
+
+	.week_div .week_day {
+		font-size: 15px;
+		color: #69768C;
+		font-weight: 600;
+		flex-basis: 100%;
+		text-align: center;
+		font-weight: 600;
+	}
+
 	.booked_div {
 		flex-basis: 100%;
 		text-align: center;
 		height: 46px !important;
 		font-size: 13px;
 		font-weight: 600;
-		cursor: pointer;
+	}
+
+	.booked_div_monthly {
+		flex-basis: 100%;
+		height: 85px !important;
+		font-size: 13px;
+		font-weight: 600;
 	}
 
 	.pd-boxes {
@@ -48,6 +75,8 @@
 		color: #FF5A5F;
 		border-left: 2px solid #FF5A5F;
 		border-radius: 3px;
+		cursor: pointer;
+
 	}
 
 	.green_box {
@@ -55,6 +84,8 @@
 		color: #16DB65 !important;
 		border-left: 2px solid #16DB65;
 		border-radius: 3px;
+		cursor: pointer;
+
 	}
 
 	.orange_box {
@@ -62,7 +93,45 @@
 		color: #F79256 !important;
 		border-left: 2px solid #F79256;
 		border-radius: 3px;
+		cursor: pointer;
+
 	}
+
+	.week_count{
+		display: table;
+    margin: -6px auto;
+    font-size: 18px;
+	}
+	.monthly_booking{
+		display: list-item !important;
+    list-style-type: disc;
+    margin-left: 25% !important;
+    color: red;
+    margin-left: 25%;
+    font-weight: 500;
+    font-size: 11px;
+	cursor: pointer;
+	}
+	.red_bullet
+	{
+		color:#ff2000;
+
+	}
+	.orange_bullet
+	{
+		color:#F79256;
+	}
+	.green_bullet
+	{
+		color:#16DB65;
+
+	}
+	.active-day-month {
+    background: #ECEDF1;
+    border-radius: 3px;
+    color: #172B4D !important;
+	padding: 0px 5px;
+}
 </style>
 @verbatim
 <div id="content">
@@ -85,9 +154,9 @@
 						<p id="booking_notes">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
 					</div>
 					<div class="status-txt">
-						<span>Status</span >
+						<span>Status</span>
 						<div class="card-new " style="margin-top: 12px;">
-							
+
 						</div>
 					</div>
 				</div>
@@ -107,67 +176,101 @@
 			</div>
 		</div>
 		<div class="col-md-2 text-right">
-			<select class="select-styles bgc-new">
-				<option>
-					Week
+			<select class="select-styles bgc-new" id="calender_type">
+				<option value="week">
+					Weekly
 				</option>
-				<option>
-					1 Week
-				</option>
-				<option>
-					2 Week
+				<option value="month">
+					Monthly
 				</option>
 			</select>
 		</div>
 		<div class="col-md-7 text-right">
-		
+
 		</div>
 	</div>
-	<div class="row ptb-30 bd-btm">
-		<div class="col-md-1"></div>
-		<div class="col-md-11">
-			<ul class="names-style">
-				<li><span>Foreman</span><br>Nick</li>
-				<li><span>Foreman</span><br>Dan</li>
-				<li><span>Foreman</span><br>Jimmy</li>
-				<li><span>Foreman</span><br>Darryl</li>
-				<li>Plumber</li>
-				<li>PODS</li>
-				<li>Steel</li>
-				<li>BLC</li>
-				<li>Engineer</li>
-				<li>Council</li>
-				<li>Concrete</li>
-				<li>Placer</li>
-				<li>Pump</li>
-			</ul>
+	<div id="weekly_calender">
+		<div class="row ptb-30 bd-btm">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+				<ul class="names-style">
+					<li><span>Foreman</span><br>Nick</li>
+					<li><span>Foreman</span><br>Dan</li>
+					<li><span>Foreman</span><br>Jimmy</li>
+					<li><span>Foreman</span><br>Darryl</li>
+					<li>Plumber</li>
+					<li>PODS</li>
+					<li>Steel</li>
+					<li>BLC</li>
+					<li>Engineer</li>
+					<li>Council</li>
+					<li>Concrete</li>
+					<li>Placer</li>
+					<li>Pump</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 ptb-30 border-rb">
+				<div v-if="activeStep>0" v-on:click="remove" class="text-center arrow-u-style">
+					<img src="img/arrow-u.png">
+				</div>
+				<div>
+
+					<transition-group name="list" tag="ul" class="cal-days">
+
+						<li v-for="step in currentitem" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
+					</transition-group>
+
+				</div>
+				<div v-if="activeStep<items.length-1" class="text-center" v-on:click="add">
+					<img src="img/arrow-d.png">
+				</div>
+			</div>
+			<div class="col-md-11 mt-100 calender">
+
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-1 ptb-30 border-rb">
-			<div v-if="activeStep>0" v-on:click="remove" class="text-center arrow-u-style">
-				<img src="img/arrow-u.png">
-			</div>
-			<div>
-
-				<transition-group name="list" tag="ul" class="cal-days">
-
-					<li v-for="step in currentitem" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}" ><span>{{step.name}}</span><br>{{step.day}}</li>
-				</transition-group>
-
-			</div>
-			<div v-if="activeStep<items.length-1" class="text-center" v-on:click="add">
-				<img src="img/arrow-d.png">
+	<div id="monthly_calender" style="display:none">
+		<div class="row ptb-30 bd-btm">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+				<div class="week_div">
+				    <div class="week_day">SUN</div>
+					<div class="week_day">MON</div>
+					<div class="week_day">TUE</div>
+					<div class="week_day">WED</div>
+					<div class="week_day">THU</div>
+					<div class="week_day">FRO</div>
+					<div class="week_day">SAT</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-11 mt-100 calender">
+		<div class="row">
+			<div class="col-md-1 ptb-30 border-rb">
 
+			</div>
+			<div class="col-md-11 monthly_dates">
+				
+				
+			</div>
 		</div>
 	</div>
 </div>
 @endverbatim
 
 <script>
+	$(document).on('change', '#calender_type', function() {
+		if ($(this).val() == 'week') {
+			$('#weekly_calender').show();
+			$('#monthly_calender').hide();
+		}
+		if ($(this).val() == 'month') {
+			$('#weekly_calender').hide();
+			$('#monthly_calender').show();
+		}
+	})
 	var monthNames = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 	var active_date;
 
@@ -187,10 +290,10 @@
 		var d = new Date(year, month - 1, number);
 		this.day = number;
 		this.thisMonth = isThisMonth;
-		if( d.setHours(0,0,0,0) === (new Date()).setHours(0,0,0,0) )
-		this.today='yes';
-        else
-		this.today='no';
+		if (d.setHours(0, 0, 0, 0) === (new Date()).setHours(0, 0, 0, 0))
+			this.today = 'yes';
+		else
+			this.today = 'no';
 		this.name = daysOfTheWeek[d.getDay()];;
 		return this;
 	}
@@ -297,6 +400,14 @@
 					.then((response) => {
 						$(".calender").html(response.data)
 					})
+
+					axios.post('/calender-monthly', {
+						year: this.year,
+						month: this.month_index,
+					})
+					.then((response) => {
+						$(".monthly_dates").html(response.data)
+					})	
 			},
 			randomIndex: function() {
 				return Math.floor(Math.random() * this.items.length)
@@ -332,16 +443,16 @@
 		}
 	}).mount("#content");
 	$(document).on('click', '.show_booking', function() {
-		var id=$(this).data('id');
+		var id = $(this).data('id');
 		axios.post('/calender-detail', {
-						id:id
-					})
-					.then((response) => {
-						$("#booking_address").html(response.data.address);
-						$("#booking_notes").html(response.data.notes);
-						$(".card-new").html(response.data.html);
-						$("#exampleModal").modal("show");
-					})
+				id: id
+			})
+			.then((response) => {
+				$("#booking_address").html(response.data.address);
+				$("#booking_notes").html(response.data.notes);
+				$(".card-new").html(response.data.html);
+				$("#exampleModal").modal("show");
+			})
 	})
 	$(document).on('click', '.close', function() {
 		$("#exampleModal").modal("hide");

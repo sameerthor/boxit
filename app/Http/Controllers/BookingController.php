@@ -259,6 +259,72 @@ class BookingController extends Controller
             dispatch(new BookingEmailJob($details));
         }
     }
+
+
+    public  function daysInMonth($iMonth, $iYear)
+    {
+        return cal_days_in_month(CAL_GREGORIAN, $iMonth, $iYear);
+    }
+    public function monthly_calender(Request $request)
+    {
+        $year = $request->get('year');
+        $requested_month = $request->get('month') + 1;
+        $firstDay = $dayofweek = date('w', strtotime($year . "-" . $requested_month));
+        $date = 1;
+        $html = '';
+        for ($i = 0; $i < 6; $i++) {
+            // creates a table row
+            $html .= '<div class="foo_monthly pd-boxes">';
+
+            //creating individual cells, filing them up with data.
+            for ($j = 0; $j < 7; $j++) {
+                if ($i === 0 && $j < $firstDay) {
+                    $html .= '<div class="booked_div_monthly"><span class="week_count"></span></div>';
+                } else if ($date > $this->daysInMonth($requested_month, $year)) {
+                    $html .= '<div class="booked_div_monthly"><span class="week_count"></span></div>';
+                    continue;
+                } else {
+                    $current = strtotime(date("Y-m-d"));
+                    $today_date    = strtotime("$year-$requested_month-$date");
+                    $datediff = $today_date - $current;
+                    $class='';
+                    if($datediff==0)
+                    {
+                      $class="active-day-month";
+                    }
+                    $inner_html = '<span class="week_count '.$class.'">' . $date . '</span>';
+                    $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
+                    $booking_datas = BookingData::whereDate('date', '=', $booking_date)
+                        ->get();
+                    foreach ($booking_datas as $booking_data) {
+                        $address = substr($booking_data->booking->address, 0, 17);
+                        switch ($booking_data->status) {
+                            case '0':
+                                $class = "orange_bullet monthly_booking";
+                                break;
+                            case '1':
+                                $class = "green_bullet monthly_booking";
+                                break;
+                            case '2':
+                                $class = "red_bullet monthly_booking";
+                                break;
+                            default:
+                                $class = "monthly_booking";
+                        }
+                        $b_id = $booking_data->booking_id;
+                        $inner_html .= "<span class='$class' data-id='" . $b_id . "'>$address</span>";
+                    }
+
+                    $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
+                    $date++;
+                }
+            }
+
+            $html .= '</div>';
+        }
+        echo  $html;
+    }
+
     public function calender(Request $request)
     {
         $dates = $request->get('dates');
@@ -460,7 +526,7 @@ user-select: none;
 text-decoration: none !important;
 line-height: 1.5;
 border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
-$contact = Contact::find($booking_data->contact_id);
+        $contact = Contact::find($booking_data->contact_id);
         $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
         $old_date = date("d-m-Y", strtotime($booking_data->date));
@@ -470,7 +536,7 @@ $contact = Contact::find($booking_data->contact_id);
         $new_time = date("h:i:s", strtotime($date));
         $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
         if ($contact->department_id != '2') {
-        $html.='<p>'.$reply_link.'</p>';
+            $html .= '<p>' . $reply_link . '</p>';
         }
         $html .= 'Thanks,<br>
       Jules,<br>
