@@ -46,8 +46,8 @@
          <p>{{$project->floor_area}}</p>
         </div>
         <div class="form-group col-md-6">
-        <label >foreman</label>
-         <p>{{$project->foreman->name}}</p>
+        <label >Foreman</label>
+         <p>{{ucfirst($project->foreman->name)}}</p>
         </div>
         <div class="form-group col-md-6">
         <label >Notes</label>

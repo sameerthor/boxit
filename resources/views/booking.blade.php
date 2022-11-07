@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group">
-                  <input name="date[{{$department->id}}]" class="example" type="text" placeholder="" required />
+                  <input name="date[{{$department->id}}]" class="example" type="text" placeholder="Choose Date & Time" required />
                 </div>
 
               </div>

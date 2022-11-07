@@ -290,14 +290,15 @@ class BookingController extends Controller
                     $class='';
                     if($datediff==0)
                     {
-                      $class="active-day-month";
+                      $class=" active-day-month";
                     }
-                    $inner_html = '<span class="week_count '.$class.'">' . $date . '</span>';
+                    $inner_html = '<span data-id="" class="week_count'.$class.'">' . $date . '</span>';
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
                     $booking_datas = BookingData::whereDate('date', '=', $booking_date)
                         ->get();
                     foreach ($booking_datas as $booking_data) {
-                        $address = substr($booking_data->booking->address, 0, 17);
+                        $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
+                        $dep=$booking_data->department->title;
                         switch ($booking_data->status) {
                             case '0':
                                 $class = "orange_bullet monthly_booking";
@@ -312,7 +313,7 @@ class BookingController extends Controller
                                 $class = "monthly_booking";
                         }
                         $b_id = $booking_data->booking_id;
-                        $inner_html .= "<span class='$class' data-id='" . $b_id . "'>$address</span>";
+                        $inner_html .= "<span class='$class show_booking' data-id='" . $b_id . "'>$dep:$address</span>";
                     }
 
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
@@ -348,7 +349,7 @@ class BookingController extends Controller
             foreach ($foremans as $res) {
                 $booking_data = Booking::where(array('foreman_id' => $res->id))->whereDate('created_at', '=', date('Y-m-d', strtotime($booking_date)))->first();
                 if (!empty($booking_data)) {
-                    $html .= "<div class='booked_div green_box show_booking' data-id='" . $booking_data->id . "'>" . $booking_data->address . "</div>";
+                    $html .= "<div class='booked_div'><span class='green_box show_booking' data-id='" . $booking_data->id . "'>" . $booking_data->address . "</span></div>";
                 } else {
                     $html .= "<div class='booked_div'></div>";
                 }
@@ -356,11 +357,13 @@ class BookingController extends Controller
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
                 $booking_data = BookingData::where(array('department_id' => $id))->whereDate('date', '=', $booking_date)
-                    ->first();
+                    ->get();
                 $b_id = '';
-                if (!empty($booking_data)) {
-                    $address = $booking_data->booking->address;
-                    switch ($booking_data->status) {
+                $html.="<div class='booked_div'>";
+             foreach ($booking_data as $boo) {
+                    $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
+
+                    switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
                             break;
@@ -373,12 +376,10 @@ class BookingController extends Controller
                         default:
                             $class = "show_booking";
                     }
-                    $b_id = $booking_data->booking_id;
-                } else {
-                    $address = "";
-                    $class = "";
+                    $b_id = $boo->booking_id;
+                    $html.="<span class='$class' data-id='" . $b_id . "'>$address</span>";
                 }
-                $html .= "<div class='booked_div $class ' data-id='" . $b_id . "'>$address</div>";
+                $html .= "</div>";
             }
             $html .= "</div>";
         }
@@ -393,7 +394,7 @@ class BookingController extends Controller
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
-										<p>Foreman-' . $booking->foreman->name . '</p>
+										<p>Foreman-' . ucfirst($booking->foreman->name) . '</p>
 										<span>Confirmed</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {

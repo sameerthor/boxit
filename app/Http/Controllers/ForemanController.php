@@ -112,7 +112,7 @@ class ForemanController extends Controller
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
-										<p>Foreman-' . $booking->foreman->name . '</p>
+										<p>Foreman-' . ucfirst($booking->foreman->name) . '</p>
 										<span>Confirmed</span>
 									</div>';
          foreach($booking_data->slice(1,4) as $res)

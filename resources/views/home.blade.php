@@ -27,6 +27,11 @@
 		display: flex;
 		margin-left: 4%;
 		width: 97%;
+		height: 12%;
+	}
+
+	.foo:first-child {
+		margin-top: 3%;
 	}
 
 	.foo_monthly {
@@ -49,13 +54,24 @@
 		text-align: center;
 		font-weight: 600;
 	}
-
+    .container.pl-none.pr-60{
+		max-width: unset;
+	}
 	.booked_div {
 		flex-basis: 100%;
-		text-align: center;
-		height: 46px !important;
-		font-size: 13px;
+		font-size: 10px;
 		font-weight: 600;
+		display: block;
+	}
+
+	.container pl-none pr-60 {
+		max-width: unset;
+
+	}
+
+	.cal-days li {
+
+		margin: 37% 0px !important;
 	}
 
 	.booked_div_monthly {
@@ -72,66 +88,74 @@
 
 	.red_box {
 		background: #FCEEEC;
-		color: #FF5A5F;
-		border-left: 2px solid #FF5A5F;
+		color: #FCEEEC !important;
+		border-left: 1px solid #16DB65;
 		border-radius: 3px;
 		cursor: pointer;
-
+		padding: 0px;
+		display: block;
+		border-bottom: 1px solid #16DB65;
 	}
 
 	.green_box {
 		background: #F1FFE9;
 		color: #16DB65 !important;
-		border-left: 2px solid #16DB65;
+		border-left: 1px solid #16DB65;
 		border-radius: 3px;
 		cursor: pointer;
-
+		padding: 0px;
+		display: block;
+		border-bottom: 1px solid #16DB65;
 	}
-
+ 
 	.orange_box {
 		background: #FCF0E4;
 		color: #F79256 !important;
-		border-left: 2px solid #F79256;
+		border-left: 1px solid #F79256;
 		border-radius: 3px;
 		cursor: pointer;
-
+		padding: 0px;
+		display: block;
+		border-bottom: 1px solid #F79256;
 	}
 
-	.week_count{
+	.week_count {
 		display: table;
-    margin: -6px auto;
-    font-size: 18px;
+		margin: -6px auto;
+		font-size: 18px;
 	}
-	.monthly_booking{
+
+	.monthly_booking {
 		display: list-item !important;
-    list-style-type: disc;
-    margin-left: 25% !important;
-    color: red;
-    margin-left: 25%;
-    font-weight: 500;
-    font-size: 11px;
-	cursor: pointer;
+		list-style-type: disc;
+		margin-left: 25% !important;
+		color: red;
+		margin-left: 25%;
+		font-weight: 500;
+		font-size: 11px;
+		cursor: pointer;
 	}
-	.red_bullet
-	{
-		color:#ff2000;
+
+	.red_bullet {
+		color: #ff2000;
 
 	}
-	.orange_bullet
-	{
-		color:#F79256;
+
+	.orange_bullet {
+		color: #F79256;
 	}
-	.green_bullet
-	{
-		color:#16DB65;
+
+	.green_bullet {
+		color: #16DB65;
 
 	}
+
 	.active-day-month {
-    background: #ECEDF1;
-    border-radius: 3px;
-    color: #172B4D !important;
-	padding: 0px 5px;
-}
+		background: #ECEDF1;
+		border-radius: 3px;
+		color: #172B4D !important;
+		padding: 0px 5px;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -234,26 +258,30 @@
 	</div>
 	<div id="monthly_calender" style="display:none">
 		<div class="row ptb-30 bd-btm">
-			<div class="col-md-1"></div>
+			<div class="col-md-1" style="
+    display: none;
+"></div>
 			<div class="col-md-11">
 				<div class="week_div">
-				    <div class="week_day">SUN</div>
+					<div class="week_day">SUN</div>
 					<div class="week_day">MON</div>
 					<div class="week_day">TUE</div>
 					<div class="week_day">WED</div>
 					<div class="week_day">THU</div>
-					<div class="week_day">FRO</div>
+					<div class="week_day">FRI</div>
 					<div class="week_day">SAT</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-1 ptb-30 border-rb">
+			<div class="col-md-1 ptb-30 border-rb" style="
+    display: none;
+">
 
 			</div>
 			<div class="col-md-11 monthly_dates">
-				
-				
+
+
 			</div>
 		</div>
 	</div>
@@ -401,13 +429,13 @@
 						$(".calender").html(response.data)
 					})
 
-					axios.post('/calender-monthly', {
+				axios.post('/calender-monthly', {
 						year: this.year,
 						month: this.month_index,
 					})
 					.then((response) => {
 						$(".monthly_dates").html(response.data)
-					})	
+					})
 			},
 			randomIndex: function() {
 				return Math.floor(Math.random() * this.items.length)
