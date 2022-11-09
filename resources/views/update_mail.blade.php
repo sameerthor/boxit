@@ -51,7 +51,7 @@
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
 						@endphp
 						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
 							<?php echo $res->body; ?>
@@ -123,7 +123,7 @@
 					icon: 'success',
 					title: "Mail Sent successfuly."
 				}).then(() => {
-					window.location.href = "/";
+				//	window.location.href = "/";
 				});
 			}
 		});

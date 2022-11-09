@@ -52,7 +52,7 @@
                 <select class="form-control" style="width: 100%;" name="foreman" required>
                   <option value="">Foreman*</option>
                   @foreach($foreman as $res)
-                  <option value="{{$res->id}}">{{$res->name}}</option>
+                  <option value="{{$res->id}}">{{ucfirst($res->name)}}</option>
                   @endforeach
                 </select>
 

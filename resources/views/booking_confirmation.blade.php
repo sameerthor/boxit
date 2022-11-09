@@ -44,17 +44,17 @@
                 </div>
 
                 <div style="text-align: center;">
-                   @if($status==1) <img src="/img/64x64.png">
+                   @if($status==1) <img src="/img/64x64.png" style="width:200px">
                    
                    <br/>  <br/>
                 Thank you for confirming your booking.
                 @endif
-                @if($status==2) <img src="/img/hold.png">
+                @if($status==2) <img src="/img/hold.png" style="width:200px">
                    
-                   <br/>  <br/>
+                   <br/> <h4>Change Request Pending</h4> <br/>
                    We have received your date/time change request and will get back to you soon.
                 @endif
-                <br/><br/>If there are any changes please feel free to reach out to Jules at oadmin@boxitfoundations.co.nz
+                <br/><br/>If there are any changes please feel free to reach out to Jules at <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
             </div>
 
             </div>

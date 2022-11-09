@@ -12,6 +12,26 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
   <link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
+<style>
+   .modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+</style>
 </head>
 
 <body>
@@ -32,15 +52,15 @@
               <p>Address : <strong><u>{{$booking_data->booking->address}}</u></strong></p>
               <p>Floor Type : <strong><u>{{$booking_data->booking->floor_type}}</u></strong></p>
               <p>Floor Area : <strong><u>{{$booking_data->booking->floor_area}}</u></strong></p>
-              <p>Date : <strong><u>{{$booking_data->date}}</u></strong></p>
+              <p>Date : <strong><u>{{date("d-m-Y h:i",strtotime($booking_data->date))}}</u></strong></p>
             
               <h5>Do you want to confirm this booking ?</h5>
             </div>
             <div id="deny_text" style="display:none">
-              <p>Sorry to hear that. Please suggest few alternate options below:</p>
-              <input type="text" class="example" name="date1">
-              <input type="text" class="example" name="date2">
-              <input type="text" class="example" name="date3">
+              <p>‘If you would like to make a date/time change request, please select up to three time options below. Alternatively please contact admin@boxitfoundations.co.nz with any queries</p>
+              <input type="text" class="example" placeholder="Choose Date & Time" name="date1">
+              <input type="text" class="example" placeholder="Choose Date & Time" name="date2">
+              <input type="text" class="example" placeholder="Choose Date & Time" name="date3">
             </div>
           </div>
           <div class="modal-footer">
@@ -70,6 +90,7 @@
     $('#myModal').modal('show');
   });
   $(".no").click(function() {
+    $(".modal-title").hide();
     $("#confirm_button").hide();
     $("#cancel_button").show();
     $("#confirm_text").hide();

@@ -47,9 +47,10 @@ class ProjectController extends Controller
         $booking_datas = BookingData::whereIn('department_id', $active_templates)->where(array('booking_id' => $project_id))->get();
          foreach($booking_datas as $booking_data)
         {
+         $b_date=   date("d-m-Y h:i",strtotime($booking_data->date));
         $html='<p>The following booking has been cancelled.</p>';
         $html.="<p>Address: ".$booking->address."<br>";
-        $html.="Date: ".$booking_data->date."</p>";
+        $html.="Date: ".$b_date."</p>";
         $html.='Thanks,<br>
       Jules,<br>
       BOXIT Sales<br>

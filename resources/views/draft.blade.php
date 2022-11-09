@@ -61,7 +61,7 @@
                   @foreach($foreman as $res)
                   <option value="{{$res->id}}" <?php if ($draft->foreman_id == $res->id) {
                                                   echo "selected";
-                                                } ?>>{{$res->name}}</option>
+                                                } ?>>{{ucfirst($res->name)}}</option>
                   @endforeach
                 </select>
 

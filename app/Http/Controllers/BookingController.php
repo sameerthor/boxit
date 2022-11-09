@@ -177,11 +177,12 @@ class BookingController extends Controller
         if ($request->get('confirm') == 2) {
             $html = '';
             $address = $booking->address;
+            $b_date=date("d-m-Y h:i",strtotime($booking_data->date));
             $html .= "<p>The following booking has been cancelled.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
-            $html .= "<p>Date : <strong><u>$booking_data->date</u></strong></p>";
+            $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= "<br><p>Contact has suggested below alternate time</p>";
             if (!empty($request->get('date1'))) {
                 $html .= "<p>Alternate DateTime 1 : " . $request->get('date1') . "</p>";
@@ -232,11 +233,12 @@ class BookingController extends Controller
             $email = $booking_data->contact->email;
             $html = '';
             $address = $booking->address;
+            $b_date=date("d-m-Y h:i",strtotime($booking_data->date));
             $html .= "<p>Boxit has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
             $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
-            $html .= "<p>Revised Date : <strong><u>$booking_data->date</u></strong></p>";
+            $html .= "<p>Revised Date : <strong><u>$b_date</u></strong></p>";
             $enc_key = base64_encode($booking_data->id);
             $url = URL("reply/$enc_key");
             $html .= "<a href='" . $url . "' style='border: 1px solid transparent;
@@ -245,14 +247,13 @@ class BookingController extends Controller
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
             $html .= '<br>Thanks,<br>
     Jules,<br>
     BOXIT Sales<br>
     <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
     <br>
-    <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a><br>';
+    <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
             $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
             $details['body'] = $html;
@@ -526,7 +527,7 @@ font-size: 1rem;
 user-select: none;
 text-decoration: none !important;
 line-height: 1.5;
-border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE TO CONFIRM OR DENY BOOKING</a>";
+border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
         $contact = Contact::find($booking_data->contact_id);
         $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
