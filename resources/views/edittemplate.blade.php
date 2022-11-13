@@ -91,8 +91,7 @@
         BOXIT Sales</br>
         <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
         </br>
-        <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a></br>' ;
+        <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a></br>' ;
         @endphp
         <iframe srcdoc="{{$html}}" id="myFrame" style="border: 3px solid #ccc; border-radius: 5px;padding: 5px; height: 500px; overflow: scroll">
         </iframe>

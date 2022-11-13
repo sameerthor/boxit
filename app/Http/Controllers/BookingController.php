@@ -545,8 +545,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
       BOXIT Sales<br>
       <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
       <br>
-      <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a><br>';
+      <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
 
         $details['to'] = $contact->email;
         $details['name'] = $contact->title;

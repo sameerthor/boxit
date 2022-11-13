@@ -109,7 +109,10 @@
   $("#booking").validate();
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
-    $('.example').datetimepicker({});
+    $('.example').datetimepicker({
+    format:'DD/MM/YYYY HH:mm',
+
+    });
 
     $(".draft").click(function() {
       if($('input[name="address"]').val()=='')

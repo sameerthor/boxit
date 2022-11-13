@@ -98,7 +98,9 @@
 
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
-    $('.example').datetimepicker({});
+    $('.example').datetimepicker({
+      format:'DD/MM/YYYY HH:mm'
+    });
   });
 </script>
 

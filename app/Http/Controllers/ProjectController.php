@@ -56,8 +56,7 @@ class ProjectController extends Controller
       BOXIT Sales<br>
       <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
       <br>
-      <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a><br>';
+      <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
         $contact = Contact::find($booking_data->contact_id);
         $details['to'] = $contact->email;
         $details['name'] = $contact->title;

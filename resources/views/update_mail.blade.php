@@ -71,8 +71,7 @@
 							BOXIT Sales</br>
 							<a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
 							</br>
-							<a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a></br>
+							<a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a></br>
 						</div>
 						@endforeach
 					</div>
@@ -123,7 +122,7 @@
 					icon: 'success',
 					title: "Mail Sent successfuly."
 				}).then(() => {
-				//	window.location.href = "/";
+					window.location.href = "/";
 				});
 			}
 		});

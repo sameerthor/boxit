@@ -81,8 +81,7 @@ Route::middleware('role:Admin')->group(function () {
             BOXIT Sales</br>
             <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
             </br>
-            <a href="https://boxitfoundations.co.nz
-">https://boxitfoundations.co.nz</a></br>'  ;          
+            <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a></br>'  ;          
             return $html;
         });
     });
