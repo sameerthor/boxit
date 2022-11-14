@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+   iframe {
+            display: block;
+            width: 100%;
+            border: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        #tab3{
+            height: 100vh;
+        }
+</style>
 <div id="content">
   <div class="container">
     <div class="card-new ptb-50">
@@ -17,6 +29,9 @@
         </li>
         <li class="nav-item" role="presentation">
           <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Foreman Email Templates</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false"> Email Logs</button>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -91,6 +106,9 @@
             </tbody>
           </table>
       </div>
+      <div style="padding:5%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+      <iframe src="http://localhost:8000/email-log"  frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
+      </div>
       </div>
 
     </div>
@@ -122,5 +140,8 @@
       }
     });
   });
+  $('iframe').ready( function() {
+  $('iframe').contents().find("head").append($("<style type='text/css'>.actions form:first-child {display: none;} </style>"));
+});
 </script>
 @endsection
