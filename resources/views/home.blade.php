@@ -25,8 +25,8 @@
 
 	.foo {
 		display: flex;
-		margin-left: 4%;
-		width: 97%;
+		margin-left: 5%;
+    width: 94%;
 		height: 12%;
 	}
 
@@ -303,8 +303,17 @@
 	var active_date;
 
 	function getFirstDayOfMonth(zeroBasedMonthNum, fullYear) {
-		var dateStr = `${monthNames[zeroBasedMonthNum]} 1, ${fullYear}, 00:00:00`;
-		var monthStart = new Date(dateStr);
+
+		if(cur_month==zeroBasedMonthNum)
+		{
+			var monthStart = new Date();
+
+		}else
+		{
+			var dateStr = `${monthNames[zeroBasedMonthNum]} 1, ${fullYear}, 00:00:00`;
+		    var monthStart = new Date(dateStr);
+		}
+	
 		return monthStart;
 	}
 
@@ -340,6 +349,7 @@
 		var first = daysInLastMonth - daysFromLastMonth + 1;
 		var count = 0;
 		for (var i = 0; i < daysFromLastMonth; i++) {
+			console.log(first);
 			//result.push(first+i);
 			count++;
 			result.push(new MonthDay(first + i, false, year, monthIndex));

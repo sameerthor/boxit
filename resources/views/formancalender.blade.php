@@ -300,8 +300,15 @@
 	var active_date;
 
 	function getFirstDayOfMonth(zeroBasedMonthNum, fullYear) {
-		var dateStr = `${monthNames[zeroBasedMonthNum]} 1, ${fullYear}, 00:00:00`;
-		var monthStart = new Date(dateStr);
+		if(cur_month==zeroBasedMonthNum)
+		{
+			var monthStart = new Date();
+
+		}else
+		{
+			var dateStr = `${monthNames[zeroBasedMonthNum]} 1, ${fullYear}, 00:00:00`;
+		    var monthStart = new Date(dateStr);
+		}
 		return monthStart;
 	}
 
