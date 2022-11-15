@@ -30,6 +30,11 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Booking::all();
+        if (request('q')) {
+            $projects = Booking::where('address', 'like', '%' . request('q') . '%')->get();
+        } else {
+            $projects = Booking::all();
+        }
         return view('project', compact('projects'))->render();
     }
 

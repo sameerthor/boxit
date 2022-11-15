@@ -68,13 +68,16 @@
 						<div id="header" class="mb-40 prl-30">
 							<div class="row d-flex">
 								<div class="col-md-8">
-									<div class="search-wrapper">
+									<form method="get" action="/projects">
+									<div class="search-wrapper <?php if (request('q')) echo 'active';?>">
 										<div class="input-holder">
-											<input type="text" class="search-input" placeholder="Type to search" />
-											<button class="search-icon" onclick="searchToggle(this, event);"><img src="/img/search.png"></button>
+											<input type="text" name="q" class="search-input submit_on_enter" value="{{ Request::get('q') }}" placeholder="Type & Press Enter to Search " />
+											<button class="search-icon" type="button" onclick="searchToggle(this, event);"><img src="/img/search.png"></button>
 										</div>
 										<span class="close" onclick="searchToggle(this, event);"></span>
+									
 									</div>
+									</form>
 								</div>
 								<div class="col-md-1 pr-none text-right">
 									<div>
@@ -152,6 +155,18 @@
             container.find('.search-input').val('');
         }
 }
+
+$(document).ready(function() {
+
+$('.submit_on_enter').keydown(function(event) {
+  // enter has keyCode = 13, change it if you want to use another button
+  if (event.keyCode == 13) {
+	this.form.submit();
+	return false;
+  }
+});
+
+});
 </script>
 
 </html>

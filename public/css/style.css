@@ -810,3 +810,7 @@ img#dropdownMenuButton {
     left: 0px;
     top: 10px;
 }
+
+input[type="text"].search-input::-webkit-input-placeholder {
+    font-size: 14px;
+  }
