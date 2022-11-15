@@ -107,7 +107,7 @@
           </table>
       </div>
       <div style="padding:5%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
-      <iframe src="http://localhost:8000/email-log"  frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
+      <iframe src="/email-log"  frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
       </div>
       </div>
 
