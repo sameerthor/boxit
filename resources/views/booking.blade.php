@@ -110,7 +110,7 @@
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
     $('.example').datetimepicker({
-    format:'DD/MM/YYYY HH:mm',
+    format:'DD-MM-YYYY HH:mm',
 
     });
 
