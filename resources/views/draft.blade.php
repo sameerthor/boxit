@@ -69,10 +69,10 @@
             </div>
             @foreach($departments->slice(1) as $department)
             <div class="col-md-6">
-              <div class="row">
+              <div class="row department_group">
                 <div class="col-md-7 form-group p-none">
                   <div class="input-group input-group-xs">
-                    <select class="form-control" style="width: 100%;" name="department[{{$department->id}}]" required>
+                    <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
                       @foreach($department->contacts as $res)
                       <option value="{{$res->id}}" <?php if ($draft->DraftData[$department->id - 1]->contact_id == $res->id) {
@@ -83,7 +83,9 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group">
-                  <input name="date[{{$department->id}}]" class="example" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="" required />
+                  <input name="date[{{$department->id}}]" <?php if (in_array($draft->DraftData[$department->id - 1]->contact_id,array(1,2,3,4,5,6,7,8,9))) {
+                                                      echo "disabled";
+                                                    } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="" required />
                 </div>
 
               </div>
@@ -131,6 +133,21 @@
 
 </div>
 <script>
+  $("#booking").on("submit", function() {
+    if($("#booking").valid())
+    {
+    $(".contacts").each(function() {
+      var text = $(this).find('option:selected').text();
+      if (text == 'NA') {
+        $(this).parents('.department_group').remove();
+      }
+    });
+    return true;
+  }else
+  {
+    return false;
+  }
+  })
   $("#booking").validate();
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
@@ -152,5 +169,18 @@
           $(this).parents(".hdtuto").remove();
       });
   });
+
+  
+$(".contacts").on("change",function(){
+  var text= $(this).find('option:selected').text();
+if(text == 'NA')
+{
+  $(this).parents('.department_group').find('.dates').prop('disabled', true);
+}else
+{
+  $(this).parents('.department_group').find('.dates').prop('disabled', false);
+
+}
+});
 </script>
 @endsection

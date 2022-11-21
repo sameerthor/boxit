@@ -108,11 +108,13 @@ class BookingController extends Controller
         $twilio_number = "+16209129397";
 
         $client = new Client($account_sid, $auth_token);
+        $booking_id = $request->get('booking_id');
 
         $mail_data = $request->get('mail_data');
+        if(!empty($mail_data))
+        {
         foreach ($mail_data as $res) {
-            $booking_data = BookingData::find($res['booking_id']);
-            $booking_id = $booking_data->booking_id;
+            $booking_data = BookingData::find($booking_id);
             $contact = Contact::find($booking_data->contact_id);
             $details['to'] = $contact->email;
             $details['name'] = $contact->title;
@@ -136,6 +138,7 @@ class BookingController extends Controller
                     $e->getMessage();
                 }
             }
+        }
         }
         Booking::where('id', $booking_id)
             ->update([
@@ -519,6 +522,27 @@ class BookingController extends Controller
         $date = $request->get('date');
         $booking_data = BookingData::find($id);
         $booking = Booking::find($booking_data->booking_id);
+        $contact = Contact::find($booking_data->contact_id);
+        if($request->get('confirm')=='true')
+        {
+            $update_array = ['date' => $date,'status'=>1];
+            $html = 'Hi,<br>';
+        $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
+        $old_date = date("d-m-Y", strtotime($booking_data->date));
+        $old_time = date("h:i:s", strtotime($booking_data->date));
+        $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
+        $new_date = date("d-m-Y", strtotime($date));
+        $new_time = date("h:i:s", strtotime($date));
+        $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
+        $html .= 'Thanks,<br>
+      Jules,<br>
+      BOXIT Sales<br>
+      <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+      <br>
+      <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
+            
+        }else
+        {
         $enc_key = base64_encode($booking_data->id);
         $url = URL("reply/$enc_key");
         $reply_link = "<a href='" . $url . "' style='border: 1px solid transparent;
@@ -528,7 +552,6 @@ user-select: none;
 text-decoration: none !important;
 line-height: 1.5;
 border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
-        $contact = Contact::find($booking_data->contact_id);
         $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
         $old_date = date("d-m-Y", strtotime($booking_data->date));
@@ -547,17 +570,18 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
       <br>
       <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
 
+        $update_array = ['date' => $date];
+        if ($contact->department_id != '2') {
+            $update_array['status'] = 0;
+        }
+        }
         $details['to'] = $contact->email;
         $details['name'] = $contact->title;
         $details['url'] = 'testing';
         $details['subject'] = 'Booking Revised';
         $details['body'] = $html;
         dispatch(new BookingEmailJob($details));
-        $update_array = ['date' => $date];
-        if ($contact->department_id != '2') {
-            $update_array['status'] = 0;
-        }
         Session::flash('succes_msg', 'Booking date changed successfuly.');
-        BookingData::where('id', $id)->update(['date' => $date]);
+        BookingData::where('id', $id)->update($update_array);
     }
 }

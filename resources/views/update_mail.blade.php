@@ -21,6 +21,13 @@
 				<div class="col-md-12">
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						@foreach($mail as $res)
+						@php
+						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
+						if(empty($booking_data))
+						{
+                          continue;
+						}
+						@endphp
 						<li class="nav-item" role="presentation">
 							<button style="color:#172b4d" class="nav-link <?php if ($loop->iteration == 1) echo 'active'; ?>" id="tab{{$res->id}}" data-bs-toggle="tab" data-bs-target="#{{$res->department->title}}" type="button" role="tab" aria-controls="{{$res->department->title}}" aria-selected="true">{{$res->department->title}}</button>
 						</li>
@@ -30,6 +37,10 @@
 						@foreach($mail as $res)
 						@php
 						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
+						if(empty($booking_data))
+						{
+                          continue;
+						}
 						$date=$booking_data->date;
 						$id=$booking_data->id;
 						if(!empty($res->products))
