@@ -243,7 +243,7 @@
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
-      var sms_enabled = $("#sms_enabled").val();
+      var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
 

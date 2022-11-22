@@ -122,7 +122,7 @@ class BookingController extends Controller
             $details['subject'] = $res['subject'];
             $details['body'] = $res['body'];
             dispatch(new BookingEmailJob($details));
-            if ($contact->sms_enabled == '1') {
+            if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
                 try {
                     $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
                     $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
