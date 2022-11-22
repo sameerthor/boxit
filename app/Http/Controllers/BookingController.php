@@ -108,13 +108,13 @@ class BookingController extends Controller
         $twilio_number = "+16209129397";
 
         $client = new Client($account_sid, $auth_token);
-        $booking_id = $request->get('booking_id');
 
         $mail_data = $request->get('mail_data');
         if(!empty($mail_data))
         {
         foreach ($mail_data as $res) {
-            $booking_data = BookingData::find($booking_id);
+            $booking_data = BookingData::find($res['booking_id']);
+            $booking_id=$booking_data->booking_id;
             $contact = Contact::find($booking_data->contact_id);
             $details['to'] = $contact->email;
             $details['name'] = $contact->title;
@@ -138,12 +138,14 @@ class BookingController extends Controller
                     $e->getMessage();
                 }
             }
-        }
+         
         }
         Booking::where('id', $booking_id)
-            ->update([
-                'mail_sent' => 1
-            ]);
+        ->update([
+            'mail_sent' => 1
+        ]);
+        }
+       
 
         return array("success" => true);
     }
