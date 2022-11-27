@@ -13,6 +13,7 @@ use App\Jobs\BookingEmailJob;
 use App\Mail\BookingMail;
 use App\Models\MailTemplate;
 use App\Models\Contact;
+use App\Models\Notification;
 use Exception;
 use Session;
 
@@ -87,6 +88,11 @@ class BookingController extends Controller
             Draft::find($draft_id)->delete();
             DraftData::where(array('draft_id' => $draft_id))->delete();
         }
+        $notification = new Notification();
+        $notification->foreman_id = $request->get('foreman');
+        $notification->notification = 'A new booking named <b>'.$request->get('address').'</b> is created.';
+        $notification->booking_id =$booking_id;
+        $notification->save();
         return redirect()->to('booking/' . $booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
     }
 

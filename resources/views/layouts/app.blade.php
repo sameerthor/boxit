@@ -87,7 +87,7 @@
   <a href = "#">
   <div class = "notBtn" href = "#">
     <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
-    <div class = "number">{!! Helper::notificationCount() !!}</div>
+    <div class = "number">{{ Helper::notificationCount() }}</div>
     <img src="/img/notification.png">
       <div class = "box">
         <div class = "display">
@@ -95,32 +95,17 @@
             <i class="fa fa-child stick"></i> 
             <div class = "cent">Looks Like your all caught up!</div>
           </div>
-          <!-- <div class = "cont">
+		  @php $notifications=Helper::notifications(); @endphp
+		  @if(count($notifications) > 0)
+          <div class = "cont">
+		  @foreach($notifications as $notification)	
 		  <div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-			<div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-			<div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-			<div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-			<div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-			<div class = "sec new">
-               <div class = "txt">Brie liked your post: "Pure css notification box"</div>
-              <div class = "txt sub">11/6 - 9:35 pm</div>
-            </div>
-         </div> -->
+               <div class = "txt">{!! $notification->notification !!}</div>
+              <div class = "txt sub">{{ Date('m/d h:i A',strtotime($notification->created_at))}}</div>
+          </div>
+		  @endforeach	
+         </div>
+		 @endif
         </div>
      </div>
   </div>
