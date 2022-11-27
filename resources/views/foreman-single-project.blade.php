@@ -23,9 +23,7 @@
         padding: 8px;
     }
 
-    .qa_checklist tr:nth-child(even) {
-        background-color: #c9ced6;
-    }
+    
 
     .qa_checklist {
         margin: 20px 10px;
@@ -44,7 +42,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-head">
-                    <span>Project</span>
+                    <span>Project: <u>{{$project->address}}</u></span>
                 </div>
             </div>
         </div>

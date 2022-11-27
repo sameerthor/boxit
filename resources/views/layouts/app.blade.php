@@ -87,15 +87,15 @@
   <a href = "#">
   <div class = "notBtn" href = "#">
     <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
-    <div class = "number">2</div>
+    <div class = "number">{!! Helper::notificationCount() !!}</div>
     <img src="/img/notification.png">
       <div class = "box">
         <div class = "display">
           <div class = "nothing"> 
-            <i class="fas fa-child stick"></i> 
+            <i class="fa fa-child stick"></i> 
             <div class = "cent">Looks Like your all caught up!</div>
           </div>
-          <div class = "cont"><!-- Fold this div and try deleting evrything inbetween -->
+          <!-- <div class = "cont">
 		  <div class = "sec new">
                <div class = "txt">Brie liked your post: "Pure css notification box"</div>
               <div class = "txt sub">11/6 - 9:35 pm</div>
@@ -120,7 +120,7 @@
                <div class = "txt">Brie liked your post: "Pure css notification box"</div>
               <div class = "txt sub">11/6 - 9:35 pm</div>
             </div>
-         </div>
+         </div> -->
         </div>
      </div>
   </div>
