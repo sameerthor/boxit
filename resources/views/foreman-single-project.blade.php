@@ -46,12 +46,16 @@
                 </div>
             </div>
         </div>
-        <button style="float:right" type="button" id="back" class="save_button btn btn-secondary">Back</button>
+        <div class="project-back-btn">
+
+        <button type="button" id="back" class="save_button btn btn-secondary">Back</button>
+        </div>
+        
         <br />
         <br />
         <div class="row">
             <div class="col-md-12">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs center-contain" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Project Status</button>
                     </li>
@@ -69,7 +73,7 @@
                     <div style="padding:3%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
 
                         <div class="row">
-                            <div>
+                            
                                 <table class="table">
 
                                     <tbody>
@@ -99,7 +103,7 @@
                                     </tbody>
 
                                 </table>
-                            </div>
+                            
                         </div>
 
                     </div>
@@ -126,8 +130,8 @@
                                         $office_use="";
                                         }
                                         @endphp
-                                        <td style="width: 15% !important;"><input type="text" value="{{$initial}}" name="initial[{{$res->id}}]"></td>
-                                        <td style="width: 15% !important; "><input type="text" value="{{$office_use}}" name="office_use[{{$res->id}}]"></td>
+                                        <td class="table-w"><input type="text" value="{{$initial}}" name="initial[{{$res->id}}]"></td>
+                                        <td class="table-w"><input type="text" value="{{$office_use}}" name="office_use[{{$res->id}}]"></td>
                                     </tr>
                                     @endforeach
                                 </table>

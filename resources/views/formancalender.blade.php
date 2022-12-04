@@ -156,6 +156,14 @@
 		color: #172B4D !important;
 		padding: 0px 5px;
 	}
+
+	@media screen and (max-width:767px)
+	{
+		.cal-days li {
+
+margin: 15px 0px !important;
+}
+	}
 </style>
 @verbatim
 <div id="content">
@@ -199,7 +207,7 @@
 				<img src="img/arrow-r.png" v-on:click="month_nav(+1)">
 			</div>
 		</div>
-		<div class="col-md-2 text-right">
+		<div class="col-md-2 mob-center">
 			<select class="select-styles bgc-new" id="calender_type">
 				<option value="week">
 					Weekly
