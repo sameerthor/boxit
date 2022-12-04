@@ -56,11 +56,11 @@
         <p>{{$project->notes}}</p>
       </div>
       @if(!empty($project->file))
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-12">
         <label>File</label>
         <br />
         @foreach($project->file as $f)
-        <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed style="width:150px;height:150px" src="/images/{{$f}}"></embed></a>
+        <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed src="/images/{{$f}}"></embed></a>
         @endforeach
       </div>
       @endif

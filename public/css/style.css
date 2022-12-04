@@ -369,9 +369,9 @@ justify-content: space-between;
 	padding-left: 0px !important;
 
 }
-.pr-60{
+/* .pr-60{
 	padding-right: 60px !important;
-}
+} */
 .cal-days{
 	list-style: none;
 	padding: 0;
@@ -470,15 +470,15 @@ div#content .row {
 .form-head span{
 	font-size: 20px;
 	font-weight: 600;
-	color: #172B4D;
+	color: #172b4d;
 }
 #booking input ,#booking select ,#booking textarea{
 	font-size: 12px !important;
 	width: 100%;
-	border: 1px solid #EEEEEE !important;
+	border: 1px solid #172b4d !important;
     border-radius: 8px !important;
     padding: 15px !important;
-    color: #69768C !important; 
+    color: #000000; 
 }
 #booking select{
 height: inherit !important; 
@@ -498,9 +498,9 @@ height: inherit !important;
 .form-btn{
 	padding-top: 20px;
 }
-.form-head{
+/* .form-head{
 	padding-bottom: 20px;
-}
+} */
 .card-new{
 	border: 1px solid #E7E7E7;
     border-radius: 3px;
@@ -678,7 +678,7 @@ img#dropdownMenuButton {
     position: absolute;
     transform: translate(-50%, -50%);
     top:50%;
-    left:19%;
+    left:5%;
 }
 .search-wrapper.active {}
 
@@ -909,7 +909,7 @@ body{
   position: absolute;
   overflow-y: scroll;
   padding: 0px;
-  left: -10px;
+  left: -124px;
   margin-top: 3px;
   background-color: #F4F4F4;
   -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
@@ -1012,3 +1012,244 @@ color: #172b4d;
 .sec:hover{
   background-color: #BFBFBF;
 }
+.project-back-btn button {
+  text-align: right;
+}
+.btn-color {
+  background: #172b4d !important;
+}
+
+.paid-none-r {
+  padding-right: 0px !important;
+}
+
+.container {
+  max-width: 2560px !important;
+}
+
+i.fa.fa-angle-down {
+  position: absolute;
+  right: 15px;
+  z-index: 9999;
+  font-size: 22px;
+  top: 13px;
+  color: #69768c;
+}
+/* .bg-shadow input, .bg-shadow select, .bg-shadow textarea {
+  box-shadow: 2px 2px 0px 0px #999999;
+} */
+#pos-r {
+  right: 26px;
+}
+
+.form-group .fa.fa-plus {
+  position: absolute;
+  right: 25px;
+  top: 8px;
+}
+.form-btn input {
+  background: #172b4d;
+  color: #fff !important;
+}
+
+.fa.fa-trash {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+
+
+::placeholde
+{
+  color:#69768C;
+}
+
+.p-name {
+  width: 80%;
+}
+.v-name.delete i {
+  position: inherit;
+}
+.w-50 {
+  width: 100%!important;
+}
+embed {
+  width: 20%;
+}
+.admin-s a {
+  display: none;
+}
+.dropdown-menu.show {
+  left: -50px !important;
+}
+
+/* ----------------res css start-------------------- */
+
+@media screen and (max-width:767px)
+{
+  .logo-sec
+  {
+    margin: 40px 0px 23px 0px;
+  }
+
+  .li-styles
+  {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .li-styles .active
+  {
+    border: 1px solid;
+    padding:12px;
+  }
+  .li-styles li
+  {
+    padding:0px;
+  }
+  .pr-60
+  {
+    padding-right:0px !important;
+  }
+  .names-style
+  {
+    display: block;
+    text-align: center;
+    padding-left:0px;
+  }
+  .names-style li 
+  {
+    margin-top: 10px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .bell-icon-w {
+    width: 50% !important;
+    position: relative;
+    top: -41px;
+    float: right;
+}
+.search-icon-w {
+  width: 50% !important;
+  float: left;
+  top:-26px;
+  left:-15px;
+}
+
+.search-icon-w {
+  width: 50%;
+  z-index: 999999 !important;
+  float: left;
+}
+.name-icon-w {
+  width: 80% !important;
+  float: right;
+  position: relative;
+  right: -35px;
+  top: -67px;
+}
+.name-email-w {
+  width: 50% !important;
+  top: -40px;
+}
+.down-icon-w {
+  width: 50% !important;
+  float: right !important;
+  text-align: right;
+  top: -36px;
+  right:-10px
+}
+.marg-bot-n {
+  margin-bottom: -12px;
+}
+.mob-center {
+  text-align: center !important;
+  margin: 10px 0px;
+}
+.mob-full-w {
+  width: 100% !important;
+}
+.mob-full-w .w-50 {
+  width: 100% !important;
+}
+.search-wrapper.active .close
+{
+  right: -103px;
+}
+.search-wrapper.active .input-holder
+{
+  left:68px;
+  width:179px;
+}
+.card-new
+{
+  width:100%;
+}
+.project-back-btn {
+  text-align: center;
+}
+.center-contain
+{
+  justify-content: center;
+}
+.qa_checklist tr td {
+  display: block;
+  
+}
+.qa_checklist tr {
+  display: block;
+  margin-bottom: 20px;
+}
+#onsite_canvas {
+  width: 100%;
+}
+.card-body
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.tab-pane h5
+{
+  text-align: center;
+}
+#drawin_canvas, #markout_canvas {
+  width: 100% !important;
+}
+.table-bordered tr th {
+  display: block;
+  width: 100% !important;
+}
+.table-bordered tr {
+  display: block;
+  margin-bottom: 20px;
+}
+.table-bordered td
+{
+  display: block;
+}
+.safety_plan p {
+  text-align: center;
+}
+.form-head
+{
+  text-align: center;
+}
+
+canvas {
+  width: 100% !important;
+}
+.btn.btn-secondary {
+  margin-top: 20px;
+  margin-left: 5px;
+}
+.search-wrapper
+{
+  left:19%;
+}
+.p-name {
+  width: auto;
+  margin-left: 10px;
+}
+}
+
+
+/* ----------------res css and-------------------- */

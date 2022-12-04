@@ -18,25 +18,26 @@
         </div>
       </div>
       @foreach($projects as $project)
-      <div class="row w-50">
+      <div class="row">
         <div class="col-md-12">
           <div class="bdr-btm project-flex ptb-25">
             <div class="p-name">
               <span>{{$project->address}}</span>
             </div>
-            <div class="v-name details" data-id="{{$project->id}}">
-              <span>View</span>
-              <img src="img/edit.png">
-            </div>
             <div class="v-name delete" data-id="{{$project->id}}">
               <span>Delete</span>
               <i class="fa fa-trash" aria-hidden="true"></i>
             </div>
+            <div class="v-name details" data-id="{{$project->id}}">
+              <span>View</span>
+              <img src="img/edit.png">
+            </div>
+            
           </div>
         </div>
       </div>
       @endforeach
-      <div class="row w-50">
+      <div class="row">
         <div class="col-md-12">
           <div class="project-flex ptb-25">
             <div class="v-name">

@@ -65,9 +65,9 @@
 				</div>
 				<div class="col-md-10 mt-40 mb-100 p-none">
 					<div class="container pl-none pr-60">
-						<div id="header" class="mb-40 prl-30">
-							<div class="row d-flex">
-								<div class="col-md-8">
+						<div id="header" class="mb-40 prl-30 marg-bot-n">
+							<div class="row d-flex flex-n">
+								<div class="col-md-8 search-icon-w">
 									<form method="get" action="/projects">
 									<div class="search-wrapper <?php if (request('q')) echo 'active';?>">
 										<div class="input-holder">
@@ -79,7 +79,7 @@
 									</div>
 									</form>
 								</div>
-								<div class="col-md-1 pr-none text-right">
+								<div class="col-md-1 bell-icon-w pr-none text-right">
 								
 										
 								
@@ -112,19 +112,19 @@
     </a>
 </div>
 								</div>
-								<div class="col-md-1 text-right">
+								<div class="col-md-1 name-icon-w text-right">
 									<div>
 										<span class="profile_letter">{{mb_substr(strtoupper(Auth::user()->name), 0, 1)}}</span>
 									</div>
 								</div>
-								<div class="col-md-1 p-none">
+								<div class="col-md-1 name-email-w p-none">
 									<div>
 										<p class="admin-s">{{ucfirst(Auth::user()->name)}}<br>
 											<span>{{Auth::user()->email}}</span>
 										</p>
 									</div>
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-1 down-icon-w">
 									<div>
 										<img src="/img/arrow.png" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
 										<div class="dropdown-menu">
