@@ -318,6 +318,7 @@ justify-content: space-between;
 	background: #ECEDF1;
 	border-radius: 3px;
 	padding: 6px 15px;
+  cursor: pointer;
 }
 .bgc-new{
 	background-color: #fff !important;
