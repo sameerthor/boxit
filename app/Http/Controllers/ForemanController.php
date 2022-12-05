@@ -16,6 +16,7 @@ use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
 use App\Models\SafetyPlan;
 use Auth;
+use DB;
 class ForemanController extends Controller
 {
     /**
@@ -67,9 +68,16 @@ class ForemanController extends Controller
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
             $foreman = User::where("id",Auth::id())->get();
             foreach ($foreman as $res) {
-                $booking_data = Booking::where(array('foreman_id' => $res->id))->whereDate('created_at', '=', date('Y-m-d', strtotime($booking_date)))->first();
+                $booking_data = BookingData::whereHas('booking', function($query) use ($res){
+                    return $query->where('foreman_id', '=', $res->id);
+                })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
                 if (!empty($booking_data)) {
-                    $html .= "<div class='booked_div'><span class='green_box show_booking' data-id='" . $booking_data->id . "'>" . $booking_data->address . "</span></div>";
+                    $html .= "<div class='booked_div'>";
+                    foreach ($booking_data as $boo) 
+                     {   $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
+                      $html.="<span class='green_box show_booking' data-id='" . $boo->booking->id . "'>" . $address . "</span>";
+                     }
+                     $html.="</div>";
                 } else {
                     $html .= "<div class='booked_div'></div>";
                 }

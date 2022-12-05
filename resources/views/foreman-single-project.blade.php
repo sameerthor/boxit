@@ -1,4 +1,45 @@
 <style>
+    @import "bourbon";
+
+    .cd-switch {
+        padding: 50px 0;
+        text-align: center;
+    }
+
+    .radio_label {
+        cursor: pointer;
+        text-transform: uppercase;
+        border: 1px solid #3d4349;
+        width: 80px;
+        padding: 10px 0;
+        text-align: center;
+        display: inline-block;
+        transition: all 0.4s;
+        margin-right: 10px;
+    }
+
+    .switch {
+        display: inline-block;
+        z-index: 1;
+    }
+
+    .switch input[type="radio"] {
+        visibility: hidden;
+        position: absolute;
+        height: 100%;
+    }
+
+    .switch input[type="radio"].yes:checked~label[for^="yes_"] {
+        background-color: #172b4d;
+        color: #fff
+    }
+
+    .switch input[type="radio"].no:checked~label[for^="no_"] {
+        background-color: #172b4d;
+        color: #fff
+    }
+
+
     input[type="range"] {
         width: 30px;
     }
@@ -23,7 +64,7 @@
         padding: 8px;
     }
 
-    
+
 
     .qa_checklist {
         margin: 20px 10px;
@@ -36,11 +77,11 @@
         border-bottom: 0.5px solid black;
         outline: none;
     }
-    @media screen and (min-width:768px)
-    {
+
+    @media screen and (min-width:768px) {
         .table .paid-t {
-  padding-top: 38px !important;
-}
+            padding-top: 38px !important;
+        }
     }
 </style>
 <div class="card-new">
@@ -54,9 +95,9 @@
         </div>
         <div class="project-back-btn">
 
-        <button type="button" id="back" class="save_button btn btn-secondary">Back</button>
+            <button type="button" id="back" class="save_button btn btn-secondary">Back</button>
         </div>
-        
+
         <br />
         <br />
         <div class="row">
@@ -79,37 +120,39 @@
                     <div style="padding:3%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
 
                         <div class="row">
-                            
-                                <table class="table">
 
-                                    <tbody>
-                                        @foreach($ProjectStatusLabel as $label)
-                                        @php
-                                        $project_status= $label->ProjectStatus($project->id)->get();
-                                        if(count($project_status)>0)
-                                        {
-                                        $yes_checked=$project_status[0]->status==1?'checked':'';
-                                        $no_checked=$project_status[0]->status==0?'checked':'';;
-                                        }else
-                                        {
-                                        $yes_checked="";
-                                        $no_checked="";
-                                        }
-                                        @endphp
-                                        <tr>
-                                            <td>{{$label->label}}</td>
-                                            <td>
-                                                <div id="file1" class="btn-group" data-toggle="buttons">
-                                                    <label style="background-color: #172b4d;color:#fff" class="btn btn-sm"><input type="radio" {{$yes_checked}} class="project_status" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">Yes</label>
-                                                    <label style="background-color: #c9ced6;color:#fff" class="btn  btn-sm"><input type="radio" {{$no_checked}} class="project_status" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">No</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
+                            <table class="table">
 
-                                </table>
-                            
+                                <tbody>
+                                    @foreach($ProjectStatusLabel as $label)
+                                    @php
+                                    $project_status= $label->ProjectStatus($project->id)->get();
+                                    if(count($project_status)>0)
+                                    {
+                                    $yes_checked=$project_status[0]->status==1?'checked':'';
+                                    $no_checked=$project_status[0]->status==0?'checked':'';;
+                                    }else
+                                    {
+                                    $yes_checked="";
+                                    $no_checked="";
+                                    }
+                                    @endphp
+                                    <tr>
+                                        <td>{{$label->label}}</td>
+                                        <td>
+                                            <div class="switch">
+                                                <input type="radio" {{$yes_checked}} class="project_status yes" id="yes_{{$label->id}}" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">
+                                                <label class="radio_label" for="yes_{{$label->id}}">Yes</label>
+                                                <input type="radio" {{$no_checked}} id="no_{{$label->id}}" class="project_status no"  data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">
+                                                <label class="radio_label" for="no_{{$label->id}}">No</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+
                         </div>
 
                     </div>
@@ -357,10 +400,10 @@
                                                                 }
                                                             }  ?> value="1" name="safety_plan[safe_access_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" <?php if (!empty($safety)) {
-                                                                    if ($safety->safe_access_tick == '0') {
-                                                                        echo "checked";
-                                                                    }
-                                                                }  ?> value="0" name="safety_plan[safe_access_tick]"><label>&#x2717</label>
+                                                                                if ($safety->safe_access_tick == '0') {
+                                                                                    echo "checked";
+                                                                                }
+                                                                            }  ?> value="0" name="safety_plan[safe_access_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[safe_access]">{{ $safety!=null ? $safety->safe_access : '' }}</textarea>
@@ -378,10 +421,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[site_board_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->site_board_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[site_board_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->site_board_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[site_board_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[site_board]">{{ $safety!=null ? $safety->site_board : '' }}</textarea>
@@ -399,10 +442,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[ppe_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->ppe_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[ppe_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->ppe_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[ppe_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[ppe]">{{ $safety!=null ? $safety->ppe : '' }}</textarea>
@@ -420,10 +463,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[safety_documentation_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->safety_documentation_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[safety_documentation_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->safety_documentation_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[safety_documentation_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[safety_documentation]">{{ $safety!=null ? $safety->safety_documentation : '' }}</textarea>
@@ -441,10 +484,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[communicate_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->communicate_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[communicate_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->communicate_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[communicate_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[communicate]">{{ $safety!=null ? $safety->communicate : '' }}</textarea>
@@ -462,10 +505,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[work_activity_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->work_activity_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[work_activity_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->work_activity_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[work_activity_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[work_activity]">{{ $safety!=null ? $safety->work_activity : '' }}</textarea>
@@ -483,10 +526,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[gate_closed_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->gate_closed_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[gate_closed_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->gate_closed_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[gate_closed_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[gate_closed]">{{ $safety!=null ? $safety->gate_closed : '' }}</textarea>
@@ -504,10 +547,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->hazard_controlled_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->hazard_controlled_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[hazard_controlled]">{{ $safety!=null ? $safety->hazard_controlled : '' }}</textarea>
@@ -525,10 +568,10 @@
                                                                             }
                                                                         }  ?> name="safety_plan[power_access_tick]"><label>&#10004</label>
                                         <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                if ($safety->power_access_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[power_access_tick]"><label>&#x2717</label>
+                                                                                            if ($safety->power_access_tick == '0') {
+                                                                                                echo "checked";
+                                                                                            }
+                                                                                        }  ?> name="safety_plan[power_access_tick]"><label>&#x2717</label>
                                     </td>
                                     <td>
                                         <textarea name="safety_plan[power_access]">{{ $safety!=null ? $safety->power_access : '' }}</textarea>
@@ -919,7 +962,7 @@
         pad.clear();
     });
 
-    
+
     $(document).on('submit', '#qa_form', function(e) {
         if ($('#onsite_canvas').length > 0) {
 
@@ -939,7 +982,7 @@
                 .attr("name", "onsite_sign")
                 .attr("value", $("#markout_sign").attr("src")).appendTo("#qa_form");
         }
-    }); 
+    });
 
     $(document).on('submit', '#markout_form', function(e) {
         if ($('#markout_canvas').length > 0) {

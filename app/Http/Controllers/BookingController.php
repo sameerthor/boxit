@@ -16,7 +16,7 @@ use App\Models\Contact;
 use App\Models\Notification;
 use Exception;
 use Session;
-
+use DB;
 use Twilio\Rest\Client;
 
 class BookingController extends Controller
@@ -359,9 +359,16 @@ class BookingController extends Controller
                 $q->where("name", "Foreman");
             })->get();
             foreach ($foremans as $res) {
-                $booking_data = Booking::where(array('foreman_id' => $res->id))->whereDate('created_at', '=', date('Y-m-d', strtotime($booking_date)))->first();
+                $booking_data = BookingData::whereHas('booking', function($query) use ($res){
+                    return $query->where('foreman_id', '=', $res->id);
+                })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
                 if (!empty($booking_data)) {
-                    $html .= "<div class='booked_div'><span class='green_box show_booking' data-id='" . $booking_data->id . "'>" . $booking_data->address . "</span></div>";
+                    $html .= "<div class='booked_div'>";
+                    foreach ($booking_data as $boo) 
+                     {   $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
+                      $html.="<span class='green_box show_booking' data-id='" . $boo->booking->id . "'>" . $address . "</span>";
+                     }
+                     $html.="</div>";
                 } else {
                     $html .= "<div class='booked_div'></div>";
                 }

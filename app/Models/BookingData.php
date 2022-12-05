@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class BookingData extends Model
 {
@@ -12,6 +13,12 @@ class BookingData extends Model
     protected $casts = [
         'new_date' => 'array',
     ];
+    protected $dateFormat = 'Y-m-d h:i:s';
+
+
+    public function setDateAttribute( $value ) {
+        $this->attributes['date'] = (new Carbon($value))->format('Y-m-d h:i:s');
+      }
 
     public function department()
     {
