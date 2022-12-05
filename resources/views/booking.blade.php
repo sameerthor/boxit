@@ -52,7 +52,7 @@
           <div class="row">
             <div class="col-xs-12 col-md-6 form-group bg-shadow">
               <div class="input-group input-group-xs">
-              <select class="form-control" style="width: 100%;" name="foreman" required>
+              <i class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="foreman" required>
                   <option value="">Foreman*</option>
                   @foreach($foreman as $res)
                   <option value="{{$res->id}}">{{ucfirst($res->name)}}</option>
@@ -92,12 +92,12 @@
               </div>
             </div>
             <div class="form-group increment col-md-6 bg-shadow">
-              <input type="file" style="padding-top: 6px !important;" name="file_upload[]" class="myfrm form-control">
+              <input type="file" style="padding-top: 6px !important; padding-left:10px !important;" name="file_upload[]" class="myfrm form-control">
               <div class="add_html" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
             <div class="clone hide" style="display:none">
               <div class="hdtuto control-group lst input-group" style="margin-top:10px">
-                <input type="file" name="file_upload[]" style="padding-top: 6px !important;" class="myfrm form-control">
+                <input type="file" name="file_upload[]" style="padding-top: 6px !important; padding-left:10px !important; " class="myfrm form-control">
                 <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
               </div>

@@ -679,7 +679,9 @@ img#dropdownMenuButton {
     top:50%;
     left:5%;
 }
-.search-wrapper.active {}
+.search-wrapper.active {
+  left: 20%;
+}
 
 .search-wrapper .input-holder {    
     height: 70px;
@@ -1081,8 +1083,41 @@ embed {
 .dropdown-menu.show {
   left: -50px !important;
 }
+.icon-pls i {
+  top: 39px !important;
+}
+.li-styles .active a
+{
+  margin-left:-4px;
+}
+.down-icon-w img {
+  cursor: pointer;
+}
+
+select,
+select option {
+  color: #000000 !important;
+}
+select:invalid,
+select option[value=""] {
+  color: #69768C !important;
+}
+.marg-l {
+  margin-left: 5px;
+}
+textarea
+{
+  width:100%;
+}
+label
+{
+  margin-left:2px;
+  font-size:14px;
+}
 
 /* ----------------res css start-------------------- */
+
+
 
 @media screen and (max-width:767px)
 {
@@ -1182,6 +1217,7 @@ embed {
 .card-new
 {
   width:100%;
+  padding:0px 6px;
 }
 .project-back-btn {
   text-align: center;
@@ -1247,6 +1283,10 @@ canvas {
 .p-name {
   width: auto;
   margin-left: 10px;
+}
+
+.marg-l {
+  margin-left: 20px;
 }
 }
 

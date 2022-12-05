@@ -351,6 +351,18 @@ margin: 15px 0px !important;
 		var daysInLastMonth = daysInMonth(monthIndex - 1);
 		var first = daysInLastMonth - daysFromLastMonth + 1;
 		var count = 0;
+		if(monthIndex==cur_month)
+		{
+			let currentDateObj = new Date();
+			var day_num=getFirstDayOfMonth(monthIndex, year).getDay();
+			currentDateObj.setDate(1); // going to 1st of the month
+            currentDateObj.setHours(-1);
+            var l_date = currentDateObj.setDate(currentDateObj.getDate() - (currentDateObj.getDay()+(7-day_num)) % 7);
+			var first=new Date(l_date).getDate();
+			daysFromLastMonth=daysInLastMonth-first+1;
+			if (first == 0)
+			first = 7;
+		}
 		for (var i = 0; i < daysFromLastMonth; i++) {
 			//result.push(first+i);
 			count++;

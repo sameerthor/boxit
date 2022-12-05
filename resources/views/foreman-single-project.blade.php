@@ -36,6 +36,12 @@
         border-bottom: 0.5px solid black;
         outline: none;
     }
+    @media screen and (min-width:768px)
+    {
+        .table .paid-t {
+  padding-top: 38px !important;
+}
+    }
 </style>
 <div class="card-new">
     <div class="card-body">
@@ -344,13 +350,13 @@
                                     <td>
                                         Is there safe access to the site? (clear / level / no overhead lines)
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" <?php if (!empty($safety)) {
                                                                 if ($safety->safe_access_tick == '1') {
                                                                     echo "checked";
                                                                 }
                                                             }  ?> value="1" name="safety_plan[safe_access_tick]"><label>&#10004</label>
-                                        <br><input type="radio" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" <?php if (!empty($safety)) {
                                                                     if ($safety->safe_access_tick == '0') {
                                                                         echo "checked";
                                                                     }
@@ -365,13 +371,13 @@
                                     <td>
                                         Have you read the site hazards board?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->site_board_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[site_board_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->site_board_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -386,13 +392,13 @@
                                     <td>
                                         Do you have adequate PPE? Hi vis / steel caps
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->ppe_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[ppe_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->ppe_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -407,13 +413,13 @@
                                     <td>
                                         Have you completed the Client safety documentation on site?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->safety_documentation_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[safety_documentation_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->safety_documentation_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -428,13 +434,13 @@
                                     <td>
                                         Are there others on site we need to communicate with?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->communicate_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[communicate_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->communicate_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -449,13 +455,13 @@
                                     <td>
                                         Is the site tidy and clear for you work activity?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->work_activity_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[work_activity_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->work_activity_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -470,13 +476,13 @@
                                     <td>
                                         Is the site secure, i.e. fenced / gate closed?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->gate_closed_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[gate_closed_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->gate_closed_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -491,13 +497,13 @@
                                     <td>
                                         Are site hazards adequately controlled?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->hazard_controlled_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->hazard_controlled_tick == '0') {
                                                                                     echo "checked";
                                                                                 }
@@ -512,13 +518,13 @@
                                     <td>
                                         Do you have access to Power / Water / Toilet?
                                     </td>
-                                    <td>
+                                    <td class="paid-t">
                                         <input type="radio" value="1" <?php if (!empty($safety)) {
                                                                             if ($safety->power_access_tick == '1') {
                                                                                 echo "checked";
                                                                             }
                                                                         }  ?> name="safety_plan[power_access_tick]"><label>&#10004</label>
-                                        <br><input type="radio" value="0" <?php if (!empty($safety)) {
+                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
                                                                                 if ($safety->power_access_tick == '0') {
                                                                                     echo "checked";
                                                                                 }

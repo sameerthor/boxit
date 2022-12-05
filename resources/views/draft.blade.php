@@ -35,6 +35,7 @@
               <input name="address" required value="{{$draft->address}}" type="text" placeholder="Address*" required />
             </div>
             <div class="form-group col-md-6">
+            <i id="pos-r" class="fa fa-angle-down"></i>
               <select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="" disabled selected>Building Company*</option>
                 @foreach($departments[0]->contacts as $res)
@@ -56,7 +57,7 @@
           <div class="row">
             <div class="col-xs-12 col-md-6 form-group">
               <div class="input-group input-group-xs">
-                <select class="form-control" style="width: 100%;" name="foreman" required>
+              <i class="fa fa-angle-down"></i> <select class="form-control" style="width: 100%;" name="foreman" required>
                   <option value="" disabled selected>Foreman*</option>
                   @foreach($foreman as $res)
                   <option value="{{$res->id}}" <?php if ($draft->foreman_id == $res->id) {
@@ -72,7 +73,8 @@
               <div class="row department_group">
                 <div class="col-md-7 form-group p-none">
                   <div class="input-group input-group-xs">
-                    <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
+                  <i class="fa fa-angle-down"></i>
+                    <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required> 
                       <option value="">{{$department->title}}*</option>
                       @foreach($department->contacts as $res)
                       <option value="{{$res->id}}" <?php if ($draft->DraftData[$department->id - 1]->contact_id == $res->id) {
@@ -82,10 +84,10 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-5 form-group">
+                <div class="col-md-5 form-group paid-none-r">
                   <input name="date[{{$department->id}}]" <?php if (in_array($draft->DraftData[$department->id - 1]->contact_id,array(1,2,3,4,5,6,7,8,9))) {
                                                       echo "disabled";
-                                                    } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="" required />
+                                                    } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
 
               </div>
@@ -103,8 +105,8 @@
               <div class="file_container"><input type="hidden" name="existing_file[]" value="{{$f}}"><a href="/images/{{$f}}" target="_blank"><embed style="width:100px;height:100px" src="/images/{{$f}}"></embed></a><div class="remove_file"><i class="fa fa-trash" aria-hidden="true"></i></div></div>
                   @endforeach
                   @endif
-                  <input type="file" style="padding-top: 6px !important;" name="file_upload[]" class="myfrm form-control">
-                  <div class="add_html" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                  <input type="file" style="padding-top: 6px !important; padding-left:12px !important;" name="file_upload[]" class="myfrm form-control">
+                  <div class="add_html icon-pls" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
           </div>
           <div class="row">
@@ -121,7 +123,7 @@
 
           <div class="clone hide" style="display:none">
             <div class="hdtuto control-group lst input-group" style="margin-top:10px">
-              <input type="file" name="file_upload[]" style="padding-top: 6px !important;" class="myfrm form-control">
+              <input type="file" name="file_upload[]" style="padding-top: 6px !important; padding-left:12px !important;" class="myfrm form-control">
               <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
               </div>
             </div>
