@@ -197,14 +197,14 @@ margin: 15px 0px !important;
 	</div>
 	<div class="row p-15 prl-30 border-all">
 		<div class="col-md-3 cal-flex">
-			<div class="arrow-l-style">
-				<img src="img/arrow-l.png" v-on:click="month_nav(-1)">
+			<div class="arrow-l-style" v-on:click="month_nav(-1)">
+				<img src="img/arrow-l.png" >
 			</div>
 			<div class="mnth-style">
 				{{months[month_index]}} {{year}}
 			</div>
-			<div>
-				<img src="img/arrow-r.png" v-on:click="month_nav(+1)">
+			<div class="arrow-l-style" v-on:click="month_nav(+1)">
+				<img src="img/arrow-r.png" >
 			</div>
 		</div>
 		<div class="col-md-2 mob-center">
@@ -252,7 +252,7 @@ margin: 15px 0px !important;
 					</transition-group>
 
 				</div>
-				<div v-if="activeStep<items.length-1" class="text-center" v-on:click="add">
+				<div v-if="activeStep<items.length-1" class="text-center arrow-u-style" v-on:click="add">
 					<img src="img/arrow-d.png">
 				</div>
 			</div>
