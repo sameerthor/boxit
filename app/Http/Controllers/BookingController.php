@@ -105,8 +105,8 @@ class BookingController extends Controller
 
     public function send_mail(Request $request)
     {
-        $account_sid = 'ACfda40b75ff2ff1c7b2d17ea420f478c2';
-        $auth_token = '6bb612e0583648d68683b6b6d94dbddc';
+        $account_sid = \config('const.twilio_token');;
+        $auth_token = \config('const.twilio_sid');
         // In production, these should be environment variables. E.g.:
         // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
 
@@ -129,10 +129,11 @@ class BookingController extends Controller
             $details['body'] = $res['body'];
             dispatch(new BookingEmailJob($details));
             if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
+                
                 try {
                     $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
                     $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
-                    $client->messages->create(
+                    $res=$client->messages->create(
                         // Where to send a text message (your cell phone?)
                         $contact->contact,
                         array(
@@ -142,6 +143,7 @@ class BookingController extends Controller
                     );
                 } catch (Exception $e) {
                     $e->getMessage();
+                    
                 }
             }
          
