@@ -133,7 +133,6 @@ class BookingController extends Controller
             if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
                 
                 try {
-                    echo 'tryin';
                     $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
                     $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
                     $res=$client->messages->create(
