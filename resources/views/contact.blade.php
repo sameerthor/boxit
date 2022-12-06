@@ -89,7 +89,7 @@
           </div>
           <div class="form-group">
             <label for="contact" class="col-form-label">Contact No:</label>
-            <input type="number" name="contact" class="form-control" id="contact">
+            <input type="tel" name="contact" class="form-control" id="contact">
           </div>
           <div class="form-group">
             <label for="sms_enabled" class="col-form-label">SMS Notification Enabled:</label>
