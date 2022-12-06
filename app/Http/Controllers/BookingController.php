@@ -142,7 +142,7 @@ class BookingController extends Controller
                         )
                     );
                 } catch (Exception $e) {
-                    $e->getMessage();
+                  echo  $e->getMessage();
                     
                 }
             }
@@ -361,6 +361,7 @@ class BookingController extends Controller
                 $q->where("name", "Foreman");
             })->get();
             foreach ($foremans as $res) {
+                \DB::statement("SET SQL_MODE=''");
                 $booking_data = BookingData::whereHas('booking', function($query) use ($res){
                     return $query->where('foreman_id', '=', $res->id);
                 })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
