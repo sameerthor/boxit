@@ -132,7 +132,11 @@
 				mail_data: mail_data,
 			},
 			success: function(data) {
-				$("#send_email").text("Sent");
+				
+			}
+		});
+		setTimeout(function(){
+			$("#send_email").text("Sent");
 				$('#loaderr').hide();
 				Toast.fire({
 					icon: 'success',
@@ -140,8 +144,8 @@
 				}).then(() => {
 					window.location.href = "/";
 				});
-			}
-		});
+		}, 3000);
+
 	})
 	
 	
