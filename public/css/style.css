@@ -667,10 +667,10 @@ img#dropdownMenuButton {
 
 .profile_letter{
 	border: 2px solid #c6cbd3;
-    font-size: 11px;
+    font-size: 16px;
     font-weight: 600;
-    padding: 9px;
-    border-radius: 7px;
+    padding: 7px 12px;
+    border-radius: 3px;
 }
 
 /* Search Icon */
@@ -679,10 +679,10 @@ img#dropdownMenuButton {
     position: absolute;
     transform: translate(-50%, -50%);
     top:50%;
-    left:5%;
+    left:3%;
 }
 .search-wrapper.active {
-  left: 20%;
+  left: 21%;
 }
 
 .search-wrapper .input-holder {    
@@ -696,8 +696,8 @@ img#dropdownMenuButton {
 }
 .search-wrapper.active .input-holder {
     width: 276px;
-    height: 60px;
-	border-radius: 50px;
+    height: 43px;
+	border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.5);
     transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
 }
@@ -724,7 +724,7 @@ img#dropdownMenuButton {
 }
 .search-wrapper.active .input-holder .search-input {
     opacity: 1;
-    transform: translate(0, 10px);
+    transform: translate(0, -4px);
 }
 .search-wrapper .input-holder .search-icon {
     width:70px;
@@ -745,6 +745,7 @@ img#dropdownMenuButton {
     height:50px;
     margin: 10px;
     border-radius: 30px;
+    margin-top: -5px;
 }
 .search-wrapper .input-holder .search-icon span {
     width:22px;
@@ -781,7 +782,7 @@ img#dropdownMenuButton {
 .search-wrapper .close {
     position: absolute;
     z-index: 1;
-    top:24px;
+    top:10px;
     right:20px;
     width:25px;
     height:25px;
@@ -799,20 +800,20 @@ img#dropdownMenuButton {
 .search-wrapper .close::before, .search-wrapper .close::after {
     position:absolute;
     content:'';
-    background: #172b4d;
+    background: red;
     border-radius: 2px;
 }
 .search-wrapper .close::before {
-    width: 5px;
-    height: 25px;
-    left: 10px;
-    top: 0px;
+  width: 3px;
+  height: 25px;
+  left: 10px;
+  top: 0px;
 }
 .search-wrapper .close::after {
-    width: 25px;
-    height: 5px;
-    left: 0px;
-    top: 10px;
+  width: 25px;
+  height: 3px;
+  left: -1px;
+  top: 11px;
 }
 
 input[type="text"].search-input::-webkit-input-placeholder {
@@ -1079,9 +1080,9 @@ i.fa.fa-angle-down {
 embed {
   width: 20%;
 }
-.admin-s a {
+/* .admin-s a {
   display: none;
-}
+} */
 .dropdown-menu.show {
   left: -50px !important;
 }
@@ -1117,9 +1118,66 @@ label
   font-size:14px;
 }
 
+
+
+/* 7-8-22 start */
+
+form {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.form-head {
+  padding-bottom: 20px;
+}
+
+.booking-form-w .form-head {
+  padding-bottom: 0px;
+}
+.name-email-w {
+  display: flex;
+  align-items: center;
+}
+.name-email-w img {
+  
+  cursor: pointer;
+}
+.dropdown-menu.show {
+  top: 15px !important;
+}
+
+/* 7-8-22 end */
 /* ----------------res css start-------------------- */
+@media screen and (min-width:1604px)
+{
+  .blue-bg
+  {
+    height:1139px;
+  }
+}
 
-
+@media screen and (min-width:1440px)
+{
+  .profile_letter
+  {
+    font-size:22px;
+    padding:10px 16px;
+  }
+  .name-email-w img {
+    width: 18px;
+    margin-left: 20px;
+    
+  }
+  .search-wrapper.active {
+    left: 16.5%;
+  }
+}
+@media screen and (min-width:768px)
+{
+  .bell-icon-w.pr-none.text-right {
+    margin-bottom: 20px;
+}
+}
 
 @media screen and (max-width:767px)
 {
@@ -1184,8 +1242,9 @@ label
   top: -67px;
 }
 .name-email-w {
-  width: 50% !important;
+  width: 100% !important;
   top: -40px;
+  justify-content: space-between;
 }
 .down-icon-w {
   width: 50% !important;
@@ -1291,6 +1350,24 @@ canvas {
   margin-left: 20px;
 }
 }
-
+@media screen and (max-width:450px)
+{
+  .table-bordered
+  {
+    border:none !important;
+    width:95% !important;
+    margin-left:8px !important;
+  }
+  .table-bordered tr
+  {
+    margin-bottom: 0px;
+    border-top:none;
+    border-bottom: none;
+  }
+  .table > :not(:first-child)
+  {
+    border: none;
+  }
+}
 
 /* ----------------res css and-------------------- */

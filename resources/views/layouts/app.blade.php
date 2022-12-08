@@ -117,14 +117,12 @@
 										<span class="profile_letter">{{mb_substr(strtoupper(Auth::user()->name), 0, 1)}}</span>
 									</div>
 								</div>
-								<div class="col-md-1 name-email-w p-none">
+								<div class="col-md-2 name-email-w p-none">
 									<div>
 										<p class="admin-s">{{ucfirst(Auth::user()->name)}}<br>
 											<span>{{Auth::user()->email}}</span>
 										</p>
 									</div>
-								</div>
-								<div class="col-md-1 down-icon-w">
 									<div>
 										<img src="/img/arrow.png" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
 										<div class="dropdown-menu">
@@ -134,7 +132,10 @@
 												{{ csrf_field() }}
 											</form>
 										</div>
-									</div>
+								</div>
+								<!-- <div class="col-md-1 down-icon-w">
+									
+									</div> -->
 								</div>
 							</div>
 						</div>
