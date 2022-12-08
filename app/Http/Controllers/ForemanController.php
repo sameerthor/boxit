@@ -68,6 +68,7 @@ class ForemanController extends Controller
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
             $foreman = User::where("id",Auth::id())->get();
             foreach ($foreman as $res) {
+                \DB::statement("SET SQL_MODE=''");
                 $booking_data = BookingData::whereHas('booking', function($query) use ($res){
                     return $query->where('foreman_id', '=', $res->id);
                 })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
