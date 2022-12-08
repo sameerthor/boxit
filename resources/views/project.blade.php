@@ -92,15 +92,16 @@
         id: id,
       },
       success: function(result) {
-        Toast.fire({
+        
+        
+      }
+    });
+    Toast.fire({
 					icon: 'success',
 					title: "Project Deleted Successfuly."
 				}).then(() => {
 					window.location.reload();
 				});
-        
-      }
-    });
       }
     });
     
