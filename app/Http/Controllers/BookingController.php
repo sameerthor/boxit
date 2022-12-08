@@ -78,11 +78,13 @@ class BookingController extends Controller
                 'date' => @$requested_date[$key],
                 'booking_id' => $booking_id
             );
+            echo $key."<br>";
             if ($key == '2') {
                 $book_array['status'] = 1;
             }
             BookingData::create($book_array);
         }
+    
         if (!empty($request->get('draft_id'))) {
             $draft_id = $request->get('draft_id');
             Draft::find($draft_id)->delete();
@@ -418,8 +420,8 @@ class BookingController extends Controller
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
-										<p>Foreman-' . ucfirst($booking->foreman->name) . '</p>
-										<span>Confirmed</span>
+										<p>Foreman</p>
+										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
             $title = $res->department->title;
@@ -476,7 +478,7 @@ class BookingController extends Controller
 
         $html .= '</div></div>';
 
-        return array('address' => $booking->address, 'notes' => $booking->notes, 'html' => $html);
+        return array('address' => $booking->address,'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)

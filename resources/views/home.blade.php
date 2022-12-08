@@ -169,13 +169,41 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="address-txt">
+					<div class="row">
+					 <div class="col-md-6">
+					 <div class="info-txt">
 						<span>Address</span>
-						<p id="booking_address">54 Park Lane</p>
+						<p id="booking_address">NA</p>
 					</div>
-					<div class="info-txt">
+					 </div>
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Building Company</span>
+						<p id="building_company">NA</p>
+					</div>
+					 </div>	
+					</div>
+					<div class="row">
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Floor Type</span>
+						<p id="floor_type">NA</p>
+					</div>
+					 </div>
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Floor Area</span>
+						<p id="floor_area">NA</p>
+					</div>
+					 </div>	
+					</div>
+					<div class="row">
+					 <div class="col-md-12">
+					 <div class="info-txt">
 						<span>Information</span>
-						<p id="booking_notes">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
+						<p id="booking_notes">NA</p>
+					</div>
+					 </div>	
 					</div>
 					<div class="status-txt">
 						<span>Status</span>
@@ -499,6 +527,9 @@
 			})
 			.then((response) => {
 				$("#booking_address").html(response.data.address);
+				$("#floor_type").html(response.data.floor_type);
+				$("#floor_area").html(response.data.floor_area);
+				$("#building_company").html(response.data.building_company);
 				$("#booking_notes").html(response.data.notes);
 				$(".card-new").html(response.data.html);
 				$("#exampleModal").modal("show");

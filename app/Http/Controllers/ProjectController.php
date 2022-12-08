@@ -69,6 +69,7 @@ class ProjectController extends Controller
         $details['subject'] = 'Booking Cancelled';
         $details['body'] = $html;
         dispatch(new BookingEmailJob($details));
+        BookingData::find($booking_data->id)->delete();
         }
         Booking::find($project_id)->delete();
 

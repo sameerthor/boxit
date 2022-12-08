@@ -188,8 +188,8 @@ class ForemanController extends Controller
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
-										<p>Foreman-' . ucfirst($booking->foreman->name) . '</p>
-										<span>Confirmed</span>
+										<p>Foreman</p>
+										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
          foreach($booking_data->slice(1,4) as $res)
          {
@@ -249,7 +249,7 @@ class ForemanController extends Controller
 									
 							$html.='</div></div>';
 							
-        return array('address' => $booking->address, 'notes' => $booking->notes, 'html' => $html);
+        return array('address' => $booking->address, 'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA','notes' => $booking->notes, 'html' => $html);
     }
 
     public function check_list()
