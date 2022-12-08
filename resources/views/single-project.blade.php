@@ -147,7 +147,7 @@
             <div class="row">
               <input type="text" placeholder="date/time" class="example form-control col-md-5" name="date">
               <div class="col-md-1"></div>
-              <div class="col-md-6"><input type="checkbox" name="confirm" value="1"> <label>Check to confirm directly</label></div>
+              <div class="col-md-6"><input type="checkbox" name="confirm" value="1"> <label style="font-size: 10px;font-weight: bold;">Do not send a change request email</label></div>
             </div>
           </div>
         </div>
