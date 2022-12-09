@@ -261,12 +261,18 @@ class ForemanController extends Controller
 
     public function renderproject(Request $request )
     {   
+
         $project=Booking::find($request->get('id'));
+        $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
         $markout_checklist=$project->MarkoutChecklist;
         $safety=$project->SafetyPlan;
 //dd($safety);
         $qaChecklist=QaChecklist::all();
-        $ProjectStatusLabel=ProjectStatusLabel::all();
+        $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
+                  $query->where('department_id', '=', '')
+                  ->orWhereIn('department_id',$department_ids);
+                })
+                  ->get();
         return view('foreman-single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
 

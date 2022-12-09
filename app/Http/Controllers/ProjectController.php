@@ -41,7 +41,12 @@ class ProjectController extends Controller
     public function renderproject(Request $request)
     {
         $project = Booking::find($request->get('id'));
-        $ProjectStatusLabel = ProjectStatusLabel::all();
+        $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
+        $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
+            $query->where('department_id', '=', '')
+            ->orWhereIn('department_id',$department_ids);
+          })
+            ->get();
         return view('single-project', compact('project', 'ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)

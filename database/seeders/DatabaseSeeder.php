@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             FormanTemplateSeeder::class,
             MailTemplateSeeder::class,
             QaChecklistSeeder::class,
-            StatusLabelSeeder::class
+            StatusLabelSeeder::class,
+            NaSeeder::class
         ]);
     }
 }
