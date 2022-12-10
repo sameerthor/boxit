@@ -42,7 +42,7 @@ class MailController extends Controller
     public function update(Request $request, $id)
     {
         $mailTemplate = MailTemplate::find($id);
-        $mailTemplate->subject = $request->get('subject');
+        $mailTemplate->subject = 'Box It Foundations Booking Request';
         $mailTemplate->body = $request->get('body');
         if(!empty($request->get('product')))
         {
@@ -72,7 +72,7 @@ class MailController extends Controller
     public function foreman_update(Request $request, $id)
     {
         $mailTemplate = ForemanTemplates::find($id);
-        $mailTemplate->subject = $request->get('subject');
+        $mailTemplate->subject = 'Box It Foundations Booking Request';
         $mailTemplate->body = $request->get('body');
         $mailTemplate->save();
         return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');

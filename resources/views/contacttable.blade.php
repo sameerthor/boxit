@@ -2,7 +2,7 @@
           <table class="table table-w-80">
             <thead class="border-n">
               <tr>
-                <th>Company</th>
+                <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
               </tr>

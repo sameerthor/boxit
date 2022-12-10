@@ -63,6 +63,7 @@ class ContactController extends Controller
         $contact = Contact::find($request->get('id'));
         $contact->email = $request->get('email');
         $contact->title = $request->get('title');
+        $contact->company = $request->get('company');
         $contact->contact = $request->get('contact');
         $contact->sms_enabled = $request->get('sms_enabled');
         $contact->save();

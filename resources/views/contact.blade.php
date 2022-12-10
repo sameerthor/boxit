@@ -37,7 +37,7 @@
           <table class="table table-w-80">
             <thead class="border-n">
               <tr>
-                <th>Company</th>
+                <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
               </tr>
@@ -80,8 +80,12 @@
         <form>
           <div style="display:none" id="modal_contact_id"></div>
           <div class="form-group">
-            <label for="title" class="col-form-label">Company:</label>
-            <input type="text" name="company" class="form-control" id="title">
+            <label for="company" class="col-form-label">Company:</label>
+            <input type="text" name="company" class="form-control" id="company">
+          </div>
+          <div class="form-group">
+            <label for="title" class="col-form-label">Name:</label>
+            <input type="text" name="title" class="form-control" id="title">
           </div>
           <div class="form-group">
             <label for="email" class="col-form-label">Email:</label>
@@ -143,6 +147,7 @@
         $("#modal_contact_id").text(data.id);
         $("#title").val(data.title);
         $("#contact").val(data.contact);
+        $("#company").val(data.company);
         $("#email").val(data.email);
         if(data.sms_enabled=='1')
         $('#sms_enabled').prop('checked', true); 
@@ -162,6 +167,7 @@
     $("#modal_title").html("Add");
     $("#title").val("");
     $("#contact").val("");
+    $("#company").val("");
     $("#email").val("");
     $('#sms_enabled').prop('checked', false); 
     $("#contact_form").modal('show');
@@ -213,6 +219,7 @@
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
+      var company = $("#company").val();
       var department = $("#department").val();
 
       jQuery.ajax({
@@ -221,6 +228,7 @@
         data: {
           title: title,
           email: email,
+          company:company,
           contact: contact,
           department_id: department
         },
@@ -228,6 +236,7 @@
           $("#contact_form").modal('hide');
           $("#title").val("");
           $("#contact").val("");
+          $("#company").val("");
           $("#email").val("");
           Swal.fire({
             icon: 'success',
@@ -243,6 +252,7 @@
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
+      var company = $("#company").val();
       var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
@@ -254,6 +264,7 @@
           id:id,
           title: title,
           email: email,
+          company:company,
           contact: contact,
           sms_enabled:sms_enabled,
           department_id: department
@@ -262,6 +273,7 @@
           $("#contact_form").modal('hide');
           $("#title").val("");
           $("#contact").val("");
+          $("#company").val("");
           $("#email").val("");
           $("#modal_contact_id").text("");
           Swal.fire({

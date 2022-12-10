@@ -41,7 +41,6 @@
               <tr>
                 <th>#</th>
                 <th>Department</th>
-                <th>Subject</th>
                 <th>Status</th>
                 <th></th>
                 <th></th>
@@ -52,7 +51,6 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{$item->department->title}}</td>
-                <td>{{$item->subject}}</td>
                 <td>
                   <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input customSwitch" data-id="{{$item->id}}" id="customSwitch{{ $loop->iteration }}" @if($item->status==1) checked @endif>
@@ -80,7 +78,6 @@
               <tr>
                 <th>#</th>
                 <th>Department</th>
-                <th>Subject</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -90,7 +87,6 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{$item->ProjectStatusLabel->label}}({{$item->status==1?'Yes':'No'}})</td>
-                <td>{{$item->subject}}</td>
                 <td>
                   <a href="{{url('foreman-template/' . $item->id)}}" class="btn btn-sm btn-outline-info btn-edit"><i class="fa fa-edit"></i> Edit</a>
                 </td>

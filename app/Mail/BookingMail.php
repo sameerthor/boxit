@@ -28,6 +28,6 @@ class BookingMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('BOOKING REQUEST')->markdown('emails.bookingMail',$this->details);
+        return $this->subject('Box It Foundations Booking Request')->markdown('emails.bookingMail',$this->details);
     }
 }

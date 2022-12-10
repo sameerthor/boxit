@@ -18,13 +18,6 @@
             <form method="post" action="{{url('mail-template/update/'.$template->id)}}">
 
               @csrf
-
-              <div class="form-group">
-                <label>Subject</label>
-                <input type="text" value="{{$template->subject}}" class="form-control @error('subject') is-invalid @endif" name="subject" />
-                @error('subject') <span class="invalid-feedback">{{ $message }}</span> @enderror
-              </div>
-
               <div class="form-group" wire:ignore>
                 <label>Email Content</label>
 
