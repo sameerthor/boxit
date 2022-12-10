@@ -16,6 +16,7 @@ use App\Models\Contact;
 use App\Models\Notification;
 use Exception;
 use Session;
+use Auth;
 use DB;
 use Twilio\Rest\Client;
 
@@ -92,7 +93,7 @@ class BookingController extends Controller
         }
         $notification = new Notification();
         $notification->foreman_id = $request->get('foreman');
-        $notification->notification = 'A new booking named <b>'.$request->get('address').'</b> is created.';
+        $notification->notification = ucfirst(Auth::user()->name). 'created a new booking for: <b>'.$request->get('address').'</b>';
         $notification->booking_id =$booking_id;
         $notification->save();
         return redirect()->to('booking/' . $booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
@@ -126,12 +127,6 @@ class BookingController extends Controller
             $booking_data = BookingData::find($res['booking_id']);
             $booking_id=$booking_data->booking_id;
             $contact = Contact::find($booking_data->contact_id);
-            $details['to'] = $contact->email;
-            $details['name'] = $contact->title;
-            $details['url'] = 'testing';
-            $details['subject'] = $res['subject'];
-            $details['body'] = $res['body'];
-            dispatch(new BookingEmailJob($details));
             if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
                 
                 try {
@@ -149,6 +144,14 @@ class BookingController extends Controller
                     $e->getMessage();
                     
                 }
+            }else
+            {
+                $details['to'] = $contact->email;
+                $details['name'] = $contact->title;
+                $details['url'] = 'testing';
+                $details['subject'] = $res['subject'];
+                $details['body'] = $res['body'];
+                dispatch(new BookingEmailJob($details));
             }
          
         }

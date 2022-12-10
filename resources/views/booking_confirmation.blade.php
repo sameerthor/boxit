@@ -44,7 +44,7 @@
                 </div>
 
                 <div style="text-align: center;">
-                   @if($status==1) <img src="/img/64x64.png" style="width:200px">
+                   @if($status==1) <img src="/img/checkmark.png" style="width:200px">
                    
                    <br/>  <br/>
                 Thank you for confirming your booking.

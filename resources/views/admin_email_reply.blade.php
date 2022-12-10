@@ -32,8 +32,6 @@
               <p>Address : <strong><u>{{$booking_data->booking->address}}</u></strong></p>
               <p>Department : <strong><u>{{$booking_data->department->title}}</u></strong></p>
               <p>Contact : <strong><u>{{$booking_data->contact->title}}</u></strong></p>
-              <p>Floor Type : <strong><u>{{$booking_data->booking->floor_type}}</u></strong></p>
-              <p>Floor Area : <strong><u>{{$booking_data->booking->floor_area}}</u></strong></p>
               <p>Date : <strong><u>{{date("d-m-Y h:i",strtotime($booking_data->date))}}</u></strong></p>
               <br>
               <h5>Do you want confirm  alternate datetime for this booking ?</h5>
