@@ -116,7 +116,7 @@ class BookingController extends Controller
         // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
 
         // A Twilio number you own with SMS capabilities
-        $twilio_number = "+16209129397";
+        $twilio_number = "+64277021055";
 
         $client = new Client($account_sid, $auth_token);
 

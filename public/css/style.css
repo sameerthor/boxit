@@ -1370,4 +1370,10 @@ canvas {
   }
 }
 
+@media screen and (max-width: 767px)
+{.onsite_label {
+    display: none !important;
+    
+}
+}
 /* ----------------res css and-------------------- */
