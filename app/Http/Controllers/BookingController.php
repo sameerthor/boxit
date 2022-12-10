@@ -93,7 +93,7 @@ class BookingController extends Controller
         }
         $notification = new Notification();
         $notification->foreman_id = $request->get('foreman');
-        $notification->notification = ucfirst(Auth::user()->name). 'created a new booking for: <b>'.$request->get('address').'</b>';
+        $notification->notification = '<b>'. ucfirst(Auth::user()->name). '</b> created a new booking for: <b>'.$request->get('address').'</b>';
         $notification->booking_id =$booking_id;
         $notification->save();
         return redirect()->to('booking/' . $booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
