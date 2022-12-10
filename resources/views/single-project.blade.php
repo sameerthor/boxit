@@ -89,7 +89,7 @@
             @elseif($res->status=='1')
             <div class="green_box">Confirmed</div>
             @else
-            <div class="red_box">Cancelled</div>
+            <div class="red_box">Pending</div>
             @endif
           </td>
           <td><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>

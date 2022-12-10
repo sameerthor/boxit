@@ -439,7 +439,7 @@ class BookingController extends Controller
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status = "Cancelled";
+                    $status = "Pending";
                     break;
                 default:
                     $class = "";
@@ -466,7 +466,7 @@ class BookingController extends Controller
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status = "Cancelled";
+                    $status = "Pending";
 
                     break;
                 default:
