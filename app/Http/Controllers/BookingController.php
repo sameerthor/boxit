@@ -317,7 +317,10 @@ class BookingController extends Controller
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
                     $booking_datas = BookingData::whereDate('date', '=', $booking_date)
                         ->get();
-                    foreach ($booking_datas as $booking_data) {
+                    foreach ($booking_datas as $booking_data)
+                     { 
+                        if(!empty($booking_data->booking))
+                        {
                         $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
                         $dep=$booking_data->department->title;
                         switch ($booking_data->status) {
@@ -335,6 +338,7 @@ class BookingController extends Controller
                         }
                         $b_id = $booking_data->booking_id;
                         $inner_html .= "<span class='$class show_booking' data-id='" . $b_id . "'>$dep:$address</span>";
+                        }
                     }
 
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
