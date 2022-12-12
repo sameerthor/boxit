@@ -3,8 +3,14 @@ body{
 }
 .blue-bg{
     background: #172B4D;
+    
 }
-
+#sidebar
+{
+  height: 100vh !important;
+    margin: 0 auto;
+    padding: 0px !important;
+}
 .logo-sec{
 	margin: 40px 0px 80px 0px;
 	text-align: center;
@@ -469,7 +475,7 @@ div#content .row {
 
 }
 .form-head span{
-	font-size: 20px;
+	font-size: 1.5rem;
 	font-weight: 600;
 	color: #172b4d;
 }
@@ -1028,7 +1034,8 @@ color: #172b4d;
 }
 
 .container {
-  max-width: 2560px !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 i.fa.fa-angle-down {
@@ -1146,14 +1153,50 @@ form {
   top: 15px !important;
 }
 
+.delete-draft i {
+  position: inherit !important;
+}
+.btn-outline-success, .btn-outline-danger {
+  border: none !important;
+}
+.btn-outline-success i, .btn-outline-danger i{
+  font-size: 20px;
+}
+.btn-outline-success i
+{
+  position: relative;
+  top: 2px;
+}
+.t-center
+{
+  text-align: center;
+}
+
+.modal-footer button {
+  background: #172b4d;
+  border-color: #172b4d;
+}
+
+.check-b-size {
+  height: 18px;
+  width: 16px;
+  position: relative;
+  top: 5px;
+}
+#back {
+  background: #172b4d;
+}
+
+.flex-d {
+  display: flex;
+  align-items: center;
+}
 /* 7-8-22 end */
 /* ----------------res css start-------------------- */
-@media screen and (min-width:1604px)
-{
-  .blue-bg
-  {
-    height:1139px;
-  }
+.l-font-s label {
+  font-weight: 700;
+  margin-bottom: 0px;
+  margin-left:0px;
 }
 
 @media screen and (min-width:1440px)

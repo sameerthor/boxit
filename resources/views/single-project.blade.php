@@ -31,32 +31,32 @@
     <br />
 
     <div class="row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Address</label>
         <p>{{$project->address}}</p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Building Company</label>
         <p>{{$project->BookingData[0]->contact->title}}</p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Floor Type</label>
         <p>{{$project->floor_type}}</p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Floor Area</label>
         <p>{{$project->floor_area}}</p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Foreman</label>
         <p>{{ucfirst($project->foreman->name)}}</p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 l-font-s">
         <label>Notes</label>
         <p>{{$project->notes}}</p>
       </div>
       @if(!empty($project->file))
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-12 l-font-s">
         <label>File</label>
         <br />
         @foreach($project->file as $f)
@@ -144,10 +144,10 @@
 
           <div id="deny_text">
             <p>Please suggest an alternate option below:</p>
-            <div class="row">
+            <div class="row flex-d">
               <input type="text" placeholder="date/time" class="example form-control col-md-5" name="date">
               <div class="col-md-1"></div>
-              <div class="col-md-6"><input type="checkbox" name="confirm" value="1"> <label style="font-size: 10px;font-weight: bold;">Do not send a change request email</label></div>
+              <div class="col-md-6"><input class="check-b-size" type="checkbox" name="confirm" value="1"> <label style="font-size: 10px;font-weight: bold;">Do not send a change request email</label></div>
             </div>
           </div>
         </div>

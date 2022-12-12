@@ -20,7 +20,7 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
-                    <th>Action</th>
+                    <th class="t-center">Action</th>
                    
                 </tr>
             </thead>
@@ -29,9 +29,9 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$res->address}}</td>
-                    <td>
-                        <a href="/draft/{{$res->id}}"  class="btn btn-sm btn-outline-success"><i class="fa fa-camera"></i></a>
-                        <a href="javascript:void(0)" data-url="/delete-draft/{{$res->id}}"  class="btn btn-sm btn-outline-danger delete-draft"><i class="fa fa-trash"></i></a>
+                    <td class="t-center">
+                        <a href="/draft/{{$res->id}}"  class="btn btn-sm btn-outline-success"><i class='fa fa-edit'></i></a>
+                        <a href="javascript:void(0)" data-url="/delete-draft/{{$res->id}}"  class="btn btn-sm btn-outline-danger delete-draft"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </td>
                 </tr>
                 @endforeach
