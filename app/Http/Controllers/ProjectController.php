@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\BookingData;
 use App\Models\ProjectStatusLabel;
+use App\Models\QaChecklist;
 use App\Models\MailTemplate;
 use App\Models\Contact;
 use App\Jobs\BookingEmailJob;
@@ -42,12 +43,16 @@ class ProjectController extends Controller
     {
         $project = Booking::find($request->get('id'));
         $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
+        $markout_checklist=$project->MarkoutChecklist;
+        $safety=$project->SafetyPlan;
+//dd($safety);
+        $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
-            $query->where('department_id', '=', '')
-            ->orWhereIn('department_id',$department_ids);
-          })
-            ->get();
-        return view('single-project', compact('project', 'ProjectStatusLabel'))->render();
+                  $query->where('department_id', '=', '')
+                  ->orWhereIn('department_id',$department_ids);
+                })
+                  ->get();
+        return view('single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)
     {
