@@ -50,7 +50,7 @@ class StatusLabelSeeder extends Seeder
                 'department_id'=>'6',
             ],
             [
-                'label'=>'BLC passed',
+                'label'=>'BLC',
                 'department_id'=>'5',
             ],	
             [

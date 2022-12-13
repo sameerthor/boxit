@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="col-md-2">
-      <button type="button" class="btn btn-info draft btn-color" style="float:right">Save as draft</button>
+        <button type="button" class="btn btn-info draft btn-color" style="float:right">Save as draft</button>
       </div>
     </div>
     <!-- <div class="row">
@@ -33,7 +33,7 @@
               <input name="address" required type="text" placeholder="Address*" required />
             </div>
             <div class="form-group col-md-6 bg-shadow">
-            <i id="pos-r" class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
+              <i id="pos-r" class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="">Building Company*</option>
                 @foreach($departments[0]->contacts as $res)
                 <option value="{{$res->id}}">{{$res->title}}</option>
@@ -52,7 +52,7 @@
           <div class="row">
             <div class="col-xs-12 col-md-6 form-group bg-shadow">
               <div class="input-group input-group-xs">
-              <i class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="foreman" required>
+                <i class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="foreman" required>
                   <option value="">Foreman*</option>
                   @foreach($foreman as $res)
                   <option value="{{$res->id}}">{{ucfirst($res->name)}}</option>
@@ -66,7 +66,7 @@
               <div class="row department_group">
                 <div class="col-md-7 form-group p-none bg-shadow">
                   <div class="input-group input-group-xs">
-                  <i class="fa fa-angle-down"></i> <select class="form-control contacts koma" style="width: 100%;" name="department[{{$department->id}}]" required> 
+                    <i class="fa fa-angle-down"></i> <select class="form-control contacts koma" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
                       @foreach($department->contacts as $res)
                       <option value="{{$res->id}}">{{$res->title}}</option>
@@ -75,7 +75,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
-                <i class="fa fa-angle-down"></i>  <input name="date[{{$department->id}}]" class="example dates" type="text" placeholder="Choose Date & Time" required />
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}]" class="example dates" type="text" placeholder="Choose Date & Time" required />
                 </div>
 
               </div>
@@ -110,28 +110,30 @@
 </div>
 <script>
   $("#booking").on("submit", function() {
-    if($("#booking").valid())
-    {
-    $(".contacts").each(function() {
-      var text = $(this).find('option:selected').text();
-      if (text == 'NA') {
-        $(this).parents('.department_group').remove();
-      }
-    });
-    return true;
-  }else
-  {
-    return false;
-  }
+    if ($("#booking").valid()) {
+      $(".contacts").each(function() {
+        var text = $(this).find('option:selected').text();
+        if (text == 'NA') {
+          $(this).parents('.department_group').remove();
+        }
+      });
+      return true;
+    } else {
+      return false;
+    }
   })
 
   $("#booking").validate();
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
+    
     $('.example').datetimepicker({
       format: 'DD-MM-YYYY HH:mm',
-
+      step: 15
     });
+
+    $(".example").attr("autocomplete", "off");
+
 
     $(".draft").click(function() {
       if ($('input[name="address"]').val() == '') {

@@ -97,8 +97,11 @@
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
     $('.example').datetimepicker({
-      format:'DD-MM-YYYY HH:mm'
+      format: 'DD-MM-YYYY HH:mm',
+      step: 15
     });
+
+    $(".example").attr("autocomplete", "off");
   });
 </script>
 

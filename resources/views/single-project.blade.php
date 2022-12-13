@@ -133,7 +133,7 @@
         $project_status= $label->ProjectStatus($project->id)->get();
         if(count($project_status)>0)
         {
-        $stat=$project_status[0]->status==1?'<div class="green_box">Yes</div>':'<div class="red_box">No</div>';
+        $stat=$project_status[0]->status==1?'<div class="green_box">{{$label->id=="10"?"Passed":"Yes"}}</div>':'<div class="red_box">{{$label->id=="10"?"Failed":"No"}}</div>';
         }else
         {
         $stat='<div class="orange_box">Pending</div>';
@@ -882,9 +882,13 @@
 <script>
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
+
     $('.example').datetimepicker({
-      format: 'DD-MM-YYYY HH:mm'
+      format: 'DD-MM-YYYY HH:mm',
+      step: 15
     });
+
+    $(".example").attr("autocomplete", "off");
   });
 
   $(".change_date").click(function() {
