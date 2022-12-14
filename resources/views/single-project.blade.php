@@ -762,71 +762,26 @@
                   <th>Signature
                   </th>
                 </tr>
-                <tr>
-                  <td scope="row">
-                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date1'] : '' }}" name="safety_plan[induction_date][date1]">
-                  </td>
-                  <td>
-                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name1'] : '' }}" name="safety_plan[induction_name][name1]">
-                  </td>
-                  <td>
-                    @if(!empty($safety->sign['sign1']))
-                    <img src="{{$safety->sign['sign1']}}" id="induction_sign1" width="200">
-                    @endif
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date2'] : '' }}" name="safety_plan[induction_date][date2]">
-                  </td>
-                  <td>
-                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name2'] : '' }}" name="safety_plan[induction_name][name2]">
-                  </td>
-                  <td>
-                    @if(!empty($safety->sign['sign2']))
-                    <img src="{{$safety->sign['sign2']}}" id="induction_sign2" width="200">
-                    @endif
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date3'] : '' }}" name="safety_plan[induction_date][date3]">
-                  </td>
-                  <td>
-                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name3'] : '' }}" name="safety_plan[induction_name][name3]">
-                  </td>
-                  <td>
-                    @if(!empty($safety->sign['sign3']))
-                    <img src="{{$safety->sign['sign3']}}" id="induction_sign3" width="200">
-                    @endif
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date4'] : '' }}" name="safety_plan[induction_date][date4]">
-                  </td>
-                  <td>
-                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name4'] : '' }}" name="safety_plan[induction_name][name4]">
-                  </td>
-                  <td>
-                    @if(!empty($safety->sign['sign4']))
-                    <img src="{{$safety->sign['sign4']}}" id="induction_sign4" width="200">
-                    @endif
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date5'] : '' }}" name="safety_plan[induction_date][date5]">
-                  </td>
-                  <td>
-                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name5'] : '' }}" name="safety_plan[induction_name][name5]">
-                  </td>
-                  <td>
-                    @if(!empty($safety->sign['sign5']))
-                    <img src="{{$safety->sign['sign5']}}" id="induction_sign5" width="200">
-                    @endif
-                  </td>
-                </tr>
+                @if(!empty($safety))
+                                @for($key=1;$key<=count($safety->induction_date);$key++)
+                                <tr>
+                                    <td scope="row">
+                                        <input type="date"  readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
+                                    </td>
+                                    <td>
+                                        <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
+                                    </td>
+                                    <td>
+                                        @if(!empty($safety->sign['sign'.$key]))
+                                        <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
+                                        @else
+                                        <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
+                                        <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endfor
+                                @endif
               </tbody>
             </table>
             <div class="row">

@@ -763,7 +763,7 @@
                                     <th colspan="6" style="text-align:center;background-color:#c9ced6;">SIGN IN / INDUCTION</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="induction_body">
                                 <tr>
                                     <th scope="row">Date
                                     </th>
@@ -772,91 +772,35 @@
                                     <th>Signature
                                     </th>
                                 </tr>
+                                @if(!empty($safety))
+                                @for($key=1;$key<=count($safety->induction_date);$key++)
                                 <tr>
                                     <td scope="row">
-                                        <input type="date" value="{{ $safety!=null ? $safety->induction_date['date1'] : '' }}" name="safety_plan[induction_date][date1]">
+                                        <input type="date"  readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
                                     </td>
                                     <td>
-                                        <input type="text" value="{{ $safety!=null ? $safety->induction_name['name1'] : '' }}" name="safety_plan[induction_name][name1]">
+                                        <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
                                     </td>
                                     <td>
-                                        @if(!empty($safety->sign['sign1']))
-                                        <img src="{{$safety->sign['sign1']}}" id="induction_sign1" width="200">
+                                        @if(!empty($safety->sign['sign'.$key]))
+                                        <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
                                         @else
-                                        <canvas id="induction_canvas1" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad1" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                        <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
+                                        <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td scope="row">
-                                        <input type="date" value="{{ $safety!=null ? $safety->induction_date['date2'] : '' }}" name="safety_plan[induction_date][date2]">
-                                    </td>
-                                    <td>
-                                        <input type="text" value="{{ $safety!=null ? $safety->induction_name['name2'] : '' }}" name="safety_plan[induction_name][name2]">
-                                    </td>
-                                    <td>
-                                        @if(!empty($safety->sign['sign2']))
-                                        <img src="{{$safety->sign['sign2']}}" id="induction_sign2" width="200">
-                                        @else
-                                        <canvas id="induction_canvas2" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad2" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">
-                                        <input type="date" value="{{ $safety!=null ? $safety->induction_date['date3'] : '' }}" name="safety_plan[induction_date][date3]">
-                                    </td>
-                                    <td>
-                                        <input type="text" value="{{ $safety!=null ? $safety->induction_name['name3'] : '' }}" name="safety_plan[induction_name][name3]">
-                                    </td>
-                                    <td>
-                                        @if(!empty($safety->sign['sign3']))
-                                        <img src="{{$safety->sign['sign3']}}" id="induction_sign3" width="200">
-                                        @else
-                                        <canvas id="induction_canvas3" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad3" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">
-                                        <input type="date" value="{{ $safety!=null ? $safety->induction_date['date4'] : '' }}" name="safety_plan[induction_date][date4]">
-                                    </td>
-                                    <td>
-                                        <input type="text" value="{{ $safety!=null ? $safety->induction_name['name4'] : '' }}" name="safety_plan[induction_name][name4]">
-                                    </td>
-                                    <td>
-                                        @if(!empty($safety->sign['sign4']))
-                                        <img src="{{$safety->sign['sign4']}}" id="induction_sign4" width="200">
-                                        @else
-                                        <canvas id="induction_canvas4" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad4" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">
-                                        <input type="date" value="{{ $safety!=null ? $safety->induction_date['date5'] : '' }}" name="safety_plan[induction_date][date5]">
-                                    </td>
-                                    <td>
-                                        <input type="text" value="{{ $safety!=null ? $safety->induction_name['name5'] : '' }}" name="safety_plan[induction_name][name5]">
-                                    </td>
-                                    <td>
-                                        @if(!empty($safety->sign['sign5']))
-                                        <img src="{{$safety->sign['sign5']}}" id="induction_sign5" width="200">
-                                        @else
-                                        <canvas id="induction_canvas5" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad5" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </td>
-                                </tr>
+                                @endfor
+                                @endif
                             </tbody>
                         </table>
                         <div class="row">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2"><button type="button" onclick="addsignaturepad();" class="btn" style="color:#fff;background-color:#172b4d">Add Signaturepad</button></div>
+                        </div>   
+                        <div class="row">
                             <div class="col-md-8"></div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="display: none;">
                                 @if(!empty($safety->foreman_sign))
                                 <img src="{{$safety->foreman_sign}}" id="safetyplan_sign" width="200">
                                 @else
@@ -884,6 +828,16 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+     
+    var i="<?php if(!empty($safety->induction_date)){echo count($safety->induction_date)+1;}else {echo 1; } ?>";
+    function addsignaturepad()
+    {
+        var html='<tr><td scope="row"><input type="date" required value="" name="safety_plan[induction_date][date'+i+']"></td><td><input type="text" required value="" name="safety_plan[induction_name][name'+i+']"></td><td><canvas id="induction_canvas'+i+'" style="border: 1px solid black;"></canvas><button type="button" data-id="indunction_signaturePad'+i+'" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button></td></tr>';
+        $("#induction_body").append(html);
+        window["indunction_signaturePad" + i]=new SignaturePad($("#induction_canvas"+i+"")[0]);
+        console.log(indunction_signaturePad1);
+        i++;
+    }
     $(document).on("click", "#back", function() {
         var id = $(this).data('id');
 
@@ -933,21 +887,7 @@
         })
     })
 
-    if ($('#induction_canvas1').length) {
-        var indunction_signaturePad1 = new SignaturePad($("#induction_canvas1")[0]);
-    }
-    if ($('#induction_canvas2').length) {
-        var indunction_signaturePad2 = new SignaturePad($("#induction_canvas2")[0]);
-    }
-    if ($('#induction_canvas3').length) {
-        var indunction_signaturePad3 = new SignaturePad($("#induction_canvas3")[0]);
-    }
-    if ($('#induction_canvas4').length) {
-        var indunction_signaturePad4 = new SignaturePad($("#induction_canvas4")[0]);
-    }
-    if ($('#induction_canvas5').length) {
-        var indunction_signaturePad5 = new SignaturePad($("#induction_canvas5")[0]);
-    }
+   
     if ($('#markout_canvas').length) {
         var markout_signature = new SignaturePad($("#markout_canvas")[0]);
     }
@@ -961,7 +901,7 @@
         var safetyplan_signature = new SignaturePad($("#safetyplan_canvas")[0]);
     }
 
-    $(".clear").on("click", function() {
+    $(document).on('click', '.clear', function() {
         var id = $(this).data('id');
         var pad = eval(id);
         pad.clear();

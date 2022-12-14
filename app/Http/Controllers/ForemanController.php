@@ -269,7 +269,6 @@ class ForemanController extends Controller
         $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
         $markout_checklist=$project->MarkoutChecklist;
         $safety=$project->SafetyPlan;
-//dd($safety);
         $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
                   $query->where('department_id', '=', '')
