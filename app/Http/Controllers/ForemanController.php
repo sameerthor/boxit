@@ -197,6 +197,7 @@ class ForemanController extends Controller
          foreach($booking_data->slice(1,4) as $res)
          {
             $title=$res->department->title;
+            $booking_date=$res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -218,7 +219,7 @@ class ForemanController extends Controller
         
         $html .='<div class="steel  pop-flex '.$class.'">
 										<p>'.$title.'</p>
-										<span>'.$status.'</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).' - '.$status.'</span>
 									</div>
 									';
          }
@@ -226,6 +227,7 @@ class ForemanController extends Controller
          foreach($booking_data->slice(5) as $res)
          {
             $title=$res->department->title;
+            $booking_date=$res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -247,7 +249,7 @@ class ForemanController extends Controller
             }
 						$html.='			<div class="pods '.$class.' pop-flex">
 										<p>'.$title.'</p>
-										<span>'.$status.'</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).' - '.$status.'</span>
 									</div>';}
 									
 							$html.='</div></div>';
@@ -314,8 +316,12 @@ class ForemanController extends Controller
     public function changeStatus(Request $request)
     {
         $matchThese = ['project_id'=>$request->get('project_id'),'status_label_id'=>$request->get('status_label_id')];
-        
-        ProjectStatus::updateOrCreate($matchThese,['status'=>$request->get('status')]);
+        $data=['status'=>$request->get('status')];
+        if($request->get('status')=='0' && $request->get('status_label_id')=='10')
+        {
+            $data['reason']=$request->get('reason');
+        }
+        ProjectStatus::updateOrCreate($matchThese,$data);
         $email_template=ForemanTemplates::where(array('status'=>$request->get('status'),'project_status_label_id'=>$request->get('status_label_id')))->get();
       if(count($email_template)>0)
       {

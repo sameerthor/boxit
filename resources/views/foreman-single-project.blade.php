@@ -84,6 +84,30 @@
         }
     }
 </style>
+<div class="modal fade"  role="dialog" id="reason_form">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Council Inspection</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div style="display:none" id="modal_contact_id"></div>
+          <div class="form-group">
+          <label for="reason" class="col-form-label">Reason:</label>
+            <textarea placeholder="Enter which inspection failed"  class="form-control" id="reason"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-project="{{$project->id}}" id="submit_reason" class="btn btn-secondary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="card-new">
     <div class="card-body">
         <div class="row">
@@ -822,6 +846,7 @@
 
 </div>
 </div>
+
 <script>
     $.ajaxSetup({
         headers: {
@@ -855,7 +880,10 @@
         var status = $(this).val();
         var status_label_id = $(this).data('id');
         var project_id = $(this).data('project');
+        $("#reason_form").modal('show');
 
+        if(status_label_id!=10 && status!=0)
+        {
         Swal.fire({
             title: "Do you want to change ?",
             icon: "warning",
@@ -885,9 +913,37 @@
                 });
             }
         })
+        }else
+        {
+            alert("no");
+            $("#reason_form").modal('show');
+        }
     })
 
-   
+    $("#submit_reason").click(function(){
+        var project_id=$(this).data('project');
+        var reason=$("#reason").val();
+
+        jQuery.ajax({
+                    url: "{{ url('/change-project-status') }}",
+                    method: 'post',
+                    data: {
+                        project_id: project_id,
+                        status: 0,
+                        status_label_id: 10,
+                        reason:reason
+                    },
+                    success: function(result) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: "Status changed successfuly."
+                        }).then(function(result) {
+                            window.location.reload();
+                        });
+                    }
+                });
+    });
+
     if ($('#markout_canvas').length) {
         var markout_signature = new SignaturePad($("#markout_canvas")[0]);
     }

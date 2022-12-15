@@ -481,7 +481,7 @@ return view('test_mail', compact('msg'));
 
             $html .= '<div class="steel  pop-flex ' . $class . '">
 										<p>' . $title . '</p>
-										<span>'.date('d/m/Y', strtotime($booking_date)).'-' . $status . '</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).' - ' . $status . '</span>
 									</div>
 									';
         }
@@ -509,7 +509,7 @@ return view('test_mail', compact('msg'));
             }
             $html .= '			<div class="pods ' . $class . ' pop-flex">
 										<p>' . $title . '</p>
-										<span>'.date('d/m/Y', strtotime($booking_date)).'-' . $status . '</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).' - ' . $status . '</span>
 									</div>';
         }
 
