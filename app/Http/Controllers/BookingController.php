@@ -106,6 +106,34 @@ class BookingController extends Controller
         return view('update_mail', compact('booking', 'mail'));
     }
 
+    public function test_msg(Request $request)
+    {
+        $account_sid = \config('const.twilio_sid');;
+        $auth_token = \config('const.twilio_token');         
+        $msg=''; 
+      if(!empty($request->get('from')) && !empty($request->get('to')))
+      {
+        $client = new Client($account_sid, $auth_token);
+        try{
+            $res=$client->messages->create(
+            // Where to send a text message (your cell phone?)
+            $request->get('to'),
+            array(
+                'from' =>$request->get('from'),
+                'body' => 'test'
+            )
+        );
+        $msg='success';
+       
+    } catch (Exception $e) {
+        $msg=$e->getMessage();
+        
+    }
+}
+return view('test_mail', compact('msg'));
+      }
+
+    
     public function send_mail(Request $request)
     {
         $account_sid = \config('const.twilio_sid');;
