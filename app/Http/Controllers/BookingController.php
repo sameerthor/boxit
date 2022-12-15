@@ -459,6 +459,7 @@ return view('test_mail', compact('msg'));
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
+            $booking_date=$res->date;
             $title = $res->department->title;
             switch ($res->status) {
                 case '0':
@@ -480,13 +481,14 @@ return view('test_mail', compact('msg'));
 
             $html .= '<div class="steel  pop-flex ' . $class . '">
 										<p>' . $title . '</p>
-										<span>' . $status . '</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).'-' . $status . '</span>
 									</div>
 									';
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
             $title = $res->department->title;
+            $booking_date=$res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -507,7 +509,7 @@ return view('test_mail', compact('msg'));
             }
             $html .= '			<div class="pods ' . $class . ' pop-flex">
 										<p>' . $title . '</p>
-										<span>' . $status . '</span>
+										<span>'.date('d/m/Y', strtotime($booking_date)).'-' . $status . '</span>
 									</div>';
         }
 
