@@ -320,7 +320,11 @@ class ForemanController extends Controller
         if($request->get('status')=='0' && $request->get('status_label_id')=='10')
         {
             $data['reason']=$request->get('reason');
+        }else
+        {
+            $data['reason']='';
         }
+      
         ProjectStatus::updateOrCreate($matchThese,$data);
         $email_template=ForemanTemplates::where(array('status'=>$request->get('status'),'project_status_label_id'=>$request->get('status_label_id')))->get();
       if(count($email_template)>0)

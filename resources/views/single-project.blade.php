@@ -133,7 +133,8 @@
         $project_status= $label->ProjectStatus($project->id)->get();
         if(count($project_status)>0)
         {
-        $stat=$project_status[0]->status==1?'<div class="green_box">{{$label->id=="10"?"Passed":"Yes"}}</div>':'<div class="red_box">{{$label->id=="10"?"Failed":"No"}}</div>';
+
+        $stat=($project_status[0]->status==1)?'<div class="green_box">'.($label->id=="10"?"Passed":"Yes").'</div>':'<div class="red_box">'.($label->id=="10"?"Failed":"No").'</div>';
         }else
         {
         $stat='<div class="orange_box">Pending</div>';
@@ -143,6 +144,9 @@
           <td>{{$loop->iteration}}</td>
           <td>{{$label->label}}</td>
           <td>
+               @if(count($project_status)>0)
+                                                {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'" ><i class="fa fa-eye"></i></a>':''!!}
+                                               @endif
             @php echo $stat @endphp
           </td>
         </tr>
@@ -834,7 +838,19 @@
   </div>
 
 </div>
+<style>
+  .tooltip-inner {
+    color: #172B4D;
+    background-color: #ffffff;
+    border: 1px solid #172B4D;
+}
+</style>
 <script>
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+
   $(function() {
     $.datetimepicker.setDateFormatter('moment');
 

@@ -89,7 +89,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Council Inspection</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" onclick="window.location.reload()" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -98,7 +98,7 @@
           <div style="display:none" id="modal_contact_id"></div>
           <div class="form-group">
           <label for="reason" class="col-form-label">Reason:</label>
-            <textarea placeholder="Enter which inspection failed"  class="form-control" id="reason"></textarea>
+            <textarea placeholder="Please provide details about inspection failure here."  class="form-control" id="reason"></textarea>
           </div>
         </form>
       </div>
@@ -154,7 +154,7 @@
                                     if(count($project_status)>0)
                                     {
                                     $yes_checked=$project_status[0]->status==1?'checked':'';
-                                    $no_checked=$project_status[0]->status==0?'checked':'';;
+                                    $no_checked=$project_status[0]->status==0?'checked':'';
                                     }else
                                     {
                                     $yes_checked="";
@@ -169,6 +169,9 @@
                                                 <label class="radio_label" for="yes_{{$label->id}}">{{$label->id=="10"?"Passed":"Yes"}}</label>
                                                 <input type="radio" {{$no_checked}} id="no_{{$label->id}}" class="project_status no"  data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">
                                                 <label class="radio_label" for="no_{{$label->id}}">{{$label->id=="10"?"Failed":"No"}}</label>
+                                                @if(count($project_status)>0)
+                                                {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'" ><i class="fa fa-eye"></i></a>':''!!}
+                                               @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -846,8 +849,17 @@
 
 </div>
 </div>
-
+<style>
+  .tooltip-inner {
+    color: #172B4D;
+    background-color: #ffffff;
+    border: 1px solid #172B4D;
+}
+</style>
 <script>
+    $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -880,9 +892,8 @@
         var status = $(this).val();
         var status_label_id = $(this).data('id');
         var project_id = $(this).data('project');
-        $("#reason_form").modal('show');
-
-        if(status_label_id!=10 && status!=0)
+        
+        if(!(status_label_id==10 && status==0))
         {
         Swal.fire({
             title: "Do you want to change ?",
@@ -908,14 +919,16 @@
                         Toast.fire({
                             icon: 'success',
                             title: "Status changed successfuly."
-                        })
+                        }).then(function(result) {
+                            window.location.reload();
+                        });
                     }
                 });
             }
         })
         }else
         {
-            alert("no");
+            
             $("#reason_form").modal('show');
         }
     })
