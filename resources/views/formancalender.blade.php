@@ -74,7 +74,7 @@
 
 	.cal-days li {
 
-		margin: 37% 0px !important;
+		margin: 37% 0px;
 	}
 
 	.booked_div_monthly {

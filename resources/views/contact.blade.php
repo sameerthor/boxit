@@ -23,7 +23,7 @@
             <img src="img/plus.png"><span id="add_contact">Add New Contact</span>
           </div>
         </div>
-        <div class="col-md-6 text-right select-style">
+        <div class="col-md-6 text-r select-style">
           <select id="department">
             @foreach($departments as $department)
             <option value="{{$department->id}}">{{$department->title}}</option>

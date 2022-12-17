@@ -99,7 +99,7 @@
     </table>
     <h4>Foreman Forms</h4>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 paid-n">
         <ul class="nav nav-tabs center-contain" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button style="color:#172b4d" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Project Status</button>
@@ -115,7 +115,7 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div style="padding:3%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
+          <div class="tab-pane fade show active paid-three" id="tab1" role="tabpanel" aria-labelledby="1-tab">
 
             <div class="row">
 
@@ -155,7 +155,7 @@
             </div>
 
           </div>
-          <div style="padding:3%" d class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
+          <div class="tab-pane fade paid-three" id="tab2" role="tabpanel" aria-labelledby="2-tab">
             <form action="{{URL('/qa_checklist')}}" method="post" id="qa_form">
               @csrf
               <h5>Onsite & QA Checklist</h5>
@@ -196,7 +196,7 @@
             </form>
           </div>
         </div>
-        <div style="padding:3%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+        <div class="tab-pane fade paid-three" id="tab3" role="tabpanel" aria-labelledby="3-tab">
           <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
             @csrf
             <h5>Mark Out Checklist</h5>
@@ -291,7 +291,7 @@
           </form>
         </div>
       </div>
-      <div style="padding:3%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
+      <div class="tab-pane fade paid-three" id="tab4" role="tabpanel" aria-labelledby="4-tab">
         <h5>Safety plan</h5>
         <br>
         <form action="{{URL('/safety-plan')}}" id="safety_form" method="post">

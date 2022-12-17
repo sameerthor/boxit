@@ -12,8 +12,8 @@
           <span>Booking Form</span>
         </div>
       </div>
-      <div class="col-md-2">
-        <button type="button" class="btn btn-info draft btn-color" style="float:right">Save as draft</button>
+      <div class="col-md-2 book-draft-btn">
+        <button type="button" class="btn btn-info draft btn-color">Save as draft</button>
       </div>
     </div>
     <!-- <div class="row">
