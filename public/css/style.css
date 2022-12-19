@@ -1199,6 +1199,18 @@ form {
   margin-left:0px;
 }
 
+.wickly-btn {
+  text-align: right;
+
+}
+.book-draft-btn, .text-r
+{
+  text-align: right;
+}
+.paid-three
+{
+  padding:3%;
+}
 @media screen and (min-width:1440px)
 {
   .profile_letter
@@ -1224,6 +1236,15 @@ form {
 
 @media screen and (max-width:767px)
 {
+  .text-r
+  {
+    text-align: left;
+  }
+  .book-draft-btn
+  {
+    text-align: center;
+    margin-top: 10px;
+  }
   .logo-sec
   {
     margin: 40px 0px 23px 0px;
@@ -1392,16 +1413,95 @@ canvas {
 .marg-l {
   margin-left: 20px;
 }
+
+.cal-days li {
+    margin: 3% 0px !important;
 }
-@media screen and (max-width:450px)
+.wickly-btn {
+  text-align: center;
+  margin-top:20px;
+}
+.paid-none-r {
+  padding-left: 0px !important;
+}
+#contacts .border-n tr th, #contacts .border-n tr, #contacts .td-styles tr, #contacts .td-styles tr td 
+ {
+  display: block;
+
+}
+#contacts .border-n tr th
 {
-  .table-bordered
-  {
-    border:none !important;
-    width:95% !important;
-    margin-left:8px !important;
-  }
-  .table-bordered tr
+  padding: 10px 1rem !important;
+}
+.table-w-80
+{
+  width: 100% !important;
+}
+.add-new-c {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.inp-relv input
+{
+  width: 100%;
+}
+.select-style select
+{
+  width: 100%;
+}
+.row.d-flex.pb-40 {
+  padding-bottom: 20px;
+}
+.project-flex
+{
+  text-align: center;
+  display: block;
+
+}
+.project-flex .v-name.delete {
+  text-align: left;
+  margin-top: 15px;
+}
+.project-flex .v-name.details {
+  text-align: right;
+  margin-top: -25px;
+}
+tr, th, td{
+  display: block;
+}
+h4
+{
+  text-align: center;
+}
+.nav-link.active {
+  border: 1px solid #e9ecef !important;
+  border-radius: 8px;
+}
+.table-stripped tr td 
+{
+  border-top: 1px solid #dee2e6 !important;
+    border: none;
+}
+.paid-n {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.paid-three
+{
+  padding: 0px;
+}
+.nav-tabs
+{
+  justify-content: center;
+}
+.btn.btn-sm.btn-outline-success {
+  padding-left: 0px;
+}
+.desktop-nav {
+  display: none;
+}
+.table-bordered tr
   {
     margin-bottom: 0px;
     border-top:none;
@@ -1411,6 +1511,21 @@ canvas {
   {
     border: none;
   }
+  .paid-l-n
+  {
+    padding-top:30px;
+  }
+}
+@media screen and (max-width:450px)
+{
+  .table-bordered
+  {
+    border:none !important;
+    width:95% !important;
+    margin-left:8px !important;
+  }
+  
+  
 }
 
 @media screen and (max-width: 767px)
@@ -1419,4 +1534,108 @@ canvas {
     
 }
 }
+
+@media screen and (min-width:768px)
+{
+  .mob-nav {
+    display: none;
+}
+}
 /* ----------------res css and-------------------- */
+
+.mobile-container {
+  max-width: 480px;
+  margin: auto;
+  background-color: #555;
+  height: 500px;
+  color: white;
+  border-radius: 10px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #172b4d;
+  position: relative;
+}
+
+.topnav #myLinks {
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 23px;
+  display: block;
+}
+
+.topnav a.icon {
+  background: #172b4d;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav.mob-nav img {
+  width: 100px;
+}
+.mob-nav .nav_link {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid;
+  font-size: 16px;
+}
+#myLinks img {
+  width: 18px;
+  margin-right: 12px;
+}
+
+#project-form-d .table-w input
+{
+  border: 1px solid #f5f5f5 !important;
+}
+#project-form-d .table-w input:focus {
+  
+  outline: none;
+}
+
+.paid-l-n {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.cntr-t {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.paid-left {
+  padding-left: 15px;
+  
+}
+
+#project-form-d #qa_form, #project-form-d #markout_form h5  {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+#project-form-d .orange_box
+{
+  padding: 4px;
+}
+.paid-r-l {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.marg-t {
+  margin-top: 35px;
+  margin-bottom: 15px;
+}
+/* .active {
+  background-color: #172b4d;
+  color: white;
+} */

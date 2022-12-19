@@ -74,7 +74,7 @@
 
 	.cal-days li {
 
-		margin: 37% 0px !important;
+		margin: 37% 0px;
 	}
 
 	.booked_div_monthly {
@@ -230,7 +230,7 @@
 				<img src="img/arrow-r.png" >
 			</div>
 		</div>
-		<div class="col-md-2 text-right">
+		<div class="col-md-2 wickly-btn">
 			<select class="select-styles bgc-new" id="calender_type">
 				<option value="week">
 					Weekly
@@ -542,4 +542,20 @@
 		$("#exampleModal").modal("hide");
 	})
 </script>
+
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

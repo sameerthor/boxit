@@ -17,7 +17,7 @@
     text-align: center;
   }
 </style>
-<div class="card-new">
+<div  id="project-form-d" class="card-new">
   <div class="card-body">
     <div class="row">
       <div class="col-md-12">
@@ -65,7 +65,7 @@
       </div>
       @endif
     </div>
-    <h4>Booking Status</h4>
+    <h4 class="paid-left">Booking Status</h4>
     <table class="table table-stripped">
       <thead>
         <tr>
@@ -97,9 +97,9 @@
         @endforeach
       </tbody>
     </table>
-    <h4>Foreman Forms</h4>
+    <h4 class="paid-left marg-t">Foreman Forms</h4>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 paid-n paid-l-n">
         <ul class="nav nav-tabs center-contain" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button style="color:#172b4d" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Project Status</button>
@@ -115,7 +115,7 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div style="padding:3%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
+          <div class="tab-pane fade show active paid-three paid-l-n" id="tab1" role="tabpanel" aria-labelledby="1-tab">
 
             <div class="row">
 
@@ -155,16 +155,16 @@
             </div>
 
           </div>
-          <div style="padding:3%" d class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
+          <div class="tab-pane fade paid-three paid-l-n" id="tab2" role="tabpanel" aria-labelledby="2-tab">
             <form action="{{URL('/qa_checklist')}}" method="post" id="qa_form">
               @csrf
               <h5>Onsite & QA Checklist</h5>
               <input type="hidden" name="project_id" value="{{$project->id}}">
               <div class="qa_checklist">
                 <div class="row onsite_label">
-                  <div class="col-md-7"></div>
-                  <div class="col-md-3">Initial</div>
-                  <div class="col-md-2">Office Use</div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 cntr-t ">Initial</div>
+                  <div class="col-md-3 cntr-t">Office Use</div>
                 </div>
                 <table style="width:100%">
                   @foreach($qaChecklist as $res)
@@ -196,26 +196,26 @@
             </form>
           </div>
         </div>
-        <div style="padding:3%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+        <div class="tab-pane fade paid-three paid-l-n" id="tab3" role="tabpanel" aria-labelledby="3-tab">
           <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
             @csrf
             <h5>Mark Out Checklist</h5>
             <input type="hidden" name="project_id" value="{{$project->id}}">
             <div style="margin:5%">
               <div class="row mb-3">
-                <label for="name" class="col-md-6 col-form-label "><strong>Date:</strong></label>
+                <label for="name" class="col-md-6 col-form-label ">Date:</label>
                 <div class="col-md-4">
                   <input type="date" readonly class="form-control" name="markout_data[date]" value="{{ $markout_checklist!=null ? $markout_checklist->date : '' }}">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="name" class="col-md-6 col-form-label "><strong>Address:</strong></label>
+                <label for="name" class="col-md-6 col-form-label ">Address:</label>
                 <div class="col-md-4">
                   <input type="text" readonly class="form-control" name="markout_data[address]" value="{{ $markout_checklist!=null ? $markout_checklist->address : '' }}">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="name" class="col-md-6 col-form-label "><strong>Housing Company:</strong></label>
+                <label for="name" class="col-md-6 col-form-label ">Housing Company:</label>
                 <div class="col-md-4">
                   <input type="text" readonly class="form-control" name="markout_data[housing_company]" value="{{ $markout_checklist!=null ? $markout_checklist->housing_company : '' }}">
                 </div>
@@ -291,10 +291,10 @@
           </form>
         </div>
       </div>
-      <div style="padding:3%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
-        <h5>Safety plan</h5>
+      <div class="tab-pane fade paid-three paid-l-n" id="tab4" role="tabpanel" aria-labelledby="4-tab">
+        <h5 class="paid-r-l">Safety plan</h5>
         <br>
-        <form action="{{URL('/safety-plan')}}" id="safety_form" method="post">
+        <form class="paid-r-l" action="{{URL('/safety-plan')}}" id="safety_form" method="post">
           @csrf
           <input type="hidden" name="project_id" value="{{$project->id}}">
           <div class="row safety_plan">
