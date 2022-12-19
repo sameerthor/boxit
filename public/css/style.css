@@ -1211,6 +1211,18 @@ form {
 {
   padding:3%;
 }
+.wickly-btn {
+  text-align: right;
+
+}
+.book-draft-btn, .text-r
+{
+  text-align: right;
+}
+.paid-three
+{
+  padding:3%;
+}
 @media screen and (min-width:1440px)
 {
   .profile_letter
