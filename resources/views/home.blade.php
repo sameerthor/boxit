@@ -241,7 +241,14 @@
 			</select>
 		</div>
 		<div class="col-md-7 text-right">
-
+		<select class="select-styles bgc-new" @change="changeforeman($event)">
+		<option value="">All foremen</option>
+			<?php foreach($foremans as $foreman) { ?>
+				<option value="<?= $foreman->id ?>">
+				<?= ucfirst($foreman->name); ?>
+				</option>
+			<?php } ?>
+			</select>
 		</div>
 	</div>
 	<div id="weekly_calender">
@@ -249,10 +256,6 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-11">
 				<ul class="names-style">
-					<li><span>Foreman</span><br>Nick</li>
-					<li><span>Foreman</span><br>Dan</li>
-					<li><span>Foreman</span><br>Jimmy</li>
-					<li><span>Foreman</span><br>Darryl</li>
 					<li>Plumber</li>
 					<li>PODS</li>
 					<li>Steel</li>
@@ -466,6 +469,7 @@
 				activeStep: 0,
 				months: monthNames,
 				year: cur_year,
+				foreman_id: '',
 				month_index: cur_month,
 				date: 'test'
 			}
@@ -476,7 +480,8 @@
 				axios.post('/calender', {
 						year: this.year,
 						month: this.month_index,
-						dates: this.items[this.activeStep]
+						dates: this.items[this.activeStep],
+						foreman_id:this.foreman_id
 					})
 					.then((response) => {
 						$(".calender").html(response.data)
@@ -500,6 +505,11 @@
 			},
 			remove: function() {
 				this.activeStep--;
+				this.getCalender();
+
+			},
+			changeforeman: function(event) {
+				this.foreman_id=event.target.value;
 				this.getCalender();
 
 			},

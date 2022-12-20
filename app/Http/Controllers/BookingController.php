@@ -383,6 +383,7 @@ return view('test_mail', compact('msg'));
     {
         $dates = $request->get('dates');
         $year = $request->get('year');
+        $foreman_id=$request->get('foreman_id');
         $requested_month = $request->get('month') + 1;
         $html = '';
         foreach ($dates as $date) {
@@ -396,28 +397,13 @@ return view('test_mail', compact('msg'));
                 $month = $requested_month;
             }
             $booking_date = date('Y-m-d', strtotime($year . "-" . $month . "-" . $date['day']));
-            $foremans = User::whereHas("roles", function ($q) {
-                $q->where("name", "Foreman");
-            })->get();
-            foreach ($foremans as $res) {
-                \DB::statement("SET SQL_MODE=''");
-                $booking_data = BookingData::whereHas('booking', function($query) use ($res){
-                    return $query->where('foreman_id', '=', $res->id);
-                })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
-                if (!empty($booking_data)) {
-                    $html .= "<div class='booked_div'>";
-                    foreach ($booking_data as $boo) 
-                     {   $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                      $html.="<span class='green_box show_booking' data-id='" . $boo->booking->id . "'>" . $address . "</span>";
-                     }
-                     $html.="</div>";
-                } else {
-                    $html .= "<div class='booked_div'></div>";
-                }
-            }
+            
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
-                $booking_data = BookingData::where(array('department_id' => $id))->whereDate('date', '=', $booking_date)
+                $booking_data = BookingData::where(array('department_id' => $id)) ->whereHas('booking', function ($query) use($foreman_id){
+                  if(!empty($foreman_id))
+                    $query->where('foreman_id',$foreman_id);
+                })->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
                 $html.="<div class='booked_div'>";
