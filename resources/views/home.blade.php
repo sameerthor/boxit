@@ -30,11 +30,11 @@
 		display: flex;
 		margin-left: 5%;
     width: 94%;
-		height: 12%;
+		height: 12.5%;
 	}
 
 	.foo:first-child {
-		margin-top: 3%;
+		margin-top: 2%;
 	}
 
 	.foo_monthly {
@@ -74,7 +74,7 @@
 
 	.cal-days li {
 
-		margin: 37% 0px !important;
+		margin: 37% 0px;
 	}
 
 	.booked_div_monthly {
@@ -86,7 +86,6 @@
 
 	.pd-boxes {
 		padding: 0px 0px !important;
-		padding-top: 27px !important;
 	}
 
 	.red_box {
@@ -110,7 +109,7 @@
 		display: block;
 		border-bottom: 1px solid #16DB65;
 	}
- 
+	
 	.orange_box {
 		background: #FCF0E4;
 		color: #F79256 !important;
@@ -159,6 +158,11 @@
 		color: #172B4D !important;
 		padding: 0px 5px;
 	}
+	.orange_box,.green_box,.red_box{
+	padding-left: 12px;
+    padding-top: 3px;
+    padding-bottom: 1px;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -203,7 +207,7 @@
 					<div class="row">
 					 <div class="col-md-12">
 					 <div class="info-txt">
-						<span>Information</span>
+						<span>Notes</span>
 						<p id="booking_notes">NA</p>
 					</div>
 					 </div>	
@@ -230,7 +234,7 @@
 				<img src="img/arrow-r.png" >
 			</div>
 		</div>
-		<div class="col-md-2 text-right">
+		<div class="col-md-2 wickly-btn">
 			<select class="select-styles bgc-new" id="calender_type">
 				<option value="week">
 					Weekly
@@ -241,7 +245,14 @@
 			</select>
 		</div>
 		<div class="col-md-7 text-right">
-
+         	<select class="select-styles bgc-new" @change="changeforeman($event)">
+		<option value="">All Foremen</option>
+			<?php foreach($foremans as $foreman) { ?>
+				<option value="<?= $foreman->id ?>">
+				<?= ucfirst($foreman->name); ?>
+				</option>
+			<?php } ?>
+			</select>
 		</div>
 	</div>
 	<div id="weekly_calender">
@@ -249,10 +260,6 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-11">
 				<ul class="names-style">
-					<li><span>Foreman</span><br>Nick</li>
-					<li><span>Foreman</span><br>Dan</li>
-					<li><span>Foreman</span><br>Jimmy</li>
-					<li><span>Foreman</span><br>Darryl</li>
 					<li>Plumber</li>
 					<li>PODS</li>
 					<li>Steel</li>
@@ -465,6 +472,7 @@
 				nextNum: 2,
 				activeStep: 0,
 				months: monthNames,
+				foreman_id: '',
 				year: cur_year,
 				month_index: cur_month,
 				date: 'test'
@@ -476,7 +484,8 @@
 				axios.post('/calender', {
 						year: this.year,
 						month: this.month_index,
-						dates: this.items[this.activeStep]
+						dates: this.items[this.activeStep],
+						foreman_id:this.foreman_id
 					})
 					.then((response) => {
 						$(".calender").html(response.data)
@@ -500,6 +509,11 @@
 			},
 			remove: function() {
 				this.activeStep--;
+				this.getCalender();
+
+			},
+			changeforeman: function(event) {
+				this.foreman_id=event.target.value;
 				this.getCalender();
 
 			},
@@ -542,4 +556,20 @@
 		$("#exampleModal").modal("hide");
 	})
 </script>
+
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

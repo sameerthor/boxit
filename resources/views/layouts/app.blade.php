@@ -42,7 +42,31 @@
 		@auth
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-2 blue-bg pos-rel p-none z-in1">
+
+               
+			<div class="topnav mob-nav">
+              <a href="#home" class="active"><img src="/img/logo2581-1.png"></a>
+          <div id="myLinks">
+		  <a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a>
+		  @if(Auth::user()->hasRole('Admin'))
+		  <a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
+		  <a href="{{url('/drafts')}}" class="nav_link"><img src="/img/booking.png">Drafts</a>
+		  <a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a>
+		  <a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a>
+		  <a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a>
+		  @endif
+			@if(Auth::user()->hasRole('Foreman'))
+			<a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Projects</a>
+			@endif
+           </div>
+           <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+           <i class="fa fa-bars"></i>
+           </a>
+          </div>
+
+
+
+				<div class="col-md-2 blue-bg pos-rel p-none z-in1 desktop-nav">
 					<div id="sidebar">
 						<div class="logo-sec">
 							<img src="/img/logo2581-1.png">
@@ -54,10 +78,11 @@
 							<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" class="nav_link"><img src="/img/booking.png">Drafts</a>
 							<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 							<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
+							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/contacts.png">User Management</a></li>
 							<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
 							@endif
 							@if(Auth::user()->hasRole('Foreman'))
-							<li class="{{ request()->routeIs('check-list') ? 'active' : '' }}"><a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Check List</a></li>
+							<li class="{{ request()->routeIs('check-list') ? 'active' : '' }}"><a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Projects</a></li>
 							@endif
 						</ul>
 
@@ -196,6 +221,16 @@ $('.submit_on_enter').keydown(function(event) {
 });
 
 });
+</script>
+<script>
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
 </script>
 
 </html>

@@ -190,9 +190,9 @@
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist">
                                 <div class="row onsite_label">
-                                   <div class="col-md-7"></div>
+                                   <div class="col-md-6"></div>
                                    <div class="col-md-3">Initial</div>
-                                   <div class="col-md-2">Office Use</div> 
+                                   <div class="col-md-3">Office Use</div> 
                                 </div>
                                 <table style="width:100%">
                                     @foreach($qaChecklist as $res)

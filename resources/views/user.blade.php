@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form-head">
-            <span>Contact</span>
+            <span>User Management</span>
           </div>
         </div>
       </div>
@@ -20,38 +20,33 @@
         </div>
         <div class="col-md-3">
           <div class="add-new-c">
-            <img src="img/plus.png"><span id="add_contact">Add New Contact</span>
+            <img src="img/plus.png"><span id="add_contact">Add New User</span>
           </div>
         </div>
         <div class="col-md-6 text-r select-style">
-          <select id="department">
-            @foreach($departments as $department)
-            <option value="{{$department->id}}">{{$department->title}}</option>
-            @endforeach
-          </select>
+      
         </div>
       </div>
       <div class="row">
         <div class="col-md-12" id="contacts">
-          @if(count($departments[0]->contacts)>0)
+          @if(count($users)>0)
           <table class="table table-w-80">
             <thead class="border-n">
               <tr>
                 <th>Name</th>
                 <th>Email ID</th>
-                <th>Contact No.</th>
+                <th>User Type</th>
               </tr>
             </thead>
             <tbody class="tr-border td-styles tr-hover">
-              @foreach($departments[0]->contacts as $contact)
+              @foreach($users as $user)
               <tr>
-                <td><b>{{$contact->title}}</b></td>
-                <td>{{$contact->email}}</td>
-                <td>{{$contact->contact}}</td>
+                <td><b>{{ucfirst($user->name)}}</b></td>
+                <td>{{$user->email}}</td>
+                <td>{{@$user->roles->pluck('name')[0]}}</td>
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
-                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
-                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="delete dropdown-item">Delete</a>
+                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
                   </div>
                 </td>
               </tr>
@@ -59,7 +54,7 @@
             </tbody>
           </table>
           @else
-          <p>No record found for this department</p>
+          <p>No user found here.</p>
           @endif
         </div>
       </div>
@@ -67,37 +62,36 @@
   </div>
 
 </div>
-<div class="modal fade" tabindex="-1" role="dialog" id="contact_form">
+<div class="modal fade" tabindex="-1" role="dialog" id="user_form">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><span id="modal_title"></span> Contact</h5>
+        <h5 class="modal-title"><span id="modal_title"></span> User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form>
-          <div style="display:none" id="modal_contact_id"></div>
+          <div style="display:none" id="modal_user_id"></div>
           <div class="form-group">
-            <label for="company" class="col-form-label">Company:</label>
-            <input type="text" name="company" class="form-control" id="company">
-          </div>
-          <div class="form-group">
-            <label for="title" class="col-form-label">Name:</label>
-            <input type="text" name="title" class="form-control" id="title">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" name="name" class="form-control" id="name">
           </div>
           <div class="form-group">
             <label for="email" class="col-form-label">Email:</label>
             <input type="email" name="email" class="form-control" id="email">
           </div>
           <div class="form-group">
-            <label for="contact" class="col-form-label">Contact No:</label>
-            <input type="tel" name="contact" class="form-control" id="contact">
+            <label for="password" class="col-form-label">Password:</label>
+            <input type="password" name="password" class="form-control" id="password">
           </div>
           <div class="form-group">
-            <label for="sms_enabled" class="col-form-label">SMS Notification Enabled:</label>
-            <input type="checkbox" name="sms_enabled" value="1" id="sms_enabled">
+            <label for="user_type" class="col-form-label">User Type:</label>
+            <select name="user_type" class="form-control" id="user_type">
+                <option>Admin</option>
+                <option>Foreman</option>
+            </select>
           </div>
         </form>
       </div>
@@ -136,29 +130,10 @@
 
   $(document).on("click", ".edit", function() {
     let id = $(this).data('id');
-    jQuery.ajax({
-      type: 'POST',
-      url: "{{ route('contact.edit') }}",
-      data: {
-        id: id,
-      },
-      success: function(data) {
         $("#modal_title").html("Edit");
-        $("#modal_contact_id").text(data.id);
-        $("#title").val(data.title);
-        $("#contact").val(data.contact);
-        $("#company").val(data.company);
-        $("#email").val(data.email);
-        if(data.sms_enabled=='1')
-        $('#sms_enabled').prop('checked', true); 
-        else
-        $('#sms_enabled').prop('checked', false); 
 
-        $(".save_button").attr("id","update_contact")
-        $("#contact_form").modal('show');
-
-      }
-    })
+        $(".save_button").attr("id","update_user")
+        $("#user_form").modal('show');
   });
 
   $(document).on("click", "#add_contact", function() {
@@ -170,47 +145,14 @@
     $("#company").val("");
     $("#email").val("");
     $('#sms_enabled').prop('checked', false); 
-    $("#contact_form").modal('show');
+    $("#user_form").modal('show');
   });
 
   $(document).on("click", ".close", function() {
-    $("#contact_form").modal('hide');
+    $("#user_form").modal('hide');
   });
 
 
-  $(document).on("click", ".delete", function() {
-    let id = $(this).data('id');
-    swal.fire({
-      title: "Confirmation!",
-      text: "Do you want to delete this contact ?.",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel please!",
-      closeOnConfirm: false,
-      closeOnCancel: false
-    }).then((result) => {
-      if (result.value) {
-        jQuery.ajax({
-          type: 'POST',
-          url: "{{ route('contact.delete') }}",
-          data: {
-            id: id,
-          },
-          success: function(data) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Contact has been deleted successfully',
-              showConfirmButton: false,
-            })
-            refreshtable();
-          }
-        })
-      }
-    });
-
-  });
 
 
   $(document).ready(function() {
@@ -233,7 +175,7 @@
           department_id: department
         },
         success: function(data) {
-          $("#contact_form").modal('hide');
+          $("#user_form").modal('hide');
           $("#title").val("");
           $("#contact").val("");
           $("#company").val("");
@@ -270,7 +212,7 @@
           department_id: department
         },
         success: function(data) {
-          $("#contact_form").modal('hide');
+          $("#user_form").modal('hide');
           $("#title").val("");
           $("#contact").val("");
           $("#company").val("");

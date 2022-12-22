@@ -3,7 +3,7 @@
 @section('content')
 <div id="content ">
 			<div class="container main">
-        <div class="card-new ptb-50 mob-full-w">
+        <div class="card-new ptb-50 mob-full-w paid-l-r">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-head">
@@ -12,7 +12,7 @@
 					</div>
 				</div>
 				@foreach($projects as $project)
-        <div class="row w-50 mob-full-w">
+        <div class="row mob-full-w">
           <div class="col-md-12">
          <div class="bdr-btm project-flex ptb-25">
           <div class="p-name">

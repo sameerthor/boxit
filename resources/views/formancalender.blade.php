@@ -74,7 +74,7 @@
 
 	.cal-days li {
 
-		margin: 37% 0px !important;
+		margin: 37% 0px;
 	}
 
 	.booked_div_monthly {
@@ -166,6 +166,7 @@
 
 margin: 15px 0px !important;
 }
+
 	}
 </style>
 @verbatim
@@ -211,7 +212,7 @@ margin: 15px 0px !important;
 					<div class="row">
 					 <div class="col-md-12">
 					 <div class="info-txt">
-						<span>Information</span>
+						<span>Notes</span>
 						<p id="booking_notes">NA</p>
 					</div>
 					 </div>	
