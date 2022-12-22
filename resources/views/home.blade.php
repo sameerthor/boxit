@@ -474,6 +474,7 @@
 				months: monthNames,
 				foreman_id: '',
 				year: cur_year,
+				foreman_id: '',
 				month_index: cur_month,
 				date: 'test'
 			}
