@@ -75,11 +75,11 @@
 							<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
 							@if(Auth::user()->hasRole('Admin'))
 							<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
-							<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" class="nav_link"><img src="/img/booking.png">Drafts</a>
+							<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" class="nav_link"><img src="/img/draft.png">Drafts</a>
 							<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 							<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
-							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/contacts.png">User Management</a></li>
-							<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a></li>
+							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/users.png">User Management</a></li>
+							<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/settings.png">Settings</a></li>
 							@endif
 							@if(Auth::user()->hasRole('Foreman'))
 							<li class="{{ request()->routeIs('check-list') ? 'active' : '' }}"><a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Projects</a></li>
