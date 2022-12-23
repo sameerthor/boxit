@@ -159,7 +159,7 @@
 		padding: 0px 5px;
 	}
 	.orange_box,.green_box,.red_box{
-	padding-left: 12px;
+	padding-left: 6px;
     padding-top: 3px;
     padding-bottom: 1px;
 	}

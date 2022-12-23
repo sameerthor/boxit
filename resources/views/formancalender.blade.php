@@ -168,6 +168,12 @@ margin: 15px 0px !important;
 }
 
 	}
+
+	.orange_box,.green_box,.red_box{
+	padding-left: 6px;
+    padding-top: 3px;
+    padding-bottom: 1px;
+	}
 </style>
 @verbatim
 <div id="content">
