@@ -14,7 +14,7 @@ use App\Jobs\BookingEmailJob;
 |
 */
 
-
+Route::get('/notify', [App\Http\Controllers\UserController::class, 'notify'])->name('user.notify');
 Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
 Route::get('/test-msg', [App\Http\Controllers\BookingController::class, 'test_msg']);
 Route::get('/admin-reply/{id}', [App\Http\Controllers\BookingController::class, 'admin_reply']);
@@ -30,8 +30,10 @@ Route::middleware('role:Admin')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
      Route::get('/user-management', [App\Http\Controllers\UserController::class, 'index'])->name('user_management');
-    Route::post('/add-user', [App\Http\Controllers\ContactController::class, 'add_user'])->name('user.add');
-    Route::post('/update-user', [App\Http\Controllers\ContactController::class, 'update_user'])->name('user.update');
+     Route::post('/users', [App\Http\Controllers\UserController::class, 'users'])->name('user.get');
+    Route::post('/add-user', [App\Http\Controllers\UserController::class, 'add_user'])->name('user.add');
+    Route::post('/edit-user', [App\Http\Controllers\UserController::class, 'edit_user'])->name('user.edit');
+    Route::post('/update-user', [App\Http\Controllers\UserController::class, 'update_user'])->name('user.update');
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
     Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
     Route::get('/delete-draft/{id}', [App\Http\Controllers\BookingController::class, 'delete_draft']);

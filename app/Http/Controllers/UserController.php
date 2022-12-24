@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Auth;
+use Carbon\Carbon;
 class UserController extends Controller
 {
     
@@ -12,32 +13,56 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('user', compact('users'));
-    }
-
-    public function add_user(Request $request)
-    {
-        $contact = new User();
-        $contact->fill($request->all());
-        $contact->save();
-        return true;
-    }
     
+    }
+  
     public function edit_user(Request $request)
     {
         return  User::find($request->get('id'));
     }
 
-    public function update_contact(Request $request)
+    public function users(Request $request)
     {
-        $contact = User::find($request->get('id'));
-        $contact->email = $request->get('email');
-        $contact->title = $request->get('title');
-        $contact->company = $request->get('company');
-        $contact->contact = $request->get('contact');
-        $contact->sms_enabled = $request->get('sms_enabled');
-        $contact->save();
+        $search = $request->get('search');
+        $users = User::where('name','like', $search.'%')->get();
+        return view('usertable', compact('users'))->render();
+    }
+
+    public function add_user(Request $request)
+    {
+        $user = new User();
+        $user->name=$request->name;
+        $user->password=bcrypt($request->password);
+        $user->email=$request->email;
+        $user->save();
+        $user = $user->fresh();
+        $user->assignRole($request->user_type);
+        return true;
+    }
+    
+    
+
+    public function update_user(Request $request)
+    {
+        $user = User::find($request->get('id'));
+        $user->name=$request->name;
+        if(!empty($request->password))
+        {
+        $user->password=bcrypt($request->password);
+        }
+        $user->email=$request->email;
+        $user->save();
+        $user = $user->fresh();
+        $user->assignRole($request->user_type);
 
         return  true;
+    }
+
+    public function notify()
+    {
+        $user = User::find(Auth::id());
+        $user->last_notify = Carbon::now()->toDateTimeString();;
+        $user->save();
     }
 
 }

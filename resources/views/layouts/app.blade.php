@@ -231,6 +231,24 @@ function myFunction() {
     x.style.display = "block";
   }
 }
+
+$(".notBtn").on("mouseover", function () {
+    $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  jQuery.ajax({
+      type: 'GET',
+      url: "{{ route('user.notify') }}",
+      success: function(data) {
+        $(".notBtn").find(".number").html('');
+      }
+    });
+
+});
+
 </script>
 
 </html>

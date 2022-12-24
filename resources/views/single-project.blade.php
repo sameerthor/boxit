@@ -617,7 +617,7 @@
                     M Ensure all electrical is tagged and made safeM - Check guards are in place
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled  value="1" <?php if (!empty($safety)) {
                                                         if ($safety->foundation == '1') {
                                                           echo "checked";
                                                         }
@@ -636,7 +636,7 @@
                     M Ear muffs to be worn
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled readonly value="1" <?php if (!empty($safety)) {
                                                         if ($safety->noise == '1') {
                                                           echo "checked";
                                                         }
@@ -654,7 +654,7 @@
                     M Dust masks to be worn
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[dust]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[dust]" <?php if (!empty($safety)) {
                                                                                 if ($safety->dust == '1') {
                                                                                   echo "checked";
                                                                                 }
@@ -672,7 +672,7 @@
                     M Hi Vis to be worn
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[hit_plant]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[hit_plant]" <?php if (!empty($safety)) {
                                                                                       if ($safety->hit_plant == '1') {
                                                                                         echo "checked";
                                                                                       }
@@ -690,7 +690,7 @@
                     M Keep the site tidy, stack materials in designated areas
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[poor_housekeeping]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[poor_housekeeping]" <?php if (!empty($safety)) {
                                                                                               if ($safety->poor_housekeeping == '1') {
                                                                                                 echo "checked";
                                                                                               }
@@ -708,7 +708,7 @@
                     M Ensure exposed steel is identified / capped
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[exposed_steel]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[exposed_steel]" <?php if (!empty($safety)) {
                                                                                           if ($safety->exposed_steel == '1') {
                                                                                             echo "checked";
                                                                                           }
@@ -726,7 +726,7 @@
                     M Ensure materials are secured
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[loose_material]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[loose_material]" <?php if (!empty($safety)) {
                                                                                           if ($safety->loose_material == '1') {
                                                                                             echo "checked";
                                                                                           }
@@ -744,7 +744,7 @@
                     M Check for overhead and underground services
                   </td>
                   <td>
-                    <input type="checkbox" readonly value="1" name="safety_plan[services]" <?php if (!empty($safety)) {
+                    <input type="checkbox" disabled value="1" name="safety_plan[services]" <?php if (!empty($safety)) {
                                                                                     if ($safety->services == '1') {
                                                                                       echo "checked";
                                                                                     }
