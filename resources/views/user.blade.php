@@ -202,6 +202,7 @@
 		}).then((res) => {
             window.location.href();
           });
+          refreshtable();
 
         }
       });
