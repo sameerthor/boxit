@@ -97,6 +97,34 @@
         @endforeach
       </tbody>
     </table>
+    <br>
+    <h4 class="paid-left">Choose Colors</h4>
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Background Color</th>
+          <th>Text Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pending</td>
+          <td><input type="color"  name="pending_background_color" value="{{$project->pending_background_color}}"></td>
+          <td><input type="color"  name="pending_text_color" value="{{$project->pending_text_color}}"></td>
+        </tr>
+        <tr>
+          <td>Confirmed</td>
+          <td><input type="color"  name="confirm_background_color" value="{{$project->confirm_background_color}}"></td>
+          <td><input type="color"  name="confirm_text_color" value="{{$project->confirm_text_color}}"></td>
+        </tr>
+      </tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><button class="btn btn-sm change_colors" data-id="{{$project->id}}" style="background-color: #172b4d;color:#fff">Change colors</button></td>
+      </tr>
+    </table>
     <h4 class="paid-left marg-t">Foreman Forms</h4>
     <div class="row">
       <div class="col-md-12 paid-n paid-l-n">
@@ -883,6 +911,24 @@ $(document).ready(function(){
         booking_data_id: id,
         date: $("input[name='date']").val(),
         confirm: $("input[name='confirm']").is(":checked")
+      },
+      success: function(data) {
+        window.location.reload();
+      }
+    });
+  });
+
+  $(".change_colors").click(function() {
+    var id = $(this).data('id');
+    jQuery.ajax({
+      type: 'POST',
+      url: "/change-calender-colors",
+      data: {
+        booking_id: id,
+        pending_background_color: $("input[name='pending_background_color']").val(),
+        pending_text_color: $("input[name='pending_text_color']").val(),
+        confirm_background_color:$("input[name='confirm_background_color']").val(),
+        confirm_text_color:$("input[name='confirm_text_color']").val(),
       },
       success: function(data) {
         window.location.reload();

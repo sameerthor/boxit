@@ -409,13 +409,15 @@ return view('test_mail', compact('msg'));
                 $html.="<div class='booked_div'>";
              foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-
+                    $style='';
                     switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
+                            $style='background: '.$boo->booking->pending_background_color.';color: '.$boo->booking->pending_text_color.' !important;border-left: 1px solid '.$boo->booking->pending_text_color.';border-bottom: 1px solid '.$boo->booking->pending_text_color.';';
                             break;
                         case '1':
                             $class = "green_box show_booking";
+                            $style='background: '.$boo->booking->confirm_background_color.';color: '.$boo->booking->confirm_text_color.' !important;border-left: 1px solid '.$boo->booking->confirm_text_color.';border-bottom: 1px solid '.$boo->booking->confirm_text_color.';';
                             break;
                         case '2':
                             $class = "red_box show_booking";
@@ -424,7 +426,7 @@ return view('test_mail', compact('msg'));
                             $class = "show_booking";
                     }
                     $b_id = $boo->booking_id;
-                    $html.="<span class='$class' data-id='" . $b_id . "'>$address</span>";
+                    $html.="<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
                 $html .= "</div>";
             }
@@ -634,5 +636,17 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $notification->notification = '<b>'. $contact->title. '</b> from '. $department->title. ' has requested date change for : <b>'.$booking->address.'</b>';
         $notification->booking_id =$booking->id;
         $notification->save();
+    }
+
+    public function change_colors(Request $request)
+    {
+          $booking= Booking::find($request->get('booking_id'));
+          $booking->pending_background_color=$request->get('pending_background_color');
+          $booking->pending_text_color=$request->get('pending_text_color');
+          $booking->confirm_background_color=$request->get('confirm_background_color');
+          $booking->confirm_text_color=$request->get('confirm_text_color');
+          $booking->save(); 
+          Session::flash('succes_msg', 'Color code changed successfuly for '.$booking->address.'.');
+
     }
 }
