@@ -16,6 +16,23 @@
     color: #FF5A5F;
     text-align: center;
   }
+  .red_box a {
+    color: #FF5A5F;
+  }
+  td.status_pause span {
+    margin-top: 2px;
+    margin-right: -10px;
+    margin-left: 10px;
+}
+
+td.status_pause {
+    display: flex;
+}
+
+#project-form-d .orange_box,.red_box,.green_box {
+    padding: 4px;
+    width: 80%;
+}
 </style>
 <div  id="project-form-d" class="card-new">
   <div class="card-body">
@@ -84,16 +101,16 @@
           <td>{{$res->department->title}}</td>
           <td>{{$res->contact->title}}</td>
           <td>{{date("d-m-Y h:i",strtotime($res->date))}}</td>
-          <td>@if($res->status=='0')
+          <td class="status_pause">@if($res->status=='0')
             <div class="orange_box">Pending</div>
             @elseif($res->status=='1')
             <div class="green_box">Confirmed</div>
             @elseif($res->status=='2')
-            <a href="#" data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" style="text-decoration:none" ><div class="red_box">On hold</div></a>
+            <div class="red_box"><a href="#" data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" style="text-decoration:none" >On hold</a></div>
             @else
             <div class="orange_box">Pending</div>
             @endif
-            @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 15%;" src="/img/project_hold.png"></a></span>@endif
+            @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 65%;" src="/img/project_hold.png"></a></span>@endif
           </td>
           <td class="text-right"><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
         </tr>
