@@ -78,12 +78,13 @@
 	}
 
 	.booked_div_monthly {
-		flex-basis: 100%;
-		height: 85px !important;
-		font-size: 13px;
-		font-weight: 600;
-	}
-
+    flex-basis: 100%;
+    height: auto;
+    min-height: 150px;
+    font-size: 13px;
+    padding: 30px 0px;
+    font-weight: 600;
+}
 	.pd-boxes {
 		padding: 0px 0px !important;
 	}
@@ -125,6 +126,8 @@
 		display: table;
 		margin: -6px auto;
 		font-size: 18px;
+		padding-bottom: 15px;
+
 	}
 
 	.monthly_booking {

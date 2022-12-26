@@ -157,12 +157,15 @@ class ForemanController extends Controller
                         {
                         $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
                         $dep=$booking_data->department->title;
+                        $style='';
                         switch ($booking_data->status) {
                             case '0':
                                 $class = "orange_bullet monthly_booking";
+                                $style='color:'.$booking_data->booking->pending_text_color;
                                 break;
                             case '1':
                                 $class = "green_bullet monthly_booking";
+                                $style='color:'.$booking_data->booking->confirm_text_color;
                                 break;
                             case '2':
                                 $class = "red_bullet monthly_booking";
@@ -171,7 +174,7 @@ class ForemanController extends Controller
                                 $class = "monthly_booking";
                         }
                         $b_id = $booking_data->booking_id;
-                        $inner_html .= "<span class='$class show_booking' data-id='" . $b_id . "'>$dep:$address</span>";
+                        $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                       }
                     }
 
