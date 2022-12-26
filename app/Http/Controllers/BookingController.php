@@ -659,7 +659,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
           $booking->onhold_reason=$request->get('reason');
           $booking->status=2;
           $booking->save(); 
-          Session::flash('succes_msg', 'Department set for on hold sucessfuly');
+          Session::flash('succes_msg', 'Department status successfully changed to On Hold.');
 
     }
 }

@@ -178,6 +178,12 @@ margin: 15px 0px !important;
     padding-top: 3px;
     padding-bottom: 1px;
 	}
+	span.week_count.active-day-month {
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    background-color: #182a4e;
+    color: white !important;
+}
 </style>
 @verbatim
 <div id="content">
