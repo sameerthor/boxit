@@ -12,8 +12,7 @@
                     <img src="img/logo2581-1.png">
                 </div>
                 <label>
-                    Calendar
-                    <input id="demo-one-input" mbsc-input data-input-style="outline" data-label-style="stacked" placeholder="Please select..." />
+                    Calender
                 </label>
                 <div id="demo-init-inline"></div>
             </div>
