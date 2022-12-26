@@ -652,4 +652,14 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
           Session::flash('succes_msg', 'Color code changed successfuly for '.$booking->address.'.');
 
     }
+
+    public function hold_project(Request $request)
+    {
+          $booking= BookingData::find($request->get('booking_data_id'));
+          $booking->onhold_reason=$request->get('reason');
+          $booking->status=2;
+          $booking->save(); 
+          Session::flash('succes_msg', 'Department set for on hold sucessfuly');
+
+    }
 }

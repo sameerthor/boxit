@@ -74,7 +74,7 @@
           <th>Contact</th>
           <th>Date</th>
           <th>Status</th>
-          <th>Action</th>
+          <th class="text-right">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -88,11 +88,14 @@
             <div class="orange_box">Pending</div>
             @elseif($res->status=='1')
             <div class="green_box">Confirmed</div>
+            @elseif($res->status=='2')
+            <a href="#" data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" style="text-decoration:none" ><div class="red_box">On hold</div></a>
             @else
-            <div class="red_box">Pending</div>
+            <div class="orange_box">Pending</div>
             @endif
+            @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 15%;" src="/img/project_hold.png"></a></span>@endif
           </td>
-          <td><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
+          <td class="text-right"><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
         </tr>
         @endforeach
       </tbody>
@@ -870,7 +873,31 @@
 
     </div>
   </div>
+  <div class="modal" id="holdPopup" role="dialog">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Hold Project</h4>
+        </div>
+        <div class="modal-body">
+
+          <div id="deny_text">
+            <p>Are you sure you want to change the status for this department to “On Hold”?</p>
+            <div class="row flex-d">
+              <textarea name="hold" placeholder="Reason"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm confirm_hold" data-id="1">Save</button>
+          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 <style>
   .tooltip-inner {
@@ -897,9 +924,17 @@ $(document).ready(function(){
   });
 
   $(".change_date").click(function() {
+    $("#holdPopup").hide();
     var id = $(this).data('id');
     $(".save_date").attr('data-id', id);
     $("#myModal").show();
+  })
+  
+  $(".hold_project").click(function() {
+    $("#myModal").hide();
+    var id = $(this).data('id');
+    $(".confirm_hold").attr('data-id', id);
+    $("#holdPopup").show();
   })
 
   $(".save_date").click(function() {
@@ -918,6 +953,20 @@ $(document).ready(function(){
     });
   });
 
+  $(".confirm_hold").click(function() {
+    var id = $(this).data('id');
+    jQuery.ajax({
+      type: 'POST',
+      url: "/hold-project",
+      data: {
+        booking_data_id: id,
+        reason: $("textarea[name='hold']").val(),
+      },
+      success: function(data) {
+        window.location.reload();
+      }
+    });
+  });
   $(".change_colors").click(function() {
     var id = $(this).data('id');
     jQuery.ajax({
@@ -938,6 +987,7 @@ $(document).ready(function(){
 
   $(".cancel").click(function() {
     $("#myModal").hide();
+    $("#holdPopup").hide();
   })
   $(document).on("click", "#back", function() {
     var id = $(this).data('id');
