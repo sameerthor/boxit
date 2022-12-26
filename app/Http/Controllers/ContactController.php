@@ -15,7 +15,7 @@ class ContactController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
 
     /**
@@ -69,5 +69,10 @@ class ContactController extends Controller
         $contact->save();
 
         return  true;
+    }
+
+    public function vendor()
+    {
+        return view('vendor');
     }
 }

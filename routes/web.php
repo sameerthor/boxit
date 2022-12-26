@@ -26,6 +26,8 @@ Route::middleware('role_based_redirect')->group(function () {
 
 });
 
+Route::get('/vendor', [App\Http\Controllers\ContactController::class, 'vendor'])->name('vendor');
+
 Route::middleware('role:Admin')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
