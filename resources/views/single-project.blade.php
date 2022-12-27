@@ -1070,7 +1070,8 @@ if($(this).html()=="Edit"){
     $.datetimepicker.setDateFormatter('moment');
 
     $('.example').datetimepicker({
-      format: 'DD-MM-YYYY HH:mm',
+      format: 'DD-MM-YYYY h:mm A',
+      formatTime:"h:mm A",
       step: 15
     });
 
