@@ -13,11 +13,11 @@ class BookingData extends Model
     protected $casts = [
         'new_date' => 'array',
     ];
-    protected $dateFormat = 'Y-m-d h:i:s A';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
 
     public function setDateAttribute( $value ) {
-        $this->attributes['date'] = (new Carbon($value))->format('Y-m-d h:i:s A');
+        $this->attributes['date'] = (new Carbon($value))->format('Y-m-d H:i:s');
       }
 
     public function department()
