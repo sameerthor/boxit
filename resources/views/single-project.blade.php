@@ -164,7 +164,7 @@
             @elseif($res->status=='1')
             <div class="green_box">Confirmed</div>
             @elseif($res->status=='2')
-            <div class="red_box"><a href="#" data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" style="text-decoration:none">On hold</a></div>
+            <div class="red_box"><a href="#" @if(!empty($res->onhold_reason)) data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" @endif style="text-decoration:none">On hold</a></div>
             @else
             <div class="orange_box">Pending</div>
             @endif
