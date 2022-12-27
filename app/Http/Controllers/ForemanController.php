@@ -228,7 +228,7 @@ class ForemanController extends Controller
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status="Pending";
+                    $status="On hold";
 
                     break;
                 default:
