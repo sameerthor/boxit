@@ -94,14 +94,13 @@
 	.red_box {
     background: #FCEEEC;
     color: #ff2000 !important;
-    border-left: 1px solid #16DB65;
+    border-left: 1px solid #ff2000;
     border-radius: 3px;
     cursor: pointer;
     padding: 0px;
     display: block;
-    border-bottom: 1px solid #16DB65;
+    border-bottom: 1px solid #ff2000;
 }
-
 
 	.green_box {
 		background: #F1FFE9;
