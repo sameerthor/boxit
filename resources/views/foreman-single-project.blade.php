@@ -896,7 +896,7 @@
         if(!(status_label_id==10 && status==0))
         {
         Swal.fire({
-            title: "Do you want to change ?",
+            title: "Are you sure you want to change the status?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: 'Yes',

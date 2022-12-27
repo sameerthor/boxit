@@ -1017,7 +1017,7 @@ $(".project_status").on("change", function() {
         var project_id = $(this).data('project');
         
         Swal.fire({
-            title: "Do you want to change ?",
+            title: "Are you sure you want to change the status?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: 'Yes',
