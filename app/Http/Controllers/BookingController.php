@@ -79,13 +79,13 @@ class BookingController extends Controller
                 'date' => @$requested_date[$key],
                 'booking_id' => $booking_id
             );
-            echo $key."<br>";
+            echo $key . "<br>";
             if ($key == '2') {
                 $book_array['status'] = 1;
             }
             BookingData::create($book_array);
         }
-    
+
         if (!empty($request->get('draft_id'))) {
             $draft_id = $request->get('draft_id');
             Draft::find($draft_id)->delete();
@@ -93,8 +93,8 @@ class BookingController extends Controller
         }
         $notification = new Notification();
         $notification->foreman_id = $request->get('foreman');
-        $notification->notification = '<b>'. ucfirst(Auth::user()->name). '</b> created a new booking for: <b>'.$request->get('address').'</b>';
-        $notification->booking_id =$booking_id;
+        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> created a new booking for: <b>' . $request->get('address') . '</b>';
+        $notification->booking_id = $booking_id;
         $notification->save();
         return redirect()->to('booking/' . $booking_id)->with('succes_msg', 'Your booking has been saved.Please check mail templates');
     }
@@ -109,31 +109,28 @@ class BookingController extends Controller
     public function test_msg(Request $request)
     {
         $account_sid = \config('const.twilio_sid');;
-        $auth_token = \config('const.twilio_token');         
-        $msg=''; 
-      if(!empty($request->get('from')) && !empty($request->get('to')))
-      {
-        $client = new Client($account_sid, $auth_token);
-        try{
-            $res=$client->messages->create(
-            // Where to send a text message (your cell phone?)
-            $request->get('to'),
-            array(
-                'from' =>$request->get('from'),
-                'body' => 'test'
-            )
-        );
-        $msg='success';
-       
-    } catch (Exception $e) {
-        $msg=$e->getMessage();
-        
+        $auth_token = \config('const.twilio_token');
+        $msg = '';
+        if (!empty($request->get('from')) && !empty($request->get('to'))) {
+            $client = new Client($account_sid, $auth_token);
+            try {
+                $res = $client->messages->create(
+                    // Where to send a text message (your cell phone?)
+                    $request->get('to'),
+                    array(
+                        'from' => $request->get('from'),
+                        'body' => 'test'
+                    )
+                );
+                $msg = 'success';
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+            }
+        }
+        return view('test_mail', compact('msg'));
     }
-}
-return view('test_mail', compact('msg'));
-      }
 
-    
+
     public function send_mail(Request $request)
     {
         $account_sid = \config('const.twilio_sid');;
@@ -149,46 +146,42 @@ return view('test_mail', compact('msg'));
         $client = new Client($account_sid, $auth_token);
 
         $mail_data = $request->get('mail_data');
-        if(!empty($mail_data))
-        {
-        foreach ($mail_data as $res) {
-            $booking_data = BookingData::find($res['booking_id']);
-            $booking_id=$booking_data->booking_id;
-            $contact = Contact::find($booking_data->contact_id);
-            if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
-                
-                try {
-                    $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
-                    $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
-                    $res=$client->messages->create(
-                        // Where to send a text message (your cell phone?)
-                        $contact->contact,
-                        array(
-                            'from' => $twilio_number,
-                            'body' => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($output_string))))
-                        )
-                    );
-                } catch (Exception $e) {
-                    $e->getMessage();
-                    
+        if (!empty($mail_data)) {
+            foreach ($mail_data as $res) {
+                $booking_data = BookingData::find($res['booking_id']);
+                $booking_id = $booking_data->booking_id;
+                $contact = Contact::find($booking_data->contact_id);
+                if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
+
+                    try {
+                        $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
+                        $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
+                        $res = $client->messages->create(
+                            // Where to send a text message (your cell phone?)
+                            $contact->contact,
+                            array(
+                                'from' => $twilio_number,
+                                'body' => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($output_string))))
+                            )
+                        );
+                    } catch (Exception $e) {
+                        $e->getMessage();
+                    }
+                } else {
+                    $details['to'] = $contact->email;
+                    $details['name'] = $contact->title;
+                    $details['url'] = 'testing';
+                    $details['subject'] = $res['subject'];
+                    $details['body'] = $res['body'];
+                    dispatch(new BookingEmailJob($details));
                 }
-            }else
-            {
-                $details['to'] = $contact->email;
-                $details['name'] = $contact->title;
-                $details['url'] = 'testing';
-                $details['subject'] = $res['subject'];
-                $details['body'] = $res['body'];
-                dispatch(new BookingEmailJob($details));
             }
-         
+            Booking::where('id', $booking_id)
+                ->update([
+                    'mail_sent' => 1
+                ]);
         }
-        Booking::where('id', $booking_id)
-        ->update([
-            'mail_sent' => 1
-        ]);
-        }
-       
+
 
         return array("success" => true);
     }
@@ -225,7 +218,7 @@ return view('test_mail', compact('msg'));
         if ($request->get('confirm') == 2) {
             $html = '';
             $address = $booking->address;
-            $b_date=date("d-m-Y h:i A",strtotime($booking_data->date));
+            $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>The following booking has been cancelled.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
@@ -281,7 +274,7 @@ return view('test_mail', compact('msg'));
             $email = $booking_data->contact->email;
             $html = '';
             $address = $booking->address;
-            $b_date=date("d-m-Y h:i A",strtotime($booking_data->date));
+            $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>Boxit has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
@@ -336,39 +329,36 @@ return view('test_mail', compact('msg'));
                     $current = strtotime(date("Y-m-d"));
                     $today_date    = strtotime("$year-$requested_month-$date");
                     $datediff = $today_date - $current;
-                    $class='';
-                    if($datediff==0)
-                    {
-                      $class=" active-day-month";
+                    $class = '';
+                    if ($datediff == 0) {
+                        $class = " active-day-month";
                     }
-                    $inner_html = '<span data-id="" class="week_count'.$class.'">' . $date . '</span>';
+                    $inner_html = '<span data-id="" class="week_count' . $class . '">' . $date . '</span>';
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
                     $booking_datas = BookingData::whereDate('date', '=', $booking_date)
                         ->get();
-                    foreach ($booking_datas as $booking_data)
-                     { 
-                        if(!empty($booking_data->booking))
-                        {
-                        $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                        $dep=$booking_data->department->title;
-                        $style='';
-                        switch ($booking_data->status) {
-                            case '0':
-                                $class = "orange_bullet monthly_booking";
-                                $style='color:'.$booking_data->booking->pending_text_color;
-                                break;
-                            case '1':
-                                $class = "green_bullet monthly_booking";
-                                $style='color:'.$booking_data->booking->confirm_text_color;
-                                break;
-                            case '2':
-                                $class = "red_bullet monthly_booking";
-                                break;
-                            default:
-                                $class = "monthly_booking";
-                        }
-                        $b_id = $booking_data->booking_id;
-                        $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                    foreach ($booking_datas as $booking_data) {
+                        if (!empty($booking_data->booking)) {
+                            $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
+                            $dep = $booking_data->department->title;
+                            $style = '';
+                            switch ($booking_data->status) {
+                                case '0':
+                                    $class = "orange_bullet monthly_booking";
+                                    $style = 'color:' . $booking_data->booking->pending_text_color;
+                                    break;
+                                case '1':
+                                    $class = "green_bullet monthly_booking";
+                                    $style = 'color:' . $booking_data->booking->confirm_text_color;
+                                    break;
+                                case '2':
+                                    $class = "red_bullet monthly_booking";
+                                    break;
+                                default:
+                                    $class = "monthly_booking";
+                            }
+                            $b_id = $booking_data->booking_id;
+                            $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
                     }
 
@@ -386,7 +376,7 @@ return view('test_mail', compact('msg'));
     {
         $dates = $request->get('dates');
         $year = $request->get('year');
-        $foreman_id=$request->get('foreman_id');
+        $foreman_id = $request->get('foreman_id');
         $requested_month = $request->get('month') + 1;
         $html = '';
         foreach ($dates as $date) {
@@ -400,27 +390,27 @@ return view('test_mail', compact('msg'));
                 $month = $requested_month;
             }
             $booking_date = date('Y-m-d', strtotime($year . "-" . $month . "-" . $date['day']));
-            
+
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
-                  $booking_data = BookingData::where(array('department_id' => $id)) ->whereHas('booking', function ($query) use($foreman_id){
-                  if(!empty($foreman_id))
-                    $query->where('foreman_id',$foreman_id);
+                $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
+                    if (!empty($foreman_id))
+                        $query->where('foreman_id', $foreman_id);
                 })->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
-                $html.="<div class='booked_div'>";
-             foreach ($booking_data as $boo) {
+                $html .= "<div class='booked_div'>";
+                foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $style='';
+                    $style = '';
                     switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
-                            $style='background: '.$boo->booking->pending_background_color.';color: '.$boo->booking->pending_text_color.' !important;border-left: 1px solid '.$boo->booking->pending_text_color.';border-bottom: 1px solid '.$boo->booking->pending_text_color.';';
+                            $style = 'background: ' . $boo->booking->pending_background_color . ';color: ' . $boo->booking->pending_text_color . ' !important;border-left: 1px solid ' . $boo->booking->pending_text_color . ';border-bottom: 1px solid ' . $boo->booking->pending_text_color . ';';
                             break;
                         case '1':
                             $class = "green_box show_booking";
-                            $style='background: '.$boo->booking->confirm_background_color.';color: '.$boo->booking->confirm_text_color.' !important;border-left: 1px solid '.$boo->booking->confirm_text_color.';border-bottom: 1px solid '.$boo->booking->confirm_text_color.';';
+                            $style = 'background: ' . $boo->booking->confirm_background_color . ';color: ' . $boo->booking->confirm_text_color . ' !important;border-left: 1px solid ' . $boo->booking->confirm_text_color . ';border-bottom: 1px solid ' . $boo->booking->confirm_text_color . ';';
                             break;
                         case '2':
                             $class = "red_box show_booking";
@@ -429,7 +419,7 @@ return view('test_mail', compact('msg'));
                             $class = "show_booking";
                     }
                     $b_id = $boo->booking_id;
-                    $html.="<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
+                    $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
                 $html .= "</div>";
             }
@@ -450,7 +440,7 @@ return view('test_mail', compact('msg'));
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
-            $booking_date=$res->date;
+            $booking_date = $res->date;
             $title = $res->department->title;
             switch ($res->status) {
                 case '0':
@@ -463,7 +453,7 @@ return view('test_mail', compact('msg'));
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status = "Pending";
+                    $status = "On hold";
                     break;
                 default:
                     $class = "";
@@ -472,14 +462,14 @@ return view('test_mail', compact('msg'));
 
             $html .= '<div class="steel  pop-flex ' . $class . '">
 										<p>' . $title . '</p>
-										<span>'.date('d/m/Y', strtotime($booking_date)).' - ' . $status . '</span>
+										<span>' . date('d/m/Y', strtotime($booking_date)) . ' - ' . $status . '</span>
 									</div>
 									';
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
             $title = $res->department->title;
-            $booking_date=$res->date;
+            $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -500,13 +490,13 @@ return view('test_mail', compact('msg'));
             }
             $html .= '			<div class="pods ' . $class . ' pop-flex">
 										<p>' . $title . '</p>
-										<span>'.date('d/m/Y', strtotime($booking_date)).' - ' . $status . '</span>
+										<span>' . date('d/m/Y', strtotime($booking_date)) . ' - ' . $status . '</span>
 									</div>';
         }
 
         $html .= '</div></div>';
 
-        return array('address' => $booking->address,'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA', 'html' => $html);
+        return array('address' => $booking->address, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)
@@ -573,58 +563,55 @@ return view('test_mail', compact('msg'));
         $booking_data = BookingData::find($id);
         $booking = Booking::find($booking_data->booking_id);
         $contact = Contact::find($booking_data->contact_id);
-        $department=Department::find($booking_data->department_id);
-        if($request->get('confirm')=='true')
-        {
-            $update_array = ['date' => $date,'status'=>1];
+        $department = Department::find($booking_data->department_id);
+        if ($request->get('confirm') == 'true') {
+            $update_array = ['date' => $date, 'status' => 1];
             $html = 'Hi,<br>';
-        $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
-        $old_date = date("d-m-Y", strtotime($booking_data->date));
-        $old_time = date("h:i:s A", strtotime($booking_data->date));
-        $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
-        $new_date = date("d-m-Y", strtotime($date));
-        $new_time = date("h:i:s A", strtotime($date));
-        $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-        $html .= 'Thanks,<br>
+            $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
+            $old_date = date("d-m-Y", strtotime($booking_data->date));
+            $old_time = date("h:i:s A", strtotime($booking_data->date));
+            $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
+            $new_date = date("d-m-Y", strtotime($date));
+            $new_time = date("h:i:s A", strtotime($date));
+            $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
+            $html .= 'Thanks,<br>
       Jules,<br>
       BOXIT Sales<br>
       <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
       <br>
       <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
-            
-        }else
-        {
-        $enc_key = base64_encode($booking_data->id);
-        $url = URL("reply/$enc_key");
-        $reply_link = "<a href='" . $url . "' style='border: 1px solid transparent;
+        } else {
+            $enc_key = base64_encode($booking_data->id);
+            $url = URL("reply/$enc_key");
+            $reply_link = "<a href='" . $url . "' style='border: 1px solid transparent;
 padding: 0.375rem 0.75rem;
 font-size: 1rem;
 user-select: none;
 text-decoration: none !important;
 line-height: 1.5;
 border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
-        $html = 'Hi,<br>';
-        $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
-        $old_date = date("d-m-Y", strtotime($booking_data->date));
-        $old_time = date("h:i:s A", strtotime($booking_data->date));
-        $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
-        $new_date = date("d-m-Y", strtotime($date));
-        $new_time = date("h:i:s A", strtotime($date));
-        $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-        if ($contact->department_id != '2') {
-            $html .= '<p>' . $reply_link . '</p>';
-        }
-        $html .= 'Thanks,<br>
+            $html = 'Hi,<br>';
+            $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
+            $old_date = date("d-m-Y", strtotime($booking_data->date));
+            $old_time = date("h:i:s A", strtotime($booking_data->date));
+            $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
+            $new_date = date("d-m-Y", strtotime($date));
+            $new_time = date("h:i:s A", strtotime($date));
+            $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
+            if ($contact->department_id != '2') {
+                $html .= '<p>' . $reply_link . '</p>';
+            }
+            $html .= 'Thanks,<br>
       Jules,<br>
       BOXIT Sales<br>
       <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
       <br>
       <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
 
-        $update_array = ['date' => $date];
-        if ($contact->department_id != '2') {
-            $update_array['status'] = 0;
-        }
+            $update_array = ['date' => $date];
+            if ($contact->department_id != '2') {
+                $update_array['status'] = 0;
+            }
         }
         $details['to'] = $contact->email;
         $details['name'] = $contact->title;
@@ -636,30 +623,28 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         BookingData::where('id', $id)->update($update_array);
         $notification = new Notification();
         $notification->foreman_id = $booking->foreman_id;
-        $notification->notification = '<b>'. $contact->title. '</b> from '. $department->title. ' has requested date change for : <b>'.$booking->address.'</b>';
-        $notification->booking_id =$booking->id;
+        $notification->notification = '<b>' . $contact->title . '</b> from ' . $department->title . ' has requested date change for : <b>' . $booking->address . '</b>';
+        $notification->booking_id = $booking->id;
         $notification->save();
     }
 
     public function change_colors(Request $request)
     {
-          $booking= Booking::find($request->get('booking_id'));
-          $booking->pending_background_color=$request->get('pending_background_color');
-          $booking->pending_text_color=$request->get('pending_text_color');
-          $booking->confirm_background_color=$request->get('confirm_background_color');
-          $booking->confirm_text_color=$request->get('confirm_text_color');
-          $booking->save(); 
-          Session::flash('succes_msg', 'Color code changed successfuly for '.$booking->address.'.');
-
+        $booking = Booking::find($request->get('booking_id'));
+        $booking->pending_background_color = $request->get('pending_background_color');
+        $booking->pending_text_color = $request->get('pending_text_color');
+        $booking->confirm_background_color = $request->get('confirm_background_color');
+        $booking->confirm_text_color = $request->get('confirm_text_color');
+        $booking->save();
+        Session::flash('succes_msg', 'Color code changed successfuly for ' . $booking->address . '.');
     }
 
     public function hold_project(Request $request)
     {
-          $booking= BookingData::find($request->get('booking_data_id'));
-          $booking->onhold_reason=$request->get('reason');
-          $booking->status=2;
-          $booking->save(); 
-          Session::flash('succes_msg', 'Department status successfully changed to On Hold.');
-
+        $booking = BookingData::find($request->get('booking_data_id'));
+        $booking->onhold_reason = $request->get('reason');
+        $booking->status = 2;
+        $booking->save();
+        Session::flash('succes_msg', 'Department status successfully changed to On Hold.');
     }
 }

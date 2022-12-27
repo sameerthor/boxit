@@ -66,23 +66,7 @@ class ForemanController extends Controller
               $month=$requested_month;
             }
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
-            $foreman = User::where("id",Auth::id())->get();
-            foreach ($foreman as $res) {
-                \DB::statement("SET SQL_MODE=''");
-                $booking_data = BookingData::whereHas('booking', function($query) use ($res){
-                    return $query->where('foreman_id', '=', $res->id);
-                })->whereDate('date', '=', date('Y-m-d', strtotime($booking_date)))->groupBy(DB::raw('Date(date)'),'booking_data.id')->get();
-                if (!empty($booking_data)) {
-                    $html .= "<div class='booked_div'>";
-                    foreach ($booking_data as $boo) 
-                     {   $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                      $html.="<span class='green_box show_booking' data-id='" . $boo->booking->id . "'>" . $address . "</span>";
-                     }
-                     $html.="</div>";
-                } else {
-                    $html .= "<div class='booked_div'></div>";
-                }
-            }
+            
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
                 $booking_data = BookingData::whereHas('booking', function($q) {
@@ -214,7 +198,7 @@ class ForemanController extends Controller
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status="Pending";
+                    $status="On hold";
                     break;
                 default:
                     $class = "";

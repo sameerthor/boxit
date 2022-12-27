@@ -126,7 +126,7 @@
 		  @foreach($notifications as $notification)	
 		  <div class = "sec new">
                <div class = "txt">{!! $notification->notification !!}</div>
-              <div class = "txt sub">{{ Date('m/d h:i A',strtotime($notification->created_at))}}</div>
+              <div class = "txt sub">{{ Date('d/m h:i A',strtotime($notification->created_at))}}</div>
           </div>
 		  @endforeach	
          </div>

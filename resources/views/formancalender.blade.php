@@ -274,7 +274,6 @@ margin: 15px 0px !important;
 			<div class="col-md-1"></div>
 			<div class="col-md-11">
 				<ul class="names-style">
-				<li><span>Foreman</span><br><?php echo ucfirst($foreman->name); ?></li>
 					<li>Plumber</li>
 					<li>PODS</li>
 					<li>Steel</li>
