@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="/calender/css/mobiscroll.javascript.min.css" rel="stylesheet" />
-<script src="/calender/js/mobiscroll.javascript.min.js"></script>
+<link href="/js/calender/css/mobiscroll.javascript.min.css" rel="stylesheet" />
+<script src="/js/calender/js/mobiscroll.javascript.min.js"></script>
 <div class="container-fluid">
     <div class="row no-flex">
         <div class="col-md-2 wd-100"></div>
