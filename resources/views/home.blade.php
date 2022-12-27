@@ -255,7 +255,7 @@
 		</div>
 		<div class="col-md-7 text-right">
          	<select class="select-styles bgc-new" @change="changeforeman($event)">
-		<option value="">All Foremen</option>
+		<option value="">All Foreman</option>
 			<?php foreach($foremans as $foreman) { ?>
 				<option value="<?= $foreman->id ?>">
 				<?= ucfirst($foreman->name); ?>

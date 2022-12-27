@@ -27,6 +27,7 @@ Route::middleware('role_based_redirect')->group(function () {
 });
 
 Route::get('/vendors', [App\Http\Controllers\ContactController::class, 'vendor'])->name('vendor');
+Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
 
 Route::middleware('role:Admin')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
@@ -120,7 +121,6 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
   Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
   Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
-  Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
   Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
 });
 
