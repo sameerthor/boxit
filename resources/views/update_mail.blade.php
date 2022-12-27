@@ -53,7 +53,7 @@
 						}
 
 						$date=date("d-m-Y",strtotime($date));
-						$time=date("h:i:s",strtotime($date));
+						$time=date("h:i:s A",strtotime($date));
 						$enc_key=base64_encode($booking_data->id);
 						$url=URL("reply/$enc_key");
 						$reply_link="<a href='".$url."' style='border: 1px solid transparent;

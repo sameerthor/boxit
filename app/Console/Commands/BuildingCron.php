@@ -47,7 +47,7 @@ class BuildingCron extends Command
                 $html="<p>The following department are confirmed for ".$res->booking->address." :<p>";
                 foreach($result as $con)
                 {
-                    $b_date=   date("d-m-Y h:i",strtotime($con->date));  
+                    $b_date=   date("d-m-Y h:i A",strtotime($con->date));  
                   $html.="<p>".$con->department->title.": ".$con->contact->title."<br>";
                   $html.="Date: ".$b_date."</p>";
                 }

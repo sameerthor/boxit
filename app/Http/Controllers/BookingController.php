@@ -225,7 +225,7 @@ return view('test_mail', compact('msg'));
         if ($request->get('confirm') == 2) {
             $html = '';
             $address = $booking->address;
-            $b_date=date("d-m-Y h:i",strtotime($booking_data->date));
+            $b_date=date("d-m-Y h:i A",strtotime($booking_data->date));
             $html .= "<p>The following booking has been cancelled.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
@@ -281,7 +281,7 @@ return view('test_mail', compact('msg'));
             $email = $booking_data->contact->email;
             $html = '';
             $address = $booking->address;
-            $b_date=date("d-m-Y h:i",strtotime($booking_data->date));
+            $b_date=date("d-m-Y h:i A",strtotime($booking_data->date));
             $html .= "<p>Boxit has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
@@ -580,10 +580,10 @@ return view('test_mail', compact('msg'));
             $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
         $old_date = date("d-m-Y", strtotime($booking_data->date));
-        $old_time = date("h:i:s", strtotime($booking_data->date));
+        $old_time = date("h:i:s A", strtotime($booking_data->date));
         $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
         $new_date = date("d-m-Y", strtotime($date));
-        $new_time = date("h:i:s", strtotime($date));
+        $new_time = date("h:i:s A", strtotime($date));
         $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
         $html .= 'Thanks,<br>
       Jules,<br>
@@ -606,10 +606,10 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $html = 'Hi,<br>';
         $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
         $old_date = date("d-m-Y", strtotime($booking_data->date));
-        $old_time = date("h:i:s", strtotime($booking_data->date));
+        $old_time = date("h:i:s A", strtotime($booking_data->date));
         $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
         $new_date = date("d-m-Y", strtotime($date));
-        $new_time = date("h:i:s", strtotime($date));
+        $new_time = date("h:i:s A", strtotime($date));
         $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
         if ($contact->department_id != '2') {
             $html .= '<p>' . $reply_link . '</p>';

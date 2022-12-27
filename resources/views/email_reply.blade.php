@@ -50,7 +50,7 @@
           <div class="modal-body">
             <div id="confirm_text">
               <p>Address : <strong><u>{{$booking_data->booking->address}}</u></strong></p>
-              <p>Date : <strong><u>{{date("d-m-Y h:i",strtotime($booking_data->date))}}</u></strong></p>
+              <p>Date : <strong><u>{{date("d-m-Y h:i A",strtotime($booking_data->date))}}</u></strong></p>
             
               <h5>Do you want to confirm this booking ?</h5>
             </div>

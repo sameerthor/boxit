@@ -63,7 +63,7 @@ class ProjectController extends Controller
         Booking::find($project_id)->delete();
         foreach($booking_datas as $booking_data)
         {
-         $b_date=   date("d-m-Y h:i",strtotime($booking_data->date));
+         $b_date=   date("d-m-Y h:i A",strtotime($booking_data->date));
         $html='<p>The following booking has been cancelled.</p>';
         $html.="<p>Address: ".$booking->address."<br>";
         $html.="Date: ".$b_date."</p>";

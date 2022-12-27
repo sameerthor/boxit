@@ -158,7 +158,7 @@
           <td>{{$loop->iteration}}</td>
           <td>{{$res->department->title}}</td>
           <td>{{$res->contact->title}}</td>
-          <td>{{date("d-m-Y h:i",strtotime($res->date))}}</td>
+          <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
           <td class="status_pause">@if($res->status=='0')
             <div class="orange_box">Pending</div>
             @elseif($res->status=='1')
