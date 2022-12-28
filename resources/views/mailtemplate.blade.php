@@ -103,7 +103,7 @@
           </table>
       </div>
       <div style="padding:2% 1%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
-      <iframe src="/_mail-viewer"  frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
+      <iframe src="/_mail-viewer" id="iframe" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
       </div>
       </div>
 
@@ -136,8 +136,9 @@
       }
     });
   });
-  $('iframe').ready( function() {
-  $('iframe').contents().find("head").append($("<style type='text/css'>div#app header {display: none;} </style>"));
-});
+ 
+var head = jQuery("#iframe").contents().find("head");
+var css = '<style type="text/css">div#app header {display: none;} </style>';
+jQuery(head).append(css);
 </script>
 @endsection
