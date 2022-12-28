@@ -16,26 +16,26 @@ class foremanSeeder extends Seeder
     {   
 
         $user=User::create([
-            'name' => 'nick',
-            'email' => 'nick@boxit.com',
+            'name' => 'nik',
+            'email' => 'nikm01@windowslive.com',
             'password' => bcrypt('Foreman@123'),
         ]);
         $user->assignRole('Foreman');
         $user=User::create([
             'name' => 'dan',
-            'email' => 'dan@boxit.com',
+            'email' => 'danpfrancis4@gmail.com',
             'password' => bcrypt('Foreman@123'),
         ]);
         $user->assignRole('Foreman');
         $user=User::create([
             'name' => 'jimmy',
-            'email' => 'jimmy@boxit.com',
+            'email' => 'jdinwood@outlook.co.nz',
             'password' => bcrypt('Foreman@123'),
         ]);
         $user->assignRole('Foreman');
         $user=User::create([
-            'name' => 'darryl',
-            'email' => 'darryl@boxit.com',
+            'name' => 'daryl',
+            'email' => 'daryl@olsenconstruction.co.nz',
             'password' => bcrypt('Foreman@123'),
         ]);
         $user->assignRole('Foreman');
