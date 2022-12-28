@@ -623,7 +623,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         BookingData::where('id', $id)->update($update_array);
         $notification = new Notification();
         $notification->foreman_id = $booking->foreman_id;
-        $notification->notification = '<b>' . $contact->title . '</b> from ' . $department->title . ' has requested date change for : <b>' . $booking->address . '</b>';
+        $notification->notification = '<b>' . $contact->title . '</b> from ' . $department->title . ' has requested date change for: <b>' . $booking->address . '</b>';
         $notification->booking_id = $booking->id;
         $notification->save();
     }
