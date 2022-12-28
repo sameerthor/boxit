@@ -250,6 +250,13 @@ class BookingController extends Controller
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
+        }else
+        {
+            $notification = new Notification();
+            $notification->foreman_id = $booking->foreman_id;
+            $notification->notification = '<b>' . $department->title . '</b> has confirm the requested date for booking <b>' . $booking->address . '</b>';
+            $notification->booking_id = $booking->id;
+            $notification->save();
         }
         BookingData::where('id', $id)
             ->update($update_data);
@@ -623,7 +630,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         BookingData::where('id', $id)->update($update_array);
         $notification = new Notification();
         $notification->foreman_id = $booking->foreman_id;
-        $notification->notification = '<b>' . $contact->title . '</b> from ' . $department->title . ' has requested date change for: <b>' . $booking->address . '</b>';
+        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has requested date change for: <b>' . $booking->address . '</b>';
         $notification->booking_id = $booking->id;
         $notification->save();
     }
@@ -641,10 +648,16 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
     public function hold_project(Request $request)
     {
-        $booking = BookingData::find($request->get('booking_data_id'));
+        $booking = BookingData::find($request->get('booking_data_id'));    
         $booking->onhold_reason = $request->get('reason');
         $booking->status = 2;
         $booking->save();
+        $notification = new Notification();
+        $notification->foreman_id = $booking->booking->foreman_id;
+        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has put <b>' . $booking->department->title . '</b> for <b>' . $booking->booking->address . '</b> on hold';
+        $notification->booking_id = $booking->booking_id;
+        $notification->save();
+
         Session::flash('succes_msg', 'Department status successfully changed to On Hold.');
     }
 }
