@@ -137,8 +137,20 @@
     });
   });
  
-var head = jQuery("#iframe").contents().find("head");
-var css = '<style type="text/css">div#app header {display: none;} </style>';
-jQuery(head).append(css);
+</script>
+<script type="text/javascript">
+var frameListener;
+$(window).load(function () {
+    frameListener = setInterval("frameLoaded()", 50);
+});
+function frameLoaded() {
+    var frame = $('iframe').get(0);
+    if (frame != null) {
+        var frmHead = $(frame).contents().find('head');
+        if (frmHead != null) {
+          var css = '<style type="text/css">div#app header {display: none;} </style>';
+jQuery(frmHead).append(css);  }
+    }
+}
 </script>
 @endsection
