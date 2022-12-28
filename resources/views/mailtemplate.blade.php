@@ -35,7 +35,7 @@
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
-        <div style="padding:5%" d="" class="tab-pane fade active show" id="tab1" role="tabpanel" aria-labelledby="1-tab">
+        <div style="padding:2% 1%" d="" class="tab-pane fade active show" id="tab1" role="tabpanel" aria-labelledby="1-tab">
           <table class="table table-stripped">
             <thead>
               <tr>
@@ -72,7 +72,7 @@
             </tbody>
           </table>
         </div>
-        <div style="padding:5%" d="" class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
+        <div style="padding:2% 1%" d="" class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
         <table class="table table-stripped">
             <thead>
               <tr>
@@ -102,7 +102,7 @@
             </tbody>
           </table>
       </div>
-      <div style="padding:5%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+      <div style="padding:2% 1%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
       <iframe src="/_mail-viewer"  frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
       </div>
       </div>
@@ -137,7 +137,7 @@
     });
   });
   $('iframe').ready( function() {
-  $('iframe').contents().find("head").append($("<style type='text/css'>.actions form:first-child {display: none;} </style>"));
+  $('iframe').contents().find("head").append($("<style type='text/css'>div#app header {display: none;} </style>"));
 });
 </script>
 @endsection
