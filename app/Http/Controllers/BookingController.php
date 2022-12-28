@@ -254,7 +254,7 @@ class BookingController extends Controller
         {
             $notification = new Notification();
             $notification->foreman_id = $booking->foreman_id;
-            $notification->notification = '<b>' . $department->title . '</b> has confirm the requested date for booking <b>' . $booking->address . '</b>';
+            $notification->notification = '<b>' . $department->title . '</b> has accept the requested date for booking <b>' . $booking->address . '</b>';
             $notification->booking_id = $booking->id;
             $notification->save();
         }
