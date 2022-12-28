@@ -240,7 +240,7 @@
                   if(count($project_status)>0)
                   {
 
-                  $stat=($project_status[0]->status==1)?'<div class="green_box status_label">'.($label->id=="10"?"Passed":"Yes").'</div>':'<div class="red_box status_label">'.($label->id=="10"?"Failed":"No").'</div>';
+                  $stat=($project_status[0]->status==1)?'<div class="green_box status_label">'.($label->id=="10"?"Passed":"Yes").'</div>':'<div class="red_box status_label">'.($label->id=="10" || $label->id=="9" ?$label->id=="10"?"Failed":"NA":"No").'</div>';
                   }else
                   {
                   $stat='<div class="orange_box status_label">Pending</div>';
