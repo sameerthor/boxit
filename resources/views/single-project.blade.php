@@ -249,7 +249,7 @@
                   <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$label->label}}</td>
-                    <td>
+                    <td class="text-right">
                       @if(count($project_status)>0)
                       {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'"><i class="fa fa-eye"></i></a>':''!!}
                       @endif
@@ -283,7 +283,7 @@
                 <tr>
         <td></td>
         <td></td>
-        <td><button class="btn btn-sm edit_status" style="background-color: #172b4d;color:#fff">Edit</button></td>
+        <td class="text-right"><button class="btn btn-sm edit_status" style="background-color: #172b4d;color:#fff">Edit Project Status</button></td>
       </tr>
                 </tfoot>
               </table>
@@ -1053,10 +1053,10 @@ $(".project_status").on("change", function() {
 $(".edit_status").click(function(){
 $(".status_label").toggle();
 $(".switch").toggle();
-if($(this).html()=="Edit"){
-  $(this).html('View');
+if($(this).html()=="Edit Project Status"){
+  $(this).html('Close');
 }else{
-  $(this).html('Edit');
+  $(this).html('Edit Project Status');
 }
 });
 
