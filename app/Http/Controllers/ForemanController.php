@@ -318,13 +318,13 @@ class ForemanController extends Controller
         $email_template=ForemanTemplates::where(array('status'=>$request->get('status'),'project_status_label_id'=>$request->get('status_label_id')))->get();
       if(count($email_template)>0)
       {
-        $details['to'] = env('ADMIN_EMAIL1');;
+        $details['to'] = \config('const.admin1');
         $details['name'] = 'test';
         $details['subject'] = $email_template[0]->subject;
         $details['body'] =$email_template[0]->body;
         dispatch(new BookingEmailJob($details));
         dispatch(new BookingEmailJob($details));
-        $details['to'] = env('ADMIN_EMAIL2');
+        $details['to'] = \config('const.admin2');
         dispatch(new BookingEmailJob($details));
       }  
         return true;
