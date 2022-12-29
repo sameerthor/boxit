@@ -246,9 +246,11 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE FOR ALTERNATE SCHEDULE </a>";
-            $details['to'] = env('ADMIN_EMAIL');
+            $details['to'] = env('ADMIN_EMAIL1');
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
+            dispatch(new BookingEmailJob($details));
+            $details['to'] = env('ADMIN_EMAIL2');
             dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = $booking->foreman_id;
