@@ -250,6 +250,11 @@ class BookingController extends Controller
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
+            $notification = new Notification();
+            $notification->foreman_id = $booking->foreman_id;
+            $notification->notification = '<b>' . $department->title . '</b> has request date change for booking <b>' . $booking->address . '</b>,Please check email.';
+            $notification->booking_id = $booking->id;
+            $notification->save();
         }else
         {
             $notification = new Notification();
