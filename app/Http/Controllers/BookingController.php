@@ -54,7 +54,7 @@ class BookingController extends Controller
         $booking->floor_type = $request->get('floor_type');
         $booking->notes = $request->get('notes');
         $booking->foreman_id = $request->get('foreman');
-
+        $request_status=$request->get('status');
         $files = [];
         if (!empty($request->get('existing_file'))) {
             $files = $request->get('existing_file');
@@ -83,6 +83,12 @@ class BookingController extends Controller
             if ($key == '2') {
                 $book_array['status'] = 1;
             }
+
+            if(empty($request_status[$key]))
+            {
+                $book_array['status'] = 2;
+
+            } 
             BookingData::create($book_array);
         }
 

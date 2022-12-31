@@ -26,6 +26,8 @@
 						if(empty($booking_data))
 						{
                           continue;
+						}elseif($booking_data->status==2){
+								continue;	
 						}
 						@endphp
 						<li class="nav-item" role="presentation">
@@ -40,7 +42,10 @@
 						if(empty($booking_data))
 						{
                           continue;
+						}elseif($booking_data->status==2){
+								continue;	
 						}
+
 						$date=$booking_data->date;
 						$id=$booking_data->id;
 						if(!empty($res->products))

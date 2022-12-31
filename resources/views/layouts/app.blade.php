@@ -30,6 +30,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{ asset('js/repeater/repeater.js') }}" defer></script>
 	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -238,19 +239,10 @@ function myFunction() {
 }
 
 $(".notBtn").on("mouseout", function () {
-    $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
-
-  jQuery.ajax({
-      type: 'GET',
-      url: "{{ route('user.notify') }}",
-      success: function(data) {
-        $(".notBtn").find(".number").html('');
-      }
-    });
+	axios.get("{{ route('user.notify') }}")
+					.then((response) => {
+						$(".notBtn").find(".number").html('');
+					})
 
 });
 $(document).ajaxSend(function() {
