@@ -127,7 +127,6 @@
   }
 
   $(document).on("click", ".edit", function() {
-    $("#user_type").hide();
     $("#email").attr('readonly',true);
     $("#user_type").attr('readonly',true);
     let id = $(this).data('id');
