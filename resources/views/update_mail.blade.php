@@ -90,7 +90,6 @@
 					</div>
 				</div>
 				<div class="col-md-2"><button id="send_email" class="btn btn-secondary">Send all emails</button>
-				<img src="/img/loader.svg" id="loaderr" style="width: 13%;margin: 8% auto 6% 0%;display:none;">
 				</div>
 
 			</div>
@@ -110,7 +109,6 @@
 	});
 	$("#send_email").click(function() {
 		$(this).text("Sending...");
-		$('#loaderr').css('display','inline-block');
 		var mail_data = [];
 		$("#myTabContent").find("input").each(function() {
 			if ($(this).val() == '' || $(this).val() == '0') {
@@ -139,7 +137,6 @@
 		});
 		setTimeout(function(){
 			$("#send_email").text("Sent");
-				$('#loaderr').hide();
 				Toast.fire({
 					icon: 'success',
 					title: "Mail Sent successfuly."
