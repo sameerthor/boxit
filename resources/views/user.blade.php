@@ -89,8 +89,8 @@
           <div class="form-group">
             <label for="user_type" class="col-form-label">User Type:</label>
             <select name="user_type" class="form-control" id="user_type">
-              <option>Admin</option>
-              <option>Foreman</option>
+              <option vaue="Admin">Admin</option>
+              <option vaue="Foreman">Foreman</option>
             </select>
           </div>
         </form>
@@ -127,6 +127,7 @@
   }
 
   $(document).on("click", ".edit", function() {
+    $("#user_type").hide();
     let id = $(this).data('id');
     var user_type = $(this).parents('tr').find(".user_type").html();
     jQuery.ajax({
@@ -156,6 +157,7 @@
   });
 
   $(document).on("click", "#add_user", function() {
+    $("#user_type").show();
     $(".save_button").attr("id", "submit_user")
     $("#modal_user_id").text("");
     $("#modal_title").html("Add");

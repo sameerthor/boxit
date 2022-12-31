@@ -1679,3 +1679,6 @@ h4
   color: white;
 } */
 
+.col-md-1.name-icon-w.text-right {
+  margin-top: 1.6px !important;
+}

@@ -52,8 +52,6 @@ class UserController extends Controller
         }
         $user->email=$request->email;
         $user->save();
-        $user = $user->fresh();
-        $user->assignRole($request->user_type);
 
         return  true;
     }
