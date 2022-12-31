@@ -39,6 +39,11 @@
 
 <body>
 	<div id="app">
+	<div id="overlay">
+  <div class="cv-spinner">
+    <span class="spinner"></span>
+  </div>
+</div>
 		@auth
 		<div class="container-fluid">
 			<div class="row">
@@ -248,7 +253,12 @@ $(".notBtn").on("mouseover", function () {
     });
 
 });
-
+$(document).ajaxSend(function() {
+    $("#overlay").show();　
+  });
+  $( document ).ajaxComplete(function() {
+    $("#overlay").hide();　
+});
 </script>
 
 </html>
