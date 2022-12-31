@@ -66,7 +66,6 @@
     .switch input[type="radio"] {
         visibility: hidden;
         position: absolute;
-        height: 100%;
     }
 
     .switch input[type="radio"].yes:checked~label[for^="yes_"] {
