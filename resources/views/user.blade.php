@@ -128,6 +128,8 @@
 
   $(document).on("click", ".edit", function() {
     $("#user_type").hide();
+    $("#email").attr('readonly',true);
+    $("#user_type").attr('readonly',true);
     let id = $(this).data('id');
     var user_type = $(this).parents('tr').find(".user_type").html();
     jQuery.ajax({
@@ -141,6 +143,7 @@
         $("#modal_user_id").text(data.id);
         $("#name").val(data.name);
         $("#email").val(data.email);
+
         $("#password").val("");
         $("#user_type option").each(function() {
           if ($(this).text() == user_type) {
@@ -161,6 +164,8 @@
     $(".save_button").attr("id", "submit_user")
     $("#modal_user_id").text("");
     $("#modal_title").html("Add");
+    $("#email").attr('readonly',false);
+    $("#user_type").attr('readonly',false);
     $("#name").val("");
     $("#email").val("");
     $("#password").val("");
