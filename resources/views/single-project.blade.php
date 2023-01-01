@@ -969,6 +969,7 @@
           </div>
         </div>
         <div class="modal-footer">
+        <button type="button" class="btn mr-auto btn-secondary btn-sm new_email" data-id="1">New Mail</button>
           <button type="button" class="btn btn-secondary btn-sm save_date" data-id="1">Save</button>
           <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
         </div>
@@ -1081,6 +1082,7 @@ if($(this).html()=="Edit Project Status"){
     $("#holdPopup").hide();
     var id = $(this).data('id');
     $(".save_date").attr('data-id', id);
+    $(".new_email").attr('data-id', id);
     $("#myModal").show();
   })
 
@@ -1090,6 +1092,20 @@ if($(this).html()=="Edit Project Status"){
     $(".confirm_hold").attr('data-id', id);
     $("#holdPopup").show();
   })
+
+  $(".new_email").click(function() {
+    var date=$("input[name='date']").val();
+    if(date=='')
+    {
+      alert("Please select date");
+      return false;
+    }
+    var id = $(this).data('id');
+    var obj = {id: id, date: date};;
+    var encoded = btoa(JSON.stringify(obj))
+    window.location.href='/new-email/'+encoded;
+
+  });
 
   $(".save_date").click(function() {
     var id = $(this).data('id');

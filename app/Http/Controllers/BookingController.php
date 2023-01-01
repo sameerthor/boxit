@@ -673,4 +673,19 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
         Session::flash('succes_msg', 'Department status successfully changed to On Hold.');
     }
+
+    public function new_booking_email($id)
+    {
+        $obj = base64_decode(($id));
+        $data=json_decode($obj,true);
+        $date=$data['date'];
+        $id=$data['id'];
+        $update_array = ['date' => $date, 'status' => 0];
+        BookingData::where('id', $id)->update($update_array);
+        $bookingdata = BookingData::find($id);
+        $booking=$bookingdata->booking;
+        $mail = MailTemplate::where(array('status' => 1,'department_id'=>$bookingdata->department_id))->get();
+        return view('new_booking_mail', compact('booking', 'mail'));
+
+    }
 }
