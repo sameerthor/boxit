@@ -26,7 +26,9 @@ Route::middleware('role_based_redirect')->group(function () {
 
 });
 
-Route::get('/vendors', [App\Http\Controllers\ContactController::class, 'vendor'])->name('vendor');
+Route::get('/vendors/{id}', [App\Http\Controllers\ContactController::class, 'vendor'])->name('vendor');
+Route::post('/vendor-calender-monthly', [App\Http\Controllers\ContactController::class, 'monthly_calender']);
+
 Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
 
 Route::middleware('role:Admin')->group(function () {

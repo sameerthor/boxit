@@ -286,5 +286,18 @@
       });
     });
   });
+
+  function copyToClipboard(textToCopy){
+  navigator.clipboard.writeText(textToCopy).then(
+    function() {
+      /* clipboard successfully set */
+      window.alert('Success! The Link was copied to your clipboard') 
+    }, 
+    function() {
+      /* clipboard write failed */
+      window.alert('Opps! Your browser does not support the Clipboard API')
+    }
+  )
+  }
 </script>
 @endsection

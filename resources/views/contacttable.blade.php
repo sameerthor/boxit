@@ -5,6 +5,10 @@
                 <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
+               @if($departments->id != 1)
+                <th>Vendor Link</th>
+               @endif 
+               <th>Actions</th>
               </tr>
             </thead>
             <tbody class="tr-border td-styles tr-hover">
@@ -13,6 +17,9 @@
                 <td><b>{{$contact->title}}</b></td>
                 <td>{{$contact->email}}</td>
                 <td>{{$contact->contact}}</td>
+                @if($departments->id != 1)
+                <th><button class="btn btn-sm btn-info btn-color"  onclick="copyToClipboard('<?= URL::to('/vendors/').'/'.base64_encode($contact->id); ?>')">Copy Link</button></th>
+               @endif 
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
