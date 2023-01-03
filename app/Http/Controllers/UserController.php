@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $user = new User();
         $user->name=$request->name;
-        $user->password=$request->password;
+        $user->password=bcrypt($request->password);
         $user->email=$request->email;
         $user->save();
         $user = $user->fresh();
@@ -48,7 +48,7 @@ class UserController extends Controller
         $user->name=$request->name;
         if(!empty($request->password))
         {
-        $user->password=$request->password;
+        $user->password=bcrypt($request->password);
         }
         $user->email=$request->email;
         $user->save();
