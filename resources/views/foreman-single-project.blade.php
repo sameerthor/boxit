@@ -280,12 +280,12 @@
                             <div class="row mb-3">
                                 <label for="name" class="col-md-12 col-form-label col-form-label ">Draw in here what’s missing</label>
 
-                                <div class="col-md-10">
+                                <div class="col-md-6">
                                     @if(!empty($markout_checklist->draw_in))
                                     <img src="{{$markout_checklist->draw_in}}" id="drawin_sign" width="400">
                                     @else
-                                    <canvas id="drawin_canvas" style="border: 1px solid black;width:400px"></canvas>
-                                    <button type="button" data-id="drawin_signaturePad" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                    <canvas id="drawin_canvas" width="600" height="300" style="border: 1px solid black;"></canvas>
+                                    <button type="button" data-id="drawin_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
                                     @endif
                                 </div>
                             </div>
@@ -857,6 +857,8 @@
 }
 </style>
 <script>
+
+
     $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();   
 });
