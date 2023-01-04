@@ -114,8 +114,8 @@ class BookingController extends Controller
 
     public function test_msg(Request $request)
     {
-        $account_sid = \config('const.twilio_sid');;
-        $auth_token = \config('const.twilio_token');
+        $account_sid = \config('const.plivo_sid');;
+        $auth_token = \config('const.plivo_token');
         $msg = '';
         if (!empty($request->get('from')) && !empty($request->get('to'))) {
             $client = new RestClient($account_sid,$auth_token);
@@ -125,7 +125,6 @@ class BookingController extends Controller
                           "src" => $request->get('from'),
                           "dst" => $request->get('to'),
                           "text"  =>"Hello, world!",
-                          "url"=>"https://boxit.staging.app/sms_status/"
                        ]
                   );
                 $msg = 'success';
