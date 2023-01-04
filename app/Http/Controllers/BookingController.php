@@ -18,7 +18,7 @@ use Exception;
 use Session;
 use Auth;
 use DB;
-use Twilio\Rest\Client;
+use Plivo\RestClient;
 
 class BookingController extends Controller
 {
@@ -118,16 +118,16 @@ class BookingController extends Controller
         $auth_token = \config('const.twilio_token');
         $msg = '';
         if (!empty($request->get('from')) && !empty($request->get('to'))) {
-            $client = new Client($account_sid, $auth_token);
+            $client = new RestClient($account_sid,$auth_token);
             try {
-                $res = $client->messages->create(
-                    // Where to send a text message (your cell phone?)
-                    $request->get('to'),
-                    array(
-                        'from' => $request->get('from'),
-                        'body' => 'test'
-                    )
-                );
+                $message_created = $client->messages->create(
+                    [  
+                          "src" => $request->get('from'),
+                          "dst" => $request->get('to'),
+                          "text"  =>"Hello, world!",
+                          "url"=>"https://<yourdomain>.com/sms_status/"
+                       ]
+                  );
                 $msg = 'success';
             } catch (Exception $e) {
                 $msg = $e->getMessage();
@@ -149,7 +149,7 @@ class BookingController extends Controller
         // A Twilio number you own with SMS capabilities
         $twilio_number = "+16209129397";
 
-        $client = new Client($account_sid, $auth_token);
+        $client = new RestClient("<auth_id>","<auth_token>");
 
         $mail_data = $request->get('mail_data');
         if (!empty($mail_data)) {
