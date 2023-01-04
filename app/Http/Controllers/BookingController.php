@@ -125,7 +125,7 @@ class BookingController extends Controller
                           "src" => $request->get('from'),
                           "dst" => $request->get('to'),
                           "text"  =>"Hello, world!",
-                          "url"=>"https://<yourdomain>.com/sms_status/"
+                          "url"=>"https://boxit.staging.app/sms_status/"
                        ]
                   );
                 $msg = 'success';
