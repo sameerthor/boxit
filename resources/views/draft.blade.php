@@ -79,13 +79,14 @@
                       @foreach($department->contacts as $res)
                       <option value="{{$res->id}}" <?php if ($draft->DraftData[$department->id - 1]->contact_id == $res->id) {
                                                       echo "selected";
-                                                    } ?>>{{$res->title}}</option>
+                                                      $contact_name=$res->title;
+                                                    }else{ $contact_name= ''; } ?>>{{$res->title}}</option>
                       @endforeach
                     </select>
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r">
-                  <input name="date[{{$department->id}}]" <?php if (in_array($draft->DraftData[$department->id - 1]->contact_id,array(1,2,3,4,5,6,7,8,9))) {
+                  <input name="date[{{$department->id}}]" <?php if (@$contact_name=='NA') {
                                                       echo "disabled";
                                                     } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
