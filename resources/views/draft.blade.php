@@ -16,14 +16,18 @@
 }
 </style>
 <div id="content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
+  <div class="container booking-form-w">
+  <div class="row d-flex">
+      <div class="col-md-10">
         <div class="form-head">
-          <span> Draft</span>
+          <span>Draft</span>
         </div>
       </div>
+      <div class="col-md-2 book-draft-btn">
+        <button type="button" class="btn btn-info draft btn-color">Save as draft</button>
+      </div>
     </div>
+<br>
     <div class="row">
 
       <form id="booking" method="post" action="{{ url('booking') }}" enctype="multipart/form-data">
@@ -37,7 +41,7 @@
             <div class="form-group col-md-6">
             <i id="pos-r" class="fa fa-angle-down"></i>
               <select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
-                <option value="" disabled selected>Building Company*</option>
+                <option value="" disabled>Building Company*</option>
                 @foreach($departments[0]->contacts as $res)
                 <option value="{{$res->id}}" <?php if ($draft->DraftData[0]->contact_id == $res->id) {
                                                 echo "selected";
@@ -136,6 +140,28 @@
 
 </div>
 <script>
+  
+  $(".draft").click(function() {
+      if ($('input[name="address"]').val() == '') {
+        alert("Please enter address to save as draft.");
+        return false;
+      }
+
+      var form = $('#booking')[0];
+      var formData = new FormData(form);
+      $.ajax({
+        url: "{{ url('/save-draft') }}",
+        method: "post",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function(id) {
+         // window.location.href = "/draft/" + id;
+        }
+      });
+    });
+  
+
   $("#booking").on("submit", function() {
     if($("#booking").valid())
     {

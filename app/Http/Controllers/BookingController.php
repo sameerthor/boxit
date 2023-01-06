@@ -520,6 +520,11 @@ class BookingController extends Controller
 
     public function save_draft(Request $request)
     {
+        if(!empty($request->get('draft_id')))
+        {
+        $delete_id=$request->get('draft_id');
+        $this->delete_draft($delete_id);
+        }
         $draft = new Draft;
         $draft->address = $request->get('address');
         $draft->floor_area = $request->get('floor_area');
@@ -549,6 +554,8 @@ class BookingController extends Controller
                 'draft_id' => $draft_id
             ));
         }
+        Session::flash('succes_msg', 'Draft has been saved successfuly.');
+
         return $draft_id;
     }
 
