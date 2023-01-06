@@ -224,7 +224,7 @@ class BookingController extends Controller
             $html = '';
             $address = $booking->address;
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
-            $html .= "<p>The following booking has been cancelled.</p>";
+            $html .= "<p>There is a date/time change request for the following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
