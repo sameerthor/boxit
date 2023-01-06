@@ -545,14 +545,21 @@ class BookingController extends Controller
 
         $draft_id = $draft->id;
         $requested_date = $request->get('date');
-        foreach ($request->get('department') as $key => $val) {
+        $request_status=$request->get('status');
 
-            DraftData::create(array(
+        foreach ($request->get('department') as $key => $val) {
+            $book_array=array(
                 'department_id' => $key,
                 'contact_id'  => $val,
                 'date' => @$requested_date[$key],
                 'draft_id' => $draft_id
-            ));
+            );
+            if(empty($request_status[$key]))
+            {
+                $book_array['status'] = 2;
+
+            } 
+            DraftData::create($book_array);
         }
         Session::flash('succes_msg', 'Draft has been saved successfuly.');
 

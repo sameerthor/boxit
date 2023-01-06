@@ -75,7 +75,7 @@
             @foreach($departments->slice(1) as $department)
             <div class="col-md-6">
               <div class="row department_group">
-                <div class="col-md-7 form-group p-none">
+                <div class="col-md-6 form-group p-none">
                   <div class="input-group input-group-xs">
                   <i class="fa fa-angle-down"></i>
                     <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required> 
@@ -94,7 +94,14 @@
                                                       echo "disabled";
                                                     } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
-
+                <div class="col-md-1">
+                  <div class="input-group input-group-xs">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input customSwitch" <?php if($draft->DraftData[$department->id - 1]->status!=2) echo 'checked'; ?> name="status[{{$department->id}}]" value="1" id="customSwitch{{$department->id}}">
+                    <label class="custom-control-label" for="customSwitch{{$department->id}}"></label>
+                  </div>
+                  </div>
+                </div>
               </div>
             </div>
             @endforeach
@@ -156,7 +163,7 @@
         contentType: false,
         data: formData,
         success: function(id) {
-         // window.location.href = "/draft/" + id;
+          window.location.href = "/draft/" + id;
         }
       });
     });
