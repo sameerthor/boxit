@@ -6,6 +6,8 @@ use App\Models\BookingData;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Contact;
+use Spatie\CalendarLinks\Link;
+use DateTime;
 
 class ContactController extends Controller
 {
@@ -16,7 +18,7 @@ class ContactController extends Controller
      */
     public function __construct()
     {
-       // $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -74,8 +76,8 @@ class ContactController extends Controller
 
     public function vendor($id)
     {
-        $contact_id=base64_decode($id);
-        return view('vendor',compact('contact_id'));
+        $contact_id = base64_decode($id);
+        return view('vendor', compact('contact_id'));
     }
     public function monthly_calender(Request $request)
     {
@@ -105,7 +107,7 @@ class ContactController extends Controller
                     }
                     $inner_html = '<span data-id="" class="week_count' . $class . '">' . $date . '</span>';
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
-                    $booking_datas = BookingData::whereDate('date', '=', $booking_date)->where('contact_id',$request->get('vendor_id'))
+                    $booking_datas = BookingData::whereDate('date', '=', $booking_date)->where('contact_id', $request->get('vendor_id'))
                         ->get();
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
@@ -141,5 +143,28 @@ class ContactController extends Controller
     public  function daysInMonth($iMonth, $iYear)
     {
         return cal_days_in_month(CAL_GREGORIAN, $iMonth, $iYear);
+    }
+
+    public function  generate_link($id)
+    {
+        $booking_datas=BookingData::where(['contact_id'=>$id])->get();
+        foreach($booking_datas as $res)
+        {
+            if(!empty($res->date))
+            {
+            $from = DateTime::createFromFormat('Y-m-d H:i:s',$res->date);
+            $to = DateTime::createFromFormat('Y-m-d H:i:s',$res->date);
+           if(!empty($from))
+           {
+            $link = Link::create('Boxit"s booking', $from, $to)
+            ->description('Pending')
+            ->address('Kruikstraat 22, 2018 Antwerpen');
+           }
+            
+            }
+        }
+
+        $link = $link->google();
+        return redirect()->to($link);
     }
 }

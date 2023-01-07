@@ -216,7 +216,7 @@
 
                         </div>
                         <div class="col-md-7 text-right">
-
+                        <a href="/vendor-download/<?= $contact_id; ?>" target="_blank" class="btn btn-info draft btn-color">Download</a>
                         </div>
                     </div>
 

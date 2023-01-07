@@ -875,6 +875,8 @@ body{
   padding-top: 30px;
   position: relative;
   display: inline-block;
+  z-index: 99;
+
 }
 
 .number{
@@ -885,16 +887,19 @@ body{
     color: white;
     text-align: center;
     position: absolute;
-    top: 20px;
+    top: 10px;
     left: 9px;
     padding: 0px;
     border-style: solid;
     border-width: 2px;
     font-size: 13px;
+    z-index: 999;
+
 }
 
 .number:empty {
    display: none;
+   z-index: 0;
 }
 
 .notBtn{
@@ -1686,7 +1691,7 @@ h4
 #overlay{	
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index:99999;
   width: 100%;
   height:100%;
   display: none;
@@ -1710,4 +1715,39 @@ h4
   100% { 
     transform: rotate(360deg); 
   }
+}
+.notification img {
+  top: 19px;
+  position: absolute;
+}
+.home_modal {
+  display: flex;
+  height: 100vh;
+  align-items: center !important;
+}
+
+.home_modal {
+  display: flex;
+  height: 100vh;
+  align-items: center !important;
+  margin: 0 auto !important;
+}
+.home_modal .modal-header.no-border, .home_modal .modal-body {
+  padding: 2rem;
+}
+.home_modal .status-txt
+{
+  margin-bottom: 0px;
+}
+.home_modal .card-new{
+  width: 100%;
+}
+
+.invalid-feedback {
+  margin-bottom: -17px;
+  margin-top: -1px !important;
+}
+.paid-l-none
+{
+  padding-left:0px !important;
 }

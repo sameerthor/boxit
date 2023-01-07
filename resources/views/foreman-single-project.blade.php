@@ -78,6 +78,18 @@
         outline: none;
     }
 
+    .marg-lr-none {
+    margin: 20px 0px;
+}
+.bor-none td {
+    border: none;
+    text-align: center;
+}
+.canvas-size
+{
+    width:100%;
+    height:150px;
+}
     @media screen and (min-width:768px) {
         .table .paid-t {
             padding-top: 38px !important;
@@ -141,7 +153,7 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div style="padding:3%" d class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="1-tab">
+                    <div style="padding:2%" d class="tab-pane fade show active paid-l-none" id="tab1" role="tabpanel" aria-labelledby="1-tab">
 
                         <div class="row">
 
@@ -183,18 +195,25 @@
                         </div>
 
                     </div>
-                    <div style="padding:3%" d class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
+                    <div style="padding:15px;" d class="tab-pane fade paid-l-none" id="tab2" role="tabpanel" aria-labelledby="2-tab">
                         <form action="{{URL('/qa_checklist')}}" method="post" id="qa_form">
                             @csrf
                             <h5>Onsite & QA Checklist</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
-                            <div class="qa_checklist">
-                                <div class="row onsite_label">
+                            <div class="qa_checklist marg-lr-none">
+                                <!-- <div class="row onsite_label">
                                    <div class="col-md-6"></div>
                                    <div class="col-md-3">Initial</div>
                                    <div class="col-md-3">Office Use</div> 
-                                </div>
+                                </div> -->
                                 <table style="width:100%">
+                                <tr class="bor-none">
+                                    <td></td>
+                                    <td>Initial</td>
+                                    <td>Office Use</td>
+ 
+
+                                </tr>
                                     @foreach($qaChecklist as $res)
                                     <tr>
                                         <td>{{$res->subject}}</td>
@@ -217,7 +236,7 @@
                                     @endforeach
                                 </table>
                             </div>
-                            <canvas id="onsite_canvas" style="border: 1px solid black;"></canvas>
+                            <canvas id="onsite_canvas" class="canvas-size" style="border: 1px solid black;"></canvas>
                             <button type="button" data-id="onsite_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
                             <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button>
                         </form>
