@@ -12,6 +12,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
   <link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
 <style>
    .modal {
   text-align: center;
@@ -37,7 +39,11 @@
 <body>
 
   <div class="container">
-
+  <div id="overlay">
+  <div class="cv-spinner">
+    <span class="spinner"></span>
+  </div>
+</div>
     <!-- Modal -->
     <div class="modal fade show" id="myModal" role="dialog">
       <div class="modal-dialog">
@@ -123,6 +129,13 @@
 
     $(".example").attr("autocomplete", "off");
   });
+
+  $(document).ajaxSend(function() {
+    $("#overlay").show();　
+  });
+  $( document ).ajaxComplete(function() {
+    $("#overlay").hide();　
+});
 </script>
 
 </html>
