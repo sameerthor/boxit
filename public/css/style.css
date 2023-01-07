@@ -1755,3 +1755,11 @@ h4
 img.pos-new-hid.toggle_password {
   cursor: pointer;
 }
+
+.home_modal .modal-header {
+  padding: 1rem 2rem 0rem 2rem !important;
+}
+
+.home_modal .modal-body {
+  padding: 0rem 2rem 2rem 2rem !important;
+}
