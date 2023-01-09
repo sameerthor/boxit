@@ -125,7 +125,7 @@ class ContactController extends Controller
                                 default:
                                     $class = "monthly_booking";
                             }
-                            $b_id = $booking_data->booking_id;
+                            $b_id = $booking_data->id;
                             $inner_html .= "<span class='$class show_booking'  data-id='" . $b_id . "'>$address</span>";
                         }
                     }
@@ -147,24 +147,47 @@ class ContactController extends Controller
 
     public function  generate_link($id)
     {
-        $booking_datas=BookingData::where(['contact_id'=>$id])->get();
-        foreach($booking_datas as $res)
-        {
-            if(!empty($res->date))
+        $booking_data=BookingData::find($id);
+       
+            if(!empty($booking_data->date))
             {
-            $from = DateTime::createFromFormat('Y-m-d H:i:s',$res->date);
-            $to = DateTime::createFromFormat('Y-m-d H:i:s',$res->date);
+            $from = DateTime::createFromFormat('Y-m-d H:i:s',$booking_data->date);
+            $to = DateTime::createFromFormat('Y-m-d H:i:s',$booking_data->date);
            if(!empty($from))
            {
+            switch ($booking_data->status) {
+                case '0':
+                    $desc = "Pending";
+                    break;
+                case '1':
+                    $desc = "Confirmed";                   
+                     break;
+                case '2':
+                    $desc = "Cancelled";
+                    break;
+                default:
+                    $desc = "Pending";
+            }
             $link = Link::create('Boxit"s booking', $from, $to)
-            ->description('Pending')
-            ->address('Kruikstraat 22, 2018 Antwerpen');
+            ->description($desc)
+            ->address($booking_data->booking->address);
            }
             
-            }
+            
         }
 
         $link = $link->google();
         return redirect()->to($link);
     }
+
+   public function modal_data(Request $request)
+   {
+    $id = $request->get('id');
+    $booking_data = BookingData::find($id);;
+    $booking = $booking_data->booking;
+    $html='<a href="/vendor-download/'.$id.'" target="_blank" class="btn btn-sm btn-info draft btn-color">Download</a>
+    ';
+    return array('address' => $booking->address, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking->BookingData[0]->department_id == '1' ?  $booking->BookingData[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
+
+   } 
 }

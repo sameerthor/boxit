@@ -192,6 +192,63 @@
 </style>
 @verbatim
 <div id="content">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog home_modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header  no-border">
+					<!-- <span class="modal-title" id="exampleModalLabel">Project Name</span> -->
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Address</span>
+						<p id="booking_address">NA</p>
+					</div>
+					 </div>
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Building Company</span>
+						<p id="building_company">NA</p>
+					</div>
+					 </div>	
+					</div>
+					<div class="row">
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Floor Type</span>
+						<p id="floor_type">NA</p>
+					</div>
+					 </div>
+					 <div class="col-md-6">
+					 <div class="info-txt">
+						<span>Floor Area</span>
+						<p id="floor_area">NA</p>
+					</div>
+					 </div>	
+					</div>
+					<div class="row">
+					 <div class="col-md-12">
+					 <div class="info-txt">
+						<span>Notes</span>
+						<p id="booking_notes">NA</p>
+					</div>
+					 </div>	
+                     <div class="col-md-12">
+					 <div class="info-txt">
+						<span>Calender Link</span>
+						<p id="link_b"></p>
+					</div>
+					 </div>	
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
     <div class="container-fluid">
         <div class="row no-flex">
             <div class="col-md-1 wd-100"></div>
@@ -216,7 +273,6 @@
 
                         </div>
                         <div class="col-md-7 text-right">
-                        <a href="/vendor-download/<?= $contact_id; ?>" target="_blank" class="btn btn-info draft btn-color">Download</a>
                         </div>
                     </div>
 
@@ -449,5 +505,24 @@
             }
         }
     }).mount("#content");
+
+    $(document).on('click', '.show_booking', function() {
+		var id = $(this).data('id');
+		axios.post('/vendor-modal-data', {
+				id: id
+			})
+			.then((response) => {
+				$("#booking_address").html(response.data.address);
+				$("#floor_type").html(response.data.floor_type);
+				$("#floor_area").html(response.data.floor_area);
+				$("#building_company").html(response.data.building_company);
+				$("#booking_notes").html(response.data.notes);
+				$("#link_b").html(response.data.html);
+				$("#exampleModal").modal("show");
+			})
+	})
+	$(document).on('click', '.close', function() {
+		$("#exampleModal").modal("hide");
+	})
 </script>
 @endsection

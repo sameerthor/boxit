@@ -45,7 +45,8 @@
 
                 <div style="text-align: center;">
                    @if($status==1) <img src="/img/checkmark.png" style="width:200px">
-                   
+                   <br></br>
+                   <a href="/vendor-download/{{$booking_data_id}}" target="_blank" class="btn btn-sm btn-info draft btn-color">Download Calender</a>
                    <br/>  <br/>
                 Thank you for confirming your booking.
                 @endif
