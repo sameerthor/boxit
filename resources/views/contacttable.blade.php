@@ -6,7 +6,7 @@
                 <th>Email ID</th>
                 <th>Contact No.</th>
                @if($departments->id != 1)
-                <th>Vendor Link</th>
+                <th>Calender Link</th>
                @endif 
                <th>Actions</th>
               </tr>
