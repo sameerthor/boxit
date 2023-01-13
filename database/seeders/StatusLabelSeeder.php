@@ -36,7 +36,7 @@ class StatusLabelSeeder extends Seeder
                 'department_id'=>'2',
             ],
             [
-                'label'=>'Mark',
+                'label'=>'Working',
                 'department_id'=>'',
 
             ],

@@ -309,25 +309,14 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Boundary Pegs all in Place</label>
+                                <label for="name" class="col-md-6 col-form-label ">Boundary Pegs all in Place (Mark On Site Plan)</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="markout_data[boundary_pegs]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_pegs : '' }}">
                                 </div>
                             </div>
+                            
                             <div class="row mb-3">
-                                <label for="name" class="col-md-12 col-form-label col-form-label ">Draw in here what’s missing</label>
-
-                                <div class="col-md-6">
-                                    @if(!empty($markout_checklist->draw_in))
-                                    <img src="{{$markout_checklist->draw_in}}" id="drawin_sign" width="400">
-                                    @else
-                                    <canvas id="drawin_canvas" width="600" height="300" style="border: 1px solid black;"></canvas>
-                                    <button type="button" data-id="drawin_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Boundary Dimensions Back Checked - are they Correct</label>
+                                <label for="name" class="col-md-6 col-form-label ">Boundary Dimensions Back Checked - are they Correct (Mark On Site Plan)</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="markout_data[boundary_dimension]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_dimension : '' }}">
                                 </div>
@@ -340,13 +329,20 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">FFL Height out of Ground
+                                <label for="name" class="col-md-6 col-form-label ">FFL Height out of Ground (Mark On Site Plan)
                                 </label>
                                 <div class="col-md-2">
                                     <input placeholder="min" type="number" class="form-control" name="markout_data[ffl_height_min]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_min : '' }}">
                                 </div>
                                 <div class="col-md-2">
                                     <input placeholder="max" type="number" class="form-control" name="markout_data[ffl_height_max]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_max : '' }}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="name" class="col-md-6 col-form-label ">Markout Past Building Line
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="markout_data[past_building_line]" value="{{ $markout_checklist!=null ? $markout_checklist->past_building_line : '' }}">
                                 </div>
                             </div>
                         </div>
@@ -999,9 +995,7 @@
     if ($('#markout_canvas').length) {
         var markout_signature = new SignaturePad($("#markout_canvas")[0]);
     }
-    if ($('#drawin_canvas').length) {
-        var drawin_signature = new SignaturePad($("#drawin_canvas")[0]);
-    }
+    
     if ($('#onsite_canvas').length) {
         var onsite_signature = new SignaturePad($("#onsite_canvas")[0]);
     }
@@ -1056,24 +1050,7 @@
                 .attr("name", "markout_data[foreman_sign]")
                 .attr("value", $("#markout_sign").attr("src")).appendTo("#markout_form");
         }
-        if ($('#drawin_canvas').length > 0) {
-
-            var signaturePad = eval("drawin_signature");
-            if (!signaturePad.isEmpty()) {
-                var image_str = signaturePad.toDataURL();
-                $("<input />").attr("type", "hidden")
-                    .attr("name", "markout_data[draw_in]")
-                    .attr("value", image_str).appendTo("#markout_form");
-            } else {
-                $("<input />").attr("type", "hidden")
-                    .attr("name", "markout_data[draw_in]")
-                    .attr("value", "").appendTo("#markout_form");
-            }
-        } else {
-            $("<input />").attr("type", "hidden")
-                .attr("name", "markout_data[draw_in]")
-                .attr("value", $("#drawin_sign").attr("src")).appendTo("#markout_form");
-        }
+       
     });
 
     $(document).on('submit', '#safety_form', function(e) {
