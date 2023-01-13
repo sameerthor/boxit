@@ -51,12 +51,10 @@ class BuildingCron extends Command
                   $html.="<p>".$con->department->title.": ".$con->contact->title."<br>";
                   $html.="Date: ".$b_date."</p>";
                 }
-                $html.='Thanks,<br>
-                Jules,<br>
-                BOXIT Sales<br>
-                <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
-                <br>
-                <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
+                $html.='Thank You<br><br>
+                Jules<br>
+                Box It Foundations<br>
+                ';
                 $contact = Contact::find($res->contact_id);
                 $details['to'] = $contact->email;
                 $details['name'] = $contact->title;

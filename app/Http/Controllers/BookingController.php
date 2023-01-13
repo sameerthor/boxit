@@ -229,7 +229,7 @@ class BookingController extends Controller
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= "<br><p>Contact has suggested below alternate time</p>";
+            $html .= "<br><p>Contact has suggested the below alternate time(s)</p>";
             if (!empty($request->get('date1'))) {
                 $html .= "<p>Alternate DateTime 1 : " . $request->get('date1') . "</p>";
                 $update_data['new_date'][] = $request->get('date1');
@@ -250,8 +250,12 @@ class BookingController extends Controller
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>CLICK HERE FOR ALTERNATE SCHEDULE </a>";
-            $details['to'] = \config('const.admin1');
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
+    $html.='Thank You<br><br>
+                Jules<br>
+                Box It Foundations<br>
+                ';    
+    $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
@@ -294,7 +298,7 @@ class BookingController extends Controller
             $html = '';
             $address = $booking->address;
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
-            $html .= "<p>Boxit has requested revised time for following booking.</p>";
+            $html .= "<p>Box It Foundations  has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
             $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
@@ -308,12 +312,10 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
-            $html .= '<br>Thanks,<br>
-    Jules,<br>
-    BOXIT Sales<br>
-    <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
-    <br>
-    <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
+    $html.='Thank You<br><br>
+    Jules<br>
+    Box It Foundations<br>
+    ';
             $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
             $details['body'] = $html;
@@ -607,12 +609,10 @@ class BookingController extends Controller
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-            $html .= 'Thanks,<br>
-      Jules,<br>
-      BOXIT Sales<br>
-      <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
-      <br>
-      <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
+            $html.='Thank You<br><br>
+                Jules<br>
+                Box It Foundations<br>
+                ';
         } else {
             $enc_key = base64_encode($booking_data->id);
             $url = URL("reply/$enc_key");
@@ -634,12 +634,10 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             if ($contact->department_id != '2') {
                 $html .= '<p>' . $reply_link . '</p>';
             }
-            $html .= 'Thanks,<br>
-      Jules,<br>
-      BOXIT Sales<br>
-      <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
-      <br>
-      <a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a><br>';
+            $html.='Thank You<br><br>
+                Jules<br>
+                Box It Foundations<br>
+                ';
 
             $update_array = ['date' => $date];
             if ($contact->department_id != '2') {

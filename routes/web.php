@@ -92,8 +92,8 @@ Route::middleware('role:Admin')->group(function () {
             <br><br>
             [link]
             <br>
-            Thanks,</br>
-            Jules,</br>
+            Thank You</br>
+            Jules</br>
             BOXIT Sales</br>
             <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
             </br>

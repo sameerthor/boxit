@@ -84,12 +84,10 @@
 							<?php echo $reply_link . "<br>" ?>
 							@endif
 							<br>
-							Thanks,</br>
-							Jules,</br>
-							BOXIT Sales</br>
-							<a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
-							</br>
-							<a href="https://boxitfoundations.co.nz">https://boxitfoundations.co.nz</a></br>
+							Thank You</br>
+							Jules</br>
+							Box It Foundations</br>
+						
 						</div>
 						@endforeach
 					</div>

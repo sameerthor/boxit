@@ -79,46 +79,48 @@
     }
 
     .marg-lr-none {
-    margin: 20px 0px;
-}
-.bor-none td {
-    border: none;
-    text-align: center;
-}
-.canvas-size
-{
-    width:100%;
-    height:150px;
-}
+        margin: 20px 0px;
+    }
+
+    .bor-none td {
+        border: none;
+        text-align: center;
+    }
+
+    .canvas-size {
+        width: 100%;
+        height: 150px;
+    }
+
     @media screen and (min-width:768px) {
         .table .paid-t {
             padding-top: 38px !important;
         }
     }
 </style>
-<div class="modal fade"  role="dialog" id="reason_form">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Council Inspection</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" onclick="window.location.reload()" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div style="display:none" id="modal_contact_id"></div>
-          <div class="form-group">
-          <label for="reason" class="col-form-label">Reason:</label>
-            <textarea placeholder="Please provide details about inspection failure here."  class="form-control" id="reason"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-project="{{$project->id}}" id="submit_reason" class="btn btn-secondary">Save</button>
-      </div>
+<div class="modal fade" role="dialog" id="reason_form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Council Inspection</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" onclick="window.location.reload()" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div style="display:none" id="modal_contact_id"></div>
+                    <div class="form-group">
+                        <label for="reason" class="col-form-label">Reason:</label>
+                        <textarea placeholder="Please provide details about inspection failure here." class="form-control" id="reason"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-project="{{$project->id}}" id="submit_reason" class="btn btn-secondary">Save</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <div class="card-new">
     <div class="card-body">
@@ -179,11 +181,11 @@
                                             <div class="switch">
                                                 <input type="radio" {{$yes_checked}} class="project_status yes" id="yes_{{$label->id}}" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">
                                                 <label class="radio_label" for="yes_{{$label->id}}">{{$label->id=="10"?"Passed":"Yes"}}</label>
-                                                <input type="radio" {{$no_checked}} id="no_{{$label->id}}" class="project_status no"  data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">
+                                                <input type="radio" {{$no_checked}} id="no_{{$label->id}}" class="project_status no" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">
                                                 <label class="radio_label" for="no_{{$label->id}}">{{$label->id=="10" || $label->id=="9" ? $label->id=="10"?"Failed":"NA":"No"}}</label>
                                                 @if(count($project_status)>0)
-                                                {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'" ><i class="fa fa-eye"></i></a>':''!!}
-                                               @endif
+                                                {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'"><i class="fa fa-eye"></i></a>':''!!}
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -207,14 +209,30 @@
                                    <div class="col-md-3">Office Use</div> 
                                 </div> -->
                                 <table style="width:100%">
-                                <tr class="bor-none">
-                                    <td></td>
-                                    <td>Initial</td>
-                                    <td>Office Use</td>
- 
+                                    <tr class="bor-none">
+                                        <td></td>
+                                        <td>Initial</td>
+                                        <td>Office Use</td>
 
-                                </tr>
-                                    @foreach($qaChecklist as $res)
+
+                                    </tr>
+                                    <tr>
+                                        <td>Date:</td>
+                                        @php $project_qa=$qaChecklist[0]->ProjectQaChecklist($project->id)->get(); @endphp
+                                        <td class="table-w"><input type="date"  value="{{count($project_qa)>0?$project_qa[0]->initial:''}}" name="initial[1]"></td>
+                                        <td class="table-w"><input type="date"  value="{{count($project_qa)>0?$project_qa[0]->office_use:''}}" name="office_use[1]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address:</td>
+                                        <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="initial[2]"></td>
+                                        <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="office_use[2]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Housing Company:</td>
+                                        <td class="table-w"><input type="text" readonly value="{{$project->BookingData[0]->contact->title}}" name="initial[3]"></td>
+                                        <td class="table-w"><input type="text" readonly value="{{$project->BookingData[0]->contact->title}}" name="office_use[3]"></td>
+                                    </tr>
+                                    @foreach($qaChecklist->slice(3) as $res)
                                     <tr>
                                         <td>{{$res->subject}}</td>
                                         @php
@@ -398,24 +416,24 @@
                                     <th rowspan="2" scope="rowgroup">Key Emergency
                                         Contacts:</th>
                                     <td>
-                                        Emergency Response Dial: 111
+                                        Emergency Response Dial: <br>111
                                     </td>
                                     <td>
-                                        Ch Hospital 03 364 0270
+                                        Ch Hospital:<br> 03 364 0270
                                     </td>
                                     <td>
-                                        Andy Knight 027 702 1055
+                                        Andy Knight:<br> 027 702 1055
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        Moorhouse Medical: 03 365 7900
+                                        Moorhouse Medical:<br> 03 365 7900
                                     </td>
                                     <td>
-                                        24 Hr Medical: 03 365 7777
+                                        24 Hr Medical:<br> 03 365 7777
                                     </td>
                                     <td>
-                                        Hayden Vessey 027 672 1812
+                                        Hayden Vessey:<br> 027 672 1812
                                     </td>
                                 </tr>
                             </tbody>
@@ -820,30 +838,30 @@
                                 </tr>
                                 @if(!empty($safety))
                                 @for($key=1;$key<=count($safety->induction_date);$key++)
-                                <tr>
-                                    <td scope="row">
-                                        <input type="date"  readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
-                                    </td>
-                                    <td>
-                                        <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
-                                    </td>
-                                    <td>
-                                        @if(!empty($safety->sign['sign'.$key]))
-                                        <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
-                                        @else
-                                        <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endfor
-                                @endif
+                                    <tr>
+                                        <td scope="row">
+                                            <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
+                                        </td>
+                                        <td>
+                                            <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
+                                        </td>
+                                        <td>
+                                            @if(!empty($safety->sign['sign'.$key]))
+                                            <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
+                                            @else
+                                            <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
+                                            <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endfor
+                                    @endif
                             </tbody>
                         </table>
                         <div class="row">
                             <div class="col-md-10"></div>
                             <div class="col-md-2"><button type="button" onclick="addsignaturepad();" class="btn" style="color:#fff;background-color:#172b4d">Add Signaturepad</button></div>
-                        </div>   
+                        </div>
                         <div class="row">
                             <div class="col-md-8"></div>
                             <div class="col-md-3" style="display: none;">
@@ -869,30 +887,32 @@
 </div>
 </div>
 <style>
-  .tooltip-inner {
-    color: #172B4D;
-    background-color: #ffffff;
-    border: 1px solid #172B4D;
-}
+    .tooltip-inner {
+        color: #172B4D;
+        background-color: #ffffff;
+        border: 1px solid #172B4D;
+    }
 </style>
 <script>
-
-
-    $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();   
-});
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-     
-    var i="<?php if(!empty($safety->induction_date)){echo count($safety->induction_date)+1;}else {echo 1; } ?>";
-    function addsignaturepad()
-    {
-        var html='<tr><td scope="row"><input type="date" required value="" name="safety_plan[induction_date][date'+i+']"></td><td><input type="text" required value="" name="safety_plan[induction_name][name'+i+']"></td><td><canvas id="induction_canvas'+i+'" style="border: 1px solid black;"></canvas><button type="button" data-id="indunction_signaturePad'+i+'" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button></td></tr>';
+
+    var i = "<?php if (!empty($safety->induction_date)) {
+                    echo count($safety->induction_date) + 1;
+                } else {
+                    echo 1;
+                } ?>";
+
+    function addsignaturepad() {
+        var html = '<tr><td scope="row"><input type="date" required value="" name="safety_plan[induction_date][date' + i + ']"></td><td><input type="text" required value="" name="safety_plan[induction_name][name' + i + ']"></td><td><canvas id="induction_canvas' + i + '" style="border: 1px solid black;"></canvas><button type="button" data-id="indunction_signaturePad' + i + '" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button></td></tr>';
         $("#induction_body").append(html);
-        window["indunction_signaturePad" + i]=new SignaturePad($("#induction_canvas"+i+"")[0]);
+        window["indunction_signaturePad" + i] = new SignaturePad($("#induction_canvas" + i + "")[0]);
         console.log(indunction_signaturePad1);
         i++;
     }
@@ -913,69 +933,67 @@
         var status = $(this).val();
         var status_label_id = $(this).data('id');
         var project_id = $(this).data('project');
-        
-        if(!(status_label_id==10 && status==0))
-        {
-        Swal.fire({
-            title: "Are you sure you want to change the status?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'No',
-            dangerMode: true,
-        }).then(function(result) {
-            if (result.isConfirmed) {
 
-                jQuery.ajax({
-                    url: "{{ url('/change-project-status') }}",
-                    method: 'post',
-                    data: {
-                        project_id: project_id,
-                        status: status,
-                        status_label_id: status_label_id
-                    },
-                    success: function(result) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: "Status changed successfuly."
-                        }).then(function(result) {
-                            window.location.reload();
-                        });
-                    }
-                });
-            }
-        })
-        }else
-        {
-            
+        if (!(status_label_id == 10 && status == 0)) {
+            Swal.fire({
+                title: "Are you sure you want to change the status?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#dc3545',
+                cancelButtonText: 'No',
+                dangerMode: true,
+            }).then(function(result) {
+                if (result.isConfirmed) {
+
+                    jQuery.ajax({
+                        url: "{{ url('/change-project-status') }}",
+                        method: 'post',
+                        data: {
+                            project_id: project_id,
+                            status: status,
+                            status_label_id: status_label_id
+                        },
+                        success: function(result) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: "Status changed successfuly."
+                            }).then(function(result) {
+                                window.location.reload();
+                            });
+                        }
+                    });
+                }
+            })
+        } else {
+
             $("#reason_form").modal('show');
         }
     })
 
-    $("#submit_reason").click(function(){
-        var project_id=$(this).data('project');
-        var reason=$("#reason").val();
+    $("#submit_reason").click(function() {
+        var project_id = $(this).data('project');
+        var reason = $("#reason").val();
 
         jQuery.ajax({
-                    url: "{{ url('/change-project-status') }}",
-                    method: 'post',
-                    data: {
-                        project_id: project_id,
-                        status: 0,
-                        status_label_id: 10,
-                        reason:reason
-                    },
-                    success: function(result) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: "Status changed successfuly."
-                        }).then(function(result) {
-                            window.location.reload();
-                        });
-                    }
+            url: "{{ url('/change-project-status') }}",
+            method: 'post',
+            data: {
+                project_id: project_id,
+                status: 0,
+                status_label_id: 10,
+                reason: reason
+            },
+            success: function(result) {
+                Toast.fire({
+                    icon: 'success',
+                    title: "Status changed successfuly."
+                }).then(function(result) {
+                    window.location.reload();
                 });
+            }
+        });
     });
 
     if ($('#markout_canvas').length) {
