@@ -80,7 +80,7 @@
         [link]
         <br>
         <br>
-        Thank You</br>
+        Thank You</br><br>
         Jules</br>
         Box It Foundations </br>
         ' ;

@@ -84,7 +84,7 @@
 							<?php echo $reply_link . "<br>" ?>
 							@endif
 							<br>
-							Thank You</br>
+							Thank You</br><br>
 							Jules</br>
 							Box It Foundations</br>
 						
