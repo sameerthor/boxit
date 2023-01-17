@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProjectQaChecklist extends Model
+class QaSign extends Model
 {
     use HasFactory;
-    
-    protected $table = 'project_qa_checklist';
+    protected $fillable = ['qa_id','foreman_sign'];
 
-    
+    protected $table = 'qasign';
+
+
 }

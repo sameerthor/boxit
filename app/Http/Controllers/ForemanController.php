@@ -14,7 +14,10 @@ use App\Models\ProjectStatusLabel;
 use App\Models\ProjectStatus;
 use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
+use App\Models\StartupChecklist;
+use App\Models\Boxing;
 use App\Models\SafetyPlan;
+use App\Models\QaSign;
 use Auth;
 use DB;
 class ForemanController extends Controller
@@ -259,14 +262,16 @@ class ForemanController extends Controller
         $project=Booking::find($request->get('id'));
         $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
         $markout_checklist=$project->MarkoutChecklist;
+        $startup_data=$project->StartupChecklist;
         $safety=$project->SafetyPlan;
+        $boxing_data=$project->boxing;
         $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
                   $query->where('department_id', '=', '')
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('foreman-single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('foreman-single-project',compact('safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
 
     public function storeQaChecklist(Request $request )
@@ -285,7 +290,10 @@ class ForemanController extends Controller
             $insert_array['office_use']=$office_use[$key]!=null?$office_use[$key]:'';
             $final_array[]=$insert_array;
         }
-        ProjectQaChecklist::insert($final_array);
+        if(!empty($request->get('onsite_sign')))
+        {
+        QaSign::updateOrCreate(['qa_id'=>$project_id],['foreman_sign'=>$request->get('onsite_sign')]);
+        }
         return redirect()->to('check-list/')->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
 
     }
@@ -299,6 +307,28 @@ class ForemanController extends Controller
         $final_array['project_id']=$project_id;
         MarkoutChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
+
+    }
+
+    public function storeStartuplist(Request $request )
+    {   
+        $project_id=$request->get('project_id');
+        $res=StartupChecklist::where('project_id',$project_id)->delete();
+        $final_array=$request->get('startup_data');
+        $final_array['project_id']=$project_id;
+        StartupChecklist::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Startup Checklist saved successfuly');
+
+    }
+
+    public function boxing(Request $request )
+    {   
+        $project_id=$request->get('project_id');
+        $res=Boxing::where('project_id',$project_id)->delete();
+        $final_array=$request->get('boxing');
+        $final_array['project_id']=$project_id;
+        Boxing::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Boxing data saved successfuly');
 
     }
 

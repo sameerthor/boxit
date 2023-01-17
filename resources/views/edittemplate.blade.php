@@ -82,7 +82,7 @@
         <br>
         Thank You</br><br>
         Jules</br>
-        Box It Foundations </br>
+        Boxit Foundations </br>
         ' ;
         @endphp
         <iframe srcdoc="{{$html}}" id="myFrame" style="border: 3px solid #ccc; border-radius: 5px;padding: 5px; height: 500px; overflow: scroll">
@@ -152,7 +152,7 @@
         html+="<p>"+p_name+"- [qty]</p>";
         }
       });
-      html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br>Box It Foundations</br>';
+      html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br>Boxit Foundations</br>';
       document.getElementById("myFrame").srcdoc = html;
 
     }

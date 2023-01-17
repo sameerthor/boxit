@@ -53,7 +53,7 @@ class BuildingCron extends Command
                 }
                 $html.='Thank You<br><br>
                 Jules<br>
-                Box It Foundations<br>
+                Boxit Foundations<br>
                 ';
                 $contact = Contact::find($res->contact_id);
                 $details['to'] = $contact->email;

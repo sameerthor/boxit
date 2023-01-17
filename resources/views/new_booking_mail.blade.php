@@ -85,7 +85,7 @@
 							<br>
 							Thank You</br><br>
 							Jules</br>
-							Box It Foundations</br>
+							Boxit Foundations</br>
 						
 						</div>
 						@endforeach

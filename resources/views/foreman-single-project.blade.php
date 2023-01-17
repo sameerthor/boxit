@@ -26,7 +26,6 @@
     .switch input[type="radio"] {
         visibility: hidden;
         position: absolute;
-        height: 100%;
     }
 
     .switch input[type="radio"].yes:checked~label[for^="yes_"] {
@@ -88,7 +87,6 @@
     }
 
     .canvas-size {
-        width: 100%;
         height: 150px;
     }
 
@@ -152,6 +150,12 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="true">Safety Plan
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="true">Startup Checklist
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="tab6" aria-selected="true">Boxing
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -219,8 +223,8 @@
                                     <tr>
                                         <td>Date:</td>
                                         @php $project_qa=$qaChecklist[0]->ProjectQaChecklist($project->id)->get(); @endphp
-                                        <td class="table-w"><input type="date"  value="{{count($project_qa)>0?$project_qa[0]->initial:''}}" name="initial[1]"></td>
-                                        <td class="table-w"><input type="date"  value="{{count($project_qa)>0?$project_qa[0]->office_use:''}}" name="office_use[1]"></td>
+                                        <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->initial:''}}" name="initial[1]"></td>
+                                        <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->office_use:''}}" name="office_use[1]"></td>
                                     </tr>
                                     <tr>
                                         <td>Address:</td>
@@ -254,628 +258,810 @@
                                     @endforeach
                                 </table>
                             </div>
+                            @if(!empty($project->qasign->foreman_sign))
+                            <img src="{{$project->qasign->foreman_sign}}" id="m_sign" width="200">
+                            @else
                             <canvas id="onsite_canvas" class="canvas-size" style="border: 1px solid black;"></canvas>
                             <button type="button" data-id="onsite_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button>
+                            @endif
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
                         </form>
                     </div>
-                </div>
-                <div style="padding:3%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
-                    <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
-                        @csrf
-                        <h5>Mark Out Checklist</h5>
-                        <input type="hidden" name="project_id" value="{{$project->id}}">
-                        <div style="margin:5%">
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label "><strong>Date:</strong></label>
-                                <div class="col-md-4">
-                                    <input type="date" class="form-control" name="markout_data[date]" value="{{ $markout_checklist!=null ? $markout_checklist->date : '' }}">
+                    <div style="padding:3%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+                        <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
+                            @csrf
+                            <h5>Mark Out Checklist</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div style="margin:5%">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label "><strong>Date:</strong></label>
+                                    <div class="col-md-4">
+                                        <input type="date" class="form-control" name="markout_data[date]" value="{{ $markout_checklist!=null ? $markout_checklist->date : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label "><strong>Address:</strong></label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[address]" value="{{ $markout_checklist!=null ? $markout_checklist->address : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label "><strong>Address:</strong></label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[address]" value="{{ $markout_checklist!=null ? $markout_checklist->address : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label "><strong>Housing Company:</strong></label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[housing_company]" value="{{ $markout_checklist!=null ? $markout_checklist->housing_company : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label "><strong>Housing Company:</strong></label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[housing_company]" value="{{ $markout_checklist!=null ? $markout_checklist->housing_company : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Power</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[power]" value="{{ $markout_checklist!=null ? $markout_checklist->power : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Power</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[power]" value="{{ $markout_checklist!=null ? $markout_checklist->power : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Site fenced</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[site_fenced]" value="{{ $markout_checklist!=null ? $markout_checklist->site_fenced : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Site fenced</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[site_fenced]" value="{{ $markout_checklist!=null ? $markout_checklist->site_fenced : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Toilet</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[toilet]" value="{{ $markout_checklist!=null ? $markout_checklist->toilet : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Toilet</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[toilet]" value="{{ $markout_checklist!=null ? $markout_checklist->toilet : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Water</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[water]" value="{{ $markout_checklist!=null ? $markout_checklist->water : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Water</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[water]" value="{{ $markout_checklist!=null ? $markout_checklist->water : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Boundary Pegs all in Place (Mark On Site Plan)</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[boundary_pegs]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_pegs : '' }}">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Boundary Pegs all in Place (Mark On Site Plan)</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[boundary_pegs]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_pegs : '' }}">
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Boundary Dimensions Back Checked - are they Correct (Mark On Site Plan)</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[boundary_dimension]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_dimension : '' }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">FFL Set and Marked on Fence
-                                </label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[ffl_set]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_set : '' }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">FFL Height out of Ground (Mark On Site Plan)
-                                </label>
-                                <div class="col-md-2">
-                                    <input placeholder="min" type="number" class="form-control" name="markout_data[ffl_height_min]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_min : '' }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input placeholder="max" type="number" class="form-control" name="markout_data[ffl_height_max]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_max : '' }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-6 col-form-label ">Markout Past Building Line
-                                </label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="markout_data[past_building_line]" value="{{ $markout_checklist!=null ? $markout_checklist->past_building_line : '' }}">
-                                </div>
-                            </div>
-                        </div>
 
-                        @if(!empty($markout_checklist->foreman_sign))
-                        <img src="{{$markout_checklist->foreman_sign}}" id="markout_sign" width="200">
-                        @else
-                        <canvas id="markout_canvas" style="border: 1px solid black;"></canvas>
-                        <button type="button" data-id="markout_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                        @endif
-                        <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button>
-                    </form>
-                </div>
-            </div>
-            <div style="padding:3%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
-                <h5>Safety plan</h5>
-                <br>
-                <form action="{{URL('/safety-plan')}}" id="safety_form" method="post">
-                    @csrf
-                    <input type="hidden" name="project_id" value="{{$project->id}}">
-                    <div class="row safety_plan">
-                        <p>This plan is to be completed with all workers prior to works beginning. All personnel must complete a site induction</p>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <th colspan="2">Site / Address: {{$project->address}}</th>
-                                    <th colspan="2">Client: <input type="text" style="width:70%" name="safety_plan[client]" value="{{ $safety!=null ? $safety->client : '' }}"></th>
-                                </tr>
-                                <tr>
-                                    <th style="width:25%">Completed By: Jimmy</th>
-                                    <th style="width:35%">Date: <input type="date" style="width:70%" name="safety_plan[date]" value="{{ $safety!=null ? $safety->date : '' }}"></th>
-                                    <th style="width:20%">Time In: <input type="text" style="width:40%" name="safety_plan[time_in]" value="{{ $safety!=null ? $safety->time_in : '' }}"></th>
-                                    <th style="width:20%">Time Out: <input type="text" style="width:40%" name="safety_plan[time_out]" value="{{ $safety!=null ? $safety->time_out : '' }}"></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th colspan="6" style="text-align:center;background-color:#c9ced6;">EMERGENCY INFORMATION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th rowspan="2" scope="rowgroup">Locations of
-                                        Emergency
-                                        Provisions:</th>
-                                    <th>First Aid Kit
-                                    </th>
-                                    <th>Extinguisher
-                                    </th>
-                                    <th>Evacuation Assembly Point
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Site Vehicle
-                                    </td>
-                                    <td>
-                                        Site Vehicle
-                                    </td>
-                                    <td>
-                                        At Site Entrance
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th rowspan="2" scope="rowgroup">Key Emergency
-                                        Contacts:</th>
-                                    <td>
-                                        Emergency Response Dial: <br>111
-                                    </td>
-                                    <td>
-                                        Ch Hospital:<br> 03 364 0270
-                                    </td>
-                                    <td>
-                                        Andy Knight:<br> 027 702 1055
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Moorhouse Medical:<br> 03 365 7900
-                                    </td>
-                                    <td>
-                                        24 Hr Medical:<br> 03 365 7777
-                                    </td>
-                                    <td>
-                                        Hayden Vessey:<br> 027 672 1812
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th colspan="8" style="background-color:#c9ced6;">1.0 SITE SET UP / FACILITIES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="col" style="width: 10%">#
-                                    </th>
-                                    <th style="width: 50%">ITEM
-                                    </th>
-                                    <th style="width: 10%">&#10004/&#x2717
-                                    </th>
-                                    <th style="width: 30%">
-                                        NOTES / ACTIONS
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>1.1</td>
-                                    <td>
-                                        Is there safe access to the site? (clear / level / no overhead lines)
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" <?php if (!empty($safety)) {
-                                                                if ($safety->safe_access_tick == '1') {
-                                                                    echo "checked";
-                                                                }
-                                                            }  ?> value="1" name="safety_plan[safe_access_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" <?php if (!empty($safety)) {
-                                                                                if ($safety->safe_access_tick == '0') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> value="0" name="safety_plan[safe_access_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[safe_access]">{{ $safety!=null ? $safety->safe_access : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.2</td>
-                                    <td>
-                                        Have you read the site hazards board?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->site_board_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[site_board_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->site_board_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[site_board_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[site_board]">{{ $safety!=null ? $safety->site_board : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.3</td>
-                                    <td>
-                                        Do you have adequate PPE? Hi vis / steel caps
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->ppe_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[ppe_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->ppe_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[ppe_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[ppe]">{{ $safety!=null ? $safety->ppe : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.4</td>
-                                    <td>
-                                        Have you completed the Client safety documentation on site?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->safety_documentation_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[safety_documentation_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->safety_documentation_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[safety_documentation_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[safety_documentation]">{{ $safety!=null ? $safety->safety_documentation : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.5</td>
-                                    <td>
-                                        Are there others on site we need to communicate with?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->communicate_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[communicate_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->communicate_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[communicate_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[communicate]">{{ $safety!=null ? $safety->communicate : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.6</td>
-                                    <td>
-                                        Is the site tidy and clear for you work activity?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->work_activity_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[work_activity_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->work_activity_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[work_activity_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[work_activity]">{{ $safety!=null ? $safety->work_activity : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.7</td>
-                                    <td>
-                                        Is the site secure, i.e. fenced / gate closed?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->gate_closed_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[gate_closed_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->gate_closed_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[gate_closed_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[gate_closed]">{{ $safety!=null ? $safety->gate_closed : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.8</td>
-                                    <td>
-                                        Are site hazards adequately controlled?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->hazard_controlled_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->hazard_controlled_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[hazard_controlled]">{{ $safety!=null ? $safety->hazard_controlled : '' }}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.9</td>
-                                    <td>
-                                        Do you have access to Power / Water / Toilet?
-                                    </td>
-                                    <td class="paid-t">
-                                        <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                            if ($safety->power_access_tick == '1') {
-                                                                                echo "checked";
-                                                                            }
-                                                                        }  ?> name="safety_plan[power_access_tick]"><label>&#10004</label>
-                                        <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                            if ($safety->power_access_tick == '0') {
-                                                                                                echo "checked";
-                                                                                            }
-                                                                                        }  ?> name="safety_plan[power_access_tick]"><label>&#x2717</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="safety_plan[power_access]">{{ $safety!=null ? $safety->power_access : '' }}</textarea>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th colspan="8" style="background-color:#c9ced6;">3.0 JOB SAFETY ANALYSIS AND HAZARD MANAGEMENT
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th colspan="2" scope="colgroup">&#10004 JOB STEP
-                                    </th>
-                                    <th>RISK IDENTIFIED
-                                    </th>
-                                    <th>HAZARD CONTROL METHOD
-                                        E Eliminate / M - Minimise
-                                    </th>
-                                    <th>
-                                        &#10004
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        Foundation
-                                        Install / Strip
-                                    </td>
-                                    <td>
-                                        Power Tools
-                                    </td>
-                                    <td>
-                                        M Ensure all electrical is tagged and made safeM - Check guards are in place
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" <?php if (!empty($safety)) {
-                                                                                if ($safety->foundation == '1') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[foundation]">
-                                    </td>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Boundary Dimensions Back Checked - are they Correct (Mark On Site Plan)</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[boundary_dimension]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_dimension : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">FFL Set and Marked on Fence
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[ffl_set]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_set : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">FFL Height out of Ground (Mark On Site Plan)
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input placeholder="min" type="number" class="form-control" name="markout_data[ffl_height_min]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_min : '' }}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input placeholder="max" type="number" class="form-control" name="markout_data[ffl_height_max]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_max : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Markout Past Building Line
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="markout_data[past_building_line]" value="{{ $markout_checklist!=null ? $markout_checklist->past_building_line : '' }}">
+                                    </div>
+                                </div>
+                            </div>
 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Noise
-                                    </td>
-                                    <td>
-                                        M Ear muffs to be worn
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" <?php if (!empty($safety)) {
-                                                                                if ($safety->noise == '1') {
-                                                                                    echo "checked";
-                                                                                }
-                                                                            }  ?> name="safety_plan[noise]">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Dust
-                                    </td>
-                                    <td>
-                                        M Dust masks to be worn
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[dust]" <?php if (!empty($safety)) {
-                                                                                                        if ($safety->dust == '1') {
-                                                                                                            echo "checked";
-                                                                                                        }
-                                                                                                    }  ?>>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Hit by Plant
-                                    </td>
-                                    <td>
-                                        M Hi Vis to be worn
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[hit_plant]" <?php if (!empty($safety)) {
-                                                                                                            if ($safety->hit_plant == '1') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        }  ?>>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Poor Housekeeping
-                                    </td>
-                                    <td>
-                                        M Keep the site tidy, stack materials in designated areas
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[poor_housekeeping]" <?php if (!empty($safety)) {
-                                                                                                                    if ($safety->poor_housekeeping == '1') {
+                            @if(!empty($markout_checklist->foreman_sign))
+                            <img src="{{$markout_checklist->foreman_sign}}" id="markout_sign" width="200">
+                            @else
+                            <canvas id="markout_canvas" style="border: 1px solid black;"></canvas>
+                            <button type="button" data-id="markout_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                            @endif
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+                        </form>
+                    </div>
+                    <div style="padding:3%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
+                        <h5>Safety plan</h5>
+                        <br>
+                        <form action="{{URL('/safety-plan')}}" id="safety_form" method="post">
+                            @csrf
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div class="row safety_plan">
+                                <p>This plan is to be completed with all workers prior to works beginning. All personnel must complete a site induction</p>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="2">Site / Address: {{$project->address}}</th>
+                                            <th colspan="2">Client: <input type="text" style="width:70%" name="safety_plan[client]" value="{{ $safety!=null ? $safety->client : '' }}"></th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:25%">Completed By: Jimmy</th>
+                                            <th style="width:35%">Date: <input type="date" style="width:70%" name="safety_plan[date]" value="{{ $safety!=null ? $safety->date : '' }}"></th>
+                                            <th style="width:20%">Time In: <input type="text" style="width:40%" name="safety_plan[time_in]" value="{{ $safety!=null ? $safety->time_in : '' }}"></th>
+                                            <th style="width:20%">Time Out: <input type="text" style="width:40%" name="safety_plan[time_out]" value="{{ $safety!=null ? $safety->time_out : '' }}"></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" style="text-align:center;background-color:#c9ced6;">EMERGENCY INFORMATION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th rowspan="2" scope="rowgroup">Locations of
+                                                Emergency
+                                                Provisions:</th>
+                                            <th>First Aid Kit
+                                            </th>
+                                            <th>Extinguisher
+                                            </th>
+                                            <th>Evacuation Assembly Point
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Site Vehicle
+                                            </td>
+                                            <td>
+                                                Site Vehicle
+                                            </td>
+                                            <td>
+                                                At Site Entrance
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th rowspan="2" scope="rowgroup">Key Emergency
+                                                Contacts:</th>
+                                            <td>
+                                                Emergency Response Dial: <br>111
+                                            </td>
+                                            <td>
+                                                Ch Hospital:<br> 03 364 0270
+                                            </td>
+                                            <td>
+                                                Andy Knight:<br> 027 702 1055
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Moorhouse Medical:<br> 03 365 7900
+                                            </td>
+                                            <td>
+                                                24 Hr Medical:<br> 03 365 7777
+                                            </td>
+                                            <td>
+                                                Hayden Vessey:<br> 027 672 1812
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">1.0 SITE SET UP / FACILITIES
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col" style="width: 10%">#
+                                            </th>
+                                            <th style="width: 50%">ITEM
+                                            </th>
+                                            <th style="width: 10%">&#10004/&#x2717
+                                            </th>
+                                            <th style="width: 30%">
+                                                NOTES / ACTIONS
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>1.1</td>
+                                            <td>
+                                                Is there safe access to the site? (clear / level / no overhead lines)
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" <?php if (!empty($safety)) {
+                                                                        if ($safety->safe_access_tick == '1') {
+                                                                            echo "checked";
+                                                                        }
+                                                                    }  ?> value="1" name="safety_plan[safe_access_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" <?php if (!empty($safety)) {
+                                                                                        if ($safety->safe_access_tick == '0') {
+                                                                                            echo "checked";
+                                                                                        }
+                                                                                    }  ?> value="0" name="safety_plan[safe_access_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[safe_access]">{{ $safety!=null ? $safety->safe_access : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.2</td>
+                                            <td>
+                                                Have you read the site hazards board?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->site_board_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[site_board_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->site_board_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[site_board_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[site_board]">{{ $safety!=null ? $safety->site_board : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.3</td>
+                                            <td>
+                                                Do you have adequate PPE? Hi vis / steel caps
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->ppe_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[ppe_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->ppe_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[ppe_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[ppe]">{{ $safety!=null ? $safety->ppe : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.4</td>
+                                            <td>
+                                                Have you completed the Client safety documentation on site?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->safety_documentation_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[safety_documentation_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->safety_documentation_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[safety_documentation_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[safety_documentation]">{{ $safety!=null ? $safety->safety_documentation : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.5</td>
+                                            <td>
+                                                Are there others on site we need to communicate with?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->communicate_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[communicate_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->communicate_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[communicate_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[communicate]">{{ $safety!=null ? $safety->communicate : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.6</td>
+                                            <td>
+                                                Is the site tidy and clear for you work activity?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->work_activity_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[work_activity_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->work_activity_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[work_activity_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[work_activity]">{{ $safety!=null ? $safety->work_activity : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.7</td>
+                                            <td>
+                                                Is the site secure, i.e. fenced / gate closed?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->gate_closed_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[gate_closed_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->gate_closed_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[gate_closed_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[gate_closed]">{{ $safety!=null ? $safety->gate_closed : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.8</td>
+                                            <td>
+                                                Are site hazards adequately controlled?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->hazard_controlled_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->hazard_controlled_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[hazard_controlled]">{{ $safety!=null ? $safety->hazard_controlled : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1.9</td>
+                                            <td>
+                                                Do you have access to Power / Water / Toilet?
+                                            </td>
+                                            <td class="paid-t">
+                                                <input type="radio" value="1" <?php if (!empty($safety)) {
+                                                                                    if ($safety->power_access_tick == '1') {
+                                                                                        echo "checked";
+                                                                                    }
+                                                                                }  ?> name="safety_plan[power_access_tick]"><label>&#10004</label>
+                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
+                                                                                                    if ($safety->power_access_tick == '0') {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                }  ?> name="safety_plan[power_access_tick]"><label>&#x2717</label>
+                                            </td>
+                                            <td>
+                                                <textarea name="safety_plan[power_access]">{{ $safety!=null ? $safety->power_access : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">3.0 JOB SAFETY ANALYSIS AND HAZARD MANAGEMENT
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="2" scope="colgroup">&#10004 JOB STEP
+                                            </th>
+                                            <th>RISK IDENTIFIED
+                                            </th>
+                                            <th>HAZARD CONTROL METHOD
+                                                E Eliminate / M - Minimise
+                                            </th>
+                                            <th>
+                                                &#10004
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                Foundation
+                                                Install / Strip
+                                            </td>
+                                            <td>
+                                                Power Tools
+                                            </td>
+                                            <td>
+                                                M Ensure all electrical is tagged and made safeM - Check guards are in place
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
+                                                                                        if ($safety->foundation == '1') {
+                                                                                            echo "checked";
+                                                                                        }
+                                                                                    }  ?> name="safety_plan[foundation]">
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Noise
+                                            </td>
+                                            <td>
+                                                M Ear muffs to be worn
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
+                                                                                        if ($safety->noise == '1') {
+                                                                                            echo "checked";
+                                                                                        }
+                                                                                    }  ?> name="safety_plan[noise]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Dust
+                                            </td>
+                                            <td>
+                                                M Dust masks to be worn
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[dust]" <?php if (!empty($safety)) {
+                                                                                                                if ($safety->dust == '1') {
+                                                                                                                    echo "checked";
+                                                                                                                }
+                                                                                                            }  ?>>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Hit by Plant
+                                            </td>
+                                            <td>
+                                                M Hi Vis to be worn
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[hit_plant]" <?php if (!empty($safety)) {
+                                                                                                                    if ($safety->hit_plant == '1') {
                                                                                                                         echo "checked";
                                                                                                                     }
                                                                                                                 }  ?>>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Exposed Steel
-                                    </td>
-                                    <td>
-                                        M Ensure exposed steel is identified / capped
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[exposed_steel]" <?php if (!empty($safety)) {
-                                                                                                                if ($safety->exposed_steel == '1') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                            }  ?>>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Loose Materials
-                                    </td>
-                                    <td>
-                                        M Ensure materials are secured
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[loose_material]" <?php if (!empty($safety)) {
-                                                                                                                if ($safety->loose_material == '1') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                            }  ?>>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        Services
-                                    </td>
-                                    <td>
-                                        M Check for overhead and underground services
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="safety_plan[services]" <?php if (!empty($safety)) {
-                                                                                                            if ($safety->services == '1') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        }  ?>>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>All personnel and visitors have been shown and advised of all of the hazards and controls identified.
-                            All workers must be involved in completing this Site Safety Plan. All persons signed below fully
-                            understand and acknowledge their requirements</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Poor Housekeeping
+                                            </td>
+                                            <td>
+                                                M Keep the site tidy, stack materials in designated areas
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[poor_housekeeping]" <?php if (!empty($safety)) {
+                                                                                                                            if ($safety->poor_housekeeping == '1') {
+                                                                                                                                echo "checked";
+                                                                                                                            }
+                                                                                                                        }  ?>>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Exposed Steel
+                                            </td>
+                                            <td>
+                                                M Ensure exposed steel is identified / capped
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[exposed_steel]" <?php if (!empty($safety)) {
+                                                                                                                        if ($safety->exposed_steel == '1') {
+                                                                                                                            echo "checked";
+                                                                                                                        }
+                                                                                                                    }  ?>>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Loose Materials
+                                            </td>
+                                            <td>
+                                                M Ensure materials are secured
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[loose_material]" <?php if (!empty($safety)) {
+                                                                                                                        if ($safety->loose_material == '1') {
+                                                                                                                            echo "checked";
+                                                                                                                        }
+                                                                                                                    }  ?>>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Services
+                                            </td>
+                                            <td>
+                                                M Check for overhead and underground services
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" value="1" name="safety_plan[services]" <?php if (!empty($safety)) {
+                                                                                                                    if ($safety->services == '1') {
+                                                                                                                        echo "checked";
+                                                                                                                    }
+                                                                                                                }  ?>>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p>All personnel and visitors have been shown and advised of all of the hazards and controls identified.
+                                    All workers must be involved in completing this Site Safety Plan. All persons signed below fully
+                                    understand and acknowledge their requirements</p>
 
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th colspan="6" style="text-align:center;background-color:#c9ced6;">SIGN IN / INDUCTION</th>
-                                </tr>
-                            </thead>
-                            <tbody id="induction_body">
-                                <tr>
-                                    <th scope="row">Date
-                                    </th>
-                                    <th>Name
-                                    </th>
-                                    <th>Signature
-                                    </th>
-                                </tr>
-                                @if(!empty($safety))
-                                @for($key=1;$key<=count($safety->induction_date);$key++)
-                                    <tr>
-                                        <td scope="row">
-                                            <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
-                                        </td>
-                                        <td>
-                                            <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
-                                        </td>
-                                        <td>
-                                            @if(!empty($safety->sign['sign'.$key]))
-                                            <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
-                                            @else
-                                            <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
-                                            <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" style="text-align:center;background-color:#c9ced6;">SIGN IN / INDUCTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="induction_body">
+                                        <tr>
+                                            <th scope="row">Date
+                                            </th>
+                                            <th>Name
+                                            </th>
+                                            <th>Signature
+                                            </th>
+                                        </tr>
+                                        @if(!empty($safety))
+                                        @for($key=1;$key<=count($safety->induction_date);$key++)
+                                            <tr>
+                                                <td scope="row">
+                                                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
+                                                </td>
+                                                <td>
+                                                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
+                                                </td>
+                                                <td>
+                                                    @if(!empty($safety->sign['sign'.$key]))
+                                                    <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
+                                                    @else
+                                                    <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
+                                                    <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endfor
                                             @endif
-                                        </td>
-                                    </tr>
-                                    @endfor
-                                    @endif
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-md-10"></div>
-                            <div class="col-md-2"><button type="button" onclick="addsignaturepad();" class="btn" style="color:#fff;background-color:#172b4d">Add Signaturepad</button></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8"></div>
-                            <div class="col-md-3" style="display: none;">
-                                @if(!empty($safety->foreman_sign))
-                                <img src="{{$safety->foreman_sign}}" id="safetyplan_sign" width="200">
-                                @else
-                                <canvas id="safetyplan_canvas" style="border: 1px solid black;"></canvas>
-                                <button type="button" data-id="safetyplan_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                @endif
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-10"></div>
+                                    <div class="col-md-2"><button type="button" onclick="addsignaturepad();" class="btn" style="color:#fff;background-color:#172b4d">Add Signaturepad</button></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-3" style="display: none;">
+                                        @if(!empty($safety->foreman_sign))
+                                        <img src="{{$safety->foreman_sign}}" id="safetyplan_sign" width="200">
+                                        @else
+                                        <canvas id="safetyplan_canvas" style="border: 1px solid black;"></canvas>
+                                        <button type="button" data-id="safetyplan_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button>
+                        </form>
+                    </div>
+                    <div style="padding:3%" d="" class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="5-tab">
+                        <form action="{{URL('/startup_checklist')}}" method="post" id="startup_form">
+                            @csrf
+                            <h5>Startup Checklist</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div style="margin:5%">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Height of floor:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[height_floor]" value="{{ $startup_data!=null ? $startup_data->height_floor : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Bracket spacing:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[bracket_spacing]" value="{{ $startup_data!=null ? $startup_data->bracket_spacing : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Mesh size</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[mesh_size]" value="{{ $startup_data!=null ? $startup_data->mesh_size : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Main beam detail</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[main_beam]" value="{{ $startup_data!=null ? $startup_data->main_beam : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Rib detail</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[rib_detail]" value="{{ $startup_data!=null ? $startup_data->rib_detail : '' }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="name" class="col-md-6 col-form-label ">Columns</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="startup_data[columns]" value="{{ $startup_data!=null ? $startup_data->columns : '' }}">
+                                    </div>
+                                </div>
 
-                </form>
+                            </div>
+
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+
+
+                        </form>
+                    </div>
+
+                    <div style="padding:3%" d="" class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="6-tab">
+                        <form action="{{URL('/boxing')}}" method="post" id="boxing_form">
+                            @csrf
+                            <h5>Boxing</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div class="qa_checklist marg-lr-none">
+                                <!-- <div class="row onsite_label"><div class="col-md-6"></div><div class="col-md-3">Initial</div><div class="col-md-3">Office Use</div></div> -->
+                                <table style="width:100%">
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">FFL Nail & Sand Checked to plan</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_doneby : '' }}" name="boxing[nail_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_supervisor : '' }}" name="boxing[nail_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Profiles Hit In and Set 50mm Above FFL</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_doneby : '' }}" name="boxing[profiles_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_supervisor : '' }}" name="boxing[profiles_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Boxing Cut including Backcuts</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->cut_doneby : '' }}" name="boxing[cut_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Boxing Screwed Together</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby1 : '' }}" name="boxing[screwed_doneby1]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Done By   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby2 : '' }}" name="boxing[screwed_doneby2]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Boxing Measurements Checked Including Backcuts in Place</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_doneby : '' }}" name="boxing[measure_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_supervisor : '' }}" name="boxing[measure_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">String Lines including Checking Boundary Setbacks and Marking Plan</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_doneby : '' }}" name="boxing[lines_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_supervisor : '' }}" name="boxing[lines_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Pinned to Lines Correct Positions</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_doneby : '' }}" name="boxing[pinned_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_supervisor : '' }}" name="boxing[pinned_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Lift to Height - Height Recorded</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_doneby : '' }}" name="boxing[lift_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_supervisor : '' }}" name="boxing[lift_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Braced Straight including Checking Position Back to Lines</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_doneby : '' }}" name="boxing[braced_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_supervisor : '' }}" name="boxing[braced_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yellow Caps On</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->yellow_doneby : '' }}" name="boxing[yellow_doneby]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Kick Stand</td>
+                                            <td class="">
+                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_supervisor : '' }}" name="boxing[kick_supervisor]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="">
+                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_doneby : '' }}" name="boxing[kick_doneby]">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 </div>
@@ -995,7 +1181,7 @@
     if ($('#markout_canvas').length) {
         var markout_signature = new SignaturePad($("#markout_canvas")[0]);
     }
-    
+
     if ($('#onsite_canvas').length) {
         var onsite_signature = new SignaturePad($("#onsite_canvas")[0]);
     }
@@ -1050,7 +1236,7 @@
                 .attr("name", "markout_data[foreman_sign]")
                 .attr("value", $("#markout_sign").attr("src")).appendTo("#markout_form");
         }
-       
+
     });
 
     $(document).on('submit', '#safety_form', function(e) {

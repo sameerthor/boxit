@@ -330,8 +330,10 @@
                 </table>
               </div>
               <br>
-              <h5>Signature</h5>
-              <canvas id="onsite_canvas" style="border: 1px solid black;"></canvas>
+              @if(!empty($project->qasign->foreman_sign))
+              <h5>Signature</h5> 
+              <img src="{{$project->qasign->foreman_sign}}" id="m_sign" width="200">
+            @endif
               <div style="float:right">
             </form>
           </div>

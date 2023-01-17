@@ -253,7 +253,7 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
     $html.='Thank You<br><br>
                 Jules<br>
-                Box It Foundations<br>
+                Boxit Foundations<br>
                 ';    
     $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Cancelled';
@@ -298,7 +298,7 @@ class BookingController extends Controller
             $html = '';
             $address = $booking->address;
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
-            $html .= "<p>Box It Foundations  has requested revised time for following booking.</p>";
+            $html .= "<p>Boxit Foundations  has requested revised time for following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
             $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
@@ -314,7 +314,7 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
     $html.='Thank You<br><br>
     Jules<br>
-    Box It Foundations<br>
+    Boxit Foundations<br>
     ';
             $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
@@ -611,7 +611,7 @@ class BookingController extends Controller
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
             $html.='Thank You<br><br>
                 Jules<br>
-                Box It Foundations<br>
+                Boxit Foundations<br>
                 ';
         } else {
             $enc_key = base64_encode($booking_data->id);
@@ -636,7 +636,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             }
             $html.='Thank You<br><br>
                 Jules<br>
-                Box It Foundations<br>
+                Boxit Foundations<br>
                 ';
 
             $update_array = ['date' => $date];

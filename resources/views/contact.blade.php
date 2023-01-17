@@ -80,12 +80,12 @@
         <form>
           <div style="display:none" id="modal_contact_id"></div>
           <div class="form-group">
-            <label for="company" class="col-form-label">Name:</label>
-            <input type="text" name="company" class="form-control" id="company">
-          </div>
-          <div class="form-group">
             <label for="title" class="col-form-label">Company Name:</label>
             <input type="text" name="title" class="form-control" id="title">
+          </div>
+          <div class="form-group">
+            <label for="company" class="col-form-label">Name:</label>
+            <input type="text" name="company" class="form-control" id="company">
           </div>
           <div class="form-group">
             <label for="email" class="col-form-label">Email:</label>
