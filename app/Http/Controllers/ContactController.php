@@ -145,7 +145,7 @@ class ContactController extends Controller
         return cal_days_in_month(CAL_GREGORIAN, $iMonth, $iYear);
     }
 
-    public function  generate_link($id)
+    public function  generate_link(Request $request,$id)
     {
         $booking_data=BookingData::find($id);
        
@@ -175,8 +175,16 @@ class ContactController extends Controller
             
             
         }
+        if($request->get('type')=='google')
+        {
+            $link = $link->google();
 
-        $link = $link->google();
+        } 
+        if($request->get('type')=='outlook')
+        {
+            $link = $link->webOutlook();
+
+        }  
         return redirect()->to($link);
     }
 
@@ -185,7 +193,7 @@ class ContactController extends Controller
     $id = $request->get('id');
     $booking_data = BookingData::find($id);;
     $booking = $booking_data->booking;
-    $html='<a href="/vendor-download/'.$id.'" target="_blank" class="btn btn-sm btn-info draft btn-color">Download</a>
+    $html='<div class="col-md-6"> <a href="/vendor-download/'.$id.'?type=google" target="_blank" class="btn btn-sm btn-info draft btn-color">Download to Google Calender</a></div><div class="col-md-6"><a href="/vendor-download/'.$id.'?type=outlook" target="_blank" class="btn align-right btn-sm btn-info draft btn-color">Download to Outlook Calendar</a></div>
     ';
     return array('address' => $booking->address, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking->BookingData[0]->department_id == '1' ?  $booking->BookingData[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
 

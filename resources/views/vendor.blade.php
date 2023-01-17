@@ -237,12 +237,9 @@
 						<p id="booking_notes">NA</p>
 					</div>
 					 </div>	
-                     <div class="col-md-12">
-					 <div class="info-txt">
-						<span>Calender Link</span>
-						<p id="link_b"></p>
-					</div>
-					 </div>	
+                    </div>
+                    <div class="row calender_link">
+                     
 					</div>
 				
 				</div>
@@ -517,7 +514,7 @@
 				$("#floor_area").html(response.data.floor_area);
 				$("#building_company").html(response.data.building_company);
 				$("#booking_notes").html(response.data.notes);
-				$("#link_b").html(response.data.html);
+				$(".calender_link").html(response.data.html);
 				$("#exampleModal").modal("show");
 			})
 	})
