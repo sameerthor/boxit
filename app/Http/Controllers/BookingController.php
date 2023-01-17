@@ -262,14 +262,14 @@ class BookingController extends Controller
             $details['to'] = \config('const.admin2');
             dispatch(new BookingEmailJob($details));
             $notification = new Notification();
-            $notification->foreman_id = $booking->foreman_id;
+            $notification->foreman_id = '0';
             $notification->notification = '<b>' . $department->title . '</b> has request date change for booking <b>' . $booking->address . '</b>,Please check email.';
             $notification->booking_id = $booking->id;
             $notification->save();
         }else
         {
             $notification = new Notification();
-            $notification->foreman_id = $booking->foreman_id;
+            $notification->foreman_id = '0';
             $notification->notification = '<b>' . $department->title . '</b> has accept the requested date for booking <b>' . $booking->address . '</b>';
             $notification->booking_id = $booking->id;
             $notification->save();
