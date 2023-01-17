@@ -27,11 +27,17 @@ class Booking extends Model
     {
         return $this->hasOne(MarkoutChecklist::class,'project_id','id');
     }
+
     public function qasign()
     {
         return $this->hasOne(QaSign::class,'qa_id','id');
     }
     
+    public function stripping()
+    {
+        return $this->hasOne(Stripping::class,'project_id','id');
+    }
+
     public function boxing()
     {
         return $this->hasOne(Boxing::class,'project_id','id');

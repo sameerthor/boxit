@@ -157,6 +157,9 @@
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="tab6" aria-selected="true">Boxing
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab7" type="button" role="tab" aria-controls="tab7" aria-selected="true">Stripping
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div style="padding:2%" d class="tab-pane fade show active paid-l-none" id="tab1" role="tabpanel" aria-labelledby="1-tab">
@@ -930,7 +933,6 @@
 
                         </form>
                     </div>
-
                     <div style="padding:3%" d="" class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="6-tab">
                         <form action="{{URL('/boxing')}}" method="post" id="boxing_form">
                             @csrf
@@ -1055,10 +1057,49 @@
                                 </table>
                             </div>
                             <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
-
+                        </form>
                     </div>
-                    </form>
-                </div>
+                    <div style="padding:3%;" d class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="7-tab">
+                        <form action="{{URL('/stripping')}}" method="post">
+                            @csrf
+                            <h5>Striping</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div class="qa_checklist marg-lr-none">
+                                <table style="width:100%">
+                                    <tr class="bor-none">
+                                        <td></td>
+                                        <td>Done By</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pod Rubbish removed</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->pod_rubbished : '' }}" name="stripping_data[pod_rubbished]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boxing Scraped</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->boxing_scraped : '' }}" name="stripping_data[boxing_scraped]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boxing Tied On</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->boxing_tied : '' }}" name="stripping_data[boxing_tied]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trailer loaded</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->trailer_loaded : '' }}" name="stripping_data[trailer_loaded]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Site Gate shut</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->gate_shut : '' }}" name="stripping_data[gate_shut]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Site tify and photos taken</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->photos_taken : '' }}" name="stripping_data[photos_taken]"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                           
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>

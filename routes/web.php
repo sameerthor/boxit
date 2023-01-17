@@ -129,6 +129,8 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/startup_checklist', [App\Http\Controllers\ForemanController::class, 'storeStartuplist']);
   Route::post('/boxing', [App\Http\Controllers\ForemanController::class, 'boxing']);
   Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
+  Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
+
 });
 
 

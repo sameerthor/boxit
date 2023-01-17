@@ -17,6 +17,7 @@ use App\Models\ForemanTemplates;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
 use App\Models\SafetyPlan;
+use App\Models\Stripping;
 use App\Models\QaSign;
 use Auth;
 use DB;
@@ -265,13 +266,14 @@ class ForemanController extends Controller
         $startup_data=$project->StartupChecklist;
         $safety=$project->SafetyPlan;
         $boxing_data=$project->boxing;
+        $stripping_data=$project->stripping;
         $qaChecklist=QaChecklist::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
                   $query->where('department_id', '=', '')
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('foreman-single-project',compact('safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('foreman-single-project',compact('stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
 
     public function storeQaChecklist(Request $request )
@@ -307,6 +309,17 @@ class ForemanController extends Controller
         $final_array['project_id']=$project_id;
         MarkoutChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
+
+    }
+    
+    public function stripping(Request $request )
+    {   
+        $project_id=$request->get('project_id');
+        $res=Stripping::where('project_id',$project_id)->delete();
+        $final_array=$request->get('stripping_data');
+        $final_array['project_id']=$project_id;
+        Stripping::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Stripping Data saved successfuly');
 
     }
 
