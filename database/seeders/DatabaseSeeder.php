@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             MailTemplateSeeder::class,
             QaChecklistSeeder::class,
             StatusLabelSeeder::class,
-            NaSeeder::class
+            NaSeeder::class,
+            PodsSteelSeeder::class
         ]);
     }
 }

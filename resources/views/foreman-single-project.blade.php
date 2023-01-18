@@ -160,6 +160,9 @@
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab7" type="button" role="tab" aria-controls="tab7" aria-selected="true">Stripping
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab8" type="button" role="tab" aria-controls="tab8" aria-selected="true">PODS & Steel
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div style="padding:2%" d class="tab-pane fade show active paid-l-none" id="tab1" role="tabpanel" aria-labelledby="1-tab">
@@ -1094,6 +1097,35 @@
                                         <td>Site tify and photos taken</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->photos_taken : '' }}" name="stripping_data[photos_taken]"></td>
                                     </tr>
+                                </table>
+                            </div>
+                           
+                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+                        </form>
+                    </div>
+                    <div style="padding:3%;" d class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="8-tab">
+                        <form action="{{URL('/pods-steel')}}" method="post">
+                            @csrf
+                            <h5>Striping</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div class="qa_checklist marg-lr-none">
+                                <table style="width:100%">
+                                    <tr class="bor-none">
+                                        <td></td>
+                                        <td>Done By</td>
+                                        <td>Done By</td>
+                                        <td>Checked By</td>
+                                    </tr>
+                                    @foreach($pods_steel_label as $label)
+                                    @php $l_value= $label->PodsSteelValue($project->id)->get(); @endphp
+                                    <tr>
+                                        <td>{{$label->label}}</td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->done_by1 : ''}}" name="done_by1[{{$label->id}}]"></td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->done_by2 : ''}}" name="done_by2[{{$label->id}}]"></td>
+                                        <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->checked_by : ''}}" name="checked_by[{{$label->id}}]"></td>
+
+                                    </tr>
+                                    @endforeach
                                 </table>
                             </div>
                            

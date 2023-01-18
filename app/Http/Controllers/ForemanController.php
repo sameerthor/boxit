@@ -19,6 +19,8 @@ use App\Models\Boxing;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
 use App\Models\QaSign;
+use App\Models\PodsSteel;
+use App\Models\PodsSteelValue;
 use Auth;
 use DB;
 class ForemanController extends Controller
@@ -268,12 +270,36 @@ class ForemanController extends Controller
         $boxing_data=$project->boxing;
         $stripping_data=$project->stripping;
         $qaChecklist=QaChecklist::all();
+        $pods_steel_label=PodsSteel::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
                   $query->where('department_id', '=', '')
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('foreman-single-project',compact('stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('foreman-single-project',compact('pods_steel_label','stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+    }
+    
+    public function pods_steel(Request $request)
+    {
+        $res=PodsSteelValue::where('project_id',$request->get('project_id'))->delete();
+        $done_by1=$request->get('done_by1');
+        $done_by2=$request->get('done_by2');
+        $checked_by=$request->get('checked_by');
+        $project_id=$request->get('project_id');
+        $insert_array=[];
+        $final_array=[];
+        foreach($done_by1 as $key=>$val)
+        {
+            $insert_array['project_id']=$project_id;
+            $insert_array['pods_steel_label_id']=$key;
+            $insert_array['done_by1']=$val!=null?$val:'';
+            $insert_array['done_by2']=$done_by2[$key]!=null?$done_by2[$key]:'';
+            $insert_array['checked_by']=$checked_by[$key]!=null?$checked_by[$key]:'';;
+            $final_array[]=$insert_array;
+        }
+        PodsSteelValue::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'PODS & Steel Data saved successfuly');
+
     }
 
     public function storeQaChecklist(Request $request )
@@ -292,6 +318,7 @@ class ForemanController extends Controller
             $insert_array['office_use']=$office_use[$key]!=null?$office_use[$key]:'';
             $final_array[]=$insert_array;
         }
+        ProjectQaChecklist::insert($final_array);
         if(!empty($request->get('onsite_sign')))
         {
         QaSign::updateOrCreate(['qa_id'=>$project_id],['foreman_sign'=>$request->get('onsite_sign')]);
