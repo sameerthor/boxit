@@ -95,6 +95,25 @@
             padding-top: 38px !important;
         }
     }
+
+    .incident_form input {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 0.5px solid black;
+        outline: none;
+        background-color: #c9ced6;
+    }
+
+    .incident_form textarea {
+        width: 100%;
+        height: 100px;
+    }
+
+    .single-table {
+        margin: 0;
+        padding: 0;
+    }
 </style>
 <div class="modal fade" role="dialog" id="reason_form">
     <div class="modal-dialog">
@@ -163,6 +182,10 @@
                     <li class="nav-item" role="presentation">
                         <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab8" type="button" role="tab" aria-controls="tab8" aria-selected="true">PODS & Steel
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab9" type="button" role="tab" aria-controls="tab9" aria-selected="true">Accident/Incident Investigation
+                    </li>
+
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div style="padding:2%" d class="tab-pane fade show active paid-l-none" id="tab1" role="tabpanel" aria-labelledby="1-tab">
@@ -948,112 +971,112 @@
                                         <tr>
                                             <td rowspan="2">FFL Nail & Sand Checked to plan</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_doneby : '' }}" name="boxing[nail_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_doneby : '' }}" name="boxing[nail_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_supervisor : '' }}" name="boxing[nail_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_supervisor : '' }}" name="boxing[nail_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Profiles Hit In and Set 50mm Above FFL</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_doneby : '' }}" name="boxing[profiles_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_doneby : '' }}" name="boxing[profiles_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_supervisor : '' }}" name="boxing[profiles_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_supervisor : '' }}" name="boxing[profiles_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Boxing Cut including Backcuts</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->cut_doneby : '' }}" name="boxing[cut_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->cut_doneby : '' }}" name="boxing[cut_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Boxing Screwed Together</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby1 : '' }}" name="boxing[screwed_doneby1]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby1 : '' }}" name="boxing[screwed_doneby1]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Done By   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby2 : '' }}" name="boxing[screwed_doneby2]">
+                                                Done By <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby2 : '' }}" name="boxing[screwed_doneby2]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Boxing Measurements Checked Including Backcuts in Place</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_doneby : '' }}" name="boxing[measure_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_doneby : '' }}" name="boxing[measure_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_supervisor : '' }}" name="boxing[measure_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_supervisor : '' }}" name="boxing[measure_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">String Lines including Checking Boundary Setbacks and Marking Plan</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_doneby : '' }}" name="boxing[lines_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_doneby : '' }}" name="boxing[lines_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_supervisor : '' }}" name="boxing[lines_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_supervisor : '' }}" name="boxing[lines_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Pinned to Lines Correct Positions</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_doneby : '' }}" name="boxing[pinned_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_doneby : '' }}" name="boxing[pinned_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_supervisor : '' }}" name="boxing[pinned_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_supervisor : '' }}" name="boxing[pinned_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Lift to Height - Height Recorded</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_doneby : '' }}" name="boxing[lift_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_doneby : '' }}" name="boxing[lift_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_supervisor : '' }}" name="boxing[lift_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_supervisor : '' }}" name="boxing[lift_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Braced Straight including Checking Position Back to Lines</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_doneby : '' }}" name="boxing[braced_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_doneby : '' }}" name="boxing[braced_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_supervisor : '' }}" name="boxing[braced_supervisor]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_supervisor : '' }}" name="boxing[braced_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Yellow Caps On</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->yellow_doneby : '' }}" name="boxing[yellow_doneby]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->yellow_doneby : '' }}" name="boxing[yellow_doneby]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Kick Stand</td>
                                             <td class="">
-                                               Done by  <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_supervisor : '' }}" name="boxing[kick_supervisor]">
+                                                Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_supervisor : '' }}" name="boxing[kick_supervisor]">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="">
-                                               Supervisor   <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_doneby : '' }}" name="boxing[kick_doneby]">
+                                                Supervisor <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_doneby : '' }}" name="boxing[kick_doneby]">
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1099,7 +1122,7 @@
                                     </tr>
                                 </table>
                             </div>
-                           
+
                             <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
                         </form>
                     </div>
@@ -1128,14 +1151,256 @@
                                     @endforeach
                                 </table>
                             </div>
-                           
+
                             <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
                         </form>
                     </div>
+                    <div style="padding:3%;" d class="tab-pane fade" id="tab9" role="tabpanel" aria-labelledby="9-tab">
+                        <form action="{{URL('/accident-investigation')}}" method="post">
+                            @csrf
+                            <h5>Accident/Incident Investigation</h5>
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <div class="row incident_form">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="2" style="background-color:#c9ced6;">PROJECT/SITE:</th>
+                                        </tr>
+                                        <tr style="height: 30px;">
+                                            <th style="width:55%;background-color:#c9ced6;">FOREMAN/SUPERVISOR:</th>
+                                            <th style="width:45%;background-color:#c9ced6;">Date: <input type="date" style="width:70%" name="safety_plan[date]" value=""></th>
+                                        </tr>
+                                        <tr style="height: 130px;">
+                                            <th colspan="2">Attendees Names<textarea></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Actions to follow up from last week:</th>
+                                            <th style="width:40%;">Action Required Who / When</th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Site Inspection:</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Upcoming Work:</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Incidents / Near Misses / Injury Events:</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Equipment Maintenance / Issues</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Employee issues raised:</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Safe observations reviewed/discussed</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                        <tr style="height: 70px;">
+                                            <th style="width:60%;">Task Analysis completed/reviewed:</th>
+                                            <th style="width:40%;"><textarea name=""></textarea></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">PARTICULARS OF ACCIDENT
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 20%">Date of accident</td>
+                                            <td style="width: 10%">Time</td>
+                                            <td style="width: 30%">Location</td>
+                                            <td style="width: 20%">Date reported</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">THE INJURED PERSON
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Name <input type="text" name="" value=""></td>
+                                            <td rowspan="2" colspan="2">Address <input type="text" name="" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="12%">Age <input type="number" name="" value=""></td>
+                                            <td width="28%">Phone number <input type="number" name="" value=""></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="">TYPE OF INJURY:</td>
+                                            <td width=""><input type="checkbox"> Bruising</td>
+                                            <td width=""><input type="checkbox"> Dislocation</td>
+                                            <td width=""><input type="checkbox"> Other (specify)</td>
+                                            <td width="" rowspan="2">Injured part of body<textarea></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td width=""><input type="checkbox"> Strain/sprain</td>
+                                            <td width=""><input type="checkbox"> Scratch/abrasion</td>
+                                            <td width=""><input type="checkbox"> Internal</td>
+                                            <td width=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td width=""><input type="checkbox"> Fracture</td>
+                                            <td width=""><input type="checkbox"> Amputation</td>
+                                            <td width=""><input type="checkbox"> Foreign body</td>
+                                            <td width="" rowspan="2" colspan="2">Remarks<textarea></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td width=""><input type="checkbox"> Laceration/cut</td>
+                                            <td width=""><input type="checkbox"> Burn scald</td>
+                                            <td width=""><input type="checkbox"> Chemical reaction</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">DAMAGED PROPERTY
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8">Property/ material damaged<textarea></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">THE ACCIDENT
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8">Description - Describe what happened (space overleaf for diagram □ essential for all vehicle accidents)<textarea></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8">Analysis - What were the causes of the accident?<textarea></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">HOW BAD COULD IT HAVE BEEN?
+                                                <br>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                                                    <label class="form-check-label">Very</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
+                                                    <label class="form-check-label">Serious</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3">
+                                                    <label class="form-check-label">Minor Serious</label>
+                                                </div>
+                                            </td>
+                                            <td width="50%">WHAT IS THE CHANCE OF IT HAPPENING AGAIN?
+                                                <br>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                                                    <label class="form-check-label">Minor</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
+                                                    <label class="form-check-label">Occasional</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3">
+                                                    <label class="form-check-label">Rare</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th colspan="8">Prevention
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%">What action has or will be taken to prevent a recurrence?</td>
+                                            <td></td>
+                                            <td style="width: 20%">By whom</td>
+                                            <td style="width: 20%">When</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%"><textarea></textarea></td>
+                                            <td></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%"><textarea></textarea></td>
+                                            <td></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%"><textarea></textarea></td>
+                                            <td></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%"><textarea></textarea></td>
+                                            <td></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%"><textarea></textarea></td>
+                                            <td></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%">Use space overleaf if required</td>
+                                            <td></td>
+                                            <td style="width: 20%"></td>
+                                            <td style="width: 20%"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered single-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th colspan="8" style="background-color:#c9ced6;">TREATMENT AND INVESTIGATION OF ACCIDENT
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>Type of treatment given <input type="text" name="" value=""></td>
+                                            <td>Name of person giving first aid <input type="text" name="" value=""></td>
+                                            <td>Doctor/Hospital <input type="text" name="" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Accident investigated by <input type="text" name="" value=""></td>
+                                            <td>WorkSafe NZ advised YES / NO <input type="text" name="" value=""></td>
+                                            <td>Date <input type="date" name="" value=""></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-3" style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 

@@ -75,7 +75,7 @@
 				<div class="col-md-2 blue-bg pos-rel p-none z-in1 desktop-nav">
 					<div id="sidebar">
 						<div class="logo-sec">
-							<!-- <img src="/img/logo2581-1.png"> -->
+							<img src="/img/logo2581-1.png">
 						</div>
 						<ul class="li-flex li-styles p-none list-none">
 							<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
