@@ -53,6 +53,7 @@ class BookingController extends Controller
         $booking->floor_area = $request->get('floor_area');
         $booking->floor_type = $request->get('floor_type');
         $booking->notes = $request->get('notes');
+        $booking->bcn = $request->get('bcn');
         $booking->foreman_id = $request->get('foreman');
         $request_status=$request->get('status');
         $files = [];
@@ -517,7 +518,7 @@ class BookingController extends Controller
 
         $html .= '</div></div>';
 
-        return array('address' => $booking->address, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
+        return array('address' => $booking->address,'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)
@@ -531,6 +532,7 @@ class BookingController extends Controller
         $draft->address = $request->get('address');
         $draft->floor_area = $request->get('floor_area');
         $draft->floor_type = $request->get('floor_type');
+        $draft->bcn = $request->get('bcn');
         $draft->notes = $request->get('notes');
         $draft->foreman_id = $request->get('foreman');
         $files = [];

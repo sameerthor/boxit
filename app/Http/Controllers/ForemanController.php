@@ -249,7 +249,7 @@ class ForemanController extends Controller
 									
 							$html.='</div></div>';
 							
-        return array('address' => $booking->address, 'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA','notes' => $booking->notes, 'html' => $html);
+        return array('address' => $booking->address,'bcn' => $booking->bcn, 'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA','notes' => $booking->notes, 'html' => $html);
     }
 
     public function check_list()

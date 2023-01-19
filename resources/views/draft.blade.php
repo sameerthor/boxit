@@ -35,10 +35,13 @@
         <input type="hidden" name="draft_id" value="{{$draft->id}}">
         <div class="center_div">
           <div class="row">
-            <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
+              <input name="bcn" required value="{{$draft->bcn}}" type="text" placeholder="BCN" />
+            </div>
+            <div class="form-group col-md-4">
               <input name="address" required value="{{$draft->address}}" type="text" placeholder="Address*" required />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
             <i id="pos-r" class="fa fa-angle-down"></i>
               <select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="" disabled>Building Company*</option>

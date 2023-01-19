@@ -4,9 +4,10 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
-	.modal-dialog{
+	.modal-dialog {
 		max-width: 50%;
 	}
+
 	.list-enter-active {
 		animation: fade-in 0.20s ease-in-out;
 	}
@@ -29,8 +30,8 @@
 	.foo {
 		display: flex;
 		margin-left: 5%;
-    width: 93%;
-    height: 12%;
+		width: 93%;
+		height: 12%;
 	}
 
 	.foo:first-child {
@@ -57,9 +58,11 @@
 		text-align: center;
 		font-weight: 600;
 	}
-    .container.pl-none.pr-60{
+
+	.container.pl-none.pr-60 {
 		max-width: unset;
 	}
+
 	.booked_div {
 		flex-basis: 100%;
 		font-size: 10px;
@@ -79,11 +82,11 @@
 
 	.booked_div_monthly {
 		flex-basis: 100%;
-    height: auto;
-    min-height: 150px;
-    font-size: 13px;
-    padding: 30px 0px;
-    font-weight: 600;
+		height: auto;
+		min-height: 150px;
+		font-size: 13px;
+		padding: 30px 0px;
+		font-weight: 600;
 	}
 
 	.pd-boxes {
@@ -92,15 +95,15 @@
 	}
 
 	.red_box {
-    background: #FCEEEC;
-    color: #ff2000 !important;
-    border-left: 1px solid #ff2000;
-    border-radius: 3px;
-    cursor: pointer;
-    padding: 0px;
-    display: block;
-    border-bottom: 1px solid #ff2000;
-}
+		background: #FCEEEC;
+		color: #ff2000 !important;
+		border-left: 1px solid #ff2000;
+		border-radius: 3px;
+		cursor: pointer;
+		padding: 0px;
+		display: block;
+		border-bottom: 1px solid #ff2000;
+	}
 
 	.green_box {
 		background: #F1FFE9;
@@ -112,7 +115,7 @@
 		display: block;
 		border-bottom: 1px solid #16DB65;
 	}
- 
+
 	.orange_box {
 		background: #FCF0E4;
 		color: #F79256 !important;
@@ -164,26 +167,28 @@
 		padding: 0px 5px;
 	}
 
-	@media screen and (max-width:767px)
-	{
+	@media screen and (max-width:767px) {
 		.cal-days li {
 
-margin: 15px 0px !important;
-}
+			margin: 15px 0px !important;
+		}
 
 	}
 
-	.orange_box,.green_box,.red_box{
-	padding-left: 6px;
-    padding-top: 3px;
-    padding-bottom: 1px;
+	.orange_box,
+	.green_box,
+	.red_box {
+		padding-left: 6px;
+		padding-top: 3px;
+		padding-bottom: 1px;
 	}
+
 	span.week_count.active-day-month {
-    margin-bottom: 10px;
-    padding: 0px 10px;
-    background-color: #182a4e;
-    color: white !important;
-}
+		margin-bottom: 10px;
+		padding: 0px 10px;
+		background-color: #182a4e;
+		color: white !important;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -197,41 +202,47 @@ margin: 15px 0px !important;
 					</button>
 				</div>
 				<div class="modal-body">
-				<div class="row">
-					 <div class="col-md-6">
-					 <div class="info-txt">
-						<span>Address</span>
-						<p id="booking_address">NA</p>
-					</div>
-					 </div>
-					 <div class="col-md-6">
-					 <div class="info-txt">
-						<span>Building Company</span>
-						<p id="building_company">NA</p>
-					</div>
-					 </div>	
+					<div class="row">
+						<div class="col-md-4">
+							<div class="info-txt">
+								<span>BCN</span>
+								<p id="bcn">NA</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="info-txt">
+								<span>Address</span>
+								<p id="booking_address">NA</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="info-txt">
+								<span>Building Company</span>
+								<p id="building_company">NA</p>
+							</div>
+						</div>
 					</div>
 					<div class="row">
-					 <div class="col-md-6">
-					 <div class="info-txt">
-						<span>Floor Type</span>
-						<p id="floor_type">NA</p>
-					</div>
-					 </div>
-					 <div class="col-md-6">
-					 <div class="info-txt">
-						<span>Floor Area</span>
-						<p id="floor_area">NA</p>
-					</div>
-					 </div>	
+						<div class="col-md-6">
+							<div class="info-txt">
+								<span>Floor Type</span>
+								<p id="floor_type">NA</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="info-txt">
+								<span>Floor Area</span>
+								<p id="floor_area">NA</p>
+							</div>
+						</div>
 					</div>
 					<div class="row">
-					 <div class="col-md-12">
-					 <div class="info-txt">
-						<span>Notes</span>
-						<p id="booking_notes">NA</p>
-					</div>
-					 </div>	
+						<div class="col-md-12">
+							<div class="info-txt">
+								<span>Notes</span>
+								<p id="booking_notes">NA</p>
+							</div>
+						</div>
 					</div>
 					<div class="status-txt">
 						<span>Status</span>
@@ -246,13 +257,13 @@ margin: 15px 0px !important;
 	<div class="row p-15 prl-30 border-all">
 		<div class="col-md-3 cal-flex">
 			<div class="arrow-l-style" v-on:click="month_nav(-1)">
-				<img src="img/arrow-l.png" >
+				<img src="img/arrow-l.png">
 			</div>
 			<div class="mnth-style">
 				{{months[month_index]}} {{year}}
 			</div>
 			<div class="arrow-l-style" v-on:click="month_nav(+1)">
-				<img src="img/arrow-r.png" >
+				<img src="img/arrow-r.png">
 			</div>
 		</div>
 		<div class="col-md-2 mob-center">
@@ -355,14 +366,12 @@ margin: 15px 0px !important;
 	var active_date;
 
 	function getFirstDayOfMonth(zeroBasedMonthNum, fullYear) {
-		if(cur_month==zeroBasedMonthNum)
-		{
+		if (cur_month == zeroBasedMonthNum) {
 			var monthStart = new Date();
 
-		}else
-		{
+		} else {
 			var dateStr = `${monthNames[zeroBasedMonthNum]} 1, ${fullYear}, 00:00:00`;
-		    var monthStart = new Date(dateStr);
+			var monthStart = new Date(dateStr);
 		}
 		return monthStart;
 	}
@@ -398,17 +407,16 @@ margin: 15px 0px !important;
 		var daysInLastMonth = daysInMonth(monthIndex - 1);
 		var first = daysInLastMonth - daysFromLastMonth + 1;
 		var count = 0;
-		if(monthIndex==cur_month)
-		{
+		if (monthIndex == cur_month) {
 			let currentDateObj = new Date();
-			var day_num=getFirstDayOfMonth(monthIndex, year).getDay();
+			var day_num = getFirstDayOfMonth(monthIndex, year).getDay();
 			currentDateObj.setDate(1); // going to 1st of the month
-            currentDateObj.setHours(-1);
-            var l_date = currentDateObj.setDate(currentDateObj.getDate() - (currentDateObj.getDay()+(7-day_num)) % 7);
-			var first=new Date(l_date).getDate();
-			daysFromLastMonth=daysInLastMonth-first+1;
+			currentDateObj.setHours(-1);
+			var l_date = currentDateObj.setDate(currentDateObj.getDate() - (currentDateObj.getDay() + (7 - day_num)) % 7);
+			var first = new Date(l_date).getDate();
+			daysFromLastMonth = daysInLastMonth - first + 1;
 			if (first == 0)
-			first = 7;
+				first = 7;
 		}
 		for (var i = 0; i < daysFromLastMonth; i++) {
 			//result.push(first+i);
@@ -552,6 +560,9 @@ margin: 15px 0px !important;
 				$("#floor_area").html(response.data.floor_area);
 				$("#building_company").html(response.data.building_company);
 				$("#booking_notes").html(response.data.notes);
+				if (response.data.bcn != "") {
+					$("#bcn").html(response.data.bcn);
+				}
 				$(".card-new").html(response.data.html);
 				$("#exampleModal").modal("show");
 			})

@@ -80,6 +80,9 @@
 							<br>
 							For<br>
 							{{$booking->address}}
+							@if($booking_data->department_id=='6' || $booking_data->department_id=='7')
+							BCN-{{$booking->bcn}}
+							@endif
 							<br>
 							<br>
 							At

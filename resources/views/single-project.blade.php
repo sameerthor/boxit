@@ -105,11 +105,15 @@
     <br />
 
     <div class="row">
-      <div class="form-group col-md-6 l-font-s">
+      <div class="form-group col-md-4 l-font-s">
+        <label>BCN</label>
+        <p>{{$project->bcn==''?'NA':$project->bcn}}</p>
+      </div>
+      <div class="form-group col-md-4 l-font-s">
         <label>Address</label>
         <p>{{$project->address}}</p>
       </div>
-      <div class="form-group col-md-6 l-font-s">
+      <div class="form-group col-md-4 l-font-s">
         <label>Building Company</label>
         <p>{{$project->BookingData[0]->contact->title}}</p>
       </div>

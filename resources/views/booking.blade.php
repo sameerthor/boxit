@@ -27,12 +27,16 @@
 
       <form id="booking" method="post" action="{{ url('booking') }}" enctype="multipart/form-data">
         @csrf
+
         <div class="center_div">
           <div class="row">
-            <div class="form-group col-md-6 bg-shadow">
+          <div class="form-group col-md-4 bg-shadow">
+              <input name="bcn"  type="text" placeholder="BCN" />
+            </div>
+            <div class="form-group col-md-4 bg-shadow">
               <input name="address" required type="text" placeholder="Address*" required />
             </div>
-            <div class="form-group col-md-6 bg-shadow">
+            <div class="form-group col-md-4 bg-shadow">
               <i id="pos-r" class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="">Building Company*</option>
                 @foreach($departments[0]->contacts as $res)

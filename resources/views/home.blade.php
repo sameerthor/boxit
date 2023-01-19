@@ -186,13 +186,19 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-					 <div class="col-md-6">
+					<div class="col-md-4">
+					 <div class="info-txt">
+						<span>BCN</span>
+						<p id="bcn">NA</p>
+					</div>
+					 </div>
+					 <div class="col-md-4">
 					 <div class="info-txt">
 						<span>Address</span>
 						<p id="booking_address">NA</p>
 					</div>
 					 </div>
-					 <div class="col-md-6">
+					 <div class="col-md-4">
 					 <div class="info-txt">
 						<span>Building Company</span>
 						<p id="building_company">NA</p>
@@ -557,6 +563,10 @@
 				$("#floor_type").html(response.data.floor_type);
 				$("#floor_area").html(response.data.floor_area);
 				$("#building_company").html(response.data.building_company);
+				if(response.data.bcn!="")
+				{
+				$("#bcn").html(response.data.bcn);
+				}
 				$("#booking_notes").html(response.data.notes);
 				$(".card-new").html(response.data.html);
 				$("#exampleModal").modal("show");
