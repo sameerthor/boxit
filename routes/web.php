@@ -131,6 +131,7 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
   Route::post('/pods-steel', [App\Http\Controllers\ForemanController::class, 'pods_steel']);
   Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
+  Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
 
 });
 

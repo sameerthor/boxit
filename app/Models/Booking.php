@@ -32,6 +32,11 @@ class Booking extends Model
     {
         return $this->hasOne(QaSign::class,'qa_id','id');
     }
+
+    public function incident()
+    {
+        return $this->hasOne(Incident::class,'project_id','id');
+    }
     
     public function stripping()
     {

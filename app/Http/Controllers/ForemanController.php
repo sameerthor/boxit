@@ -16,6 +16,7 @@ use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
+use App\Models\Incident;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
 use App\Models\QaSign;
@@ -269,6 +270,7 @@ class ForemanController extends Controller
         $safety=$project->SafetyPlan;
         $boxing_data=$project->boxing;
         $stripping_data=$project->stripping;
+        $incident_data=$project->incident;
         $qaChecklist=QaChecklist::all();
         $pods_steel_label=PodsSteel::all();
         $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
@@ -276,7 +278,7 @@ class ForemanController extends Controller
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('foreman-single-project',compact('pods_steel_label','stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('foreman-single-project',compact('incident_data','pods_steel_label','stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
     
     public function pods_steel(Request $request)
@@ -358,6 +360,17 @@ class ForemanController extends Controller
         $final_array['project_id']=$project_id;
         StartupChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Startup Checklist saved successfuly');
+
+    }
+    
+    public function accident_investigation(Request $request )
+    {   
+        $project_id=$request->get('project_id');
+        $res=Incident::where('project_id',$project_id)->delete();
+        $final_array=$request->get('incident_data');
+        $final_array['project_id']=$project_id;
+        Incident::insert($final_array);
+        return redirect()->to('check-list/')->with('succes_msg', 'Incident data saved successfuly');
 
     }
 
