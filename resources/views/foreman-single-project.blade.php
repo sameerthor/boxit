@@ -1340,31 +1340,31 @@
                                             <td style="width: 60%"><textarea></textarea></td>
                                             <td></td>
                                             <td style="width: 20%"><input type="text"></td>
-                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="date"></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 60%"><textarea></textarea></td>
                                             <td></td>
                                             <td style="width: 20%"><input type="text"></td>
-                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="date"></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 60%"><textarea></textarea></td>
                                             <td></td>
                                             <td style="width: 20%"><input type="text"></td>
-                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="date"></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 60%"><textarea></textarea></td>
                                             <td></td>
                                             <td style="width: 20%"><input type="text"></td>
-                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="date"></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 60%"><textarea></textarea></td>
                                             <td></td>
                                             <td style="width: 20%"><input type="text"></td>
-                                            <td style="width: 20%"><input type="text"></td>
+                                            <td style="width: 20%"><input type="date"></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 60%">Use space overleaf if required</td>
