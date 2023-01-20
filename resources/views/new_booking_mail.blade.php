@@ -85,7 +85,8 @@
 							<br>
 							Thank You</br><br>
 							Jules</br>
-							Boxit Foundations</br>
+							<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
 						
 						</div>
 						@endforeach

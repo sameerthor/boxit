@@ -9,6 +9,7 @@ use App\Models\ProjectStatusLabel;
 use App\Models\QaChecklist;
 use App\Models\MailTemplate;
 use App\Models\Contact;
+use App\Models\User;
 use App\Jobs\BookingEmailJob;
 
 class ProjectController extends Controller
@@ -39,9 +40,23 @@ class ProjectController extends Controller
         return view('project', compact('projects'))->render();
     }
 
+    public function change_project_foreman(Request $request)
+    {
+       $booking_id=$request->get('project_id');
+       $foreman_id=$request->get('foreman_id');
+       Booking::where('id', $booking_id)
+                ->update([
+                    'foreman_id' => $foreman_id
+                ]);
+      return true;
+    }
+
     public function renderproject(Request $request)
     {
         $project = Booking::find($request->get('id'));
+        $foremans = User::whereHas("roles", function ($q) {
+            $q->where("name", "Foreman");
+        })->get();
         $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
         $markout_checklist=$project->MarkoutChecklist;
         $safety=$project->SafetyPlan;
@@ -52,7 +67,7 @@ class ProjectController extends Controller
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('single-project',compact('safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        return view('single-project',compact('foremans','safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)
     {
@@ -69,7 +84,8 @@ class ProjectController extends Controller
         $html.="Date: ".$b_date."</p>";
         $html.='Thank You<br><br>
                 Jules<br>
-                Boxit Foundations<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
                 ';
         $contact = Contact::find($booking_data->contact_id);
         $details['to'] = $contact->email;

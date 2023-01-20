@@ -127,7 +127,11 @@
       </div>
       <div class="form-group col-md-6 l-font-s">
         <label>Foreman</label>
-        <p>{{ucfirst($project->foreman->name)}}</p>
+        <select class="form-control foreman-project col-md-3">
+          @foreach($foremans as $f)
+          <option value="{{$f->id}}" <?php if($f->id==$project->foreman_id) echo "selected"; ?> >{{$f->name}}</option>
+          @endforeach
+        </select>
       </div>
       <div class="form-group col-md-6 l-font-s">
         <label>Notes</label>
@@ -1017,6 +1021,49 @@
   }
 </style>
 <script>
+
+$(".foreman-project").on("change", function() {
+        var foreman_id = $(this).val();
+        var project_id = "<?php echo $project->id; ?>";
+        var before_change = $(this).data('pre')
+        Swal.fire({
+            title: "Are you sure you want to change the foreman?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'No',
+            dangerMode: true,
+        }).then(function(result) {
+            if (result.isConfirmed) {
+
+                jQuery.ajax({
+                    url: "{{ url('/change-project-foreman') }}",
+                    method: 'post',
+                    data: {
+                      foreman_id: foreman_id,
+                      project_id: project_id,
+                    },
+                    success: function(result) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: "Foreman changed successfuly."
+                        }).then(function(result) {
+                            window.location.reload();
+                        });
+                    }
+                });
+            }else
+            {
+              $(".foreman-project").val(before_change);
+
+            }
+        })
+        
+    })
+
+
 $(".project_status").on("change", function() {
         var status = $(this).val();
         var status_label_id = $(this).data('id');

@@ -254,7 +254,8 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
     $html.='Thank You<br><br>
                 Jules<br>
-                Boxit Foundations<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
                 ';    
     $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Cancelled';
@@ -315,7 +316,8 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
     $html.='Thank You<br><br>
     Jules<br>
-    Boxit Foundations<br>
+    <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
     ';
             $details['to'] = $email;;
             $details['subject'] = 'Booking Revised';
@@ -613,7 +615,8 @@ class BookingController extends Controller
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
             $html.='Thank You<br><br>
                 Jules<br>
-                Boxit Foundations<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
                 ';
         } else {
             $enc_key = base64_encode($booking_data->id);
@@ -638,7 +641,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             }
             $html.='Thank You<br><br>
                 Jules<br>
-                Boxit Foundations<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
                 ';
 
             $update_array = ['date' => $date];
