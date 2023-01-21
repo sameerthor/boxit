@@ -1483,6 +1483,19 @@
                             });
                         }
                     });
+                }else
+                {
+                    var id = "<?php echo $project->id; ?>";
+
+    jQuery.ajax({
+      url: "{{ url('/foreman-single-project') }}",
+      method: 'post',
+      data: {
+        id: id,
+      },
+      success: function(result) {
+        jQuery('.main').html(result);
+      }});
                 }
             })
         } else {

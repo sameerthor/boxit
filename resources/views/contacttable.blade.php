@@ -3,6 +3,7 @@
             <thead class="border-n">
               <tr>
                 <th>Company Name</th>
+                <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
                @if($departments->id != 1)
@@ -15,6 +16,7 @@
               @foreach($departments->contacts as $contact)
               <tr>
                 <td><b>{{$contact->title}}</b></td>
+                <td><b>{{$contact->company}}</b></td>
                 <td>{{$contact->email}}</td>
                 <td>{{$contact->contact}}</td>
                 @if($departments->id != 1)

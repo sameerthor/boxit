@@ -38,6 +38,7 @@
             <thead class="border-n">
               <tr>
                 <th>Company Name</th>
+                <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
               </tr>
@@ -46,6 +47,7 @@
               @foreach($departments[0]->contacts as $contact)
               <tr>
                 <td><b>{{$contact->title}}</b></td>
+                <td><b>{{$contact->company}}</b></td>
                 <td>{{$contact->email}}</td>
                 <td>{{$contact->contact}}</td>
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">

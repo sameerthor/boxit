@@ -40,56 +40,55 @@
 
   @import "bourbon";
 
-    .cd-switch {
-        padding: 50px 0;
-        text-align: center;
-    }
+  .cd-switch {
+    padding: 50px 0;
+    text-align: center;
+  }
 
-    .radio_label {
-        cursor: pointer;
-        text-transform: uppercase;
-        border: 1px solid #3d4349;
-        width: 80px;
-        padding: 10px 0;
-        text-align: center;
-        display: inline-block;
-        transition: all 0.4s;
-        margin-right: 10px;
-    }
+  .radio_label {
+    cursor: pointer;
+    text-transform: uppercase;
+    border: 1px solid #3d4349;
+    width: 80px;
+    padding: 10px 0;
+    text-align: center;
+    display: inline-block;
+    transition: all 0.4s;
+    margin-right: 10px;
+  }
 
-    .switch {
-        display: inline-block;
-        z-index: 1;
-        float: right;
-    }
+  .switch {
+    display: inline-block;
+    z-index: 1;
+    float: right;
+  }
 
-    .switch input[type="radio"] {
-        visibility: hidden;
-        position: absolute;
-    }
+  .switch input[type="radio"] {
+    visibility: hidden;
+    position: absolute;
+  }
 
-    .switch input[type="radio"].yes:checked~label[for^="yes_"] {
-        background-color: #172b4d;
-        color: #fff
-    }
+  .switch input[type="radio"].yes:checked~label[for^="yes_"] {
+    background-color: #172b4d;
+    color: #fff
+  }
 
-    .switch input[type="radio"].no:checked~label[for^="no_"] {
-        background-color: #172b4d;
-        color: #fff
-    }
-
-
-    input[type="range"] {
-        width: 30px;
-    }
+  .switch input[type="radio"].no:checked~label[for^="no_"] {
+    background-color: #172b4d;
+    color: #fff
+  }
 
 
-    .screen-reader-only {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
+  input[type="range"] {
+    width: 30px;
+  }
 
+
+  .screen-reader-only {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
 </style>
 <div id="project-form-d" class="card-new">
   <div class="card-body">
@@ -129,7 +128,7 @@
         <label>Foreman</label>
         <select class="form-control foreman-project col-md-3">
           @foreach($foremans as $f)
-          <option value="{{$f->id}}" <?php if($f->id==$project->foreman_id) echo "selected"; ?> >{{$f->name}}</option>
+          <option value="{{$f->id}}" <?php if ($f->id == $project->foreman_id) echo "selected"; ?>>{{$f->name}}</option>
           @endforeach
         </select>
       </div>
@@ -262,17 +261,17 @@
                       @endif
                       @php echo $stat @endphp
                       @php
-                                    $project_status= $label->ProjectStatus($project->id)->get();
-                                    if(count($project_status)>0)
-                                    {
-                                    $yes_checked=$project_status[0]->status==1?'checked':'';
-                                    $no_checked=$project_status[0]->status==0?'checked':'';
-                                    }else
-                                    {
-                                    $yes_checked="";
-                                    $no_checked="";
-                                    }
-                                    @endphp
+                      $project_status= $label->ProjectStatus($project->id)->get();
+                      if(count($project_status)>0)
+                      {
+                      $yes_checked=$project_status[0]->status==1?'checked':'';
+                      $no_checked=$project_status[0]->status==0?'checked':'';
+                      }else
+                      {
+                      $yes_checked="";
+                      $no_checked="";
+                      }
+                      @endphp
                       <div class="switch" style="display: none;">
                         <input type="radio" {{$yes_checked}} class="project_status yes" id="yes_{{$label->id}}" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">
                         <label class="radio_label" for="yes_{{$label->id}}">{{$label->id=="10"?"Passed":"Yes"}}</label>
@@ -287,11 +286,11 @@
                   @endforeach
                 </tbody>
                 <tfoot>
-                <tr>
-        <td></td>
-        <td></td>
-        <td class="text-right"><button class="btn btn-sm edit_status" style="background-color: #172b4d;color:#fff">Edit Project Status</button></td>
-      </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"><button class="btn btn-sm edit_status" style="background-color: #172b4d;color:#fff">Edit Project Status</button></td>
+                  </tr>
                 </tfoot>
               </table>
             </div>
@@ -339,9 +338,9 @@
               </div>
               <br>
               @if(!empty($project->qasign->foreman_sign))
-              <h5>Signature</h5> 
+              <h5>Signature</h5>
               <img src="{{$project->qasign->foreman_sign}}" id="m_sign" width="200">
-            @endif
+              @endif
               <div style="float:right">
             </form>
           </div>
@@ -979,7 +978,7 @@
           </div>
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn mr-auto btn-secondary btn-sm new_email" data-id="1">New Mail</button>
+          <button type="button" class="btn mr-auto btn-secondary btn-sm new_email" data-id="1">New Mail</button>
           <button type="button" class="btn btn-secondary btn-sm save_date" data-id="1">Save</button>
           <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
         </div>
@@ -1021,97 +1020,112 @@
   }
 </style>
 <script>
+  var previous_formean;
+  $(".foreman-project").on('focus', function() {
+    // Store the current value on focus and on change
+    previous_formean = this.value;
+  }).change(function() {
+    var foreman_id = $(this).val();
+    var project_id = "<?php echo $project->id; ?>";
+    var before_change = $(this).data('pre')
+    Swal.fire({
+      title: "Are you sure you want to change the foreman?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'No',
+      dangerMode: true,
+    }).then(function(result) {
+      if (result.isConfirmed) {
 
-$(".foreman-project").on("change", function() {
-        var foreman_id = $(this).val();
-        var project_id = "<?php echo $project->id; ?>";
-        var before_change = $(this).data('pre')
-        Swal.fire({
-            title: "Are you sure you want to change the foreman?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'No',
-            dangerMode: true,
-        }).then(function(result) {
-            if (result.isConfirmed) {
+        jQuery.ajax({
+          url: "{{ url('/change-project-foreman') }}",
+          method: 'post',
+          data: {
+            foreman_id: foreman_id,
+            project_id: project_id,
+          },
+          success: function(result) {
+            Toast.fire({
+              icon: 'success',
+              title: "Foreman changed successfuly."
+            }).then(function(result) {
+              window.location.reload();
+            });
+          }
+        });
+      } else {
+        $(".foreman-project").val(previous_formean);
 
-                jQuery.ajax({
-                    url: "{{ url('/change-project-foreman') }}",
-                    method: 'post',
-                    data: {
-                      foreman_id: foreman_id,
-                      project_id: project_id,
-                    },
-                    success: function(result) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: "Foreman changed successfuly."
-                        }).then(function(result) {
-                            window.location.reload();
-                        });
-                    }
-                });
-            }else
-            {
-              $(".foreman-project").val(before_change);
-
-            }
-        })
-        
+      }
     })
 
+  })
 
-$(".project_status").on("change", function() {
-        var status = $(this).val();
-        var status_label_id = $(this).data('id');
-        var project_id = $(this).data('project');
-        
-        Swal.fire({
-            title: "Are you sure you want to change the status?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'No',
-            dangerMode: true,
-        }).then(function(result) {
-            if (result.isConfirmed) {
 
-                jQuery.ajax({
-                    url: "{{ url('/change-project-status') }}",
-                    method: 'post',
-                    data: {
-                        project_id: project_id,
-                        status: status,
-                        status_label_id: status_label_id
-                    },
-                    success: function(result) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: "Status changed successfuly."
-                        }).then(function(result) {
-                            window.location.reload();
-                        });
-                    }
-                });
-            }
-        })
-        
+  $(".project_status").on("change", function() {
+    var status = $(this).val();
+    var status_label_id = $(this).data('id');
+    var project_id = $(this).data('project');
+
+    Swal.fire({
+      title: "Are you sure you want to change the status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'No',
+      dangerMode: true,
+    }).then(function(result) {
+      if (result.isConfirmed) {
+
+        jQuery.ajax({
+          url: "{{ url('/change-project-status') }}",
+          method: 'post',
+          data: {
+            project_id: project_id,
+            status: status,
+            status_label_id: status_label_id
+          },
+          success: function(result) {
+            Toast.fire({
+              icon: 'success',
+              title: "Status changed successfuly."
+            }).then(function(result) {
+              window.location.reload();
+            });
+          }
+        });
+      } else {
+        var id = "<?php echo $project->id; ?>";
+
+        jQuery.ajax({
+          url: "{{ url('/single-project') }}",
+          method: 'post',
+          data: {
+            id: id,
+          },
+          success: function(result) {
+            jQuery('.main').html(result);
+          }
+        });
+      }
     })
 
-$(".edit_status").click(function(){
-$(".status_label").toggle();
-$(".switch").toggle();
-if($(this).html()=="Edit Project Status"){
-  $(this).html('Close');
-}else{
-  $(this).html('Edit Project Status');
-}
-});
+  })
+
+  $(".edit_status").click(function() {
+    $(".status_label").toggle();
+    $(".switch").toggle();
+    if ($(this).html() == "Edit Project Status") {
+      $(this).html('Close');
+    } else {
+      $(this).html('Edit Project Status');
+    }
+  });
 
 
 
@@ -1124,7 +1138,7 @@ if($(this).html()=="Edit Project Status"){
 
     $('.example').datetimepicker({
       format: 'DD-MM-YYYY h:mm A',
-      formatTime:"h:mm A",
+      formatTime: "h:mm A",
       step: 15
     });
 
@@ -1147,16 +1161,18 @@ if($(this).html()=="Edit Project Status"){
   })
 
   $(".new_email").click(function() {
-    var date=$("input[name='date']").val();
-    if(date=='')
-    {
+    var date = $("input[name='date']").val();
+    if (date == '') {
       alert("Please select date");
       return false;
     }
     var id = $(this).data('id');
-    var obj = {id: id, date: date};;
+    var obj = {
+      id: id,
+      date: date
+    };;
     var encoded = btoa(JSON.stringify(obj))
-    window.location.href='/new-email/'+encoded;
+    window.location.href = '/new-email/' + encoded;
 
   });
 
