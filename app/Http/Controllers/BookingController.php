@@ -55,7 +55,7 @@ class BookingController extends Controller
         $booking->notes = $request->get('notes');
         $booking->bcn = $request->get('bcn');
         $booking->foreman_id = $request->get('foreman');
-        $request_status=$request->get('status');
+        $request_status = $request->get('status');
         $files = [];
         if (!empty($request->get('existing_file'))) {
             $files = $request->get('existing_file');
@@ -85,11 +85,9 @@ class BookingController extends Controller
                 $book_array['status'] = 1;
             }
 
-            if(empty($request_status[$key]))
-            {
+            if (empty($request_status[$key])) {
                 $book_array['status'] = 2;
-
-            } 
+            }
             BookingData::create($book_array);
         }
 
@@ -119,15 +117,15 @@ class BookingController extends Controller
         $auth_token = \config('const.plivo_token');
         $msg = '';
         if (!empty($request->get('from')) && !empty($request->get('to'))) {
-            $client = new RestClient($account_sid,$auth_token);
+            $client = new RestClient($account_sid, $auth_token);
             try {
                 $message_created = $client->messages->create(
-                    [  
-                          "src" => $request->get('from'),
-                          "dst" => $request->get('to'),
-                          "text"  =>"Hello, world!",
-                       ]
-                  );
+                    [
+                        "src" => $request->get('from'),
+                        "dst" => $request->get('to'),
+                        "text"  => "Hello, world!",
+                    ]
+                );
                 $msg = 'success';
             } catch (Exception $e) {
                 $msg = $e->getMessage();
@@ -149,7 +147,7 @@ class BookingController extends Controller
         // A Twilio number you own with SMS capabilities
         $twilio_number = "+16209129397";
 
-        $client = new RestClient("<auth_id>","<auth_token>");
+        $client = new RestClient("<auth_id>", "<auth_token>");
 
         $mail_data = $request->get('mail_data');
         if (!empty($mail_data)) {
@@ -198,7 +196,7 @@ class BookingController extends Controller
         $booking_data = BookingData::find($booking_data_id);
         if ($booking_data->status != '0') {
             $status = $booking_data->status;
-            return view('booking_confirmation', compact('status','booking_data_id'));
+            return view('booking_confirmation', compact('status', 'booking_data_id'));
         }
         return view('email_reply', compact('booking_data'));
     }
@@ -220,11 +218,11 @@ class BookingController extends Controller
         $booking = $booking_data->booking;
         $contact = $booking_data->contact;
         $department = $booking_data->department;
+        $address = $booking->address;
+        $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
         $update_data['status'] = $request->get('confirm');
         if ($request->get('confirm') == 2) {
             $html = '';
-            $address = $booking->address;
-            $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>There is a date/time change request for the following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
@@ -252,12 +250,12 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
-    $html.='Thank You<br><br>
+            $html .= '<br>Thank You<br><br>
                 Jules<br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
-                ';    
-    $details['to'] = \config('const.admin1');
+                ';
+            $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
@@ -268,8 +266,23 @@ class BookingController extends Controller
             $notification->notification = '<b>' . $department->title . '</b> has request date change for booking <b>' . $booking->address . '</b>,Please check email.';
             $notification->booking_id = $booking->id;
             $notification->save();
-        }else
-        {
+        } else {
+            $html = '';
+            $html .= "<p>$department->title has accepted the requested timing for the following booking:</p>";
+            $html .= "<p>Address : <strong><u>$address</u></strong></p>";
+            $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
+            $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
+            $html .= '<br>Thank You<br><br>
+                Jules<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
+                ';
+            $details['to'] = \config('const.admin1');
+            $details['subject'] = 'Booking Confirmed';
+            $details['body'] = $html;
+            dispatch(new BookingEmailJob($details));
+            $details['to'] = \config('const.admin2');
+            dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = 0;
             $notification->notification = '<b>' . $department->title . '</b> has accept the requested date for booking <b>' . $booking->address . '</b>';
@@ -281,26 +294,38 @@ class BookingController extends Controller
     }
     public function admin_reply_confirmation(Request $request)
     {
-
+        $id = $request->get('booking_data_id');
+        BookingData::where('id', $id)
+            ->update(array('status' => 0, 'date' => $request->get('date')));
+        $booking_data = BookingData::find($id);
+        $booking = $booking_data->booking;
+        $email = $booking_data->contact->email;
+        $html = '';
+        $address = $booking->address;
+        $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
         if ($request->get('confirm') == 1) {
-            $id = $request->get('booking_data_id');
-            $booking_data = BookingData::find($id);
+            $html = '';
+            $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
+            $html .= "<p>Address : <strong><u>$address</u></strong></p>";
+            $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
+            $html .= '<br>Thank You<br><br>
+                Jules<br>
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+
+                ';
+                $details['to'] = $email;;
+                $details['subject'] = 'Booking Revised';
+                $details['body'] = $html;
+                dispatch(new BookingEmailJob($details));
             BookingData::where('id', $id)
                 ->update(array('status' => 1, 'date' => $booking_data->new_date[$request->get('alternate_date')]));
         }
 
         if ($request->get('confirm') == 0) {
 
-            $id = $request->get('booking_data_id');
-            BookingData::where('id', $id)
-                ->update(array('status' => 0, 'date' => $request->get('date')));
-            $booking_data = BookingData::find($id);
-            $booking = $booking_data->booking;
-            $email = $booking_data->contact->email;
-            $html = '';
-            $address = $booking->address;
+
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
-            $html .= "<p>Boxit Foundations  has requested revised time for following booking.</p>";
+            $html .= "<p>Boxit Foundations has suggested the below alternate time(s)</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
             $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
@@ -313,8 +338,8 @@ class BookingController extends Controller
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
-    $html.='Thank You<br><br>
+    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
+            $html .= '<br>Thank You<br><br>
     Jules<br>
     <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
@@ -520,15 +545,14 @@ class BookingController extends Controller
 
         $html .= '</div></div>';
 
-        return array('address' => $booking->address,'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
+        return array('address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)
     {
-        if(!empty($request->get('draft_id')))
-        {
-        $delete_id=$request->get('draft_id');
-        $this->delete_draft($delete_id);
+        if (!empty($request->get('draft_id'))) {
+            $delete_id = $request->get('draft_id');
+            $this->delete_draft($delete_id);
         }
         $draft = new Draft;
         $draft->address = $request->get('address');
@@ -551,20 +575,18 @@ class BookingController extends Controller
 
         $draft_id = $draft->id;
         $requested_date = $request->get('date');
-        $request_status=$request->get('status');
+        $request_status = $request->get('status');
 
         foreach ($request->get('department') as $key => $val) {
-            $book_array=array(
+            $book_array = array(
                 'department_id' => $key,
                 'contact_id'  => $val,
                 'date' => @$requested_date[$key],
                 'draft_id' => $draft_id
             );
-            if(empty($request_status[$key]))
-            {
+            if (empty($request_status[$key])) {
                 $book_array['status'] = 2;
-
-            } 
+            }
             DraftData::create($book_array);
         }
         Session::flash('succes_msg', 'Draft has been saved successfuly.');
@@ -613,7 +635,7 @@ class BookingController extends Controller
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-            $html.='Thank You<br><br>
+            $html .= 'Thank You<br><br>
                 Jules<br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
@@ -639,7 +661,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             if ($contact->department_id != '2') {
                 $html .= '<p>' . $reply_link . '</p>';
             }
-            $html.='Thank You<br><br>
+            $html .= 'Thank You<br><br>
                 Jules<br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
@@ -678,7 +700,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
     public function hold_project(Request $request)
     {
-        $booking = BookingData::find($request->get('booking_data_id'));    
+        $booking = BookingData::find($request->get('booking_data_id'));
         $booking->onhold_reason = $request->get('reason');
         $booking->status = 2;
         $booking->save();
@@ -694,15 +716,14 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
     public function new_booking_email($id)
     {
         $obj = base64_decode(($id));
-        $data=json_decode($obj,true);
-        $date=$data['date'];
-        $id=$data['id'];
+        $data = json_decode($obj, true);
+        $date = $data['date'];
+        $id = $data['id'];
         $update_array = ['date' => $date, 'status' => 0];
         BookingData::where('id', $id)->update($update_array);
         $bookingdata = BookingData::find($id);
-        $booking=$bookingdata->booking;
-        $mail = MailTemplate::where(array('status' => 1,'department_id'=>$bookingdata->department_id))->get();
+        $booking = $bookingdata->booking;
+        $mail = MailTemplate::where(array('status' => 1, 'department_id' => $bookingdata->department_id))->get();
         return view('new_booking_mail', compact('booking', 'mail'));
-
     }
 }
