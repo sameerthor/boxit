@@ -305,6 +305,7 @@ class BookingController extends Controller
         $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
         if ($request->get('confirm') == 1) {
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->new_date[$request->get('alternate_date')]));
+            $date=date("Y-m-d H:i:s", strtotime($b_date));
             $html = '';
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
@@ -319,7 +320,7 @@ class BookingController extends Controller
                 $details['body'] = $html;
                 dispatch(new BookingEmailJob($details));
             BookingData::where('id', $id)
-                ->update(array('status' => 1, 'date' => $booking_data->new_date[$request->get('alternate_date')]));
+                ->update(array('status' => 1, 'date' =>$date));
         }
 
         if ($request->get('confirm') == 0) {
