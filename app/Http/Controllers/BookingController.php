@@ -268,8 +268,9 @@ class BookingController extends Controller
             $notification->save();
         } else {
             $html = '';
-            $html .= "<p>$department->title has accepted the requested timing for the following booking:</p>";
+            $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
+            $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br>Thank You<br><br>
