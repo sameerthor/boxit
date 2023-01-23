@@ -50,7 +50,7 @@
 								continue;	
 						}
 
-						$date=$booking_data->date;
+						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
 						$product_html='';
 						if(!empty($res->products))
@@ -62,8 +62,8 @@
 						}
 						}
 
-						$date=date("d-m-Y",strtotime($date));
-						$time=date("h:i:s A",strtotime($date));
+						$date=date("d-m-Y",strtotime($booking_date));
+						$time=date("h:i:s A",strtotime($booking_date));
 						$enc_key=base64_encode($booking_data->id);
 						$url=URL("reply/$enc_key");
 						$reply_link="<a href='".$url."' style='border: 1px solid transparent;

@@ -42,7 +42,7 @@
           <div class="project-flex ptb-25">
             <div class="v-name">
               <img src="img/plus-new.png">
-              <span>Add New Project</span>
+              <a href="/bookings"><span>Add New Project</span></a>
             </div>
           </div>
         </div>
