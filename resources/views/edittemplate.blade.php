@@ -68,6 +68,8 @@
         $html.="<p class='product'>$product- [qty]</p>";
         }
         }
+        if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') 
+        $html .="BCN- [bcn]";
         $html.='<br>
         For<br>
         [address]
@@ -81,7 +83,7 @@
         <br>
         <br>
         Thank You,<br>
-        Jules<br><br>
+        Jules</br>
         <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
         ' ;
@@ -153,8 +155,12 @@
         html+="<p>"+p_name+"- [qty]</p>";
         }
       });
-      html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
-';
+      <?php if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') { ?>
+        html +='BCN- [bcn]';
+       <?php } ?> 
+      html+='<br>For<br>[address]<br>';      
+      html+='<br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">';
+
       document.getElementById("myFrame").srcdoc = html;
 
     }
