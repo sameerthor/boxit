@@ -128,7 +128,7 @@
         <label>Foreman</label>
         <select class="form-control foreman-project col-md-3">
           @foreach($foremans as $f)
-          <option value="{{$f->id}}" <?php if ($f->id == $project->foreman_id) echo "selected"; ?>>{{$f->name}}</option>
+          <option value="{{$f->id}}" <?php if ($f->id == $project->foreman_id) echo "selected"; ?>>{{ucfirst($f->name)}}</option>
           @endforeach
         </select>
       </div>
