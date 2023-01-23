@@ -81,7 +81,7 @@
 							For<br>
 							{{$booking->address}}
 							@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
-							<br> BCN- {{$booking->bcn!=$booking->bcn?'NA'}}
+							<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}}
 							@endif
 							<br>
 							<br>
