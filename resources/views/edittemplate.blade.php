@@ -80,8 +80,8 @@
         [link]
         <br>
         <br>
-        Thank You</br><br>
-        Jules</br>
+        Thank You,<br>
+        Jules<br><br>
         <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
         ' ;
@@ -153,7 +153,7 @@
         html+="<p>"+p_name+"- [qty]</p>";
         }
       });
-      html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
+      html+='<br>For<br>[address]<br><br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 ';
       document.getElementById("myFrame").srcdoc = html;
 

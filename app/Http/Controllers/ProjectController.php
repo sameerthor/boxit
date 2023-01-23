@@ -82,8 +82,8 @@ class ProjectController extends Controller
         $html='<p>The following booking has been cancelled.</p>';
         $html.="<p>Address: ".$booking->address."<br>";
         $html.="Date: ".$b_date."</p>";
-        $html.='Thank You<br><br>
-                Jules<br>
+        $html.='Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';

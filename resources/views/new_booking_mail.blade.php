@@ -83,8 +83,8 @@
 							<?php echo $reply_link . "<br><br>" ?>
 							@endif
 							<br>
-							Thank You</br><br>
-							Jules</br>
+							Thank You,<br>
+							Jules<br><br>
 							<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
 						

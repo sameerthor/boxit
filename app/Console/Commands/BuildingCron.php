@@ -51,8 +51,8 @@ class BuildingCron extends Command
                   $html.="<p>".$con->department->title.": ".$con->contact->title."<br>";
                   $html.="Date: ".$b_date."</p>";
                 }
-                $html.='Thank You<br><br>
-                Jules<br>
+                $html.='Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';

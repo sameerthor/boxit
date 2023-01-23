@@ -250,8 +250,8 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
-            $html .= '<br>Thank You<br><br>
-                Jules<br>
+            $html .= '<br>Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -273,8 +273,8 @@ class BookingController extends Controller
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br>Thank You<br><br>
-                Jules<br>
+            $html .= '<br>Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -311,8 +311,8 @@ class BookingController extends Controller
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br>Thank You<br><br>
-                Jules<br>
+            $html .= '<br>Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -342,8 +342,8 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
-            $html .= '<br>Thank You<br><br>
-    Jules<br>
+            $html .= '<br>Thank You,<br>
+    Jules<br><br>
     <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
     ';
@@ -638,8 +638,8 @@ class BookingController extends Controller
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-            $html .= 'Thank You<br><br>
-                Jules<br>
+            $html .= 'Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -664,8 +664,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             if ($contact->department_id != '2') {
                 $html .= '<p>' . $reply_link . '</p>';
             }
-            $html .= 'Thank You<br><br>
-                Jules<br>
+            $html .= 'Thank You,<br>
+                Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:20px" class="mail-logo" alt="Boxit Logo">
 
                 ';
