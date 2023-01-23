@@ -77,12 +77,12 @@
 						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
 							<textarea id="textArea{{$loop->iteration}}">{{$res->body}}</textarea>
 						    <?php echo $product_html; ?>
-							<br>
-							For<br>
 							{{$booking->address}}
 							@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 							<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}}
 							@endif
+							<br>
+							For<br>
 							<br>
 							<br>
 							At
