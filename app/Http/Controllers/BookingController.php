@@ -304,6 +304,7 @@ class BookingController extends Controller
         $address = $booking->address;
         $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
         if ($request->get('confirm') == 1) {
+            $b_date = date("d-m-Y h:i A", strtotime($booking_data->new_date[$request->get('alternate_date')]));
             $html = '';
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
