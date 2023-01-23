@@ -78,7 +78,7 @@
 							<textarea id="textArea{{$loop->iteration}}">{{$res->body}}</textarea>
 						    <?php echo $product_html; ?>
 							@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
-							<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}}
+							<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 							@endif
 							<br>
 							For<br>
