@@ -19,6 +19,11 @@ class BookingData extends Model
     public function setDateAttribute( $value ) {
         $this->attributes['date'] = (new Carbon($value))->format('Y-m-d H:i:s');
       }
+    
+      public function getPublishAttribute($date)
+      {
+          return Carbon::parse($date)->format('Y-m-d H:i:s');
+      }  
 
     public function department()
     {

@@ -297,7 +297,7 @@ class BookingController extends Controller
     {
         $id = $request->get('booking_data_id');
         BookingData::where('id', $id)
-            ->update(array('status' => 0, 'date' => $request->get('date')));
+            ->update(array('status' => 0, 'date' => date("Y-m-d H:i:s", strtotime($request->get('date')))));
         $booking_data = BookingData::find($id);
         $booking = $booking_data->booking;
         $email = $booking_data->contact->email;
@@ -321,7 +321,7 @@ class BookingController extends Controller
                 $details['body'] = $html;
                 dispatch(new BookingEmailJob($details));
             BookingData::where('id', $id)
-                ->update(array('status' => 1, 'date' =>$date));
+                ->update(array('status' => 1, 'date' =>date("Y-m-d H:i:s", strtotime($date))));
         }
 
         if ($request->get('confirm') == 0) {
@@ -670,7 +670,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
                 ';
 
-            $update_array = ['date' => $date];
+            $update_array = ['date' => date("Y-m-d H:i:s", strtotime($date))];
             if ($contact->department_id != '2') {
                 $update_array['status'] = 0;
             }
