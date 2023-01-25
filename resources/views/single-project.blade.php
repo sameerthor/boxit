@@ -133,15 +133,18 @@
         </select>
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Notes</label>
-        <p>{{$project->notes}}</p>
+        <label>Notes <span id="edit_note"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span></label>
+        <p id="project_note">{{$project->notes}}</p>
       </div>
       @if(!empty($project->file))
       <div class="form-group col-md-12 l-font-s">
-        <label>File</label>
+        <label>File</label> <span class="save_file" data-id="{{$project->id}}"><i class="fa fa-upload fa-lg" aria-hidden="true"></i></span>
         <br />
         @foreach($project->file as $f)
-        <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed src="/images/{{$f}}"></embed></a>
+
+        <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed src="/images/{{$f}}"></embed>
+        </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
+
         @endforeach
       </div>
       @endif
@@ -1011,6 +1014,41 @@
 
     </div>
   </div>
+  <div class="modal" id="filePopup" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Upload Files</h4>
+        </div>
+        <div class="modal-body">
+          <form method="post" id="fileUploadForm">
+            <input type="hidden" name="id" value="{{$project->id}}">
+            <div class="row">
+              <div class="form-group increment col-md-12 bg-shadow">
+                <input type="file" style="padding-top: 6px !important; padding-left:10px !important;" name="file_upload[]" class="myfrm form-control">
+                <div class="add_html" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+              </div>
+              <div class="clone hide" style="display:none">
+                <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                  <input type="file" name="file_upload[]" style="padding-top: 6px !important; padding-left:10px !important; " class="myfrm form-control">
+                  <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+               
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm update_file">Save</button>
+          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 <style>
   .tooltip-inner {
@@ -1020,6 +1058,61 @@
   }
 </style>
 <script>
+  $(".delete_image").on('click', function() {
+    var id = $(this).data('id');
+    var file = $(this).data('name');
+    Swal.fire({
+      title: "Are you sure you want to delete this file ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'No',
+      dangerMode: true,
+    }).then(function(result) {
+      if (result.isConfirmed) {
+
+        jQuery.ajax({
+          url: "{{ url('/delete-file') }}",
+          method: 'post',
+          data: {
+            id: id,
+            file: file,
+          },
+          success: function(result) {
+            window.location.reload();
+
+          }
+        });
+      }
+    })
+  });
+
+
+  $("#edit_note").on('click', function() {
+    $("<textarea class='form-control' id='project_note_text'>" + $("#project_note").text() + "</textarea>").insertAfter("#project_note");
+      $(' <span data-id="<?php echo $project->id; ?>" id="save_note"><i class="fa fa-save fa-lg"></i></span>').insertAfter("#edit_note");
+      $("#project_note").remove();
+      $("#edit_note").remove();
+  });
+
+  $(document).on('click', '#save_note', function() {
+    var id = $(this).data('id');
+    var note = $("#project_note_text").val();
+    jQuery.ajax({
+      url: "{{ url('/save-note') }}",
+      method: 'post',
+      data: {
+        id: id,
+        note: note
+      },
+      success: function(result) {
+        window.location.reload();
+      }
+    });
+  });
+
   var previous_formean;
   $(".foreman-project").on('focus', function() {
     // Store the current value on focus and on change
@@ -1056,9 +1149,6 @@
             });
           }
         });
-      } else {
-        $(".foreman-project").val(previous_formean);
-
       }
     })
 
@@ -1147,6 +1237,7 @@
 
   $(".change_date").click(function() {
     $("#holdPopup").hide();
+    $("#filePopup").hide();
     var id = $(this).data('id');
     $(".save_date").attr('data-id', id);
     $(".new_email").attr('data-id', id);
@@ -1155,10 +1246,27 @@
 
   $(".hold_project").click(function() {
     $("#myModal").hide();
+    $("#filePopup").hide();
     var id = $(this).data('id');
     $(".confirm_hold").attr('data-id', id);
     $("#holdPopup").show();
   })
+
+  $(".save_file").click(function() {
+    $("#myModal").hide();
+    $("#holdPopup").hide();
+    var id = $(this).data('id');
+    $(".update_file").attr('data-id', id);
+    $("#filePopup").show();
+  })
+
+  $(".add_html").click(function() {
+    var lsthmtl = $(".clone").html();
+    $(".increment").append(lsthmtl);
+  });
+  $("body").on("click", ".remove", function() {
+    $(this).parents(".hdtuto").remove();
+  });
 
   $(".new_email").click(function() {
     var date = $("input[name='date']").val();
@@ -1206,6 +1314,7 @@
       }
     });
   });
+
   $(".change_colors").click(function() {
     var id = $(this).data('id');
     jQuery.ajax({
@@ -1227,7 +1336,9 @@
   $(".cancel").click(function() {
     $("#myModal").hide();
     $("#holdPopup").hide();
+    $("#filePopup").hide();
   })
+
   $(document).on("click", "#back", function() {
     var id = $(this).data('id');
     $.ajaxSetup({
@@ -1244,5 +1355,21 @@
         jQuery('.container .main').html(ele.find(".container .main").html());
       }
     });
+  })
+  $(document).on("click", ".update_file", function() {
+    var id = $(this).data('id');
+    var form = $('#fileUploadForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: "{{ url('/save-image') }}",
+        method: "post",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function(id) {
+          window.location.reload();
+        }
+      });
   })
 </script>

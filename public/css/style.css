@@ -1763,3 +1763,7 @@ img.pos-new-hid.toggle_password {
 .home_modal .modal-body {
   padding: 0rem 2rem 2rem 2rem !important;
 }
+
+.fa {
+cursor: pointer;
+}

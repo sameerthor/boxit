@@ -11,7 +11,7 @@ use App\Models\MailTemplate;
 use App\Models\Contact;
 use App\Models\User;
 use App\Jobs\BookingEmailJob;
-
+use Session;
 class ProjectController extends Controller
 {
     /**
@@ -50,7 +50,46 @@ class ProjectController extends Controller
                 ]);
       return true;
     }
+    
+    public function save_note(Request $request)
+    {
+        Booking::where('id',$request->get('id'))->update(['notes'=>$request->get('note')]);
+        Session::flash('succes_msg', 'Note has been saved successfuly.');
 
+    }
+
+    public function delete_file(Request $request)
+    {
+        $booking=Booking::find($request->get('id'));
+        $booking->file=array_diff($booking->file, array($request->get('file')));
+        $booking->save();
+        $file_path = public_path().'/images/'.$request->get('file');
+        unlink($file_path);
+        Session::flash('succes_msg', 'File has been deleted successfuly.');
+
+    }
+
+    public function save_image(Request $request)
+    {
+        $booking=Booking::find($request->get('id'));
+        $files = [];
+        if (!empty($booking->file)) {
+            $files = $booking->file;
+        }
+        if ($request->hasfile('file_upload')) {
+            foreach ($request->file('file_upload') as $file) {
+                $file_name = $file->getClientOriginalName();
+                $name = time() . rand(1, 100) . '-' . $file_name;
+                $file->move('images', $name);
+                $files[] = $name;
+            }
+        }
+        $booking->file = $files;
+        $booking->save();
+        Session::flash('succes_msg', 'File has been uploaded successfuly.');
+
+    }
+    
     public function renderproject(Request $request)
     {
         $project = Booking::find($request->get('id'));

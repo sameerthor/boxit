@@ -62,6 +62,9 @@ Route::middleware('role:Admin')->group(function () {
     Route::post('/delete-contact', [App\Http\Controllers\ContactController::class, 'delete_contact'])->name('contact.delete');
     Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('project');
+    Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
+    Route::post('/delete-file', [App\Http\Controllers\ProjectController::class, 'delete_file']);
+    Route::post('/save-image', [App\Http\Controllers\ProjectController::class, 'save_image']);
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
     Route::post('/change-project-foreman', [App\Http\Controllers\ProjectController::class, 'change_project_foreman']);
