@@ -722,7 +722,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $data = json_decode($obj, true);
         $date = $data['date'];
         $id = $data['id'];
-        $update_array = ['date' => $date, 'status' => 0];
+        $update_array = ['date' => date('Y-m-d H:i:s',strtotime($date)), 'status' => 0];
         BookingData::where('id', $id)->update($update_array);
         $bookingdata = BookingData::find($id);
         $booking = $bookingdata->booking;
