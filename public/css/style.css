@@ -1767,3 +1767,17 @@ img.pos-new-hid.toggle_password {
 .fa {
 cursor: pointer;
 }
+
+span#save_note, span#edit_note, span.save_file{
+  margin-left: 5px;
+}
+
+span#save_note i, span#edit_note i, span.save_file i {
+  font-size: 1.15em;
+  line-height: .35em;
+  vertical-align: -5%;
+}
+
+.modal-body .form-group .remove i, .modal-body .form-group .add_html i {
+  top: 12px;
+}
