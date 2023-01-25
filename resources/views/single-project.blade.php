@@ -136,7 +136,6 @@
         <label>Notes <span id="edit_note"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span></label>
         <p id="project_note">{{$project->notes}}</p>
       </div>
-      @if(!empty($project->file))
       <div class="form-group col-md-12 l-font-s">
         <label>File</label> <span class="save_file" data-id="{{$project->id}}"><i class="fa fa-upload fa-lg" aria-hidden="true"></i></span>
         <br />
@@ -147,7 +146,6 @@
 
         @endforeach
       </div>
-      @endif
     </div>
     <h4 class="paid-left">Booking Status</h4>
     <table class="table table-stripped">
