@@ -453,7 +453,7 @@ class BookingController extends Controller
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
                 foreach ($booking_data as $boo) {
-                    $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
+                    $address = strlen($boo->booking->address)>24?substr($boo->booking->address, 0, 24)."...":$boo->booking->address;
                     $style = '';
                     switch ($boo->status) {
                         case '0':
