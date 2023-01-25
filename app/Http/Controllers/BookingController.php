@@ -729,4 +729,14 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $mail = MailTemplate::where(array('status' => 1, 'department_id' => $bookingdata->department_id))->get();
         return view('new_booking_mail', compact('booking', 'mail'));
     }
+
+    public function change_time()
+    {
+       $booking_datas= BookingData::all();
+       foreach($booking_datas as $res)
+       {
+         $res->date=date('Y-m-d H:i:s',strtotime($res->date));
+         $res->save();
+       }
+    }
 }
