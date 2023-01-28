@@ -629,7 +629,7 @@ class BookingController extends Controller
         $contact = Contact::find($booking_data->contact_id);
         $department = Department::find($booking_data->department_id);
         if ($request->get('confirm') == 'true') {
-            $update_array = ['date' => $date, 'status' => 1];
+            $update_array = ['date' => date("Y-m-d H:i:s", strtotime($date)), 'status' => 1];
             $html = 'Hi,<br>';
             $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
             $old_date = date("d-m-Y", strtotime($booking_data->date));
