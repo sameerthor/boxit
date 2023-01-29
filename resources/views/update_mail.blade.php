@@ -80,11 +80,8 @@
 							<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 							@endif
 							<br>
-							For<br>
-							{{$booking->address}}
-							<br>
-							<br>
-							At
+							Address: {{$booking->address}}<br>
+							Date and Time:
 							<br>{{$date}}
 							<br>{{$time}}
 							<br><br>

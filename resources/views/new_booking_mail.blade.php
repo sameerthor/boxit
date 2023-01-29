@@ -71,11 +71,8 @@
 						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
 							<?php echo $res->body; ?>
 							<br>
-							For<br>
-							{{$booking->address}}
-							<br>
-							<br>
-							At
+							Address: {{$booking->address}}<br>
+							Date and Time:
 							<br>{{$date}}
 							<br>{{$time}}
 							<br><br>

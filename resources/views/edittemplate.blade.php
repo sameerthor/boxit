@@ -71,13 +71,10 @@
         if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') 
         $html .="BCN- [bcn]";
         $html.='<br>
-        For<br>
-        [address]
-        <br>
-        <br>
-        At
-        <br>[date]
-        <br>[time]
+        Address: [address]<br> 
+        Date and Time:<br>
+        [date]<br>
+        [time]
         <br><br>
         [link]
         <br>
@@ -158,8 +155,8 @@
       <?php if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') { ?>
         html +='BCN- [bcn]';
        <?php } ?> 
-      html+='<br>For<br>[address]<br>';      
-      html+='<br>At<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+      html+='<br>Address: [address]<br>';      
+      html+='<br>Date and Time:<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
 
       document.getElementById("myFrame").srcdoc = html;
 
