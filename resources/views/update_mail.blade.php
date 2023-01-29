@@ -55,7 +55,6 @@
 						$product_html='';
 						if(!empty($res->products))
 						{
-						$product_html="<br>";
 						foreach($res->products as $product)
 						{
 						$product_html.="<p class='product'>$product- <input style='border-left: none;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'></p>";
@@ -95,7 +94,7 @@
 							<br>
 							Thank You,<br>
 							Jules<br><br>
-							<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+							<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
 						
 						</div>
@@ -157,7 +156,7 @@
 				'body': $(this).html()
 			});
 		});
-		
+		console.log(mail_data);
 		jQuery.ajax({
 			type: 'POST',
 			url: "{{ route('send_mail') }}",
@@ -174,7 +173,7 @@
 					icon: 'success',
 					title: "Mail Sent successfuly."
 				}).then(() => {
-					window.location.href = "/";
+					//window.location.href = "/";
 				});
 		}, 3000);
 

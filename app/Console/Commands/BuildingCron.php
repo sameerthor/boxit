@@ -53,7 +53,7 @@ class BuildingCron extends Command
                 }
                 $html.='Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
                 $contact = Contact::find($res->contact_id);

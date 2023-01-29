@@ -252,7 +252,7 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
             $html .= '<br>Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
             $details['to'] = \config('const.admin1');
@@ -275,7 +275,7 @@ class BookingController extends Controller
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br>Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
             $details['to'] = \config('const.admin1');
@@ -313,7 +313,7 @@ class BookingController extends Controller
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br>Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
                 $details['to'] = $email;;
@@ -344,7 +344,7 @@ class BookingController extends Controller
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
             $html .= '<br>Thank You,<br>
     Jules<br><br>
-    <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+    <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
     ';
             $details['to'] = $email;;
@@ -640,7 +640,7 @@ class BookingController extends Controller
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
             $html .= 'Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
         } else {
@@ -666,7 +666,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             }
             $html .= 'Thank You,<br>
                 Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:25px" class="mail-logo" alt="Boxit Logo">
+                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
 
