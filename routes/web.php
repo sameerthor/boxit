@@ -113,14 +113,16 @@ Route::middleware('role:Admin')->group(function () {
     Route::get('/foreman-template/{id}',[App\Http\Controllers\MailController::class, 'foreman_edit']);
     Route::post('/foreman-template/update/{id}',[App\Http\Controllers\MailController::class, 'foreman_update']);
 
-    Route::get('/send', function () {
-        $details['to'] = 'khanayan36042@gmail.com';
-        $details['name'] = 'Sameer';
-        $details['url'] = 'testing';
-        $details['subject'] = 'testing';
-        $details['body'] = 'This is test message.';
-        dispatch(new BookingEmailJob($details));
-    });
+});
+
+
+Route::get('/send', function () {
+    $details['to'] = 'khanayan36042@gmail.com';
+    $details['name'] = 'Sameer';
+    $details['url'] = 'testing';
+    $details['subject'] = 'testing';
+    $details['body'] = 'This is test message.';
+    dispatch(new BookingEmailJob($details));
 });
 
 Route::middleware('role:Foreman')->group(function () {
