@@ -28,6 +28,14 @@ class BookingMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Boxit Foundations Booking Request')->markdown('emails.bookingMail',$this->details);
+        $this->subject('Boxit Foundations Booking Request')->markdown('emails.bookingMail',$this->details);
+        if(isset($this->details['files']))
+        {
+        foreach($this->details['files'] as $file) {
+            $this->attach($file);
+        }
+        }    
+        return $this;
+
     }
 }

@@ -140,7 +140,6 @@ class BookingController extends Controller
         $account_sid = \config('const.twilio_sid');;
         $auth_token = \config('const.twilio_token');
 
-
         // In production, these should be environment variables. E.g.:
         // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
 
@@ -149,9 +148,10 @@ class BookingController extends Controller
 
         $client = new RestClient("<auth_id>", "<auth_token>");
 
-        $mail_data = $request->get('mail_data');
+        $mail_data = $request->mail_data;
+
         if (!empty($mail_data)) {
-            foreach ($mail_data as $res) {
+            foreach ($mail_data as $k => $res) {
                 $booking_data = BookingData::find($res['booking_id']);
                 $booking_id = $booking_data->booking_id;
                 $contact = Contact::find($booking_data->contact_id);
@@ -172,11 +172,21 @@ class BookingController extends Controller
                         $e->getMessage();
                     }
                 } else {
+                    $attachement_files = [];
+                    if (isset($res['files'])) {
+                        foreach ($res['files'] as $file) {
+                            $file_name = $file->getClientOriginalName();
+                            $name = time() . rand(1, 100) . '-' . $file_name;
+                            $file->move('attachment', $name);
+                            $attachement_files[] = public_path('attachment/' . $name);
+                        }
+                    }
                     $details['to'] = $contact->email;
                     $details['name'] = $contact->title;
                     $details['url'] = 'testing';
                     $details['subject'] = $res['subject'];
                     $details['body'] = $res['body'];
+                    $details['files'] = $attachement_files;
                     dispatch(new BookingEmailJob($details));
                 }
             }
@@ -268,9 +278,13 @@ class BookingController extends Controller
             $notification->save();
         } else {
             $html = '';
+            if($booking_data->created_at == $booking_data->updated_at)
+            $html .= "<strong><u>$contact->title</u></strong> has confirmed the following booking:";
+            else
             $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
+            if($booking_data->created_at != $booking_data->updated_at)
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br>Thank You,<br>
@@ -306,7 +320,7 @@ class BookingController extends Controller
         $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
         if ($request->get('confirm') == 1) {
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->new_date[$request->get('alternate_date')]));
-            $date=date("Y-m-d H:i:s", strtotime($b_date));
+            $date = date("Y-m-d H:i:s", strtotime($b_date));
             $html = '';
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
@@ -316,12 +330,12 @@ class BookingController extends Controller
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
-                $details['to'] = $email;;
-                $details['subject'] = 'Booking Revised';
-                $details['body'] = $html;
-                dispatch(new BookingEmailJob($details));
+            $details['to'] = $email;;
+            $details['subject'] = 'Booking Revised';
+            $details['body'] = $html;
+            dispatch(new BookingEmailJob($details));
             BookingData::where('id', $id)
-                ->update(array('status' => 1, 'date' =>date("Y-m-d H:i:s", strtotime($date))));
+                ->update(array('status' => 1, 'date' => date("Y-m-d H:i:s", strtotime($date))));
         }
 
         if ($request->get('confirm') == 0) {
@@ -453,7 +467,7 @@ class BookingController extends Controller
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
                 foreach ($booking_data as $boo) {
-                    $address = strlen($boo->booking->address)>24?substr($boo->booking->address, 0, 24)."...":$boo->booking->address;
+                    $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -630,19 +644,6 @@ class BookingController extends Controller
         $department = Department::find($booking_data->department_id);
         if ($request->get('confirm') == 'true') {
             $update_array = ['date' => date("Y-m-d H:i:s", strtotime($date)), 'status' => 1];
-            $html = 'Hi,<br><br>';
-            $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
-            $old_date = date("d-m-Y", strtotime($booking_data->date));
-            $old_time = date("h:i:s A", strtotime($booking_data->date));
-            $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
-            $new_date = date("d-m-Y", strtotime($date));
-            $new_time = date("h:i:s A", strtotime($date));
-            $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-            $html .= 'Thank You,<br>
-                Jules<br><br>
-                <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
-
-                ';
         } else {
             $enc_key = base64_encode($booking_data->id);
             $url = URL("reply/$enc_key");
@@ -674,13 +675,14 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             if ($contact->department_id != '2') {
                 $update_array['status'] = 0;
             }
+            $details['to'] = $contact->email;
+            $details['name'] = $contact->title;
+            $details['url'] = 'testing';
+            $details['subject'] = 'Booking Revised';
+            $details['body'] = $html;
+            dispatch(new BookingEmailJob($details));
         }
-        $details['to'] = $contact->email;
-        $details['name'] = $contact->title;
-        $details['url'] = 'testing';
-        $details['subject'] = 'Booking Revised';
-        $details['body'] = $html;
-        dispatch(new BookingEmailJob($details));
+
         Session::flash('succes_msg', 'Booking date changed successfuly.');
         BookingData::where('id', $id)->update($update_array);
         $notification = new Notification();
@@ -722,7 +724,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $data = json_decode($obj, true);
         $date = $data['date'];
         $id = $data['id'];
-        $update_array = ['date' => date('Y-m-d H:i:s',strtotime($date)), 'status' => 0];
+        $update_array = ['date' => date('Y-m-d H:i:s', strtotime($date)), 'status' => 0];
         BookingData::where('id', $id)->update($update_array);
         $bookingdata = BookingData::find($id);
         $booking = $bookingdata->booking;
@@ -732,11 +734,10 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
     public function change_time()
     {
-       $booking_datas= BookingData::all();
-       foreach($booking_datas as $res)
-       {
-         $res->date=date('Y-m-d H:i:s',strtotime($res->date));
-         $res->save();
-       }
+        $booking_datas = BookingData::all();
+        foreach ($booking_datas as $res) {
+            $res->date = date('Y-m-d H:i:s', strtotime($res->date));
+            $res->save();
+        }
     }
 }
