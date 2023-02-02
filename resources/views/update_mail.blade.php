@@ -85,7 +85,7 @@
 								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 								@endif
-								
+
 								Address: {{$booking->address}}<br>
 								Date and Time: {{$date}} {{$time}}
 								<br><br>
@@ -149,13 +149,13 @@
 
 		var formdata = new FormData();
 		$(".email_content").each(function(index) {
-			formdata.append('mail_data['+index+'][booking_id]', $(this).data('id'));
-			formdata.append('mail_data['+index+'][subject]', $(this).data('subject'));
-			formdata.append('mail_data['+index+'][body]', $(this).html());
+			formdata.append('mail_data[' + index + '][booking_id]', $(this).data('id'));
+			formdata.append('mail_data[' + index + '][subject]', $(this).data('subject'));
+			formdata.append('mail_data[' + index + '][body]', $(this).html());
 			$.each($("input[type='file']")[index].files, function(i, file) {
-				formdata.append('mail_data['+index+'][files][]', file);
+				formdata.append('mail_data[' + index + '][files][]', file);
 			});
-			
+
 		});
 		jQuery.ajax({
 			type: 'POST',
@@ -164,7 +164,7 @@
 			contentType: false,
 			processData: false,
 			url: "{{ route('send_mail') }}",
-			data:formdata,
+			data: formdata,
 			success: function(data) {
 
 			}

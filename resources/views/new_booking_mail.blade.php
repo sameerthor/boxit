@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<script src="/js/tinymce/js/tinymce/tinymce.min.js"></script>
+
+<script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
+
 <style>
 	input:focus {
 		outline: none;
@@ -24,9 +28,9 @@
 						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
 						if(empty($booking_data))
 						{
-                          continue;
+						continue;
 						}elseif($booking_data->status==2){
-								continue;	
+						continue;
 						}
 						@endphp
 						<li class="nav-item" role="presentation">
@@ -40,24 +44,24 @@
 						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
 						if(empty($booking_data))
 						{
-                          continue;
+						continue;
 						}elseif($booking_data->status==2){
-								continue;	
+						continue;
 						}
 
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
+						$product_html='';
 						if(!empty($res->products))
 						{
-						$res->body.="<br>";
 						foreach($res->products as $product)
 						{
-						$res->body.="<p class='product'>$product- <input style='border-left: none;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'></p>";
+						$product_html.="<p class='product'>$product x <input style='border-left: none;color:red;border-right: none;border-top: none;border-bottom:0.5px solid black;' type='text'></p>";
 						}
 						}
 
 						$date=date("d-m-Y",strtotime($booking_date));
-						$time=date("h:i:s A",strtotime($booking_date));
+						$time=date("h:i A",strtotime($booking_date));
 						$enc_key=base64_encode($booking_data->id);
 						$url=URL("reply/$enc_key");
 						$reply_link="<a href='".$url."' style='border: 1px solid transparent;
@@ -68,23 +72,30 @@
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
 						@endphp
-						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> email_content" id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
-							<?php echo $res->body; ?>
+						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> " id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
+							<div>
+								<h5>Attachements</h5>
+								<input type="file" class="form-control col-md-4" multiple>
+							</div>
 							<br>
-							Address: {{$booking->address}}<br>
-							Date and Time:
-							<br>{{$date}}
-							<br>{{$time}}
-							<br><br>
-							@if($booking_data->department_id != '2')
-							<?php echo $reply_link . "<br><br>" ?>
-							@endif
-							<br>
-							Thank You,<br>
-							Jules<br><br>
-							<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
+							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
+								<textarea id="textArea{{$loop->iteration}}">{{$res->body}}</textarea>
+								<?php echo $product_html; ?>
+								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
+								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
+								@endif
 
-						
+								Address: {{$booking->address}}<br>
+								Date and Time: {{$date}} {{$time}}
+								<br><br>
+								@if($booking_data->department_id != '2')
+								<?php echo $reply_link . "<br>" ?>
+								@endif
+								<br>
+								Thank You,<br>
+								Jules<br><br>
+								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
+							</div>
 						</div>
 						@endforeach
 					</div>
@@ -99,6 +110,19 @@
 
 </div>
 <script>
+	tinymce.init({
+		selector: "textarea",
+		plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+		menubar: 'file edit view insert format tools table tc help',
+		toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+		autosave_ask_before_unload: true,
+		image_advtab: true,
+		height: 300,
+		image_caption: true,
+		toolbar_mode: 'sliding',
+		contextmenu: 'link image imagetools table configurepermanentpen',
+
+	});
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -107,44 +131,51 @@
 	$("#send_email").click(function() {
 		$(this).text("Sending...");
 		var mail_data = [];
-		$("#myTabContent").find("input").each(function() {
+		$(".email_content").find("input").each(function() {
 			if ($(this).val() == '' || $(this).val() == '0') {
 				$(this).parents(".product").remove();
 			} else {
-				$(this).replaceWith($(this).val());
+				$(this).replaceWith('<span style="color:red">' + $(this).val() + '</span>');
 			}
 		});
-		$(".email_content").each(function() {
+		$(".email_content").find("textarea").each(function() {
+			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent());
+			tinymce.get($(this).attr('id')).remove();
+		});
 
-			mail_data.push({
-				booking_id: $(this).data('id'),
-				subject: $(this).data('subject'),
-				'body': $(this).html()
+		var formdata = new FormData();
+		$(".email_content").each(function(index) {
+			formdata.append('mail_data[' + index + '][booking_id]', $(this).data('id'));
+			formdata.append('mail_data[' + index + '][subject]', $(this).data('subject'));
+			formdata.append('mail_data[' + index + '][body]', $(this).html());
+			$.each($("input[type='file']")[index].files, function(i, file) {
+				formdata.append('mail_data[' + index + '][files][]', file);
 			});
+
 		});
 		jQuery.ajax({
 			type: 'POST',
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
 			url: "{{ route('send_mail') }}",
-			data: {
-				mail_data: mail_data,
-			},
+			data: formdata,
 			success: function(data) {
-				
+
 			}
 		});
-		setTimeout(function(){
+		setTimeout(function() {
 			$("#send_email").text("Sent");
-				Toast.fire({
-					icon: 'success',
-					title: "Mail Sent successfuly."
-				}).then(() => {
-					window.location.href = "/";
-				});
+			Toast.fire({
+				icon: 'success',
+				title: "Mail Sent successfuly."
+			}).then(() => {
+				window.location.href = "/";
+			});
 		}, 3000);
 
 	})
-	
-	
 </script>
 
 @endsection
