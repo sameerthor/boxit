@@ -159,7 +159,7 @@
         <br />
         @foreach($project->file as $f)
 
-        <a href="/images/{{$f}}" target="_blank" style="padding:5px">View<embed src="/images/{{$f}}"></embed>
+        <a href="/images/{{$f}}" target="_blank" style="padding:5px">View <embed src="/images/{{$f}}"></embed>
         </a>
 
         @endforeach
