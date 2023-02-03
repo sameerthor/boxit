@@ -153,6 +153,18 @@
         </div>
 
         <br />
+        @if(!empty($project->file))
+        <div class="form-group col-md-12 l-font-s">
+        <label>Files</label> 
+        <br />
+        @foreach($project->file as $f)
+
+        <a href="/images/{{$f}}" target="_blank" style="padding:5px"><embed src="/images/{{$f}}"></embed>
+        </a>
+
+        @endforeach
+      </div>
+      @endif
         <br />
         <div class="row">
             <div class="col-md-12">
