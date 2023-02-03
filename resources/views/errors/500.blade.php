@@ -44,7 +44,7 @@
                 </div>
 
                 <div style="text-align: center;">
-                <img src="/img/error.png" style="width:200px">
+                <img src="/img/error.png" style="width:100px">
                 <br>
                 <br>
                    The server encountered an error and <br> could not complete your request.                 
