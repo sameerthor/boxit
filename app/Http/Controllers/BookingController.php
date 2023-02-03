@@ -269,8 +269,6 @@ class BookingController extends Controller
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
-            $details['to'] = \config('const.admin2');
-            dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = 0;
             $notification->notification = '<b>' . $department->title . '</b> has request date change for booking <b>' . $booking->address . '</b>,Please check email.';
@@ -295,8 +293,6 @@ class BookingController extends Controller
             $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Confirmed';
             $details['body'] = $html;
-            dispatch(new BookingEmailJob($details));
-            $details['to'] = \config('const.admin2');
             dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = 0;
