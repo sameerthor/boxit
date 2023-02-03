@@ -44,10 +44,10 @@
                 </div>
 
                 <div style="text-align: center;">
-                <img src="/img/hold.png" style="width:200px">
+                <img src="/img/error.png" style="width:200px">
                 <br>
                 <br>
-                   The server encountered an error and could not complete your request.                 
+                   The server encountered an error and <br> could not complete your request.                 
                 <br/><br/>Please try again in 30 seconds and if the issue persists please report it to us by sending an email to  <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a> with the Project Address
             </div>
 
