@@ -1099,7 +1099,7 @@
                     <div style="padding:3%;" d class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="7-tab">
                         <form action="{{URL('/stripping')}}" method="post">
                             @csrf
-                            <h5>PODS & Steel</h5>
+                            <h5>Stripping</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
                                 <table style="width:100%">
@@ -1140,7 +1140,7 @@
                     <div style="padding:3%;" d class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="8-tab">
                         <form action="{{URL('/pods-steel')}}" method="post">
                             @csrf
-                            <h5>Stripping</h5>
+                            <h5>PODS & Steel</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
                                 <table style="width:100%">
