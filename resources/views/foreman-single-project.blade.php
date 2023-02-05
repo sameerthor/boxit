@@ -1099,7 +1099,7 @@
                     <div style="padding:3%;" d class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="7-tab">
                         <form action="{{URL('/stripping')}}" method="post">
                             @csrf
-                            <h5>Striping</h5>
+                            <h5>PODS & Steel</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
                                 <table style="width:100%">
@@ -1128,7 +1128,7 @@
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->gate_shut : '' }}" name="stripping_data[gate_shut]"></td>
                                     </tr>
                                     <tr>
-                                        <td>Site tify and photos taken</td>
+                                        <td>Site tidy and photos taken</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->photos_taken : '' }}" name="stripping_data[photos_taken]"></td>
                                     </tr>
                                 </table>
@@ -1140,7 +1140,7 @@
                     <div style="padding:3%;" d class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="8-tab">
                         <form action="{{URL('/pods-steel')}}" method="post">
                             @csrf
-                            <h5>Striping</h5>
+                            <h5>Stripping</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
                                 <table style="width:100%">
