@@ -52,7 +52,7 @@
 
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
-						$product_html='';
+						$product_html='<p></p>';
 						if(!empty($res->products))
 						{
 						foreach($res->products as $product)
@@ -81,7 +81,7 @@
 							<br>
 							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
 								<textarea id="textArea{{$loop->iteration}}">{{$res->body}}</textarea>
-								<?php echo $product_html; ?>
+								<?php echo @$product_html; ?>
 								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 								@endif
@@ -133,7 +133,18 @@
 		}
 	});
 	$("#send_email").click(function() {
-		$(this).text("Sending...");
+		Swal.fire({
+            title: "Do you want to send all mails ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'No',
+            dangerMode: true,
+        }).then(function(result) {
+            if (result.isConfirmed) {
+				$(this).text("Sending...");
 		var mail_data = [];
 		$(".email_content").find("input").each(function() {
 			if ($(this).val() == '' || $(this).val() == '0') {
@@ -143,7 +154,7 @@
 			}
 		});
 		$(".email_content").find("textarea").each(function() {
-			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent());
+			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({format : 'text'}));
 			tinymce.get($(this).attr('id')).remove();
 		});
 
@@ -175,11 +186,13 @@
 				icon: 'success',
 				title: "Mail Sent successfuly."
 			}).then(() => {
-				window.location.href = "/";
+				//window.location.href = "/";
 			});
 		}, 3000);
 
-	})
+
+            }});
+		})
 </script>
 
 @endsection
