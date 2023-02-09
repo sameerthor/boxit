@@ -18,7 +18,7 @@ use Exception;
 use Session;
 use Auth;
 use DB;
-use Plivo\RestClient;
+use Twilio\Rest\Client;
 
 class BookingController extends Controller
 {
@@ -113,18 +113,19 @@ class BookingController extends Controller
 
     public function test_msg(Request $request)
     {
-        $account_sid = \config('const.plivo_sid');;
-        $auth_token = \config('const.plivo_token');
+        $account_sid = \config('const.twilio_sid');;
+        $auth_token = \config('const.twilio_token');
         $msg = '';
         if (!empty($request->get('from')) && !empty($request->get('to'))) {
-            $client = new RestClient($account_sid, $auth_token);
+            $client = new Client($account_sid, $auth_token);
             try {
-                $message_created = $client->messages->create(
-                    [
-                        "src" => $request->get('from'),
-                        "dst" => $request->get('to'),
-                        "text"  => "Hello, world!",
-                    ]
+                $res = $client->messages->create(
+                    // Where to send a text message (your cell phone?)
+                    $request->get('to'),
+                    array(
+                        'from' => $request->get('from'),
+                        'body' => 'test'
+                    )
                 );
                 $msg = 'success';
             } catch (Exception $e) {
@@ -146,7 +147,7 @@ class BookingController extends Controller
         // A Twilio number you own with SMS capabilities
         $twilio_number = "+16209129397";
 
-        $client = new RestClient("<auth_id>", "<auth_token>");
+        $client = new Client($account_sid, $auth_token);
 
         $mail_data = $request->mail_data;
 
@@ -269,8 +270,6 @@ class BookingController extends Controller
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $html;
             dispatch(new BookingEmailJob($details));
-            $details['to'] = \config('const.admin2');
-            dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = 0;
             $notification->notification = '<b>' . $department->title . '</b> has request date change for booking <b>' . $booking->address . '</b>,Please check email.';
@@ -295,8 +294,6 @@ class BookingController extends Controller
             $details['to'] = \config('const.admin1');
             $details['subject'] = 'Booking Confirmed';
             $details['body'] = $html;
-            dispatch(new BookingEmailJob($details));
-            $details['to'] = \config('const.admin2');
             dispatch(new BookingEmailJob($details));
             $notification = new Notification();
             $notification->foreman_id = 0;

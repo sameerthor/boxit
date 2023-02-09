@@ -406,8 +406,7 @@ class ForemanController extends Controller
         $details['subject'] = $email_template[0]->subject;
         $details['body'] =$email_template[0]->body;
         dispatch(new BookingEmailJob($details));
-        $details['to'] = \config('const.admin2');
-        dispatch(new BookingEmailJob($details));
+       
       }  
         return true;
     } 
