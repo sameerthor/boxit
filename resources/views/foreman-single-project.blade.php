@@ -703,7 +703,7 @@
                                             </th>
                                             <th>RISK IDENTIFIED
                                             </th>
-                                            <th>HAZARD CONTROL METHOD
+                                            <th>HAZARD CONTROL METHOD<br>
                                                 E Eliminate / M - Minimise
                                             </th>
                                             <th>
