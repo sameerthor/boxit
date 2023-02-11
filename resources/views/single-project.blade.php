@@ -1,23 +1,11 @@
 <style>
-  div.show-image {
-    position: relative;
-    float:left;
-    margin:5px;
-    width: inherit;
-}
-div.show-image img{
-  width: inherit;
-}
+  .increment{
+    padding: 2px 8px 2px 14px;
+    border: 1px solid black;
+    border-radius: 11px;
+    margin: 3px 2px 3px 2px;
 
-div.show-image span {
-    position:absolute;
-    display:block;
-}
-
-div.show-image span.delete_image {
-    top:0;
-    left:85%;
-}
+  }
 
   .green_box {
     background: #F1FFE9;
@@ -161,13 +149,11 @@ div.show-image span.delete_image {
         <br />
         <div class="row">
         @foreach($project->file as $f)
-        <div class="col-md-2">
-        <div class="show-image">
-    <img src="{{asset('images/file-image.png')}}" />
-    <span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
-</div>     
-           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?> <i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></center>
-           </div>
+        <div class="form-group increment col-md-6 bg-shadow">
+          <label>{{$f}}</label>
+          <div style="float: right;"><i class="fa fa-trash fa-lg delete_image"  data-id="{{$project->id}}" data-name="{{$f}}" aria-hidden="true"></i><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 38px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
+  
+            </div>
         @endforeach
         </div>
       </div>
