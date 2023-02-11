@@ -3,32 +3,22 @@
     position: relative;
     float:left;
     margin:5px;
-    cursor: pointer;
     width: inherit;
 }
 div.show-image img{
   width: inherit;
 }
-div.show-image:hover img{
-    opacity:0.5;
-}
-div.show-image:hover span {
-    display: block;
-}
+
 div.show-image span {
     position:absolute;
-    display:none;
+    display:block;
 }
 
 div.show-image span.delete_image {
     top:0;
-    left:79%;
+    left:85%;
 }
-div.show-image span.view_image {
-    top:0;
-    left:90%;
-    color:black;
-}
+
   .green_box {
     background: #F1FFE9;
     color: #16DB65 !important;
@@ -174,10 +164,9 @@ div.show-image span.view_image {
         <div class="col-md-2">
         <div class="show-image">
     <img src="{{asset('images/file-image.png')}}" />
-    <span class="view_image"><a href="/images/{{$f}}" target="_blank" style="padding:5px;color:black"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></span>
     <span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
 </div>     
-           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?></a></center>
+           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?> <i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></center>
            </div>
         @endforeach
         </div>

@@ -3,30 +3,19 @@
     div.show-image {
     position: relative;
     float:left;
-    cursor: pointer;
     margin:5px;
     width: inherit;
 }
 div.show-image img{
   width: inherit;
 }
-div.show-image:hover img{
-    opacity:0.5;
-}
-div.show-image:hover span {
-    display: block;
-}
+
 div.show-image span {
     position:absolute;
-    display:none;
+    display:block;
 }
 
 
-div.show-image span.view_image {
-    top:0;
-    left:90%;
-    color:black;
-}
     .cd-switch {
         padding: 50px 0;
         text-align: center;
@@ -188,9 +177,8 @@ div.show-image span.view_image {
         <div class="col-md-2">
         <div class="show-image">
     <img src="{{asset('images/file-image.png')}}" />
-    <span class="view_image"><a href="/images/{{$f}}" target="_blank" style="padding:5px;color:black"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></span>
 </div>     
-           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?></a></center>
+           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?> <i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></center>
            </div>
         @endforeach
         </div>
