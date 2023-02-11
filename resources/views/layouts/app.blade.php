@@ -30,6 +30,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
+	<script src="{{ asset('js/file-viewer/fileViewer.js') }}" ></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{ asset('js/repeater/repeater.js') }}" defer></script>
 	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
