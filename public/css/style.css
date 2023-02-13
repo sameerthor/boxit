@@ -1781,3 +1781,83 @@ span#save_note i, span#edit_note i, span.save_file i {
 .modal-body .form-group .remove i, .modal-body .form-group .add_html i {
   top: 12px;
 }
+.moc-form {
+  padding-top: 10px;
+}
+@media screen and (min-width:768px)
+{
+  .moc-form .col-md-4 {
+    flex-grow: 1;
+    max-width: 50%;
+  }
+  .moc-form .col-md-2
+  {
+    flex-grow: 1;
+    max-width: 25%;
+  }
+}
+@media screen and (max-width:767px)
+{
+  .number
+  {
+    left: -13px;
+  }
+  .notification img
+  {
+    left:-21px;
+  }
+
+  .xdsoft_datetimepicker.xdsoft_noselect.xdsoft_ {
+    left: 5px !important;
+}
+.xdsoft_calendar tr, .xdsoft_calendar td {
+  display: flex;
+}
+.table-bordered tr
+{
+  height: auto !important;
+}
+#tab1 tr {
+  padding-left: 10px;
+  padding-right: 2px;
+}
+}
+
+@media screen and (min-width:768px) and (max-width:1024px)
+{
+  .search-icon-w
+  {
+    max-width: 54% !important;
+  }
+  .notification img
+  {
+    left:-30px;
+  }
+  .number
+  {
+    left: -23px;
+  }
+  .profile_letter
+  {
+    margin-left:-10px;
+  }
+}
+@media screen and (max-width:900px) and (min-width:768px)
+{
+  .li-styles li
+  {
+    padding-left: 15px;
+  }
+  .card-new
+  {
+    width: 100%;
+  }
+}
+@media screen and (max-width:1024px)
+{
+  table.table.table-bordered.single-table tr th, table.table.table-bordered.single-table tr, table.table.table-bordered.single-table td {
+    width: 100% !important;
+    display: block;
+}
+
+}

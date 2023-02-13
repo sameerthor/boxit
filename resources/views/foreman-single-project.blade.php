@@ -326,12 +326,12 @@ div.show-image span {
                             <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
                         </form>
                     </div>
-                    <div style="padding:3%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+                    <div style="padding:2%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
                         <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
                             @csrf
                             <h5>Mark Out Checklist</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
-                            <div style="margin:5%">
+                            <div class="moc-form">
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label "><strong>Date:</strong></label>
                                     <div class="col-md-4">
