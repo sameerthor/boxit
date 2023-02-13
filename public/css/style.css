@@ -931,6 +931,7 @@ body{
   -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
   box-shadow: 10px 10px 23px 0px rgb(0 0 0 / 30%);
   cursor: default;
+  top: 54px;
 }
 
 .fas:hover {
@@ -1821,6 +1822,17 @@ span#save_note i, span#edit_note i, span.save_file i {
   padding-left: 10px;
   padding-right: 2px;
 }
+.box
+{
+  width: 295px;
+  left: -290px;
+  top: 54px;
+}
+.search-wrapper .input-holder .search-icon
+{
+  height: 50px;
+  margin-top: 5px;
+}
 }
 
 @media screen and (min-width:768px) and (max-width:1024px)
@@ -1869,3 +1881,12 @@ span#save_note i, span#edit_note i, span.save_file i {
 .booked_div {
   border-left: 1px solid #C7CCD5 !important;
 }
+
+@media screen and (max-width:910px) and (min-width:768px)
+{
+  .box{
+    left: -180px;
+    top: 54px;
+  }
+}
+
