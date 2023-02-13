@@ -84,7 +84,6 @@
 								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 								@endif
-
 								Address: {{$booking->address}}<br>
 								Date and Time: {{$date}} {{$time}}
 								<br><br>
