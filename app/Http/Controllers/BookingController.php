@@ -567,8 +567,10 @@ class BookingController extends Controller
         $files = [];
         if (!empty($request->get('draft_id'))) {
             $delete_id = $request->get('draft_id');
-            $files=Draft::find($delete_id)->file;
             $this->delete_draft($delete_id);
+        }
+        if (!empty($request->get('existing_file'))) {
+            $files = $request->get('existing_file');
         }
         $draft = new Draft;
         $draft->address = $request->get('address');
