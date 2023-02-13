@@ -1,20 +1,12 @@
 <style>
     @import "bourbon";
-    div.show-image {
-    position: relative;
-    float:left;
-    margin:5px;
-    width: inherit;
-}
-div.show-image img{
-  width: inherit;
-}
+    .increment{
+    padding: 2px 8px 2px 14px;
+    border: 1px solid black;
+    border-radius: 11px;
+    margin: 3px 2px 3px 2px;
 
-div.show-image span {
-    position:absolute;
-    display:block;
-}
-
+  }
 
     .cd-switch {
         padding: 50px 0;
@@ -174,12 +166,11 @@ div.show-image span {
         <br />
         <div class="row">
         @foreach($project->file as $f)
-        <div class="col-md-2">
-        <div class="show-image">
-    <img src="{{asset('images/file-image.png')}}" />
-</div>     
-           <center><a href="/images/{{$f}}" target="_blank" style="padding:5px"><?php $ar=explode('.',$f);echo end($ar); ?> <i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></center>
-           </div>
+        <div class="form-group increment col-md-6 bg-shadow">
+          <label>{{$f}}</label>
+          <div style="float: right;"><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 10px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
+  
+            </div>
         @endforeach
         </div>
       </div>

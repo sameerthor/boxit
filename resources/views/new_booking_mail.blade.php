@@ -51,7 +51,7 @@
 
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
-						$product_html='';
+						$product_html='<p></p>';
 						if(!empty($res->products))
 						{
 						foreach($res->products as $product)
@@ -139,7 +139,7 @@
 			}
 		});
 		$(".email_content").find("textarea").each(function() {
-			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent());
+			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({format : 'raw'}));
 			tinymce.get($(this).attr('id')).remove();
 		});
 

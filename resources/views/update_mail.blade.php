@@ -154,7 +154,7 @@
 			}
 		});
 		$(".email_content").find("textarea").each(function() {
-			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({format : 'text'}));
+			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({format : 'raw'}));
 			tinymce.get($(this).attr('id')).remove();
 		});
 
