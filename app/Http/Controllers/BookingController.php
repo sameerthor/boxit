@@ -564,8 +564,10 @@ class BookingController extends Controller
 
     public function save_draft(Request $request)
     {
+        $files = [];
         if (!empty($request->get('draft_id'))) {
             $delete_id = $request->get('draft_id');
+            $files=Draft::find($delete_id)->file;
             $this->delete_draft($delete_id);
         }
         $draft = new Draft;
@@ -575,7 +577,6 @@ class BookingController extends Controller
         $draft->bcn = $request->get('bcn');
         $draft->notes = $request->get('notes');
         $draft->foreman_id = $request->get('foreman');
-        $files = [];
         if ($request->hasfile('file_upload')) {
             foreach ($request->file('file_upload') as $file) {
                 $file_name = $file->getClientOriginalName();
