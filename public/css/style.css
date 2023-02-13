@@ -1861,3 +1861,11 @@ span#save_note i, span#edit_note i, span.save_file i {
 }
 
 }
+
+.foo.pd-boxes:nth-child(odd) {
+  background-color: #E5E9F3;
+}
+
+.booked_div {
+  border-left: 1px solid #C7CCD5 !important;
+}

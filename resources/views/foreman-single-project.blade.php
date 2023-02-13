@@ -1107,7 +1107,7 @@
                         </form>
                     </div>
                     <div style="padding:3%;" d class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="7-tab">
-                        <form action="{{URL('/stripping')}}" method="post">
+                        <form action="{{URL('/stripping')}}" method="post" id="stripping">
                             @csrf
                             <h5>Stripping</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
@@ -1148,7 +1148,7 @@
                         </form>
                     </div>
                     <div style="padding:3%;" d class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="8-tab">
-                        <form action="{{URL('/pods-steel')}}" method="post">
+                        <form action="{{URL('/pods-steel')}}" method="post" id="pods_steel">
                             @csrf
                             <h5>PODS & Steel</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
@@ -1650,4 +1650,29 @@
                 .attr("value", $("#safetyplan_sign").attr("src")).appendTo("#safety_form");
         }
     });
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+        $("#qa_form tr:first-child").remove();
+        $("#stripping tr:first-child").remove();
+        $("#pods_steel tr:first-child").remove();
+
+        $("#qa_form tr").each(function() {
+        $(this).children("td:eq(1)").find("input").attr("placeholder","Initial");
+        $(this).children("td:eq(2)").find("input").attr("placeholder","Office Use");
+    });   
+
+    $("#stripping tr").each(function() {
+        $(this).children("td:eq(1)").find("input").attr("placeholder","Done by");
+    });
+
+    $("#pods_steel tr").each(function() {
+        $(this).children("td:eq(1)").find("input").attr("placeholder","Done by");
+        $(this).children("td:eq(2)").find("input").attr("placeholder","Done by");
+        $(this).children("td:eq(3)").find("input").attr("placeholder","Checked by");
+
+    });
+    
+}
+    
 </script>
