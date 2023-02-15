@@ -362,7 +362,7 @@
 			$('#monthly_calender').show();
 		}
 	})
-	var monthNames = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 	var active_date;
 
 	function getFirstDayOfMonth(zeroBasedMonthNum, fullYear) {
