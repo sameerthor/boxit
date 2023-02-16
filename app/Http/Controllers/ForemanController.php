@@ -110,6 +110,62 @@ class ForemanController extends Controller
         return $html;
     }
     
+    public function mobile_calender(Request $request)
+    {
+        $dates = $request->get('dates');
+        $year = $request->get('year');
+        $foreman_id = $request->get('foreman_id');
+        $requested_month = $request->get('month') + 1;
+        $data = [];
+        foreach ($dates as $date) {
+            if ($date['thisMonth'] != 1) {
+                if ($date['day'] >= 25)
+                    $month = $requested_month - 1;
+                else
+                    $month = $requested_month + 1;
+            } else {
+                $month = $requested_month;
+            }
+            $booking_date = date('Y-m-d', strtotime($year . "-" . $month . "-" . $date['day']));
+
+            $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
+            foreach ($department_id as $id) {
+                $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
+                    if (!empty($foreman_id))
+                        $query->where('foreman_id', Auth::id());
+                })->whereDate('date', '=', $booking_date)
+                    ->get();
+                $b_id = '';
+                foreach ($booking_data as $boo) {
+                    $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
+                    $dep = $boo->department->title;
+                      $style = '';
+                    switch ($boo->status) {
+                        case '0':
+                            $class = "orange_box show_booking";
+                            $style = 'background: ' . $boo->booking->pending_background_color . ';color: ' . $boo->booking->pending_text_color . ' !important;border-left: 1px solid ' . $boo->booking->pending_text_color . ';border-bottom: 1px solid ' . $boo->booking->pending_text_color . ';';
+                            break;
+                        case '1':
+                            $class = "green_box show_booking";
+                            $style = 'background: ' . $boo->booking->confirm_background_color . ';color: ' . $boo->booking->confirm_text_color . ' !important;border-left: 1px solid ' . $boo->booking->confirm_text_color . ';border-bottom: 1px solid ' . $boo->booking->confirm_text_color . ';';
+                            break;
+                        case '2':
+                            $class = "red_box show_booking";
+                            break;
+                        default:
+                            $class = "show_booking";
+                    }
+                    $b_id = $boo->booking_id;
+                    $data[$date['day']][]= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                }
+               
+            }
+            if(!isset($data[$date['day']]))
+            $data[$date['day']]=[];
+        }
+        return response()->json($data); 
+    }
+
     public function monthly_calender(Request $request)
     {
         $year = $request->get('year');
