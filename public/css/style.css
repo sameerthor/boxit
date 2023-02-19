@@ -1769,11 +1769,11 @@ img.pos-new-hid.toggle_password {
 cursor: pointer;
 }
 
-span#save_note, span#edit_note, span.save_file{
+span.save_icon, span.edit_icon, span.save_file{
   margin-left: 5px;
 }
 
-span#save_note i, span#edit_note i, span.save_file i {
+span.save_icon i, span.edit_icon i, span.save_file i {
   font-size: 1.15em;
   line-height: .35em;
   vertical-align: -5%;

@@ -776,9 +776,17 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
     {
         $obj = base64_decode(($id));
         $data = json_decode($obj, true);
-        $date = $data['date'];
+        $update_array = ['status' => 0];
+        if(isset($data['date']))
+        {
+            $date = $data['date'];
+            $update_array['date'] = date('Y-m-d H:i:s', strtotime($date));
+        }
+        if(isset($data['contact_id']))
+        {
+            $update_array['contact_id']=$data['contact_id'];
+        }
         $id = $data['id'];
-        $update_array = ['date' => date('Y-m-d H:i:s', strtotime($date)), 'status' => 0];
         BookingData::where('id', $id)->update($update_array);
         $bookingdata = BookingData::find($id);
         $booking = $bookingdata->booking;

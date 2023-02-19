@@ -217,6 +217,7 @@
 
                                 <tbody>
                                     @foreach($ProjectStatusLabel as $label)
+                                    @if($label->department_id != '5' && $label->department_id != '6' && $label->department_id != '7')
                                     @php
                                     $project_status= $label->ProjectStatus($project->id)->get();
                                     if(count($project_status)>0)
@@ -243,6 +244,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                 </tbody>
 

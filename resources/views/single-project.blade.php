@@ -1,5 +1,5 @@
 <style>
-  .increment{
+  .increment {
     padding: 2px 8px 2px 14px;
     border: 1px solid black;
     border-radius: 11px;
@@ -113,48 +113,56 @@
 
     <div class="row">
       <div class="form-group col-md-4 l-font-s">
-        <label>BCN</label>
-        <p>{{$project->bcn==''?'NA':$project->bcn}}</p>
+        <label>BCN <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="bcn"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{$project->bcn==''?'NA':$project->bcn}}</p><input type="text" class="form-control edit_item" style="display:none" value="{{$project->bcn}}">
       </div>
       <div class="form-group col-md-4 l-font-s">
-        <label>Address</label>
-        <p>{{$project->address}}</p>
+        <label>Address <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="address"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{$project->address}}</p><input type="text" class="form-control edit_item" style="display:none" value="{{$project->address}}">
       </div>
       <div class="form-group col-md-4 l-font-s">
-        <label>Building Company</label>
-        <p>{{$project->BookingData[0]->contact->title}}</p>
+        <label>Building Company <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->BookingData[0]->id; ?>" class="save_icon" data-field="building_company"><i class="fa fa-save fa-lg"></i></span></label></label>
+        <p class="view_item">{{$project->BookingData[0]->contact->title}}</p>
+        <select class="form-control edit_item " style="display:none;">
+          @foreach($contacts as $contact)
+          @if($contact->department_id=='1')
+          <option value="{{$contact->id}}" <?php if ($contact->id == $project->BookingData[0]->contact_id) echo "selected"; ?>>{{ucfirst($contact->title)}}</option>
+          @endif
+          @endforeach
+        </select>
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Floor Type</label>
-        <p>{{$project->floor_type}}</p>
+        <label>Floor Type <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="floor_type"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{$project->floor_type}}</p><input type="text" class="form-control edit_item" style="display:none" value="{{$project->floor_type}}">
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Floor Area</label>
-        <p>{{$project->floor_area}}</p>
+        <label>Floor Area <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="floor_area"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{$project->floor_area}}</p><input type="text" class="form-control edit_item" style="display:none" value="{{$project->floor_area}}">
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Foreman</label>
-        <select class="form-control foreman-project col-md-3">
+        <label>Foreman <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="foreman_id"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{ucfirst($project->foreman->name)}}</p>
+        <select class="form-control edit_item col-md-3" style="display:none;">
           @foreach($foremans as $f)
           <option value="{{$f->id}}" <?php if ($f->id == $project->foreman_id) echo "selected"; ?>>{{ucfirst($f->name)}}</option>
           @endforeach
         </select>
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Notes <span id="edit_note"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span></label>
-        <p id="project_note">{{$project->notes}}</p>
+        <label>Notes <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="notes"><i class="fa fa-save fa-lg"></i></span></label>
+        <p class="view_item">{{$project->notes}}</p><textarea class="form-control edit_item" style="display:none">{{$project->notes}}</textarea>
       </div>
       <div class="form-group col-md-12 l-font-s">
         <label>File</label> <span class="save_file" data-id="{{$project->id}}"><i class="fa fa-upload fa-lg" aria-hidden="true"></i></span>
         <br />
         <div class="row">
-        @foreach($project->file as $f)
-        <div class="form-group increment col-md-6 bg-shadow">
-          <label>{{$f}}</label>
-          <div style="float: right;"><i class="fa fa-trash fa-lg delete_image"  data-id="{{$project->id}}" data-name="{{$f}}" aria-hidden="true"></i><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 38px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
-  
-            </div>
-        @endforeach
+          @foreach($project->file as $f)
+          <div class="form-group increment col-md-6 bg-shadow">
+            <label>{{$f}}</label>
+            <div style="float: right;"><i class="fa fa-trash fa-lg delete_image" data-id="{{$project->id}}" data-name="{{$f}}" aria-hidden="true"></i><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 38px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
+
+          </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -175,7 +183,17 @@
         <tr>
           <td>{{$loop->iteration}}</td>
           <td>{{$res->department->title}}</td>
-          <td>{{$res->contact?->title}}</td>
+          <td>
+            <span class="contact_label"> {{$res->contact?->title}}</span>
+            <select class="form-control contact_dropdown" data-id="{{$res->id}}" style="display:none">
+              @foreach($contacts as $contact)
+              @if($contact->department_id==$res->department_id)
+              <option value="{{$contact->id}}" @php if($contact->id==$res->contact_id) echo 'selected'; @endphp>{{$contact->title}}</option>
+              @endif
+              @endforeach
+            </select>
+            <span class="edit_contact"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span>
+          </td>
           <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
           <td class="status_pause">@if($res->status=='0')
             <div class="orange_box">Pending</div>
@@ -1046,7 +1064,7 @@
                   </div>
                 </div>
               </div>
-               
+
             </div>
           </form>
         </div>
@@ -1067,6 +1085,21 @@
   }
 </style>
 <script>
+  function refreshpage() {
+    var id = "<?php echo $project->id; ?>";
+
+    jQuery.ajax({
+      url: "{{ url('/single-project') }}",
+      method: 'post',
+      data: {
+        id: id,
+      },
+      success: function(result) {
+        jQuery('.main').html(result);
+      }
+    });
+  }
+
   $(".delete_image").on('click', function() {
     var id = $(this).data('id');
     var file = $(this).data('name');
@@ -1090,7 +1123,12 @@
             file: file,
           },
           success: function(result) {
-            window.location.reload();
+            Toast.fire({
+              icon: 'success',
+              title: "File deleted successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
 
           }
         });
@@ -1099,39 +1137,54 @@
   });
 
 
-  $("#edit_note").on('click', function() {
-    $("<textarea class='form-control' id='project_note_text'>" + $("#project_note").text() + "</textarea>").insertAfter("#project_note");
-      $(' <span data-id="<?php echo $project->id; ?>" id="save_note"><i class="fa fa-save fa-lg"></i></span>').insertAfter("#edit_note");
-      $("#project_note").remove();
-      $("#edit_note").remove();
+  $(".edit_icon").on('click', function() {
+    $(this).hide();
+    $(this).parents(".form-group").find(".save_icon").show();
+    $(this).parents(".form-group").find(".view_item").hide();
+    $(this).parents(".form-group").find(".edit_item").show();
+
   });
 
-  $(document).on('click', '#save_note', function() {
+  $(document).on('click', '.save_icon', function() {
     var id = $(this).data('id');
-    var note = $("#project_note_text").val();
+    var field = $(this).data('field');
+    var val = $(this).parents(".form-group").find(".edit_item").val();
+
     jQuery.ajax({
-      url: "{{ url('/save-note') }}",
+      url: "{{ url('/update-project') }}",
       method: 'post',
       data: {
         id: id,
-        note: note
+        field: field,
+        val: val
       },
       success: function(result) {
-        window.location.reload();
+        Toast.fire({
+          icon: 'success',
+          title: "Project updated successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
 
-  var previous_formean;
-  $(".foreman-project").on('focus', function() {
-    // Store the current value on focus and on change
-    previous_formean = this.value;
-  }).change(function() {
-    var foreman_id = $(this).val();
-    var project_id = "<?php echo $project->id; ?>";
-    var before_change = $(this).data('pre')
+  $(".edit_contact").on('click', function() {
+    $(this).hide();
+    $(this).parents("td").find(".contact_label").hide();
+    $(this).parents("td").find(".contact_dropdown").show();
+  });
+
+  $(".contact_dropdown").on("change", function() {
+    var id = $(this).data('id');
+    var contact_id = $(this).val();
+    var obj = {
+      id: id,
+      contact_id: contact_id,
+    };;
+    var encoded = btoa(JSON.stringify(obj))
     Swal.fire({
-      title: "Are you sure you want to change the foreman?",
+      title: "Are you sure you want to change the contact?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: 'Yes',
@@ -1141,28 +1194,12 @@
       dangerMode: true,
     }).then(function(result) {
       if (result.isConfirmed) {
-
-        jQuery.ajax({
-          url: "{{ url('/change-project-foreman') }}",
-          method: 'post',
-          data: {
-            foreman_id: foreman_id,
-            project_id: project_id,
-          },
-          success: function(result) {
-            Toast.fire({
-              icon: 'success',
-              title: "Foreman changed successfuly."
-            }).then(function(result) {
-              window.location.reload();
-            });
-          }
-        });
+        window.location.href = '/new-email/' + encoded;
+      } else {
+        refreshpage();
       }
     })
-
   })
-
 
   $(".project_status").on("change", function() {
     var status = $(this).val();
@@ -1194,23 +1231,12 @@
               icon: 'success',
               title: "Status changed successfuly."
             }).then(function(result) {
-              window.location.reload();
+              refreshpage();
             });
           }
         });
       } else {
-        var id = "<?php echo $project->id; ?>";
 
-        jQuery.ajax({
-          url: "{{ url('/single-project') }}",
-          method: 'post',
-          data: {
-            id: id,
-          },
-          success: function(result) {
-            jQuery('.main').html(result);
-          }
-        });
       }
     })
 
@@ -1304,7 +1330,13 @@
         confirm: $("input[name='confirm']").is(":checked")
       },
       success: function(data) {
-        window.location.reload();
+
+        Toast.fire({
+          icon: 'success',
+          title: "Date revised successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
@@ -1319,7 +1351,12 @@
         reason: $("textarea[name='hold']").val(),
       },
       success: function(data) {
-        window.location.reload();
+        Toast.fire({
+              icon: 'success',
+              title: "Project onhold successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
       }
     });
   });
@@ -1337,7 +1374,12 @@
         confirm_text_color: $("input[name='confirm_text_color']").val(),
       },
       success: function(data) {
-        window.location.reload();
+        Toast.fire({
+              icon: 'success',
+              title: "Color changed successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
       }
     });
   });
@@ -1371,14 +1413,19 @@
     var formData = new FormData(form);
 
     $.ajax({
-        url: "{{ url('/save-image') }}",
-        method: "post",
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: function(id) {
-          window.location.reload();
-        }
-      });
+      url: "{{ url('/save-image') }}",
+      method: "post",
+      processData: false,
+      contentType: false,
+      data: formData,
+      success: function(id) {
+        Toast.fire({
+              icon: 'success',
+              title: "File saved successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
+      }
+    });
   })
 </script>

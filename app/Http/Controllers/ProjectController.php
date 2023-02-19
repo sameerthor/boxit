@@ -51,10 +51,18 @@ class ProjectController extends Controller
       return true;
     }
     
-    public function save_note(Request $request)
+    public function update_project(Request $request)
     {
-        Booking::where('id',$request->get('id'))->update(['notes'=>$request->get('note')]);
-        Session::flash('succes_msg', 'Note has been saved successfuly.');
+        if($request->get('field')=='building_company')
+        {
+            BookingData::where('id',$request->get('id'))->update(['contact_id'=>$request->get('val')]);
+
+        }else
+        {
+            Booking::where('id',$request->get('id'))->update([$request->get('field')=>$request->get('val')]);
+
+        }
+        Session::flash('succes_msg', 'Project has been updated successfuly.');
 
     }
 
@@ -106,7 +114,8 @@ class ProjectController extends Controller
                   ->orWhereIn('department_id',$department_ids);
                 })
                   ->get();
-        return view('single-project',compact('foremans','safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        $contacts=Contact::all();          
+        return view('single-project',compact('contacts','foremans','safety','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)
     {
