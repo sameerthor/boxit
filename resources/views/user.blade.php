@@ -89,8 +89,9 @@
           <div class="form-group">
             <label for="user_type" class="col-form-label">User Type:</label>
             <select name="user_type" class="form-control" id="user_type">
-              <option vaue="Admin">Admin</option>
-              <option vaue="Foreman">Foreman</option>
+              <option value="Admin">Admin</option>
+              <option value="Foreman">Foreman</option>
+              <option value="Project Manager">Project Manager</option>
             </select>
           </div>
         </form>
