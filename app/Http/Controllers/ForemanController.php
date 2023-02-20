@@ -455,6 +455,7 @@ class ForemanController extends Controller
             $client = new Client($account_sid, $auth_token);
             
             foreach ($contacts as $contact) {
+                echo "test";
                 try {
                     $res = $client->messages->create(
                         // Where to send a text message (your cell phone?)
@@ -465,7 +466,7 @@ class ForemanController extends Controller
                         )
                     );
                 } catch (Exception $e) {
-                    // $e->getMessage();
+                     $e->getMessage();
                 }
             }
         }
