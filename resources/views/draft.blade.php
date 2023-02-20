@@ -32,7 +32,7 @@
 
       <form id="booking" method="post" action="{{ url('booking') }}" enctype="multipart/form-data">
         @csrf
-        <input type="hidden" name="draft_id" value="{{$draft->id}}">
+        <input type="text" name="draft_id" value="{{$draft->id}}" style="display:none">
         <div class="center_div">
           <div class="row">
           <div class="form-group col-md-4">
