@@ -34,7 +34,7 @@ Route::post('/vendor-modal-data', [App\Http\Controllers\ContactController::class
 
 Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
 
-Route::middleware('role:Admin')->group(function () {
+Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
     Route::get('/new-email/{id}', [App\Http\Controllers\BookingController::class, 'new_booking_email']);

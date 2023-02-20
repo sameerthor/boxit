@@ -83,6 +83,10 @@
             <input type="email" name="email" class="form-control" id="email">
           </div>
           <div class="form-group">
+            <label for="contact" class="col-form-label">Contact No:</label>
+            <input type="text" name="contact" class="form-control" id="contact">
+          </div>
+          <div class="form-group">
             <label for="password" class="col-form-label">Password:</label>
             <input type="password" name="new_password" autocomplete="off" class="form-control" id="password">
           </div>
@@ -142,6 +146,7 @@
         $("#modal_title").html("Edit");
         $("#modal_user_id").text(data.id);
         $("#name").val(data.name);
+        $("#contact").val(data.contact);
         $("#email").val(data.email);
 
         $("#password").val("");
@@ -168,6 +173,7 @@
     $("#user_type").attr('readonly',false);
     $("#name").val("");
     $("#email").val("");
+    $("#contact").val("");
     $("#password").val("");
     $('#sms_enabled').prop('checked', false);
     $("#user_form").modal('show');
@@ -185,6 +191,7 @@
     $(document).on('click', "#submit_user", function() {
       var name = $("#name").val();
       var email = $("#email").val();
+      var contact = $("#contact").val();
       var password = $("#password").val();
       var user_type = $("#user_type").val();
 
@@ -194,6 +201,7 @@
         data: {
           name: name,
           email: email,
+          contact:contact,
           password: password,
           user_type: user_type,
         },
@@ -201,6 +209,7 @@
           $("#user_form").modal('hide');
           $("#name").val("");
           $("#email").val("");
+          $("#contact").val("");
           $("#password").val("");
           $("#user_type").val("");
           Toast.fire({
@@ -218,6 +227,7 @@
       console.log("yes");
       var name = $("#name").val();
       var email = $("#email").val();
+      var contact = $("#contact").val();
       var password = $("#password").val();
       var user_type = $("#user_type").val();
       var sms_enabled = $("#sms_enabled").prop('checked') === true ? '1' : '0';
@@ -231,6 +241,7 @@
           id: id,
           name: name,
           email: email,
+          contact:contact,
           password: password,
           user_type: user_type,
         },
@@ -238,6 +249,7 @@
           $("#user_form").modal('hide');
           $("#name").val("");
           $("#email").val("");
+          $("#contact").val("");
           $("#password").val("");
           $("#user_type").val("");
           $("#modal_user_id").text("");

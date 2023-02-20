@@ -1231,11 +1231,12 @@
               icon: 'success',
               title: "Status changed successfuly."
             }).then(function(result) {
-              refreshpage();
+              //refreshpage();
             });
           }
         });
       } else {
+              refreshpage();
 
       }
     })

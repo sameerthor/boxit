@@ -21,7 +21,7 @@ class RoleBasedRedirect
         if (!Auth::check()) {
             return redirect('/login');
         };
-        if(Auth::user()->hasRole('Admin')){
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Project Manager')){
         return response(app()->make('App\Http\Controllers\HomeController')->index());
        } else {       return response(app()->make('App\Http\Controllers\ForemanController')->index());   };
     }

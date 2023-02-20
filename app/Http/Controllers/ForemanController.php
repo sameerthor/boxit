@@ -23,7 +23,9 @@ use App\Models\QaSign;
 use App\Models\PodsSteel;
 use App\Models\PodsSteelValue;
 use Auth;
+use Twilio\Rest\Client;
 use DB;
+
 class ForemanController extends Controller
 {
     /**
@@ -43,7 +45,7 @@ class ForemanController extends Controller
      */
     public function index()
     {
-       
+
         $departments = Department::all();
         $foreman = User::find(Auth::id());
         return view('formancalender', compact('departments', 'foreman'));
@@ -67,32 +69,30 @@ class ForemanController extends Controller
                     $month = $requested_month - 1;
                 else
                     $month = $requested_month + 1;
-            }
-            else
-            {
-              $month=$requested_month;
+            } else {
+                $month = $requested_month;
             }
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
-            
+
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
-                $booking_data = BookingData::whereHas('booking', function($q) {
-                    $q->where('foreman_id',Auth::id());
+                $booking_data = BookingData::whereHas('booking', function ($q) {
+                    $q->where('foreman_id', Auth::id());
                 })->where(array('department_id' => $id))->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
-                $html.="<div class='booked_div'>";
-             foreach ($booking_data as $boo) {
-                $address = strlen($boo->booking->address)>24?substr($boo->booking->address, 0, 24)."...":$boo->booking->address;
-                $style='';
+                $html .= "<div class='booked_div'>";
+                foreach ($booking_data as $boo) {
+                    $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
+                    $style = '';
                     switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
-                            $style='background: '.$boo->booking->pending_background_color.';color: '.$boo->booking->pending_text_color.' !important;border-left: 1px solid '.$boo->booking->pending_text_color.';border-bottom: 1px solid '.$boo->booking->pending_text_color.';';
+                            $style = 'background: ' . $boo->booking->pending_background_color . ';color: ' . $boo->booking->pending_text_color . ' !important;border-left: 1px solid ' . $boo->booking->pending_text_color . ';border-bottom: 1px solid ' . $boo->booking->pending_text_color . ';';
                             break;
                         case '1':
                             $class = "green_box show_booking";
-                            $style='background: '.$boo->booking->confirm_background_color.';color: '.$boo->booking->confirm_text_color.' !important;border-left: 1px solid '.$boo->booking->confirm_text_color.';border-bottom: 1px solid '.$boo->booking->confirm_text_color.';';
+                            $style = 'background: ' . $boo->booking->confirm_background_color . ';color: ' . $boo->booking->confirm_text_color . ' !important;border-left: 1px solid ' . $boo->booking->confirm_text_color . ';border-bottom: 1px solid ' . $boo->booking->confirm_text_color . ';';
                             break;
                         case '2':
                             $class = "red_box show_booking";
@@ -101,7 +101,7 @@ class ForemanController extends Controller
                             $class = "show_booking";
                     }
                     $b_id = $boo->booking_id;
-                    $html.="<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
+                    $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
                 $html .= "</div>";
             }
@@ -109,7 +109,7 @@ class ForemanController extends Controller
         }
         return $html;
     }
-    
+
     public function mobile_calender(Request $request)
     {
         $dates = $request->get('dates');
@@ -139,7 +139,7 @@ class ForemanController extends Controller
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
                     $dep = $boo->department->title;
-                      $style = '';
+                    $style = '';
                     switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
@@ -156,14 +156,13 @@ class ForemanController extends Controller
                             $class = "show_booking";
                     }
                     $b_id = $boo->booking_id;
-                    $data[$date['day']][]= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                    $data[$date['day']][] = "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                 }
-               
             }
-            if(!isset($data[$date['day']]))
-            $data[$date['day']]=[];
+            if (!isset($data[$date['day']]))
+                $data[$date['day']] = [];
         }
-        return response()->json($data); 
+        return response()->json($data);
     }
 
     public function monthly_calender(Request $request)
@@ -188,41 +187,39 @@ class ForemanController extends Controller
                     $current = strtotime(date("Y-m-d"));
                     $today_date    = strtotime("$year-$requested_month-$date");
                     $datediff = $today_date - $current;
-                    $class='';
-                    if($datediff==0)
-                    {
-                      $class=" active-day-month";
+                    $class = '';
+                    if ($datediff == 0) {
+                        $class = " active-day-month";
                     }
-                    $inner_html = '<span data-id="" class="week_count'.$class.'">' . $date . '</span>';
+                    $inner_html = '<span data-id="" class="week_count' . $class . '">' . $date . '</span>';
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
-                    $booking_datas = BookingData::whereHas('booking', function($q) {
-                        $q->where('foreman_id',Auth::id());
+                    $booking_datas = BookingData::whereHas('booking', function ($q) {
+                        $q->where('foreman_id', Auth::id());
                     })->whereDate('date', '=', $booking_date)
                         ->get();
                     foreach ($booking_datas as $booking_data) {
-                        if(!empty($booking_data->booking))
-                        {
-                        $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                        $dep=$booking_data->department->title;
-                        $style='';
-                        switch ($booking_data->status) {
-                            case '0':
-                                $class = "orange_bullet monthly_booking";
-                                $style='color:'.$booking_data->booking->pending_text_color;
-                                break;
-                            case '1':
-                                $class = "green_bullet monthly_booking";
-                                $style='color:'.$booking_data->booking->confirm_text_color;
-                                break;
-                            case '2':
-                                $class = "red_bullet monthly_booking";
-                                break;
-                            default:
-                                $class = "monthly_booking";
+                        if (!empty($booking_data->booking)) {
+                            $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
+                            $dep = $booking_data->department->title;
+                            $style = '';
+                            switch ($booking_data->status) {
+                                case '0':
+                                    $class = "orange_bullet monthly_booking";
+                                    $style = 'color:' . $booking_data->booking->pending_text_color;
+                                    break;
+                                case '1':
+                                    $class = "green_bullet monthly_booking";
+                                    $style = 'color:' . $booking_data->booking->confirm_text_color;
+                                    break;
+                                case '2':
+                                    $class = "red_bullet monthly_booking";
+                                    break;
+                                default:
+                                    $class = "monthly_booking";
+                            }
+                            $b_id = $booking_data->booking_id;
+                            $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
-                        $b_id = $booking_data->booking_id;
-                        $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
-                      }
                     }
 
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
@@ -246,233 +243,240 @@ class ForemanController extends Controller
 										<p>Foreman</p>
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
-         foreach($booking_data->slice(1,4) as $res)
-         {
-            $title=$res->department->title;
-            $booking_date=$res->date;
+        foreach ($booking_data->slice(1, 4) as $res) {
+            $title = $res->department->title;
+            $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
-                    $status="Pending";
+                    $status = "Pending";
                     break;
                 case '1':
                     $class = "confirmed-txt";
-                    $status="Confirmed";
+                    $status = "Confirmed";
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status="On hold";
+                    $status = "On hold";
                     break;
                 default:
                     $class = "";
-                    $status="";
-
+                    $status = "";
             }
-        
-        $html .='<div class="steel  pop-flex '.$class.'">
-										<p>'.$title.'</p>
-										<span>'.date('d/m/Y h:i A', strtotime($booking_date)).' - '.$status.'</span>
+
+            $html .= '<div class="steel  pop-flex ' . $class . '">
+										<p>' . $title . '</p>
+										<span>' . date('d/m/Y h:i A', strtotime($booking_date)) . ' - ' . $status . '</span>
 									</div>
 									';
-         }
-         $html .=		'</div><div class="col-md-6">';
-         foreach($booking_data->slice(5) as $res)
-         {
-            $title=$res->department->title;
-            $booking_date=$res->date;
+        }
+        $html .=        '</div><div class="col-md-6">';
+        foreach ($booking_data->slice(5) as $res) {
+            $title = $res->department->title;
+            $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
-                    $status="Pending";
+                    $status = "Pending";
                     break;
                 case '1':
                     $class = "confirmed-txt";
-                    $status="Confirmed";
+                    $status = "Confirmed";
                     break;
                 case '2':
                     $class = "cancelled-txt";
-                    $status="On hold";
+                    $status = "On hold";
 
                     break;
                 default:
                     $class = "";
-                    $status="";
-
+                    $status = "";
             }
-						$html.='			<div class="pods '.$class.' pop-flex">
-										<p>'.$title.'</p>
-										<span>'.date('d/m/Y h:i A', strtotime($booking_date)).' - '.$status.'</span>
-									</div>';}
-									
-							$html.='</div></div>';
-							
-        return array('address' => $booking->address,'bcn' => $booking->bcn, 'floor_type'=>$booking->floor_type,'floor_area'=>$booking->floor_area,'building_company'=>$booking_data[0]->department_id=='1'?$booking_data[0]->contact->title:'NA', 'notes' => $booking->notes!=''?$booking->notes:'NA','notes' => $booking->notes, 'html' => $html);
+            $html .= '			<div class="pods ' . $class . ' pop-flex">
+										<p>' . $title . '</p>
+										<span>' . date('d/m/Y h:i A', strtotime($booking_date)) . ' - ' . $status . '</span>
+									</div>';
+        }
+
+        $html .= '</div></div>';
+
+        return array('address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'notes' => $booking->notes, 'html' => $html);
     }
 
     public function check_list()
     {
-        $projects=Booking::where(array('foreman_id'=>Auth::id()))->get();
-        return view('foreman-project',compact('projects'));
-
+        $projects = Booking::where(array('foreman_id' => Auth::id()))->get();
+        return view('foreman-project', compact('projects'));
     }
 
-    public function renderproject(Request $request )
-    {   
+    public function renderproject(Request $request)
+    {
 
-        $project=Booking::find($request->get('id'));
-        $department_ids=BookingData::where('booking_id',$request->get('id'))->pluck('department_id');
-        $markout_checklist=$project->MarkoutChecklist;
-        $startup_data=$project->StartupChecklist;
-        $safety=$project->SafetyPlan;
-        $boxing_data=$project->boxing;
-        $stripping_data=$project->stripping;
-        $incident_data=$project->incident;
-        $qaChecklist=QaChecklist::all();
-        $pods_steel_label=PodsSteel::all();
-        $ProjectStatusLabel=ProjectStatusLabel::where(function ($query) use ($department_ids) {
-                  $query->where('department_id', '=', '')
-                  ->orWhereIn('department_id',$department_ids);
-                })
-                  ->get();
-        return view('foreman-single-project',compact('incident_data','pods_steel_label','stripping_data','safety','boxing_data','startup_data','project','qaChecklist','markout_checklist','ProjectStatusLabel'))->render();
+        $project = Booking::find($request->get('id'));
+        $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
+        $markout_checklist = $project->MarkoutChecklist;
+        $startup_data = $project->StartupChecklist;
+        $safety = $project->SafetyPlan;
+        $boxing_data = $project->boxing;
+        $stripping_data = $project->stripping;
+        $incident_data = $project->incident;
+        $qaChecklist = QaChecklist::all();
+        $pods_steel_label = PodsSteel::all();
+        $ProjectStatusLabel = ProjectStatusLabel::where(function ($query) use ($department_ids) {
+            $query->where('department_id', '=', '')
+                ->orWhereIn('department_id', $department_ids);
+        })
+            ->get();
+        return view('foreman-single-project', compact('incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
-    
+
     public function pods_steel(Request $request)
     {
-        $res=PodsSteelValue::where('project_id',$request->get('project_id'))->delete();
-        $done_by1=$request->get('done_by1');
-        $done_by2=$request->get('done_by2');
-        $checked_by=$request->get('checked_by');
-        $project_id=$request->get('project_id');
-        $insert_array=[];
-        $final_array=[];
-        foreach($done_by1 as $key=>$val)
-        {
-            $insert_array['project_id']=$project_id;
-            $insert_array['pods_steel_label_id']=$key;
-            $insert_array['done_by1']=$val!=null?$val:'';
-            $insert_array['done_by2']=$done_by2[$key]!=null?$done_by2[$key]:'';
-            $insert_array['checked_by']=$checked_by[$key]!=null?$checked_by[$key]:'';;
-            $final_array[]=$insert_array;
+        $res = PodsSteelValue::where('project_id', $request->get('project_id'))->delete();
+        $done_by1 = $request->get('done_by1');
+        $done_by2 = $request->get('done_by2');
+        $checked_by = $request->get('checked_by');
+        $project_id = $request->get('project_id');
+        $insert_array = [];
+        $final_array = [];
+        foreach ($done_by1 as $key => $val) {
+            $insert_array['project_id'] = $project_id;
+            $insert_array['pods_steel_label_id'] = $key;
+            $insert_array['done_by1'] = $val != null ? $val : '';
+            $insert_array['done_by2'] = $done_by2[$key] != null ? $done_by2[$key] : '';
+            $insert_array['checked_by'] = $checked_by[$key] != null ? $checked_by[$key] : '';;
+            $final_array[] = $insert_array;
         }
         PodsSteelValue::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'PODS & Steel Data saved successfuly');
-
     }
 
-    public function storeQaChecklist(Request $request )
-    {   
-        $res=ProjectQaChecklist::where('project_id',$request->get('project_id'))->delete();
-        $initial=$request->get('initial');
-        $office_use=$request->get('office_use');
-        $project_id=$request->get('project_id');
-        $insert_array=[];
-        $final_array=[];
-        foreach($initial as $key=>$val)
-        {
-            $insert_array['project_id']=$project_id;
-            $insert_array['qa_checklist_id']=$key;
-            $insert_array['initial']=$val!=null?$val:'';
-            $insert_array['office_use']=$office_use[$key]!=null?$office_use[$key]:'';
-            $final_array[]=$insert_array;
+    public function storeQaChecklist(Request $request)
+    {
+        $res = ProjectQaChecklist::where('project_id', $request->get('project_id'))->delete();
+        $initial = $request->get('initial');
+        $office_use = $request->get('office_use');
+        $project_id = $request->get('project_id');
+        $insert_array = [];
+        $final_array = [];
+        foreach ($initial as $key => $val) {
+            $insert_array['project_id'] = $project_id;
+            $insert_array['qa_checklist_id'] = $key;
+            $insert_array['initial'] = $val != null ? $val : '';
+            $insert_array['office_use'] = $office_use[$key] != null ? $office_use[$key] : '';
+            $final_array[] = $insert_array;
         }
         ProjectQaChecklist::insert($final_array);
-        if(!empty($request->get('onsite_sign')))
-        {
-        QaSign::updateOrCreate(['qa_id'=>$project_id],['foreman_sign'=>$request->get('onsite_sign')]);
+        if (!empty($request->get('onsite_sign'))) {
+            QaSign::updateOrCreate(['qa_id' => $project_id], ['foreman_sign' => $request->get('onsite_sign')]);
         }
         return redirect()->to('check-list/')->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
-
     }
 
-    
-    public function storeMarkoutlist(Request $request )
-    {   
-        $project_id=$request->get('project_id');
-        $res=MarkoutChecklist::where('project_id',$project_id)->delete();
-        $final_array=$request->get('markout_data');
-        $final_array['project_id']=$project_id;
+
+    public function storeMarkoutlist(Request $request)
+    {
+        $project_id = $request->get('project_id');
+        $res = MarkoutChecklist::where('project_id', $project_id)->delete();
+        $final_array = $request->get('markout_data');
+        $final_array['project_id'] = $project_id;
         MarkoutChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
-
     }
-    
-    public function stripping(Request $request )
-    {   
-        $project_id=$request->get('project_id');
-        $res=Stripping::where('project_id',$project_id)->delete();
-        $final_array=$request->get('stripping_data');
-        $final_array['project_id']=$project_id;
+
+    public function stripping(Request $request)
+    {
+        $project_id = $request->get('project_id');
+        $res = Stripping::where('project_id', $project_id)->delete();
+        $final_array = $request->get('stripping_data');
+        $final_array['project_id'] = $project_id;
         Stripping::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Stripping Data saved successfuly');
-
     }
 
-    public function storeStartuplist(Request $request )
-    {   
-        $project_id=$request->get('project_id');
-        $res=StartupChecklist::where('project_id',$project_id)->delete();
-        $final_array=$request->get('startup_data');
-        $final_array['project_id']=$project_id;
+    public function storeStartuplist(Request $request)
+    {
+        $project_id = $request->get('project_id');
+        $res = StartupChecklist::where('project_id', $project_id)->delete();
+        $final_array = $request->get('startup_data');
+        $final_array['project_id'] = $project_id;
         StartupChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Startup Checklist saved successfuly');
-
     }
-    
-    public function accident_investigation(Request $request )
-    {   
-        $project_id=$request->get('project_id');
-        $res=Incident::where('project_id',$project_id)->delete();
-        $final_array=$request->get('incident_data');
-        $final_array['project_id']=$project_id;
+
+    public function accident_investigation(Request $request)
+    {
+        $project_id = $request->get('project_id');
+        $res = Incident::where('project_id', $project_id)->delete();
+        $final_array = $request->get('incident_data');
+        $final_array['project_id'] = $project_id;
         Incident::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Incident data saved successfuly');
-
     }
 
-    public function boxing(Request $request )
-    {   
-        $project_id=$request->get('project_id');
-        $res=Boxing::where('project_id',$project_id)->delete();
-        $final_array=$request->get('boxing');
-        $final_array['project_id']=$project_id;
+    public function boxing(Request $request)
+    {
+        $project_id = $request->get('project_id');
+        $res = Boxing::where('project_id', $project_id)->delete();
+        $final_array = $request->get('boxing');
+        $final_array['project_id'] = $project_id;
         Boxing::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Boxing data saved successfuly');
-
     }
 
     public function changeStatus(Request $request)
     {
-        $matchThese = ['project_id'=>$request->get('project_id'),'status_label_id'=>$request->get('status_label_id')];
-        $data=['status'=>$request->get('status')];
-        if($request->get('status')=='0' && $request->get('status_label_id')=='10')
-        {
-            $data['reason']=$request->get('reason');
-        }else
-        {
-            $data['reason']='';
+        $matchThese = ['project_id' => $request->get('project_id'), 'status_label_id' => $request->get('status_label_id')];
+        $data = ['status' => $request->get('status')];
+        if ($request->get('status') == '0' && $request->get('status_label_id') == '10') {
+            $data['reason'] = $request->get('reason');
+        } else {
+            $data['reason'] = '';
         }
-      
-        ProjectStatus::updateOrCreate($matchThese,$data);
-        $email_template=ForemanTemplates::where(array('status'=>$request->get('status'),'project_status_label_id'=>$request->get('status_label_id')))->get();
-      if(count($email_template)>0)
-      {
-        $details['to'] = \config('const.admin1');
-        $details['name'] = 'test';
-        $details['subject'] = $email_template[0]->subject;
-        $details['body'] =$email_template[0]->body;
-        dispatch(new BookingEmailJob($details));
-       
-      }  
+
+        ProjectStatus::updateOrCreate($matchThese, $data);
+        $email_template = ForemanTemplates::where(array('status' => $request->get('status'), 'project_status_label_id' => $request->get('status_label_id')))->get();
+        if (count($email_template) > 0) {
+            $details['to'] = \config('const.admin1');
+            $details['name'] = 'test';
+            $details['subject'] = $email_template[0]->subject;
+            $details['body'] = $email_template[0]->body;
+            dispatch(new BookingEmailJob($details));
+        }
+        if (($request->get('status_label_id') == '8' || $request->get('status_label_id') == '9' || $request->get('status_label_id') == '10') && $request->get('status') == '0') {
+            $address=Booking::find($request->get('project_id'))->address;     
+            $department_name=ProjectStatusLabel::find($request->get('status_label_id'))->label;   
+            $contacts=User::whereNotNull('contact')->whereHas("roles", function ($q) {
+                $q->where("name", "Project Manager");
+            })->orWhere('email','andy@boxitfoundations.co.nz')->get();
+            $account_sid = \config('const.twilio_sid');;
+            $auth_token = \config('const.twilio_token');
+            $twilio_number = "+16209129397";
+            $client = new Client($account_sid, $auth_token);
+            
+            foreach ($contacts as $contact) {
+                try {
+                    $res = $client->messages->create(
+                        // Where to send a text message (your cell phone?)
+                        $contact->contact,
+                        array(
+                            'from' => $twilio_number,
+                            'body' => $department_name.' has been marked as FAILED for Project - '.$address
+                        )
+                    );
+                } catch (Exception $e) {
+                    // $e->getMessage();
+                }
+            }
+        }
         return true;
-    } 
+    }
 
     public function safety_plan(Request $request)
     {
-      $data=$request->except('_method', '_token');
-      $post_data=$data['safety_plan'];
-      SafetyPlan::updateOrCreate(['project_id'=>$request->get('project_id')],$post_data);
-      return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
-
+        $data = $request->except('_method', '_token');
+        $post_data = $data['safety_plan'];
+        SafetyPlan::updateOrCreate(['project_id' => $request->get('project_id')], $post_data);
+        return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
     }
 }
