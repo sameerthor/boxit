@@ -455,7 +455,7 @@ class ForemanController extends Controller
             $client = new Client($account_sid, $auth_token);
             
             foreach ($contacts as $contact) {
-                echo "test";
+                echo $contact->contact;
                 try {
                     $res = $client->messages->create(
                         // Where to send a text message (your cell phone?)
@@ -465,6 +465,7 @@ class ForemanController extends Controller
                             'body' => $department_name.' has been marked as FAILED for Project - '.$address
                         )
                     );
+                    print_r($res);
                 } catch (Exception $e) {
                      $e->getMessage();
                 }
