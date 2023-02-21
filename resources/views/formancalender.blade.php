@@ -381,9 +381,9 @@
 		padding: 3px;
 	}
 
-	li:nth-child(odd) {
-		background-color: #E5E9F3;
-	}
+	div#weekly_calender li:nth-child(odd) {
+    background-color: #E5E9F3;
+}
 </style>
 @verbatim
 <div id="content">

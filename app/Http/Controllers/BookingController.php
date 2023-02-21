@@ -712,6 +712,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
             $old_date = date("d-m-Y", strtotime($booking_data->date));
             $old_time = date("h:i:s A", strtotime($booking_data->date));
+            if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
+			$html .="BCN-".($booking->bcn!=''?$booking->bcn:' NA')."<br>";
             $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
