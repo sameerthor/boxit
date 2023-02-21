@@ -1833,6 +1833,18 @@ span.save_icon i, span.edit_icon i, span.save_file i {
   height: 50px;
   margin-top: 5px;
 }
+.modal-dialog
+{
+  height: auto !important;
+}
+#exampleModal
+{
+  z-index: 9999999 !important;
+}
+.status-txt .col-md-6 {
+  border-right: none !important;
+  padding-right: 5px !important;
+}
 }
 
 @media screen and (min-width:768px) and (max-width:1024px)
@@ -1890,3 +1902,36 @@ span.save_icon i, span.edit_icon i, span.save_file i {
   }
 }
 
+
+.status-txt span {
+  padding-left: 0px;
+}
+.pop-flex {
+  padding-left: 10px;
+  
+}
+.pop-flex span {
+padding-left: 7px;
+margin-left: 10px;
+}
+@media screen and (max-width:1023px)
+{
+  .pop-flex {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.pop-flex span {
+  padding-left: 7px;
+}
+.status-txt .card-new .col-md-6 {
+  padding-right: 0px;
+}
+}
+
+@media screen and (max-width:1280px) and (min-width:768px)
+{
+  .modal-dialog
+  {
+    max-width: 800px !important;
+  }
+}
