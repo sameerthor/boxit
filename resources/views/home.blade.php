@@ -383,6 +383,13 @@
 div#weekly_calender li:nth-child(odd) {
     background-color: #E5E9F3;
 }
+#weekly_calender
+{
+margin-left: 2%;
+}
+.mnth-style{
+padding: 0 20%;
+}
 </style>
 @verbatim
 <div id="content">

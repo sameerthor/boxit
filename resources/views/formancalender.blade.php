@@ -382,8 +382,16 @@
 	}
 
 	div#weekly_calender li:nth-child(odd) {
-    background-color: #E5E9F3;
-}
+		background-color: #E5E9F3;
+	}
+
+	#weekly_calender {
+		margin-left: 2%;
+	}
+
+	.mnth-style {
+		padding: 0 20%;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -411,7 +419,7 @@
 				</option>
 			</select>
 		</div>
-		
+
 	</div>
 	<div id="weekly_calender">
 		<div v-if="activeStep>0" v-on:click="remove" class=" arrow-u-style">
@@ -611,7 +619,7 @@
 				months: monthNames,
 				year: cur_year,
 				month_index: cur_month,
-				mobile_calender:[],
+				mobile_calender: [],
 				date: 'test'
 			}
 		},
