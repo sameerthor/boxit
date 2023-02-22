@@ -157,11 +157,8 @@
         <br />
         <div class="row">
           @foreach($project->file as $f)
-          <div class="form-group increment col-md-6 bg-shadow">
-            <label>{{$f}}</label>
-            <div style="float: right;"><i class="fa fa-trash fa-lg delete_image" data-id="{{$project->id}}" data-name="{{$f}}" aria-hidden="true"></i><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 38px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
-
-          </div>
+          <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object  data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
+        </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
           @endforeach
         </div>
       </div>
