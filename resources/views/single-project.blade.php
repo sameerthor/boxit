@@ -1408,7 +1408,7 @@
       }
     });
   })
-  $(document).on("click", ".update_file", function() {
+  $(".update_file").on("click", function() {
     var id = $(this).data('id');
     var form = $('#fileUploadForm')[0];
     var formData = new FormData(form);
