@@ -157,8 +157,10 @@
         <br />
         <div class="row">
           @foreach($project->file as $f)
-          <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object  data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
-        </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
+          <div class="col-4">
+            <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object data="https://docs.google.com/gview?embedded=true&url=https://boxit.staging.app/images/167708015715-167702158664-BC220339%20SDC%20Inspection-Report%20-%20Failed.pdf"></object>
+            </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
+          </div>
           @endforeach
         </div>
       </div>
@@ -1233,7 +1235,7 @@
           }
         });
       } else {
-              refreshpage();
+        refreshpage();
 
       }
     })
@@ -1350,11 +1352,11 @@
       },
       success: function(data) {
         Toast.fire({
-              icon: 'success',
-              title: "Project onhold successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "Project onhold successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
@@ -1373,11 +1375,11 @@
       },
       success: function(data) {
         Toast.fire({
-              icon: 'success',
-              title: "Color changed successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "Color changed successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
@@ -1418,11 +1420,11 @@
       data: formData,
       success: function(id) {
         Toast.fire({
-              icon: 'success',
-              title: "File saved successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "File saved successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   })
