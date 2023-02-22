@@ -158,7 +158,8 @@
         <div class="row">
           @foreach($project->file as $f)
           <div class="col-4">
-          <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object  data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
+          <a href="/images/{{$f}}" target="_blank" style="padding:5px">
+          <iframe src="https://docs.google.com/gview?url=${encodeURIComponent({{url('/')}}/images/{{$f}})}&embedded=true"></iframe>
         </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
           </div>  
         @endforeach
