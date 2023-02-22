@@ -157,11 +157,11 @@
         <br />
         <div class="row">
           @foreach($project->file as $f)
-          <a href="/images/{{$f}}" target="_blank" style="padding:5px">        
-            <iframe src="https://view.officeapps.live.com/op/view.aspx?src={{url('/')}}/images/{{$f}}" frameborder="0" style="width: 62%; min-height: 562px;"></iframe>
+          <div class="col-md-4">
+          <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object  data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
         </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
-
-          @endforeach
+          </div> 
+        @endforeach
         </div>
       </div>
     </div>
