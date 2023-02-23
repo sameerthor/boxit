@@ -307,8 +307,7 @@ class BookingController extends Controller
     public function admin_reply_confirmation(Request $request)
     {
         $id = $request->get('booking_data_id');
-        BookingData::where('id', $id)
-            ->update(array('status' => 0, 'date' => date("Y-m-d H:i:s", strtotime($request->get('date')))));
+        
         $booking_data = BookingData::find($id);
         $booking = $booking_data->booking;
         $email = $booking_data->contact->email;
@@ -337,7 +336,8 @@ class BookingController extends Controller
 
         if ($request->get('confirm') == 0) {
 
-
+            BookingData::where('id', $id)
+            ->update(array('status' => 0, 'date' => date("Y-m-d H:i:s", strtotime($request->get('date')))));
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>Boxit Foundations has suggested the below alternate time(s)</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
