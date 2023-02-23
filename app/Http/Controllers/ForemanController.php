@@ -425,8 +425,14 @@ class ForemanController extends Controller
     }
 
     public function changeStatus(Request $request)
-    {
+    {   
+      
         $matchThese = ['project_id' => $request->get('project_id'), 'status_label_id' => $request->get('status_label_id')];
+        if($request->get('status')=="")
+        {
+            ProjectStatus::where($matchThese)->delete();
+            return true;
+        }
         $data = ['status' => $request->get('status')];
         if ($request->get('status') == '0' && $request->get('status_label_id') == '10') {
             $data['reason'] = $request->get('reason');
