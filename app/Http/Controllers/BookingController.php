@@ -260,7 +260,7 @@ class BookingController extends Controller
 	user-select: none;
 	text-decoration: none !important;
     line-height: 1.5;
-    border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request </a><br>";
+    border-radius: 0.25rem;color:#fff;background-color:red;border-color: red;'>Click here to approve or make a change request </a><br>";
             $html .= '<br>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
