@@ -1941,6 +1941,6 @@ form#markout_form [data-id="markout_signature"], form#qa_form [data-id="onsite_s
 }
 
 form#safety_form tbody#induction_body button {
-  margin-top: -1px !important;
+  margin-top: -20px !important;
   margin-left: 10px !important;
 }
