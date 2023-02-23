@@ -158,10 +158,10 @@
         <div class="row">
           @foreach($project->file as $f)
           <div class="col-md-4">
-          <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object  data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
-        </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
-          </div> 
-        @endforeach
+            <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
+            </a><span class="delete_image" data-id="{{$project->id}}" data-name="{{$f}}"><i class="fa fa-remove fa-lg" aria-hidden="true"></i></span>
+          </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -204,6 +204,7 @@
             <div class="orange_box">Pending</div>
             @endif
             @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 65%;" src="/img/project_hold.png"></a></span>@endif
+            <span data-notes="{{$res->notes}}" data-id="{{$res->id}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
           </td>
           <td class="text-right"><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
         </tr>
@@ -1040,6 +1041,27 @@
 
     </div>
   </div>
+  <div class="modal" id="notePopup" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Note</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row flex-d">
+            <textarea name="note" class="form-control" id="department_note" placeholder="Please enter note here..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" id="save_department_note" data-id="1">Save</button>
+          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <div class="modal" id="filePopup" role="dialog">
     <div class="modal-dialog">
 
@@ -1235,7 +1257,7 @@
           }
         });
       } else {
-              refreshpage();
+        refreshpage();
 
       }
     })
@@ -1273,15 +1295,28 @@
   $(".change_date").click(function() {
     $("#holdPopup").hide();
     $("#filePopup").hide();
+    $("#notePopup").hide();
     var id = $(this).data('id');
     $(".save_date").attr('data-id', id);
     $(".new_email").attr('data-id', id);
     $("#myModal").show();
   })
 
+  $(".department_notes").click(function() {
+    $("#myModal").hide();
+    $("#filePopup").hide();
+    $("#holdPopup").hide();
+    var id = $(this).data('id');
+    var note = $(this).data('notes');
+    $("#department_note").val(note);
+    $("#save_department_note").attr('data-id', id);
+    $("#notePopup").show();
+  });
+
   $(".hold_project").click(function() {
     $("#myModal").hide();
     $("#filePopup").hide();
+    $("#notePopup").hide();
     var id = $(this).data('id');
     $(".confirm_hold").attr('data-id', id);
     $("#holdPopup").show();
@@ -1290,10 +1325,12 @@
   $(".save_file").click(function() {
     $("#myModal").hide();
     $("#holdPopup").hide();
+    $("#notePopup").hide();
     var id = $(this).data('id');
     $(".update_file").attr('data-id', id);
     $("#filePopup").show();
   })
+
 
   $(".add_html").click(function() {
     var lsthmtl = $(".clone").html();
@@ -1352,11 +1389,11 @@
       },
       success: function(data) {
         Toast.fire({
-              icon: 'success',
-              title: "Project onhold successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "Project onhold successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
@@ -1375,11 +1412,11 @@
       },
       success: function(data) {
         Toast.fire({
-              icon: 'success',
-              title: "Color changed successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "Color changed successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   });
@@ -1388,6 +1425,8 @@
     $("#myModal").hide();
     $("#holdPopup").hide();
     $("#filePopup").hide();
+    $("#notePopup").hide();
+
   })
 
   $(document).on("click", "#back", function() {
@@ -1420,12 +1459,31 @@
       data: formData,
       success: function(id) {
         Toast.fire({
-              icon: 'success',
-              title: "File saved successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
+          icon: 'success',
+          title: "File saved successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
       }
     });
   })
+
+  $("#save_department_note").on("click", function() {
+    var note = $("#department_note").val();
+    var id=$(this).data('id')
+    $.ajax({
+      url: "{{ url('/save-note') }}",
+      method: "post",
+      data: {note:note,id:id},
+      success: function(id) {
+        Toast.fire({
+          icon: 'success',
+          title: "Note saved successfuly."
+        }).then(function(result) {
+          refreshpage();
+        });
+      }
+    });
+  })
+  
 </script>

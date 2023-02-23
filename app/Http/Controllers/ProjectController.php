@@ -76,6 +76,14 @@ class ProjectController extends Controller
         Session::flash('succes_msg', 'File has been deleted successfuly.');
 
     }
+   
+    public function save_note(Request $request)
+    {
+        $booking_data=BookingData::find($request->get('id'));
+        $booking_data->notes = $request->get('note');
+        $booking_data->save();
+        return true;
+    }
 
     public function save_image(Request $request)
     {
