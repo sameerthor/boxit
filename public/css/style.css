@@ -1935,3 +1935,12 @@ margin-left: 10px;
     max-width: 800px !important;
   }
 }
+form#markout_form [data-id="markout_signature"], form#qa_form [data-id="onsite_signature"] {
+  margin-bottom: 20px !important;
+  margin-left: 5px;
+}
+
+form#safety_form tbody#induction_body button {
+  margin-top: -1px !important;
+  margin-left: 10px !important;
+}
