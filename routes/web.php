@@ -67,6 +67,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/update-project', [App\Http\Controllers\ProjectController::class, 'update_project']);
     Route::post('/delete-file', [App\Http\Controllers\ProjectController::class, 'delete_file']);
     Route::post('/save-image', [App\Http\Controllers\ProjectController::class, 'save_image']);
+    Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
