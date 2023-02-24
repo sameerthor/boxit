@@ -985,7 +985,6 @@
 
   </div>
 </div>
-<div class="container">
 
   <!-- Modal -->
   <div class="modal" id="myModal" role="dialog">
@@ -1041,17 +1040,17 @@
 
     </div>
   </div>
-  <div class="modal" id="notePopup" role="dialog">
+  <div class="modal" id="notePopup"  role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Note</h4>
+          <h4 class="modal-title">Add Note</h4>
         </div>
         <div class="modal-body">
-          <div class="row flex-d">
-            <textarea name="note" class="form-control" id="department_note" placeholder="Please enter note here..."></textarea>
+          <div class="">
+            <textarea name="note" rows="8" class="form-control" id="department_note" placeholder="Please enter note here..."></textarea>
           </div>
         </div>
         <div class="modal-footer">
@@ -1097,8 +1096,9 @@
 
     </div>
   </div>
-</div>
+
 <style>
+ 
   .tooltip-inner {
     color: #172B4D;
     background-color: #ffffff;
@@ -1293,42 +1293,42 @@
   });
 
   $(".change_date").click(function() {
-    $("#holdPopup").hide();
-    $("#filePopup").hide();
-    $("#notePopup").hide();
+    $("#holdPopup").modal('hide');
+    $("#filePopup").modal('hide');
+    $("#notePopup").modal('hide');
     var id = $(this).data('id');
     $(".save_date").attr('data-id', id);
     $(".new_email").attr('data-id', id);
-    $("#myModal").show();
+    $("#myModal").modal('show');
   })
 
   $(".department_notes").click(function() {
-    $("#myModal").hide();
-    $("#filePopup").hide();
-    $("#holdPopup").hide();
+    $("#myModal").modal('hide');
+    $("#filePopup").modal('hide');
+    $("#holdPopup").modal('hide');
     var id = $(this).data('id');
     var note = $(this).data('notes');
     $("#department_note").val(note);
     $("#save_department_note").attr('data-id', id);
-    $("#notePopup").show();
+    $('#notePopup').modal('show');
   });
 
   $(".hold_project").click(function() {
-    $("#myModal").hide();
-    $("#filePopup").hide();
-    $("#notePopup").hide();
+    $("#myModal").modal('hide');
+    $("#filePopup").modal('hide');
+    $("#notePopup").modal('hide');
     var id = $(this).data('id');
     $(".confirm_hold").attr('data-id', id);
-    $("#holdPopup").show();
+    $("#holdPopup").modal('show');
   })
 
   $(".save_file").click(function() {
-    $("#myModal").hide();
-    $("#holdPopup").hide();
-    $("#notePopup").hide();
+    $("#myModal").modal('hide');
+    $("#holdPopup").modal('hide');
+    $("#notePopup").modal('hide');
     var id = $(this).data('id');
     $(".update_file").attr('data-id', id);
-    $("#filePopup").show();
+    $("#filePopup").modal('show');
   })
 
 
@@ -1422,10 +1422,10 @@
   });
 
   $(".cancel").click(function() {
-    $("#myModal").hide();
-    $("#holdPopup").hide();
-    $("#filePopup").hide();
-    $("#notePopup").hide();
+    $("#myModal").modal('hide');
+    $("#holdPopup").modal('hide');
+    $("#filePopup").modal('hide');
+    $("#notePopup").modal('hide');
 
   })
 
