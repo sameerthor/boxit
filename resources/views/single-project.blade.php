@@ -1123,6 +1123,7 @@
 </style>
 <script>
   function refreshpage() {
+    $(".modal").modal('hide');
     var id = "<?php echo $project->id; ?>";
 
     jQuery.ajax({
