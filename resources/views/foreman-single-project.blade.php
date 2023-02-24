@@ -732,7 +732,9 @@
                                                 Power Tools
                                             </td>
                                             <td>
-                                                M Ensure all electrical is tagged and made safeM - Check guards are in place
+                                                M Ensure all electrical is tagged and made safe
+                                                <br>
+                                                M - Check guards are in place
                                             </td>
                                             <td>
                                                 <input type="checkbox" value="1" <?php if (!empty($safety)) {
@@ -740,6 +742,12 @@
                                                                                             echo "checked";
                                                                                         }
                                                                                     }  ?> name="safety_plan[foundation]">
+                                                                                    <br>
+                                                 <input type="checkbox" value="1" <?php if (!empty($safety)) {
+                                                                                        if ($safety->foundation_guard == '1') {
+                                                                                            echo "checked";
+                                                                                        }
+                                                                                    }  ?> name="safety_plan[foundation_guard]">                                   
                                             </td>
 
                                         </tr>
@@ -890,7 +898,7 @@
                                             <th>Signature
                                             </th>
                                         </tr>
-                                        @if(!empty($safety))
+                                        @if(!empty($safety->induction_date))
                                         @for($key=1;$key<=count($safety->induction_date);$key++)
                                             <tr>
                                                 <td scope="row">
