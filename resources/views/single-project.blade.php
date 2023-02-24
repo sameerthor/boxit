@@ -805,7 +805,7 @@
                                                                 }
                                                               }  ?> name="safety_plan[foundation]">
                      <br>
-                                                 <input type="checkbox" value="1" <?php if (!empty($safety)) {
+                                                 <input type="checkbox" disabled value="1" <?php if (!empty($safety)) {
                                                                                         if ($safety->foundation_guard == '1') {
                                                                                             echo "checked";
                                                                                         }
