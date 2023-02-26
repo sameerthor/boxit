@@ -85,7 +85,11 @@
     background-color: #172b4d;
     color: #fff
   }
-
+ 
+  .switch input[type="radio"].pending:checked~label[for^="pending_"] {
+    background-color: #172b4d;
+    color: #fff
+  }
 
   input[type="range"] {
     width: 30px;
