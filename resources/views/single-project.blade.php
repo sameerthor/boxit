@@ -57,7 +57,7 @@
     cursor: pointer;
     text-transform: uppercase;
     border: 1px solid #3d4349;
-    width: 80px;
+    width: 95px;
     padding: 10px 0;
     text-align: center;
     display: inline-block;
@@ -275,8 +275,15 @@
                   $project_status= $label->ProjectStatus($project->id)->get();
                   if(count($project_status)>0)
                   {
-
-                  $stat=($project_status[0]->status==1)?'<div class="green_box status_label">'.($label->id=="10"?"Passed":"Yes").'</div>':'<div class="red_box status_label">'.($label->id=="10" || $label->id=="9" ?$label->id=="10"?"Failed":"NA":"No").'</div>';
+                  if($project_status[0]->status==0)
+                  {
+                  $stat='<div class="red_box status_label">'.($label->id=="10" || $label->id=="9" || $label->id=="8"?"Failed":"No").'</div>';
+                  }elseif($project_status[0]->status==1)
+                  {
+                  $stat='<div class="green_box status_label">'.($label->id=="10" || $label->id=="9" || $label->id=="8"?"Passed":"Yes").'</div>';
+                  }else{
+                  $stat='<div class="green_box status_label">PASSED WITH CONDITIONS</div>';
+                  }
                   }else
                   {
                   $stat='<div class="orange_box status_label">Pending</div>';
@@ -296,21 +303,32 @@
                       {
                       $yes_checked=$project_status[0]->status==1?'checked':'';
                       $no_checked=$project_status[0]->status==0?'checked':'';
+                      $pending_checked=$project_status[0]->status==3?'checked':'';
+                      $notes=$project_status[0]->notes;
                       }else
                       {
                       $yes_checked="";
                       $no_checked="";
+                      $pending_checked="";
+                      $notes="";
                       }
                       @endphp
                       <div class="switch" style="display: none;">
                         <input type="radio" {{$yes_checked}} class="project_status yes" id="yes_{{$label->id}}" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="1">
                         <label class="radio_label" for="yes_{{$label->id}}">{{$label->id=="10"?"Passed":"Yes"}}</label>
                         <input type="radio" {{$no_checked}} id="no_{{$label->id}}" class="project_status no" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="0">
-                        <label class="radio_label" for="no_{{$label->id}}">{{$label->id=="10" || $label->id=="9" ? $label->id=="10"?"Failed":"NA":"No"}}</label>
+                        <label class="radio_label" for="no_{{$label->id}}">{{$label->id=="10" || $label->id=="9" || $label->id=="8" ?"Failed":"No"}}</label>
+                        @if($label->id=="10" || $label->id=="8" || $label->id=="9")
+                        <input type="radio" {{$pending_checked}} data-notes="{{$notes}}" id="pending_{{$label->id}}" class="project_status pending" data-id="{{$label->id}}" data-project="{{$project->id}}" name="status[{{$label->id}}]" value="3">
+                        <label class="radio_label" for="pending_{{$label->id}}">PASSED WITH CONDITIONS</label>
+                        @endif
                         @if(count($project_status)>0)
                         {!!$project_status[0]->reason!=''?'<a href="#" data-toggle="tooltip" title="'.$project_status[0]->reason.'"><i class="fa fa-eye"></i></a>':''!!}
                         @endif
                       </div>
+                      @if($pending_checked == 'checked')
+                      <span data-notes="{{$notes}}" data-label="{{$label->id}}" data-id="{{$project->id}}" class="status_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+                      @endif
                     </td>
                   </tr>
                   @endforeach
@@ -795,6 +813,12 @@
                                                                   echo "checked";
                                                                 }
                                                               }  ?> name="safety_plan[foundation]">
+                    <br>
+                    <input type="checkbox" disabled value="1" <?php if (!empty($safety)) {
+                                                                if ($safety->foundation_guard == '1') {
+                                                                  echo "checked";
+                                                                }
+                                                              }  ?> name="safety_plan[foundation_guard]">
                   </td>
 
                 </tr>
@@ -986,119 +1010,138 @@
   </div>
 </div>
 
-  <!-- Modal -->
-  <div class="modal" id="myModal" role="dialog">
-    <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal" id="myModal" role="dialog">
+  <div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Revised Date</h4>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Revised Date</h4>
+      </div>
+      <div class="modal-body">
+
+        <div id="deny_text">
+          <p>Please suggest an alternate option below:</p>
+          <div class="row flex-d">
+            <input type="text" placeholder="date/time" class="example form-control col-md-5" name="date">
+            <div class="col-md-1"></div>
+            <div class="col-md-6"><input class="check-b-size" type="checkbox" name="confirm" value="1"> <label style="font-size: 10px;font-weight: bold;">Do not send a change request email</label></div>
+          </div>
         </div>
-        <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn mr-auto btn-secondary btn-sm new_email" data-id="1">New Mail</button>
+        <button type="button" class="btn btn-secondary btn-sm save_date" data-id="1">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+      </div>
+    </div>
 
-          <div id="deny_text">
-            <p>Please suggest an alternate option below:</p>
-            <div class="row flex-d">
-              <input type="text" placeholder="date/time" class="example form-control col-md-5" name="date">
-              <div class="col-md-1"></div>
-              <div class="col-md-6"><input class="check-b-size" type="checkbox" name="confirm" value="1"> <label style="font-size: 10px;font-weight: bold;">Do not send a change request email</label></div>
+  </div>
+</div>
+<div class="modal" id="holdPopup" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Hold Project</h4>
+      </div>
+      <div class="modal-body">
+
+        <div id="deny_text">
+          <p>Are you sure you want to change the status for this department to “On Hold”?</p>
+          <div class="row flex-d">
+            <textarea name="hold" placeholder="Reason"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm confirm_hold" data-id="1">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal" id="notePopup" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Note</h4>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <textarea name="note" rows="8" class="form-control" id="department_note" placeholder="Please enter note here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" id="save_department_note" data-id="1">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal" id="passedPopup" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Note</h4>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <textarea name="note" rows="8" class="form-control" id="passed_note" placeholder="Please enter note here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-label="" id="save_passed_note" data-id="1">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal" id="filePopup" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Upload Files</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="fileUploadForm">
+          <input type="hidden" name="id" value="{{$project->id}}">
+          <div class="row">
+            <div class="form-group increment col-md-12 bg-shadow">
+              <input type="file" style="padding-top: 6px !important; padding-left:10px !important;" name="file_upload[]" class="myfrm form-control">
+              <div class="add_html" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn mr-auto btn-secondary btn-sm new_email" data-id="1">New Mail</button>
-          <button type="button" class="btn btn-secondary btn-sm save_date" data-id="1">Save</button>
-          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="modal" id="holdPopup" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Hold Project</h4>
-        </div>
-        <div class="modal-body">
-
-          <div id="deny_text">
-            <p>Are you sure you want to change the status for this department to “On Hold”?</p>
-            <div class="row flex-d">
-              <textarea name="hold" placeholder="Reason"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm confirm_hold" data-id="1">Save</button>
-          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="modal" id="notePopup"  role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add Note</h4>
-        </div>
-        <div class="modal-body">
-          <div class="">
-            <textarea name="note" rows="8" class="form-control" id="department_note" placeholder="Please enter note here..."></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="save_department_note" data-id="1">Save</button>
-          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="modal" id="filePopup" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Upload Files</h4>
-        </div>
-        <div class="modal-body">
-          <form method="post" id="fileUploadForm">
-            <input type="hidden" name="id" value="{{$project->id}}">
-            <div class="row">
-              <div class="form-group increment col-md-12 bg-shadow">
-                <input type="file" style="padding-top: 6px !important; padding-left:10px !important;" name="file_upload[]" class="myfrm form-control">
-                <div class="add_html" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
-              </div>
-              <div class="clone hide" style="display:none">
-                <div class="hdtuto control-group lst input-group" style="margin-top:10px">
-                  <input type="file" name="file_upload[]" style="padding-top: 6px !important; padding-left:10px !important; " class="myfrm form-control">
-                  <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
-                  </div>
+            <div class="clone hide" style="display:none">
+              <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                <input type="file" name="file_upload[]" style="padding-top: 6px !important; padding-left:10px !important; " class="myfrm form-control">
+                <div class="remove" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
               </div>
-
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm update_file">Save</button>
-          <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
-        </div>
-      </div>
 
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm update_file">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+      </div>
     </div>
+
   </div>
+</div>
 
 <style>
- 
   .tooltip-inner {
     color: #172B4D;
     background-color: #ffffff;
@@ -1226,7 +1269,7 @@
     var status = $(this).val();
     var status_label_id = $(this).data('id');
     var project_id = $(this).data('project');
-
+    var ele=$(this);
     Swal.fire({
       title: "Are you sure you want to change the status?",
       icon: "warning",
@@ -1238,7 +1281,15 @@
       dangerMode: true,
     }).then(function(result) {
       if (result.isConfirmed) {
-
+        if(status==3)
+        {
+          console.log(ele.data('notes'));
+           $("#passedPopup").modal("show");
+           $("#passed_note").val(ele.data('notes'));
+           $("#save_passed_note").data('id',project_id);
+           $("#save_passed_note").data('label',status_label_id);
+           return false;
+        } 
         jQuery.ajax({
           url: "{{ url('/change-project-status') }}",
           method: 'post',
@@ -1470,11 +1521,14 @@
 
   $("#save_department_note").on("click", function() {
     var note = $("#department_note").val();
-    var id=$(this).data('id')
+    var id = $(this).data('id')
     $.ajax({
       url: "{{ url('/save-note') }}",
       method: "post",
-      data: {note:note,id:id},
+      data: {
+        note: note,
+        id: id
+      },
       success: function(id) {
         Toast.fire({
           icon: 'success',
@@ -1485,5 +1539,36 @@
       }
     });
   })
-  
+
+$("#save_passed_note").click(function(){
+  var status=3;
+  var project_id=$(this).data('id');
+  var status_label_id=$(this).data('label');;
+  var notes=$("#passed_note").val();
+  jQuery.ajax({
+          url: "{{ url('/change-project-status') }}",
+          method: 'post',
+          data: {
+            project_id: project_id,
+            status: status,
+            status_label_id: status_label_id,
+            notes:notes
+          },
+          success: function(result) {
+            Toast.fire({
+              icon: 'success',
+              title: "Status changed successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
+          }
+        });
+});
+$(".status_notes").click(function(){
+  $("#passedPopup").modal("show");
+  $("#passed_note").val($(this).data('notes'));
+           $("#save_passed_note").data('id',$(this).data('id'));
+           $("#save_passed_note").data('label',$(this).data('label'));
+})
+
 </script>
