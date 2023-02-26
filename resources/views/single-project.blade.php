@@ -84,12 +84,19 @@
     background-color: #172b4d;
     color: #fff
   }
- 
+  .switch[style*='display: none'] ~ span.status_notes {
+    position: absolute;
+    margin-top: -26px !important;
+    margin-left: -50px;
+}
   .switch input[type="radio"].pending:checked~label[for^="pending_"] {
     background-color: #172b4d;
     color: #fff
   }
 
+  .switch input[type="radio"].pending~label[for^="pending_"] {
+    width: 220px;
+  }
   input[type="range"] {
     width: 30px;
   }
@@ -1102,7 +1109,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-label="" id="save_passed_note" data-id="1">Save</button>
+        <button type="button" class="btn condition_note btn-secondary btn-sm" data-label="" id="save_passed_note" data-id="1">Save</button>
+        <button type="button" data-note="" id="unsave_passed_note" class="btn condition_note btn-secondary btn-sm">Cancel</button>
       </div>
     </div>
 
@@ -1273,7 +1281,7 @@
     var status = $(this).val();
     var status_label_id = $(this).data('id');
     var project_id = $(this).data('project');
-    var ele=$(this);
+    var ele = $(this);
     Swal.fire({
       title: "Are you sure you want to change the status?",
       icon: "warning",
@@ -1285,15 +1293,15 @@
       dangerMode: true,
     }).then(function(result) {
       if (result.isConfirmed) {
-        if(status==3)
-        {
+        if (status == 3) {
           console.log(ele.data('notes'));
-           $("#passedPopup").modal("show");
-           $("#passed_note").val(ele.data('notes'));
-           $("#save_passed_note").data('id',project_id);
-           $("#save_passed_note").data('label',status_label_id);
-           return false;
-        } 
+          $("#passedPopup").modal("show");
+          $("#passed_note").val(ele.data('notes'));
+          $("#unsave_passed_note").data('note', ele.data('notes'));
+          $(".condition_note").data('id', project_id);
+          $(".condition_note").data('label', status_label_id);
+          return false;
+        }
         jQuery.ajax({
           url: "{{ url('/change-project-status') }}",
           method: 'post',
@@ -1544,35 +1552,41 @@
     });
   })
 
-$("#save_passed_note").click(function(){
-  var status=3;
-  var project_id=$(this).data('id');
-  var status_label_id=$(this).data('label');;
-  var notes=$("#passed_note").val();
-  jQuery.ajax({
-          url: "{{ url('/change-project-status') }}",
-          method: 'post',
-          data: {
-            project_id: project_id,
-            status: status,
-            status_label_id: status_label_id,
-            notes:notes
-          },
-          success: function(result) {
-            Toast.fire({
-              icon: 'success',
-              title: "Status changed successfuly."
-            }).then(function(result) {
-              refreshpage();
-            });
-          }
+  $("#save_passed_note,#unsave_passed_note").click(function() {
+    var msg = "Note saved successfuly";
+    var status = 3;
+    var project_id = $(this).data('id');
+    var status_label_id = $(this).data('label');;
+    var notes = $("#passed_note").val();
+    if ($(this).is("#unsave_passed_note")) {
+      var msg = "Status changed successfuly";
+      var notes = $(this).data('note');;
+      $(this).modal("hide")
+    }
+    jQuery.ajax({
+      url: "{{ url('/change-project-status') }}",
+      method: 'post',
+      data: {
+        project_id: project_id,
+        status: status,
+        status_label_id: status_label_id,
+        notes: notes
+      },
+      success: function(result) {
+        Toast.fire({
+          icon: 'success',
+          title: msg
+        }).then(function(result) {
+          refreshpage();
         });
-});
-$(".status_notes").click(function(){
-  $("#passedPopup").modal("show");
-  $("#passed_note").val($(this).data('notes'));
-           $("#save_passed_note").data('id',$(this).data('id'));
-           $("#save_passed_note").data('label',$(this).data('label'));
-})
-
+      }
+    });
+  });
+  $(".status_notes").click(function() {
+    $("#passedPopup").modal("show");
+    $("#passed_note").val($(this).data('notes'));
+    $("#unsave_passed_note").data('note',$(this).data('notes'));
+    $(".condition_note").data('id', $(this).data('id'));
+    $(".condition_note").data('label', $(this).data('label'));
+  })
 </script>
