@@ -1151,6 +1151,7 @@
 <script>
   function refreshpage() {
     var id = "<?php echo $project->id; ?>";
+    $(".modal").modal('hide');
 
     jQuery.ajax({
       url: "{{ url('/single-project') }}",
