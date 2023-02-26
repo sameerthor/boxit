@@ -68,7 +68,6 @@
   .switch {
     display: inline-block;
     z-index: 1;
-    float: right;
   }
 
   .switch input[type="radio"] {
