@@ -24,7 +24,7 @@ use App\Models\PodsSteel;
 use App\Models\PodsSteelValue;
 use Auth;
 use Twilio\Rest\Client;
-use DB;
+use App\Models\Contact;
 
 class ForemanController extends Controller
 {
@@ -305,7 +305,7 @@ class ForemanController extends Controller
 
     public function check_list()
     {
-        $projects = Booking::where(array('foreman_id' => Auth::id()))->get();
+        $projects = Booking::all();
         return view('foreman-project', compact('projects'));
     }
 
@@ -327,7 +327,8 @@ class ForemanController extends Controller
                 ->orWhereIn('department_id', $department_ids);
         })
             ->get();
-        return view('foreman-single-project', compact('incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        $contacts=Contact::all();          
+        return view('foreman-single-project', compact('contacts','incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)
@@ -439,6 +440,10 @@ class ForemanController extends Controller
         } else {
             $data['reason'] = '';
         }
+       if($request->get('status') == '3')
+       {
+        $data['notes'] = $request->get('notes'); 
+       }
 
         ProjectStatus::updateOrCreate($matchThese, $data);
         $email_template = ForemanTemplates::where(array('status' => $request->get('status'), 'project_status_label_id' => $request->get('status_label_id')))->get();

@@ -1,6 +1,5 @@
 <style>
-    @import "bourbon";
-    .increment{
+      .increment {
     padding: 2px 8px 2px 14px;
     border: 1px solid black;
     border-radius: 11px;
@@ -8,6 +7,46 @@
 
   }
 
+  .green_box {
+    background: #F1FFE9;
+    color: #16DB65 !important;
+    text-align: center;
+  }
+
+  .orange_box {
+    background: #FCF0E4;
+    color: #F79256 !important;
+    text-align: center;
+  }
+
+  .red_box {
+    background: #FCEEEC;
+    color: #FF5A5F;
+    text-align: center;
+  }
+
+  .red_box a {
+    color: #FF5A5F;
+  }
+
+  td.status_pause span {
+    margin-top: 2px;
+    margin-right: -10px;
+    margin-left: 10px;
+  }
+
+  td.status_pause {
+    display: flex;
+  }
+
+  #project-form-d .orange_box,
+  .red_box,
+  .green_box {
+    padding: 4px;
+    width: 80%;
+  }
+
+    @import "bourbon";
     .cd-switch {
         padding: 50px 0;
         text-align: center;
@@ -63,8 +102,7 @@
         width: 100%;
     }
 
-    .qa_checklist td,
-    th {
+    .qa_checklist td, .qa_checklist th {
         border: 1px solid #c9ced6;
         text-align: left;
         padding: 8px;
@@ -145,7 +183,7 @@
         </div>
     </div>
 </div>
-<div class="card-new">
+<div id="project-form-d" class="card-new">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
@@ -160,21 +198,81 @@
         </div>
 
         <br />
-        @if(!empty($project->file))
-        <div class="form-group col-md-12 l-font-s">
-        <label>Files</label> 
+       
+    <div class="row">
+      <div class="form-group col-md-6 l-font-s">
+        <label>BCN</label>
+        <p class="view_item">{{$project->bcn==''?'NA':$project->bcn}}</p>
+      </div>
+      <div class="form-group col-md-6 l-font-s">
+        <label>Address</label>
+        <p class="view_item">{{$project->address}}</p>
+      </div>
+      <div class="form-group col-md-6 l-font-s">
+        <label>Building Company</label>
+        <p class="view_item">{{$project->BookingData[0]->contact->title}}</p>
+      </div>
+      <div class="form-group col-md-6 l-font-s">
+        <label>Floor Type</label>
+        <p class="view_item">{{$project->floor_type}}</p>
+      </div>
+      <div class="form-group col-md-6 l-font-s">
+        <label>Floor Area</label>
+        <p class="view_item">{{$project->floor_area}}</p>
+      </div>
+      <div class="form-group col-md-6 l-font-s">
+        <label>Notes</label>
+        <p class="view_item">{{$project->notes}}</p>
+      </div>
+      <div class="form-group col-md-12 l-font-s">
+        <label>File</label>
         <br />
         <div class="row">
-        @foreach($project->file as $f)
-        <div class="form-group increment col-md-6 bg-shadow">
-          <label>{{$f}}</label>
-          <div style="float: right;"><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 10px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
-  
-            </div>
-        @endforeach
+          @foreach($project->file as $f)
+          <div class="col-md-4">
+            <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
+            </a>
+          </div>
+          @endforeach
         </div>
       </div>
-      @endif
+    </div>
+    <h4 class="paid-left">Booking Status</h4>
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Department</th>
+          <th>Contact</th>
+          <th>Date</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($project->BookingData->slice(1) as $res)
+        <tr>
+          <td>{{$loop->iteration}}</td>
+          <td>{{$res->department->title}}</td>
+          <td>
+            <span class="contact_label"> {{$res->contact?->title}}</span>
+          </td>
+          <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
+          <td class="status_pause">@if($res->status=='0')
+            <div class="orange_box">Pending</div>
+            @elseif($res->status=='1')
+            <div class="green_box">Confirmed</div>
+            @elseif($res->status=='2')
+            <div class="red_box"><a href="#" @if(!empty($res->onhold_reason)) data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" @endif style="text-decoration:none">On hold</a></div>
+            @else
+            <div class="orange_box">Pending</div>
+            @endif
+            <span data-toggle="tooltip" title="{{$res->notes}}"  class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+    <br>
         <br />
         <div class="row">
             <div class="col-md-12">

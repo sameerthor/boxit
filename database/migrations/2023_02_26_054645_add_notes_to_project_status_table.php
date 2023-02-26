@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ProjectStatusValue extends Migration
+class AddNotesToProjectStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class ProjectStatusValue extends Migration
      */
     public function up()
     {
-        Schema::create('project_status', function (Blueprint $table) {
-            $table->id();
-            $table->Integer("project_id");
-            $table->Integer("status_label_id");
-            $table->enum('status', ['0', '1','3']);
-            $table->timestamps();
+        Schema::table('project_status', function (Blueprint $table) {
+            $table->text('notes')->nullable();
         });
     }
 

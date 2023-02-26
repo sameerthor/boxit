@@ -13,7 +13,7 @@ class ProjectStatus extends Model
     protected $table = 'project_status';
 
     protected $fillable = [
-        'project_id', 'status_label_id', 'status','reason'
+        'project_id', 'status_label_id', 'status','reason','notes'
     ];
 
 }
