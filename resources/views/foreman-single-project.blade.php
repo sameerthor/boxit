@@ -229,11 +229,11 @@
         <br />
         <div class="row">
           @foreach($project->file as $f)
-          <div class="col-md-4">
+          <div class="col-md-4" style="margin-top:20px;">
             <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
             </a>
             <br>
-            <a download href="/images/{{$f}}">Download</a>
+            <a download class="btn btn btn-sm btn-info btn-color" href="/images/{{$f}}">Download</a>
           </div>
           @endforeach
         </div>
