@@ -102,6 +102,15 @@
   })
   $(".yes,.submit").click(function() {
     var confirm = $(this).data('id');
+    if(confirm==2)
+    {
+      
+      if($("input[name='date1']").val()=="" && $("input[name='date2']").val()=="" && $("input[name='date3']").val()=="")
+      {
+      alert("please select any date.");
+      return false;
+      }
+    }
     jQuery.ajax({
       type: 'POST',
       url: "{{ route('mail.reply') }}",
@@ -113,7 +122,7 @@
         date3: $("input[name='date3']").val()
       },
       success: function(data) {
-        window.location.reload();
+        //window.location.reload();
       }
     });
   });

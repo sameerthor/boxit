@@ -84,6 +84,14 @@
   })
   $(".yes,.submit").click(function() {
     var confirm = $(this).data('id');
+    if(confirm==2)
+    {
+      if($("input[name='date']").val()=="")
+      {
+      alert("please select any date.");
+      return false;
+      }
+    }
     jQuery.ajax({
       type: 'POST',
       url: "{{ route('admin.reply') }}",
