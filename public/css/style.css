@@ -1944,3 +1944,7 @@ form#safety_form tbody#induction_body button {
   margin-top: -20px !important;
   margin-left: 10px !important;
 }
+
+.cal-days li{
+ cursor: pointer;
+}

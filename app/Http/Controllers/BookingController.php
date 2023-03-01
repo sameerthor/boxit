@@ -10,6 +10,7 @@ use App\Models\BookingData;
 use App\Models\Draft;
 use App\Models\DraftData;
 use App\Jobs\BookingEmailJob;
+use App\Models\foremanNote;
 use App\Mail\BookingMail;
 use App\Models\MailTemplate;
 use App\Models\Contact;
@@ -17,6 +18,7 @@ use App\Models\Notification;
 use Exception;
 use Session;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Twilio\Rest\Client;
 
@@ -803,5 +805,15 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $res->date = date('Y-m-d H:i:s', strtotime($res->date));
             $res->save();
         }
+    }
+
+    public function store_foreman_notes(Request $request)
+    {
+         $id=$request->get('id');
+         $date=Carbon::parse($request->get('date'))->toDateTimeString();
+         $notes=$request->get('notes');
+         $matchThese = ['foreman_id'=>$id,'date'=>$date];
+         foremanNote::updateOrCreate($matchThese,['notes'=>$notes,'given_by'=>Auth::id()]);
+         return true;
     }
 }

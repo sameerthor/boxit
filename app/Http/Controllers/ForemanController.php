@@ -17,9 +17,11 @@ use App\Models\ForemanTemplates;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
 use App\Models\Incident;
+use App\Models\foremanNote;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
 use App\Models\QaSign;
+use Carbon\Carbon;
 use App\Models\PodsSteel;
 use App\Models\PodsSteelValue;
 use Auth;
@@ -491,5 +493,16 @@ class ForemanController extends Controller
         $post_data = $data['safety_plan'];
         SafetyPlan::updateOrCreate(['project_id' => $request->get('project_id')], $post_data);
         return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
+    }
+
+    public function foreman_notes(Request $request)
+    {
+         $id=$request->get('id');
+         $date=Carbon::parse($request->get('date'))->toDateTimeString();
+         $res=foremanNote::where(array('foreman_id'=>$id))->whereDate('date',$date)->get();
+         $notes="";
+         if(count($res)>0)
+         $notes=$res[0]->notes;  
+         return $notes;
     }
 }
