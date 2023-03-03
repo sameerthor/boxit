@@ -122,7 +122,7 @@
         date3: $("input[name='date3']").val()
       },
       success: function(data) {
-        //window.location.reload();
+        window.location.reload();
       }
     });
   });
