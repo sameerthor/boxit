@@ -334,7 +334,7 @@ class ForemanController extends Controller
         } else {
             $projects = Booking::all();
         }
-        return view('foreman-project', compact('projects'));
+        return view('foreman-project', compact('projects', 'months'));
     }
 
     public function renderproject(Request $request)
