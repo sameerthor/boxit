@@ -1505,7 +1505,7 @@
       }
     });
     jQuery.ajax({
-      url: "{{ url('/projects') }}",
+      url: window.location.href,
       method: 'get',
       success: function(result) {
         var ele = $(result);

@@ -307,7 +307,31 @@ class ForemanController extends Controller
 
     public function check_list()
     {
-        $projects = Booking::all();
+        $months = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $months[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+        }
+        if (!empty(request('q')) || !empty(request('completed_projects')) || !empty(request('month')) || !empty(request('year'))) {
+            DB::enableQueryLog();
+
+            $projects =  Booking::whereHas('BookingData', function ($query) {
+                if (!empty(request('year')))
+                    $query->whereYear('created_at', '=', request('year'));
+                if (!empty(request('month')))
+                    $query->whereMonth('created_at', '=', request('month'));
+            });
+            $projects = $projects->whereHas('PassedProjectStatus', function ($query) {
+                if (!empty(request('completed_projects')))
+                    $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
+            });
+
+            if (!empty(request('q')))
+                $projects = $projects->where('address', 'like', '%' . request('q') . '%');
+           
+                $projects = $projects->get();
+        } else {
+            $projects = Booking::all();
+        }
         return view('foreman-project', compact('projects'));
     }
 

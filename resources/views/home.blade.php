@@ -91,7 +91,7 @@
 							<tr>
 								<th scope="row">{{$loop->iteration}}</th>
 								<td>{{$foreman->name}}</td>
-								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><i class="fa fa-eye fa-lg"></i></span></td>
+								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><img src="{{asset('img/edit-box-fill.png')}}"></span></td>
 							</tr>
 							@endforeach
 						</tbody>

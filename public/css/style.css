@@ -1948,3 +1948,7 @@ form#safety_form tbody#induction_body button {
 .cal-days li{
  cursor: pointer;
 }
+
+#foremanModal .modal-content{
+  height: 90vh;
+}
