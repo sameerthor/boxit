@@ -25,43 +25,46 @@
         <div class="col-md-6">
         </div>
         <div class="col-md-6">
-          <form method="get" action="{{url('projects')}}">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" <?php if (request()->get('completed_projects') == 1) {
-                                                                    echo "checked";
-                                                                  } ?> name="completed_projects" value="1" id="completedProject">
-                  <label class="form-check-label" for="completedProject">
-                    Completed Projects
-                  </label>
+        <form method="get" id="filterForm" action="{{url('projects')}}">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" <?php if (request()->get('completed_projects') == 1) {
+                                                                      echo "checked";
+                                                                    } ?> name="completed_projects" value="1" id="completedProject">
+                    <label class="form-check-label" for="completedProject">
+                      Completed Projects
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-control" name="month">
+                    <option value="">Month</option>
+                    @foreach($months as $key=>$val)
+                    <option <?php if (request()->get('month') == $key + 1) {
+                              echo "selected";
+                            } ?> value="{{$key+1}}">{{$val}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-control" name="year">
+                    <option value="">Year</option>
+                    @for($i=date("Y");$i>=2022;$i--)
+                    <option <?php if (request()->get('year') == $i) {
+                              echo "selected";
+                            } ?> value="{{$i}}">{{$i}}</option>
+                    @endfor
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-info btn-color">FILTER</button>
+                  @if(!empty(request()->get('completed_projects')) || !empty(request()->get('month')) || !empty(request()->get('year')))
+                  <span onclick="window.location.href=window.location.pathname"><i class="fa fa-times fa-lg" aria-hidden="true"></i></span>
+                 @endif
                 </div>
               </div>
-              <div class="col-md-3">
-                <select class="form-control" name="month">
-                  <option value="">Month</option>
-                  @foreach($months as $key=>$val)
-                  <option <?php if (request()->get('month') == $key + 1) {
-                            echo "selected";
-                          } ?> value="{{$key+1}}">{{$val}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-md-3">
-                <select class="form-control" name="year">
-                  <option value="">Year</option>
-                  @for($i=date("Y");$i>=1970;$i--)
-                  <option <?php if (request()->get('year') == $i) {
-                            echo "selected";
-                          } ?> value="{{$i}}">{{$i}}</option>
-                  @endfor
-                </select>
-              </div>
-              <div class="col-md-2">
-                <button type="submit" class="btn btn-info btn-color">FILTER</button>
-              </div>
-            </div>
-          </form>
+            </form>
         </div>
       </div>
       <div class="card-body">
@@ -111,6 +114,14 @@
         jQuery('.main').html(result);
       }
     });
+  })
+
+  $("#filterForm").on("submit",function(e){
+    if($("select[name='month']").val()!='' && $("select[name='year']").val()=='')
+    {
+      alert("Please select year.")
+      e.preventDefault();
+    }
   })
 </script>
 @endsection
