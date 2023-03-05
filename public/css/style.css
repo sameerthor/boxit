@@ -1952,3 +1952,9 @@ form#safety_form tbody#induction_body button {
 #foremanModal .modal-content{
   height: 90vh;
 }
+
+span.foreman_notes_edit {
+
+  cursor: pointer;
+
+}
