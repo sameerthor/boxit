@@ -64,32 +64,31 @@
           </form>
         </div>
       </div>
-      @if(count($projects)>0)
-      <table class="table table-stripped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th class="t-center">Action</th>
+      <div class="card-body">
+        @if(count($projects)>0)
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th class="t-center">Action</th>
 
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($projects as $project)
-          <tr>
-            <td>{{$loop->iteration}}</td>
-            <td>{{$project->address}}</td>
-            <td class="t-center">
-              <a href="javascript:void(0)" data-id="{{$project->id}}" class="btn btn-sm btn-outline-success details"><i class='fa fa-edit'></i></a>
-            </td>
-          </tr>
-          @endforeach
-          @else
-          <p>No Project is available.</p>
-        </tbody>
-      </table>
-      @endif
-
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($projects as $project)
+            <tr>
+              <td>{{$project->address}}</td>
+              <td class="t-center">
+                <a href="javascript:void(0)" data-id="{{$project->id}}" class="btn btn-sm btn-outline-success details"><i class='fa fa-edit'></i></a>
+              </td>
+            </tr>
+            @endforeach
+            @else
+            <p>No Project is available.</p>
+          </tbody>
+        </table>
+        @endif
+      </div>
     </div>
   </div>
 </div>
