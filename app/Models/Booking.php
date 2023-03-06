@@ -62,7 +62,7 @@ class Booking extends Model
 
     public function PassedProjectStatus()
     {
-        return $this->ProjectStatus()->where('status','1');
+        return $this->ProjectStatus()->where('status','1')->orWhere('status','3');;
     }
 
     public function SafetyPlan()
