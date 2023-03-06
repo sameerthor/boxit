@@ -9,7 +9,7 @@
   .fa.fa-times:before {
     color: red;
   }
-  #completed_button{
+  .completed_button a{
    
     border: 2px solid #182a4e;
     background-color: #fff;
@@ -41,12 +41,12 @@
           <div class="col-md-6">
             <form method="get" id="filterForm" action="{{url('projects')}}">
               <div class="row">
-                <div class="col-md-4">
-                 <a href="{{url('projects')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}" id="completed_button">Completed Projects</a>
+                <div class="col-md-4 completed_button">
+                 <a href="{{url('projects')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}" >Completed Projects</a>
                  <input type="text" style="display:none" name="completed_projects" value="{{request()->get('completed_projects')}}" >
                 </div>
-                <div class="col-md-3">
-                  <select class="form-control" name="month" id="month">
+                <div class="col-md-3 month">
+                  <select class="form-control" name="month">
                     <option value="">Month</option>
                     @foreach($months as $key=>$val)
                     <option <?php if (request()->get('month') == $key + 1) {
@@ -55,8 +55,8 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="col-md-2">
-                  <select class="form-control" name="year" id="year">
+                <div class="col-md-2 year">
+                  <select class="form-control" name="year">
                     <option value="">Year</option>
                     @for($i=date("Y");$i>=2022;$i--)
                     <option <?php if (request()->get('year') == $i) {
@@ -65,8 +65,8 @@
                     @endfor
                   </select>
                 </div>
-                <div class="col-md-3">
-                  <button type="submit" id="filter_button" class="btn btn-info btn-color">FILTER</button>
+                <div class="col-md-3 filter_button">
+                  <button type="submit" class="btn btn-info btn-color">FILTER</button>
                   @if(!empty(request()->get('completed_projects')) || !empty(request()->get('month')) || !empty(request()->get('year')))
                   <span onclick="window.location.href=window.location.pathname"><i class="fa fa-times fa-lg" aria-hidden="true"></i></span>
                  @endif
