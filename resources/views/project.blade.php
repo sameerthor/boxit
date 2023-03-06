@@ -9,6 +9,20 @@
   .fa.fa-times:before {
     color: red;
   }
+  #completed_button{
+   
+    border: 2px solid #182a4e;
+    background-color: #fff;
+    color: #182a4e;
+    border-radius: 3px;
+    padding: 5px;
+    padding-left: 7%;
+    text-decoration: none;
+  }
+  .active_completed_button{
+    background-color: #182a4e !important;
+    color: white !important;
+  }
 </style>
 <div id="content">
   <div class="container main">
@@ -27,18 +41,12 @@
           <div class="col-md-6">
             <form method="get" id="filterForm" action="{{url('projects')}}">
               <div class="row">
-                <div class="col-md-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" <?php if (request()->get('completed_projects') == 1) {
-                                                                      echo "checked";
-                                                                    } ?> name="completed_projects" value="1" id="completedProject">
-                    <label class="form-check-label" for="completedProject">
-                      Completed Projects
-                    </label>
-                  </div>
+                <div class="col-md-4">
+                 <a href="{{url('projects')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}" id="completed_button">Completed Projects</a>
+                 <input type="text" style="display:none" name="completed_projects" value="{{request()->get('completed_projects')}}" >
                 </div>
                 <div class="col-md-3">
-                  <select class="form-control" name="month">
+                  <select class="form-control" name="month" id="month">
                     <option value="">Month</option>
                     @foreach($months as $key=>$val)
                     <option <?php if (request()->get('month') == $key + 1) {
@@ -47,8 +55,8 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="col-md-3">
-                  <select class="form-control" name="year">
+                <div class="col-md-2">
+                  <select class="form-control" name="year" id="year">
                     <option value="">Year</option>
                     @for($i=date("Y");$i>=2022;$i--)
                     <option <?php if (request()->get('year') == $i) {
@@ -58,7 +66,7 @@
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <button type="submit" class="btn btn-info btn-color">FILTER</button>
+                  <button type="submit" id="filter_button" class="btn btn-info btn-color">FILTER</button>
                   @if(!empty(request()->get('completed_projects')) || !empty(request()->get('month')) || !empty(request()->get('year')))
                   <span onclick="window.location.href=window.location.pathname"><i class="fa fa-times fa-lg" aria-hidden="true"></i></span>
                  @endif
