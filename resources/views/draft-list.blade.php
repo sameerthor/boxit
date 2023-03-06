@@ -18,7 +18,6 @@
         <table class="table table-stripped">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Title</th>
                     <th class="t-center">Action</th>
                    
@@ -27,7 +26,6 @@
             <tbody>
                 @foreach($drafts as $res)
                 <tr>
-                    <td>{{$loop->iteration}}</td>
                     <td>{{$res->address}}</td>
                     <td class="t-center">
                         <a href="/draft/{{$res->id}}"  class="btn btn-sm btn-outline-success"><i class='fa fa-edit'></i></a>

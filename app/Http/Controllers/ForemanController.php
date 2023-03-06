@@ -17,9 +17,11 @@ use App\Models\ForemanTemplates;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
 use App\Models\Incident;
+use App\Models\foremanNote;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
 use App\Models\QaSign;
+use Carbon\Carbon;
 use App\Models\PodsSteel;
 use App\Models\PodsSteelValue;
 use Auth;
@@ -305,8 +307,34 @@ class ForemanController extends Controller
 
     public function check_list()
     {
-        $projects = Booking::all();
-        return view('foreman-project', compact('projects'));
+        $months = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $months[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+        }
+        if (!empty(request('q')) || !empty(request('completed_projects')) || !empty(request('month')) || !empty(request('year'))) {
+
+            $projects = new Booking;
+
+            if (!empty(request('year')) || (!empty(request('month')))) {
+                $projects =  $projects->whereHas('BookingData', function ($query) {
+                    if (!empty(request('year')))
+                        $query->whereYear('created_at', '=', request('year'));
+                    if (!empty(request('month')))
+                        $query->whereMonth('created_at', '=', request('month'));
+                });
+            }
+            if (!empty(request('completed_projects'))) {
+                $projects = $projects->whereHas('PassedProjectStatus', function ($query) {
+                    $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
+                });
+            }
+            if (!empty(request('q')))
+                $projects = $projects->where('address', 'like', '%' . request('q') . '%');
+            $projects = $projects->get();
+        } else {
+            $projects = Booking::all();
+        }
+        return view('foreman-project', compact('projects', 'months'));
     }
 
     public function renderproject(Request $request)
@@ -327,8 +355,8 @@ class ForemanController extends Controller
                 ->orWhereIn('department_id', $department_ids);
         })
             ->get();
-        $contacts=Contact::all();          
-        return view('foreman-single-project', compact('contacts','incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        $contacts = Contact::all();
+        return view('foreman-single-project', compact('contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)
@@ -426,11 +454,10 @@ class ForemanController extends Controller
     }
 
     public function changeStatus(Request $request)
-    {   
-      
+    {
+
         $matchThese = ['project_id' => $request->get('project_id'), 'status_label_id' => $request->get('status_label_id')];
-        if($request->get('status')=="")
-        {
+        if ($request->get('status') == "") {
             ProjectStatus::where($matchThese)->delete();
             return true;
         }
@@ -440,10 +467,9 @@ class ForemanController extends Controller
         } else {
             $data['reason'] = '';
         }
-       if($request->get('status') == '3')
-       {
-        $data['notes'] = $request->get('notes'); 
-       }
+        if ($request->get('status') == '3') {
+            $data['notes'] = $request->get('notes');
+        }
 
         ProjectStatus::updateOrCreate($matchThese, $data);
         $email_template = ForemanTemplates::where(array('status' => $request->get('status'), 'project_status_label_id' => $request->get('status_label_id')))->get();
@@ -455,16 +481,16 @@ class ForemanController extends Controller
             dispatch(new BookingEmailJob($details));
         }
         if (($request->get('status_label_id') == '8' || $request->get('status_label_id') == '9' || $request->get('status_label_id') == '10') && $request->get('status') == '0') {
-            $address=Booking::find($request->get('project_id'))->address;     
-            $department_name=ProjectStatusLabel::find($request->get('status_label_id'))->label;   
-            $contacts=User::whereNotNull('contact')->whereHas("roles", function ($q) {
+            $address = Booking::find($request->get('project_id'))->address;
+            $department_name = ProjectStatusLabel::find($request->get('status_label_id'))->label;
+            $contacts = User::whereNotNull('contact')->whereHas("roles", function ($q) {
                 $q->where("name", "Project Manager");
-            })->orWhere('email','andy@boxitfoundations.co.nz')->get();
+            })->orWhere('email', 'andy@boxitfoundations.co.nz')->get();
             $account_sid = \config('const.twilio_sid');;
             $auth_token = \config('const.twilio_token');
             $twilio_number = "+16209129397";
             $client = new Client($account_sid, $auth_token);
-            
+
             foreach ($contacts as $contact) {
                 //echo $contact->contact;
                 try {
@@ -473,12 +499,12 @@ class ForemanController extends Controller
                         $contact->contact,
                         array(
                             'from' => $twilio_number,
-                            'body' => $department_name.' has been marked as FAILED for Project - '.$address
+                            'body' => $department_name . ' has been marked as FAILED for Project - ' . $address
                         )
                     );
                     //print_r($res);
                 } catch (Exception $e) {
-                     //$e->getMessage();
+                    //$e->getMessage();
                 }
             }
         }
@@ -491,5 +517,16 @@ class ForemanController extends Controller
         $post_data = $data['safety_plan'];
         SafetyPlan::updateOrCreate(['project_id' => $request->get('project_id')], $post_data);
         return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
+    }
+
+    public function foreman_notes(Request $request)
+    {
+        $id = $request->get('id');
+        $date = Carbon::parse($request->get('date'))->toDateTimeString();
+        $res = foremanNote::where(array('foreman_id' => $id))->whereDate('date', $date)->get();
+        $notes = "";
+        if (count($res) > 0)
+            $notes = $res[0]->notes;
+        return $notes;
     }
 }

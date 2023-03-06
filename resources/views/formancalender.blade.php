@@ -64,6 +64,24 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="foremanModal" tabindex="-1" role="dialog" aria-labelledby="foremanModalLabel" aria-hidden="true">
+	<div class="modal-dialog home_modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header  no-border">
+				<span class="modal-title" id="foremanModalLabel">
+					<h5>Note: <span>3 Mar 2023</span></h5>
+				</span>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">	
+				<div id="single_note">	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @desktop
 <style>
 	.modal-dialog {
@@ -306,7 +324,7 @@
 
 					<transition-group name="list" tag="ul" class="cal-days">
 
-						<li v-for="step in currentitem" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
+						<li v-for="step in currentitem" v-bind:data-date="step.date" class="foreman_notes_edit" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
 					</transition-group>
 
 				</div>
@@ -427,7 +445,7 @@
 		</div>
 
 		<transition-group name="list" tag="ul" class="cal-trans">
-			<li v-for="step in currentitem" :key="step.day">
+			<li v-for="step in currentitem" v-bind:data-date="step.date" class="foreman_notes_edit" :key="step.day">
 				<div class="d-flex mobile_calender_strip">
 					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']" style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
 					<div class="p-1  d-flex flex-column" v-if="mobile_calender.length-1 > 0" style="width:100%">
@@ -512,6 +530,7 @@
 		var d = new Date(year, month - 1, number);
 		this.day = number;
 		this.thisMonth = isThisMonth;
+		this.date = d.getDate() + " " + monthNames[(d.getMonth())] + " " + d.getFullYear();
 		if (d.setHours(0, 0, 0, 0) === (new Date()).setHours(0, 0, 0, 0))
 			this.today = 'yes';
 		else
@@ -715,5 +734,25 @@
 	$(document).on('click', '.close', function() {
 		$("#exampleModal").modal("hide");
 	})
+
+	$(document).on('click', '.foreman_notes_edit', function() {
+		$("#foremanModal").modal("show");
+		var id = <?php echo Auth::user()->id; ?>;
+		var date=$(this).data('date');
+		$("#foremanModalLabel").find("span").html(date);
+
+		axios.post('/foreman-notes', {
+				date: date,
+				id: id
+			})
+			.then((response) => {
+				if(response.data!="")
+				$("#single_note").html(response.data);
+				else
+				$("#single_note").html("<p>No note available for this date.</p>");
+
+			})
+	})
+
 </script>
 @endsection

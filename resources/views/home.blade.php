@@ -2,6 +2,9 @@
 
 @section('content')
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="/js/tinymce/js/tinymce/tinymce.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog home_modal" role="document">
 		<div class="modal-content">
@@ -59,6 +62,47 @@
 					<div class="card-new " style="margin-top: 12px;">
 
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="foremanModal" tabindex="-1" role="dialog" aria-labelledby="foremanModalLabel" aria-hidden="true">
+	<div class="modal-dialog home_modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header  no-border">
+				<span class="modal-title" id="foremanModalLabel">
+					<h5>Foreman Notes: <span>3 Mar 2023</span></h5>
+				</span>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div id="notes_list">
+					<table class="table able-striped">
+						<thead>
+							<th>S.No</th>
+							<th>Foreman</th>
+							<th>Action</th>
+						</thead>
+						<tbody>
+							@foreach($foremans as $foreman)
+							<tr>
+								<th scope="row">{{$loop->iteration}}</th>
+								<td>{{$foreman->name}}</td>
+								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><img src="{{asset('img/edit-box-fill.png')}}"></span></td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+				<div id="single_note" style="display:none">
+					<br>
+					<textarea id="note_editor"></textarea>
+					<br>
+					<button type="button" class="btn btn-secondary btn-color show_note_list">Back</button>
+					<button type="button" class="btn btn-secondary btn-color save_note" data-id="1">Save</button>
 				</div>
 			</div>
 		</div>
@@ -305,7 +349,7 @@
 
 					<transition-group name="list" tag="ul" class="cal-days">
 
-						<li v-for="step in currentitem" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
+						<li v-for="step in currentitem" v-bind:data-date="step.date" class="show_notes" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
 					</transition-group>
 
 				</div>
@@ -376,20 +420,22 @@
 		padding: 0;
 		margin: 0;
 	}
-	.show_booking {
-    padding: 3px;
-}
 
-div#weekly_calender li:nth-child(odd) {
-    background-color: #E5E9F3;
-}
-#weekly_calender
-{
-margin-left: 2%;
-}
-.mnth-style{
-padding: 0 20%;
-}
+	.show_booking {
+		padding: 3px;
+	}
+
+	div#weekly_calender li:nth-child(odd) {
+		background-color: #E5E9F3;
+	}
+
+	#weekly_calender {
+		margin-left: 2%;
+	}
+
+	.mnth-style {
+		padding: 0 20%;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -435,7 +481,7 @@ padding: 0 20%;
 
 		<transition-group name="list" tag="ul" class="cal-trans">
 			<li v-for="step in currentitem" :key="step.day">
-				<div class="d-flex mobile_calender_strip">
+				<div class="d-flex mobile_calender_strip show_notes">
 					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']" style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
 					<div class="p-1  d-flex flex-column" v-if="mobile_calender.length-1 > 0" style="width:100%">
 						<div class="p-2" v-for="booking in mobile_calender[step.day]" :key="date.day" v-html='booking'></div>
@@ -521,6 +567,7 @@ padding: 0 20%;
 		var daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		var d = new Date(year, month - 1, number);
 		this.day = number;
+		this.date = d.getDate() + " " + monthNames[(d.getMonth())] + " " + d.getFullYear();
 		this.thisMonth = isThisMonth;
 		if (d.setHours(0, 0, 0, 0) === (new Date()).setHours(0, 0, 0, 0))
 			this.today = 'yes';
@@ -649,10 +696,10 @@ padding: 0 20%;
 						.then((response) => {
 							var result = response.data;
 							for (let key in result) {
-								this.mobile_calender[key]=result[key]
+								this.mobile_calender[key] = result[key]
 								console.log(key, result[key]);
 							}
-							
+
 							// console.log(this.mobile_calender);
 						})
 
@@ -735,7 +782,70 @@ padding: 0 20%;
 			})
 	})
 	$(document).on('click', '.close', function() {
-		$("#exampleModal").modal("hide");
+		$(".modal").modal("hide");
 	})
+	$(document).on('click', '.show_notes', function() {
+		$("#single_note").hide();
+		$("#notes_list").show();
+		var date = $(this).data("date");
+		$("#foremanModalLabel").find("span").html(date);
+		$("#foremanModal").modal("show");
+
+	})
+	$(document).on('click', '.foreman_notes_edit', function() {
+		var date = $("#foremanModalLabel").find("span").html();
+		$("#single_note").show();
+		$("#notes_list").hide();
+		var id = $(this).data('id');
+		$(".save_note").attr('data-id', id)
+		axios.post('/foreman-notes', {
+				date: date,
+				id: id
+			})
+			.then((response) => {
+				tinymce.get('note_editor').setContent(response.data);
+
+			})
+	})
+
+	$(document).on('click', '.save_note', function() {
+		var notes = tinymce.get("note_editor").getContent();
+		var date = $("#foremanModalLabel").find("span").html();
+		var id = $(this).attr('data-id');
+		axios.post('/save-foreman-notes', {
+				date: date,
+				id: id,
+				notes: notes
+			})
+			.then((response) => {
+				Toast.fire({
+					icon: 'success',
+					title: "Note saved successfuly."
+				}).then(() => {
+					$("#single_note").hide();
+					$("#notes_list").show();
+				});
+
+			})
+	})
+
+	$(".show_note_list").click(function() {
+		$("#single_note").hide();
+		$("#notes_list").show();
+	})
+
+	tinymce.init({
+		selector: "#note_editor",
+		plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+		menubar: 'file edit view insert format tools table tc help',
+		toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+		autosave_ask_before_unload: true,
+		image_advtab: true,
+		height: 700,
+		image_caption: true,
+		toolbar_mode: 'sliding',
+		contextmenu: 'link image imagetools table configurepermanentpen',
+
+	});
 </script>
 @endsection

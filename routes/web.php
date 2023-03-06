@@ -33,11 +33,13 @@ Route::post('/vendor-calender-monthly', [App\Http\Controllers\ContactController:
 Route::post('/vendor-modal-data', [App\Http\Controllers\ContactController::class, 'modal_data']);
 
 Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
+Route::post('/foreman-notes', [App\Http\Controllers\ForemanController::class, 'foreman_notes']);
 
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
     Route::get('/new-email/{id}', [App\Http\Controllers\BookingController::class, 'new_booking_email']);
+    Route::post('/save-foreman-notes', [App\Http\Controllers\BookingController::class, 'store_foreman_notes']);
     Route::post('/hold-project', [App\Http\Controllers\BookingController::class, 'hold_project']);
     Route::post('/change-calender-colors', [App\Http\Controllers\BookingController::class, 'change_colors']);
      Route::get('/user-management', [App\Http\Controllers\UserController::class, 'index'])->name('user_management');

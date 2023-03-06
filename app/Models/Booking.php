@@ -12,6 +12,8 @@ class Booking extends Model
     protected $casts = [
         'file' => 'array'
     ];
+    protected $guarded=['id'];
+    
 
     public function BookingData()
     {
@@ -55,7 +57,12 @@ class Booking extends Model
 
     public function ProjectStatus()
     {
-        return $this->hasOne(ProjectStatus::class,'project_id','id');
+        return $this->hasMany(ProjectStatus::class,'project_id','id');
+    }
+
+    public function PassedProjectStatus()
+    {
+        return $this->ProjectStatus()->where('status','1');
     }
 
     public function SafetyPlan()
