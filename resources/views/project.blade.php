@@ -9,16 +9,23 @@
   .fa.fa-times:before {
     color: red;
   }
-  .completed_button a{
-   
+  div.completed_button {
+    min-width: 225px !important;
+    text-align: center;
+}
+
+div.year, div.month {
+    padding-right: 0px;
+}
+
+.completed_button a {
     border: 2px solid #182a4e;
     background-color: #fff;
     color: #182a4e;
     border-radius: 3px;
     padding: 5px;
-    padding-left: 7%;
     text-decoration: none;
-  }
+}
   .active_completed_button{
     background-color: #182a4e !important;
     color: white !important;
