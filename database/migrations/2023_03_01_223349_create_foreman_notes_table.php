@@ -18,7 +18,7 @@ class CreateForemanNotesTable extends Migration
             $table->text('notes')->nullable();
             $table->integer('foreman_id');
             $table->integer('given_by');
-            $table->timestamp('date');
+            $table->timestamp('date')->nullable();
             $table->timestamps();
         });
     }
