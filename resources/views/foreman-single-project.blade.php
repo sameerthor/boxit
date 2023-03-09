@@ -1,52 +1,53 @@
 <style>
-      .increment {
-    padding: 2px 8px 2px 14px;
-    border: 1px solid black;
-    border-radius: 11px;
-    margin: 3px 2px 3px 2px;
+    .increment {
+        padding: 2px 8px 2px 14px;
+        border: 1px solid black;
+        border-radius: 11px;
+        margin: 3px 2px 3px 2px;
 
-  }
+    }
 
-  .green_box {
-    background: #F1FFE9;
-    color: #16DB65 !important;
-    text-align: center;
-  }
+    .green_box {
+        background: #F1FFE9;
+        color: #16DB65 !important;
+        text-align: center;
+    }
 
-  .orange_box {
-    background: #FCF0E4;
-    color: #F79256 !important;
-    text-align: center;
-  }
+    .orange_box {
+        background: #FCF0E4;
+        color: #F79256 !important;
+        text-align: center;
+    }
 
-  .red_box {
-    background: #FCEEEC;
-    color: #FF5A5F;
-    text-align: center;
-  }
+    .red_box {
+        background: #FCEEEC;
+        color: #FF5A5F;
+        text-align: center;
+    }
 
-  .red_box a {
-    color: #FF5A5F;
-  }
+    .red_box a {
+        color: #FF5A5F;
+    }
 
-  td.status_pause span {
-    margin-top: 2px;
-    margin-right: -10px;
-    margin-left: 10px;
-  }
+    td.status_pause span {
+        margin-top: 2px;
+        margin-right: -10px;
+        margin-left: 10px;
+    }
 
-  td.status_pause {
-    display: flex;
-  }
+    td.status_pause {
+        display: flex;
+    }
 
-  #project-form-d .orange_box,
-  .red_box,
-  .green_box {
-    padding: 4px;
-    width: 80%;
-  }
+    #project-form-d .orange_box,
+    .red_box,
+    .green_box {
+        padding: 4px;
+        width: 80%;
+    }
 
     @import "bourbon";
+
     .cd-switch {
         padding: 50px 0;
         text-align: center;
@@ -102,7 +103,8 @@
         width: 100%;
     }
 
-    .qa_checklist td, .qa_checklist th {
+    .qa_checklist td,
+    .qa_checklist th {
         border: 1px solid #c9ced6;
         text-align: left;
         padding: 8px;
@@ -198,83 +200,82 @@
         </div>
 
         <br />
-       
-    <div class="row">
-      <div class="form-group col-md-6 l-font-s">
-        <label>BCN</label>
-        <p class="view_item">{{$project->bcn==''?'NA':$project->bcn}}</p>
-      </div>
-      <div class="form-group col-md-6 l-font-s">
-        <label>Address</label>
-        <p class="view_item">{{$project->address}}</p>
-      </div>
-      <div class="form-group col-md-6 l-font-s">
-        <label>Building Company</label>
-        <p class="view_item">{{$project->BookingData[0]->contact->title}}</p>
-      </div>
-      <div class="form-group col-md-6 l-font-s">
-        <label>Floor Type</label>
-        <p class="view_item">{{$project->floor_type}}</p>
-      </div>
-      <div class="form-group col-md-6 l-font-s">
-        <label>Floor Area</label>
-        <p class="view_item">{{$project->floor_area}}</p>
-      </div>
-      <div class="form-group col-md-6 l-font-s">
-        <label>Notes</label>
-        <p class="view_item">{{$project->notes}}</p>
-      </div>
-      <div class="form-group col-md-12 l-font-s">
-        <label>File</label>
-        <br />
+
         <div class="row">
-          @foreach($project->file as $f)
-          <div class="col-md-4" style="margin-top:20px;">
-            <a href="/images/{{$f}}" target="_blank" style="padding:5px"><object data="https://docs.google.com/gview?embedded=true&url={{url('/')}}/images/{{$f}}"></object>
-            </a>
-            <br>
-            <a download class="btn btn btn-sm btn-info btn-color" href="/images/{{$f}}">Download</a>
-          </div>
-          @endforeach
+            <div class="form-group col-md-6 l-font-s">
+                <label>BCN</label>
+                <p class="view_item">{{$project->bcn==''?'NA':$project->bcn}}</p>
+            </div>
+            <div class="form-group col-md-6 l-font-s">
+                <label>Address</label>
+                <p class="view_item">{{$project->address}}</p>
+            </div>
+            <div class="form-group col-md-6 l-font-s">
+                <label>Building Company</label>
+                <p class="view_item">{{$project->BookingData[0]->contact->title}}</p>
+            </div>
+            <div class="form-group col-md-6 l-font-s">
+                <label>Floor Type</label>
+                <p class="view_item">{{$project->floor_type}}</p>
+            </div>
+            <div class="form-group col-md-6 l-font-s">
+                <label>Floor Area</label>
+                <p class="view_item">{{$project->floor_area}}</p>
+            </div>
+            <div class="form-group col-md-6 l-font-s">
+                <label>Notes</label>
+                <p class="view_item">{{$project->notes}}</p>
+            </div>
+            <div class="form-group col-md-12 l-font-s">
+                <label>File</label>
+                <br />
+                <div class="row">
+                    @foreach($project->file as $f)
+                    <div class="form-group increment col-md-6 bg-shadow">
+                        <label>{{$f}}</label>
+                        <div style="float: right;"><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 10px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
+
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <h4 class="paid-left">Booking Status</h4>
-    <table class="table table-stripped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Department</th>
-          <th>Contact</th>
-          <th>Date</th>
-          <th class="text-center">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($project->BookingData->slice(1) as $res)
-        <tr>
-          <td>{{$loop->iteration}}</td>
-          <td>{{$res->department->title}}</td>
-          <td>
-            <span class="contact_label"> {{$res->contact?->title}}</span>
-          </td>
-          <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
-          <td class="status_pause">@if($res->status=='0')
-            <div class="orange_box">Pending</div>
-            @elseif($res->status=='1')
-            <div class="green_box">Confirmed</div>
-            @elseif($res->status=='2')
-            <div class="red_box"><a href="#" @if(!empty($res->onhold_reason)) data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" @endif style="text-decoration:none">On hold</a></div>
-            @else
-            <div class="orange_box">Pending</div>
-            @endif
-            <span data-toggle="tooltip" title="{{$res->notes}}"  class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-    <br>
+        <h4 class="paid-left">Booking Status</h4>
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Department</th>
+                    <th>Contact</th>
+                    <th>Date</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($project->BookingData->slice(1) as $res)
+                <tr>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$res->department->title}}</td>
+                    <td>
+                        <span class="contact_label"> {{$res->contact?->title}}</span>
+                    </td>
+                    <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
+                    <td class="status_pause">@if($res->status=='0')
+                        <div class="orange_box">Pending</div>
+                        @elseif($res->status=='1')
+                        <div class="green_box">Confirmed</div>
+                        @elseif($res->status=='2')
+                        <div class="red_box"><a href="#" @if(!empty($res->onhold_reason)) data-toggle="tooltip" title="Reason : {{$res->onhold_reason}}" @endif style="text-decoration:none">On hold</a></div>
+                        @else
+                        <div class="orange_box">Pending</div>
+                        @endif
+                        <span data-toggle="tooltip" title="{{$res->notes}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <br>
         <br />
         <div class="row">
             <div class="col-md-12">
@@ -842,12 +843,12 @@
                                                                                             echo "checked";
                                                                                         }
                                                                                     }  ?> name="safety_plan[foundation]">
-                                                                                    <br>
-                                                 <input type="checkbox" value="1" <?php if (!empty($safety)) {
+                                                <br>
+                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
                                                                                         if ($safety->foundation_guard == '1') {
                                                                                             echo "checked";
                                                                                         }
-                                                                                    }  ?> name="safety_plan[foundation_guard]">                                   
+                                                                                    }  ?> name="safety_plan[foundation_guard]">
                                             </td>
 
                                         </tr>
@@ -1302,7 +1303,7 @@
                                             <th style="width:45%;background-color:#c9ced6;">Date: <input type="date" style="width:70%;background-color: #c9ced6;" value="{{ $incident_data!=null ? $incident_data->date : '' }}" name="incident_data[date]" value=""></th>
                                         </tr>
                                         <tr style="height: 130px;">
-                                            <th colspan="2">Attendees Names<textarea  name="incident_data[attendees]">{{ $incident_data!=null ? $incident_data->attendees : '' }}</textarea></th>
+                                            <th colspan="2">Attendees Names<textarea name="incident_data[attendees]">{{ $incident_data!=null ? $incident_data->attendees : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Actions to follow up from last week:</th>
@@ -1310,31 +1311,31 @@
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Site Inspection:</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[site_inspection]">{{ $incident_data!=null ? $incident_data->site_inspection : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[site_inspection]">{{ $incident_data!=null ? $incident_data->site_inspection : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Upcoming Work:</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[upcoming_work]">{{ $incident_data!=null ? $incident_data->upcoming_work : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[upcoming_work]">{{ $incident_data!=null ? $incident_data->upcoming_work : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Incidents / Near Misses / Injury Events:</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[incidents]">{{ $incident_data!=null ? $incident_data->incidents : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[incidents]">{{ $incident_data!=null ? $incident_data->incidents : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Equipment Maintenance / Issues</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[equipment_issues]">{{ $incident_data!=null ? $incident_data->equipment_issues : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[equipment_issues]">{{ $incident_data!=null ? $incident_data->equipment_issues : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Employee issues raised:</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[employee_issues]">{{ $incident_data!=null ? $incident_data->employee_issues : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[employee_issues]">{{ $incident_data!=null ? $incident_data->employee_issues : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Safe observations reviewed/discussed</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[safe_reviewed]">{{ $incident_data!=null ? $incident_data->safe_reviewed : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[safe_reviewed]">{{ $incident_data!=null ? $incident_data->safe_reviewed : '' }}</textarea></th>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Task Analysis completed/reviewed:</th>
-                                            <th style="width:40%;"><textarea  name="incident_data[task_reviewed]">{{ $incident_data!=null ? $incident_data->task_reviewed : '' }}</textarea></th>
+                                            <th style="width:40%;"><textarea name="incident_data[task_reviewed]">{{ $incident_data!=null ? $incident_data->task_reviewed : '' }}</textarea></th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1373,27 +1374,75 @@
                                     <tbody>
                                         <tr>
                                             <td width="">TYPE OF INJURY:</td>
-                                            <td width=""><input name="incident_data[bruiding_checkbox]" <?php if($incident_data!=null){if($incident_data->bruiding_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Bruising</td>
-                                            <td width=""><input name="incident_data[disclotion_checkbox]" <?php if($incident_data!=null){if($incident_data->disclotion_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Dislocation</td>
-                                            <td width=""><input name="incident_data[other_checkbox]" <?php if($incident_data!=null){if($incident_data->other_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Other (specify)</td>
+                                            <td width=""><input name="incident_data[bruiding_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->bruiding_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Bruising</td>
+                                            <td width=""><input name="incident_data[disclotion_checkbox]" <?php if ($incident_data != null) {
+                                                                                                                if ($incident_data->disclotion_checkbox == 'yes') {
+                                                                                                                    echo "checked";
+                                                                                                                }
+                                                                                                            } ?> value="yes" type="checkbox"> Dislocation</td>
+                                            <td width=""><input name="incident_data[other_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->other_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Other (specify)</td>
                                             <td width="" rowspan="2">Injured part of body<textarea name="incident_data[injured_part]">{{ $incident_data!=null ? $incident_data->injured_part : '' }}</textarea></td>
                                         </tr>
                                         <tr>
-                                            <td width=""><input name="incident_data[strain_checkbox]" <?php if($incident_data!=null){if($incident_data->strain_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Strain/sprain</td>
-                                            <td width=""><input name="incident_data[scratch_checkbox]" <?php if($incident_data!=null){if($incident_data->scratch_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Scratch/abrasion</td>
-                                            <td width=""><input name="incident_data[internal_checkbox]" <?php if($incident_data!=null){if($incident_data->internal_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Internal</td>
+                                            <td width=""><input name="incident_data[strain_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->strain_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Strain/sprain</td>
+                                            <td width=""><input name="incident_data[scratch_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->scratch_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Scratch/abrasion</td>
+                                            <td width=""><input name="incident_data[internal_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->internal_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Internal</td>
                                             <td width=""></td>
                                         </tr>
                                         <tr>
-                                            <td width=""><input name="incident_data[fracture_checkbox]" <?php if($incident_data!=null){if($incident_data->fracture_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Fracture</td>
-                                            <td width=""><input name="incident_data[amputation_checkbox]" <?php if($incident_data!=null){if($incident_data->amputation_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Amputation</td>
-                                            <td width=""><input name="incident_data[foreign_checkbox]" <?php if($incident_data!=null){if($incident_data->foreign_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Foreign body</td>
+                                            <td width=""><input name="incident_data[fracture_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->fracture_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Fracture</td>
+                                            <td width=""><input name="incident_data[amputation_checkbox]" <?php if ($incident_data != null) {
+                                                                                                                if ($incident_data->amputation_checkbox == 'yes') {
+                                                                                                                    echo "checked";
+                                                                                                                }
+                                                                                                            } ?> value="yes" type="checkbox"> Amputation</td>
+                                            <td width=""><input name="incident_data[foreign_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->foreign_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Foreign body</td>
                                             <td width="" rowspan="2" colspan="2">Remarks<textarea name="incident_data[remarks]">{{ $incident_data!=null ? $incident_data->remarks : '' }}</textarea></td>
                                         </tr>
                                         <tr>
-                                            <td width=""><input name="incident_data[cut_checkbox]" <?php if($incident_data!=null){if($incident_data->cut_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Laceration/cut</td>
-                                            <td width=""><input name="incident_data[burn_checkbox]" <?php if($incident_data!=null){if($incident_data->burn_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Burn scald</td>
-                                            <td width=""><input name="incident_data[chemical_checkbox]" <?php if($incident_data!=null){if($incident_data->chemical_checkbox=='yes'){echo "checked";}} ?> value="yes" type="checkbox"> Chemical reaction</td>
+                                            <td width=""><input name="incident_data[cut_checkbox]" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->cut_checkbox == 'yes') {
+                                                                                                            echo "checked";
+                                                                                                        }
+                                                                                                    } ?> value="yes" type="checkbox"> Laceration/cut</td>
+                                            <td width=""><input name="incident_data[burn_checkbox]" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->burn_checkbox == 'yes') {
+                                                                                                            echo "checked";
+                                                                                                        }
+                                                                                                    } ?> value="yes" type="checkbox"> Burn scald</td>
+                                            <td width=""><input name="incident_data[chemical_checkbox]" <?php if ($incident_data != null) {
+                                                                                                            if ($incident_data->chemical_checkbox == 'yes') {
+                                                                                                                echo "checked";
+                                                                                                            }
+                                                                                                        } ?> value="yes" type="checkbox"> Chemical reaction</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1404,50 +1453,74 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">Property/ material damaged<textarea  name="incident_data[property_damaged]">{{ $incident_data!=null ? $incident_data->property_damaged : '' }}</textarea></td>
+                                            <td colspan="8">Property/ material damaged<textarea name="incident_data[property_damaged]">{{ $incident_data!=null ? $incident_data->property_damaged : '' }}</textarea></td>
                                         </tr>
                                         <tr>
                                             <th colspan="8" style="background-color:#c9ced6;">THE ACCIDENT
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">Description - Describe what happened (space overleaf for diagram □ essential for all vehicle accidents)<textarea  name="incident_data[desciption]">{{ $incident_data!=null ? $incident_data->desciption : '' }}</textarea></td>
+                                            <td colspan="8">Description - Describe what happened (space overleaf for diagram □ essential for all vehicle accidents)<textarea name="incident_data[desciption]">{{ $incident_data!=null ? $incident_data->desciption : '' }}</textarea></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">Analysis - What were the causes of the accident?<textarea  name="incident_data[analysis]">{{ $incident_data!=null ? $incident_data->analysis : '' }}</textarea></td>
+                                            <td colspan="8">Analysis - What were the causes of the accident?<textarea name="incident_data[analysis]">{{ $incident_data!=null ? $incident_data->analysis : '' }}</textarea></td>
                                         </tr>
                                         <tr>
                                             <td width="50%">HOW BAD COULD IT HAVE BEEN?
                                                 <br>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->bad_radio=="1"){echo 'checked';}}?> name="incident_data[bad_radio]" id="inlineRadio1" value="1">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->bad_radio == "1") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio1" value="1">
                                                     <label class="form-check-label">Very</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->bad_radio=="2"){echo 'checked';}}?> name="incident_data[bad_radio]" id="inlineRadio2" value="2">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->bad_radio == "2") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio2" value="2">
                                                     <label class="form-check-label">Serious</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->bad_radio=="3"){echo 'checked';}}?> name="incident_data[bad_radio]" id="inlineRadio3" value="3">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->bad_radio == "3") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio3" value="3">
                                                     <label class="form-check-label">Minor Serious</label>
                                                 </div>
                                             </td>
                                             <td width="50%">WHAT IS THE CHANCE OF IT HAPPENING AGAIN?
                                                 <br>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->chance_radio=="1"){echo 'checked';}}?> name="incident_data[chance_radio]" id="inlineRadio1" value="1">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->chance_radio == "1") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio1" value="1">
                                                     <label class="form-check-label">Minor</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->chance_radio=="2"){echo 'checked';}}?> name="incident_data[chance_radio]" id="inlineRadio2" value="2">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->chance_radio == "2") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio2" value="2">
                                                     <label class="form-check-label">Occasional</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if($incident_data!=null){if($incident_data->chance_radio=="3"){echo 'checked';}}?> name="incident_data[chance_radio]" id="inlineRadio3" value="3">
+                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
+                                                                                                        if ($incident_data->chance_radio == "3") {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio3" value="3">
                                                     <label class="form-check-label">Rare</label>
                                                 </div>
                                             </td>
@@ -1615,19 +1688,19 @@
                             });
                         }
                     });
-                }else
-                {
+                } else {
                     var id = "<?php echo $project->id; ?>";
 
-    jQuery.ajax({
-      url: "{{ url('/foreman-single-project') }}",
-      method: 'post',
-      data: {
-        id: id,
-      },
-      success: function(result) {
-        jQuery('.main').html(result);
-      }});
+                    jQuery.ajax({
+                        url: "{{ url('/foreman-single-project') }}",
+                        method: 'post',
+                        data: {
+                            id: id,
+                        },
+                        success: function(result) {
+                            jQuery('.main').html(result);
+                        }
+                    });
                 }
             })
         } else {
@@ -1761,28 +1834,27 @@
         }
     });
 
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
         $("#qa_form tr:first-child").remove();
         $("#stripping tr:first-child").remove();
         $("#pods_steel tr:first-child").remove();
 
         $("#qa_form tr").each(function() {
-        $(this).children("td:eq(1)").find("input").attr("placeholder","Initial");
-        $(this).children("td:eq(2)").find("input").attr("placeholder","Office Use");
-    });   
+            $(this).children("td:eq(1)").find("input").attr("placeholder", "Initial");
+            $(this).children("td:eq(2)").find("input").attr("placeholder", "Office Use");
+        });
 
-    $("#stripping tr").each(function() {
-        $(this).children("td:eq(1)").find("input").attr("placeholder","Done by");
-    });
+        $("#stripping tr").each(function() {
+            $(this).children("td:eq(1)").find("input").attr("placeholder", "Done by");
+        });
 
-    $("#pods_steel tr").each(function() {
-        $(this).children("td:eq(1)").find("input").attr("placeholder","Done by");
-        $(this).children("td:eq(2)").find("input").attr("placeholder","Done by");
-        $(this).children("td:eq(3)").find("input").attr("placeholder","Checked by");
+        $("#pods_steel tr").each(function() {
+            $(this).children("td:eq(1)").find("input").attr("placeholder", "Done by");
+            $(this).children("td:eq(2)").find("input").attr("placeholder", "Done by");
+            $(this).children("td:eq(3)").find("input").attr("placeholder", "Checked by");
 
-    });
-    
-}
-    
+        });
+
+    }
 </script>

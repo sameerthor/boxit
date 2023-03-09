@@ -108,7 +108,122 @@
 		</div>
 	</div>
 </div>
-@desktop
+@mobile
+<style>
+	.list-enter-active {
+		animation: fade-in 0.20s ease-in-out;
+	}
+
+	.list-leave-active {
+		animation: fade-in 0.20s ease-in-out reverse;
+	}
+
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		100% {
+			transform: translateY(0px);
+		}
+	}
+
+	.cal-trans {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.show_booking {
+		padding: 3px;
+	}
+
+	div#weekly_calender li:nth-child(odd) {
+		background-color: #E5E9F3;
+	}
+
+	#weekly_calender {
+		margin-left: 2%;
+	}
+
+	.mnth-style {
+		padding: 0 20%;
+	}
+</style>
+@verbatim
+<div id="content">
+	<div class="row p-15 prl-30 border-all">
+		<div class="col-md-3 cal-flex month_div" style="display:none">
+			<div class="arrow-l-style" v-on:click="daily_nav(-1)">
+				<img src="img/arrow-l.png">
+			</div>
+			<div class="mnth-style">
+				{{months[month_index]}} {{year}}
+			</div>
+			<div class="arrow-l-style" v-on:click="daily_nav(+1)">
+				<img src="img/arrow-r.png">
+			</div>
+		</div>
+		<div class="col-md-3 cal-flex date_div">
+			<div class="mnth-style">
+				{{today_date}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6 p-1 text-left">
+			<select class="select-styles bgc-new" id="calender_type">
+				<option selected value="daily">
+					Daily
+				</option>
+				<option value="week">
+					Weekly
+				</option>
+			</select>
+		</div>
+		<div class="col-6 p-2 text-right">
+			<select class="select-styles bgc-new" @change="changeforeman($event)">
+				<option value="">All Foreman</option>
+				<?php foreach ($foremans as $foreman) { ?>
+					<option value="<?= $foreman->id ?>">
+						<?= ucfirst($foreman->name); ?>
+					</option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div id="daily_calender" class="calenders">
+		<div class="row p-15">
+			<div class="col-md-12 cal-flex bookings" style="justify-content:center" >
+			
+			</div>
+		</div>
+	</div>
+	<div id="weekly_calender" class="calenders" style="display:none">
+		<div v-if="activeStep>0" v-on:click="remove" class=" arrow-u-style">
+			<img src="img/arrow-u.png">
+		</div>
+
+		<transition-group name="list" tag="ul" class="cal-trans">
+			<li v-for="step in currentitem" :key="step.day">
+				<div class="d-flex mobile_calender_strip show_notes">
+					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']" style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
+					<div class="p-1  d-flex flex-column" v-if="mobile_calender.length-1 > 0" style="width:100%">
+						<div class="p-2" v-for="booking in mobile_calender[step.day]" :key="date.day" v-html='booking'></div>
+					</div>
+				</div>
+			</li>
+		</transition-group>
+		<div v-if="activeStep<items.length-1" class=" arrow-u-style" v-on:click="add">
+			<img src="img/arrow-d.png">
+		</div>
+	</div>
+
+</div>
+@endverbatim
+
+@elsemobile
 <style>
 	.modal-dialog {
 		max-width: 50%;
@@ -290,7 +405,7 @@
 </style>
 @verbatim
 <div id="content">
-	<div class="row p-15 prl-30 border-all">
+	<div class="row p-15 prl-30 border-all ">
 		<div class="col-md-3 cal-flex">
 			<div class="arrow-l-style" v-on:click="month_nav(-1)">
 				<img src="img/arrow-l.png">
@@ -323,7 +438,7 @@
 			</select>
 		</div>
 	</div>
-	<div id="weekly_calender">
+	<div id="weekly_calender" class="calenders">
 		<div class="row ptb-30 bd-btm">
 			<div class="col-md-1"></div>
 			<div class="col-md-11">
@@ -362,7 +477,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="monthly_calender" style="display:none">
+	<div id="monthly_calender" class="calenders" style="display:none">
 		<div class="row ptb-30 bd-btm">
 			<div class="col-md-1" style="
     display: none;
@@ -393,153 +508,30 @@
 	</div>
 </div>
 @endverbatim
-
-@elsedesktop
-<style>
-	.list-enter-active {
-		animation: fade-in 0.20s ease-in-out;
-	}
-
-	.list-leave-active {
-		animation: fade-in 0.20s ease-in-out reverse;
-	}
-
-	@keyframes fade-in {
-		0% {
-			opacity: 0;
-			transform: translateY(30px);
-		}
-
-		100% {
-			transform: translateY(0px);
-		}
-	}
-
-	.cal-trans {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	.show_booking {
-		padding: 3px;
-	}
-
-	div#weekly_calender li:nth-child(odd) {
-		background-color: #E5E9F3;
-	}
-
-	#weekly_calender {
-		margin-left: 2%;
-	}
-
-	.mnth-style {
-		padding: 0 20%;
-	}
-</style>
-@verbatim
-<div id="content">
-	<div class="row p-15 prl-30 border-all">
-		<div class="col-md-3 cal-flex">
-			<div class="arrow-l-style" v-on:click="month_nav(-1)">
-				<img src="img/arrow-l.png">
-			</div>
-			<div class="mnth-style">
-				{{months[month_index]}} {{year}}
-			</div>
-			<div class="arrow-l-style" v-on:click="month_nav(+1)">
-				<img src="img/arrow-r.png">
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6 p-1 text-left">
-			<select class="select-styles bgc-new" id="calender_type">
-				<option value="week">
-					Weekly
-				</option>
-				<option value="month">
-					Monthly
-				</option>
-			</select>
-		</div>
-		<div class="col-6 p-2 text-right">
-			<select class="select-styles bgc-new" @change="changeforeman($event)">
-				<option value="">All Foreman</option>
-				<?php foreach ($foremans as $foreman) { ?>
-					<option value="<?= $foreman->id ?>">
-						<?= ucfirst($foreman->name); ?>
-					</option>
-				<?php } ?>
-			</select>
-		</div>
-	</div>
-	<div id="weekly_calender">
-		<div v-if="activeStep>0" v-on:click="remove" class=" arrow-u-style">
-			<img src="img/arrow-u.png">
-		</div>
-
-		<transition-group name="list" tag="ul" class="cal-trans">
-			<li v-for="step in currentitem" :key="step.day">
-				<div class="d-flex mobile_calender_strip show_notes">
-					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']" style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
-					<div class="p-1  d-flex flex-column" v-if="mobile_calender.length-1 > 0" style="width:100%">
-						<div class="p-2" v-for="booking in mobile_calender[step.day]" :key="date.day" v-html='booking'></div>
-					</div>
-				</div>
-			</li>
-		</transition-group>
-		<div v-if="activeStep<items.length-1" class=" arrow-u-style" v-on:click="add">
-			<img src="img/arrow-d.png">
-		</div>
-	</div>
-	<div id="monthly_calender" style="display:none">
-		<div class="row ptb-30 bd-btm">
-			<div class="col-md-1" style="
-    display: none;
-"></div>
-			<div class="col-md-11">
-				<div class="week_div">
-					<div class="week_day">SUN</div>
-					<div class="week_day">MON</div>
-					<div class="week_day">TUE</div>
-					<div class="week_day">WED</div>
-					<div class="week_day">THU</div>
-					<div class="week_day">FRI</div>
-					<div class="week_day">SAT</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-1 ptb-30 border-rb" style="
-    display: none;
-">
-
-			</div>
-			<div class="col-md-11 monthly_dates">
-
-
-			</div>
-		</div>
-	</div>
-</div>
-@endverbatim
-
-@enddesktop
+@endmobile
 
 <script>
 	var is_mobile = false;
-	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+	if (/Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 		is_mobile = true;
 
 	$(document).on('change', '#calender_type', function() {
 		if ($(this).val() == 'week') {
 			$('#weekly_calender').show();
 			$('#monthly_calender').hide();
+			$('#daily_calender').hide();
+			$('.month_div').show();
+			$('.date_div').hide();
 		}
 		if ($(this).val() == 'month') {
 			$('#weekly_calender').hide();
 			$('#monthly_calender').show();
+		}
+		if ($(this).val() == 'daily') {
+			$('#daily_calender').show();
+			$('#weekly_calender').hide();
+			$('.month_div').hide()
+			$('.date_div').show();
 		}
 	})
 	var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -644,8 +636,8 @@
 	const d = new Date();
 	var cur_month = d.getMonth();;
 	var cur_year = d.getFullYear();
+	var cur_date = d.getDate() + " " + monthNames[cur_month] + " " + cur_year;
 	const getInitialItems = (cur_month, cur_year) => test3(cur_month, cur_year)
-	console.log(getInitialItems(cur_month, cur_year));
 	Vue.createApp({
 		el: '#content',
 		computed: {
@@ -680,7 +672,8 @@
 				mobile_calender: [],
 				foreman_id: '',
 				month_index: cur_month,
-				date: 'test'
+				date: 'test',
+				today_date: cur_date
 			}
 		},
 		methods: {
@@ -699,8 +692,14 @@
 								this.mobile_calender[key] = result[key]
 								console.log(key, result[key]);
 							}
+						})
+					axios.post('/calender-daily', {
+							today_date: this.today_date,
+							foreman_id: this.foreman_id
+						})
+						.then((response) => {
 
-							// console.log(this.mobile_calender);
+							$("#daily_calender").find(".bookings").html(response.data)
 						})
 
 				} else {
@@ -760,7 +759,8 @@
 				this.activeStep = 0;
 				this.getCalender();
 
-			}
+			},
+
 		}
 	}).mount("#content");
 	$(document).on('click', '.show_booking', function() {
@@ -841,8 +841,7 @@
 		toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
 		autosave_ask_before_unload: true,
 		image_advtab: true,
-		min_height: 620,
-		plugins: 'autoresize',
+		height: 700,
 		image_caption: true,
 		toolbar_mode: 'sliding',
 		contextmenu: 'link image imagetools table configurepermanentpen',

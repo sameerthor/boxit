@@ -20,6 +20,7 @@ use Session;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use MobileDetect;
 use Twilio\Rest\Client;
 
 class BookingController extends Controller
@@ -279,14 +280,14 @@ class BookingController extends Controller
             $notification->save();
         } else {
             $html = '';
-            if($booking_data->created_at == $booking_data->updated_at)
-            $html .= "<strong><u>$contact->title</u></strong> has confirmed the following booking:";
+            if ($booking_data->created_at == $booking_data->updated_at)
+                $html .= "<strong><u>$contact->title</u></strong> has confirmed the following booking:";
             else
-            $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
+                $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
-            if($booking_data->created_at != $booking_data->updated_at)
-            $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
+            if ($booking_data->created_at != $booking_data->updated_at)
+                $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br>Thank You,<br>
                 Jules<br><br>
@@ -309,7 +310,7 @@ class BookingController extends Controller
     public function admin_reply_confirmation(Request $request)
     {
         $id = $request->get('booking_data_id');
-        
+
         $booking_data = BookingData::find($id);
         $booking = $booking_data->booking;
         $email = $booking_data->contact->email;
@@ -339,7 +340,7 @@ class BookingController extends Controller
         if ($request->get('confirm') == 0) {
 
             BookingData::where('id', $id)
-            ->update(array('status' => 0, 'date' => date("Y-m-d H:i:s", strtotime($request->get('date')))));
+                ->update(array('status' => 0, 'date' => date("Y-m-d H:i:s", strtotime($request->get('date')))));
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>Boxit Foundations has suggested the below alternate time(s)</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
@@ -436,6 +437,47 @@ class BookingController extends Controller
         }
         echo  $html;
     }
+
+    public function daily_calender(Request $request)
+    {
+        $date = $request->get('today_date');
+        $booking_date = date('Y-m-d',strtotime($date));
+        $foreman_id = $request->get('foreman_id');
+        $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        foreach ($department_id as $id) {
+            $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
+                if (!empty($foreman_id))
+                    $query->where('foreman_id', $foreman_id);
+            })->whereDate('date', '=', $booking_date)
+                ->get();
+            $b_id = '';
+            foreach ($booking_data as $boo) {
+                $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
+                $dep = $boo->department->title;
+                $style = '';
+                switch ($boo->status) {
+                    case '0':
+                        $class = "orange_box show_booking";
+                        $style = 'background: ' . $boo->booking->pending_background_color . ';color: ' . $boo->booking->pending_text_color . ' !important;border-left: 1px solid ' . $boo->booking->pending_text_color . ';border-bottom: 1px solid ' . $boo->booking->pending_text_color . ';';
+                        break;
+                    case '1':
+                        $class = "green_box show_booking";
+                        $style = 'background: ' . $boo->booking->confirm_background_color . ';color: ' . $boo->booking->confirm_text_color . ' !important;border-left: 1px solid ' . $boo->booking->confirm_text_color . ';border-bottom: 1px solid ' . $boo->booking->confirm_text_color . ';';
+                        break;
+                    case '2':
+                        $class = "red_box show_booking";
+                        break;
+                    default:
+                        $class = "show_booking";
+                }
+                $b_id = $boo->booking_id;
+                $data = "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+            }
+        }
+
+        return response()->json($data);
+    }
+
     public function mobile_calender(Request $request)
     {
         $dates = $request->get('dates');
@@ -465,7 +507,7 @@ class BookingController extends Controller
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
                     $dep = $boo->department->title;
-                      $style = '';
+                    $style = '';
                     switch ($boo->status) {
                         case '0':
                             $class = "orange_box show_booking";
@@ -482,15 +524,15 @@ class BookingController extends Controller
                             $class = "show_booking";
                     }
                     $b_id = $boo->booking_id;
-                    $data[$date['day']][]= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                    $data[$date['day']][] = "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                 }
-               
             }
-            if(!isset($data[$date['day']]))
-            $data[$date['day']]=[];
+            if (!isset($data[$date['day']]))
+                $data[$date['day']] = [];
         }
-        return response()->json($data); 
+        return response()->json($data);
     }
+
     public function calender(Request $request)
     {
         $dates = $request->get('dates');
@@ -520,7 +562,11 @@ class BookingController extends Controller
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
                 foreach ($booking_data as $boo) {
-                    $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
+                    if (MobileDetect::isTablet()) {
+                        $address = substr($boo->booking->address, 0, 9);
+                    } else {
+                        $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
+                    }
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -714,8 +760,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $html .= 'Unfortunately we need to move your booking for - ' . $booking->address . '<br>';
             $old_date = date("d-m-Y", strtotime($booking_data->date));
             $old_time = date("h:i:s A", strtotime($booking_data->date));
-            if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
-			$html .="BCN-".($booking->bcn!=''?$booking->bcn:' NA')."<br>";
+            if ($booking_data->department_id == '6' || $booking_data->department_id == '7' || $booking_data->department_id == '5')
+                $html .= "BCN-" . ($booking->bcn != '' ? $booking->bcn : ' NA') . "<br>";
             $html .= "<p>FROM<br>Date - $old_date<br>Time- $old_time</p>";
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
@@ -781,14 +827,12 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $obj = base64_decode(($id));
         $data = json_decode($obj, true);
         $update_array = ['status' => 0];
-        if(isset($data['date']))
-        {
+        if (isset($data['date'])) {
             $date = $data['date'];
             $update_array['date'] = date('Y-m-d H:i:s', strtotime($date));
         }
-        if(isset($data['contact_id']))
-        {
-            $update_array['contact_id']=$data['contact_id'];
+        if (isset($data['contact_id'])) {
+            $update_array['contact_id'] = $data['contact_id'];
         }
         $id = $data['id'];
         BookingData::where('id', $id)->update($update_array);
@@ -809,11 +853,11 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
 
     public function store_foreman_notes(Request $request)
     {
-         $id=$request->get('id');
-         $date=date('Y-m-d 00:00:00',strtotime($request->get('date')));
-         $notes=$request->get('notes');
-         $matchThese = ['foreman_id'=>$id,'date'=>$date];
-         foremanNote::updateOrCreate($matchThese,['notes'=>$notes,'given_by'=>Auth::id()]);
-         return true;
+        $id = $request->get('id');
+        $date = date('Y-m-d 00:00:00', strtotime($request->get('date')));
+        $notes = $request->get('notes');
+        $matchThese = ['foreman_id' => $id, 'date' => $date];
+        foremanNote::updateOrCreate($matchThese, ['notes' => $notes, 'given_by' => Auth::id()]);
+        return true;
     }
 }

@@ -55,6 +55,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/calender', [App\Http\Controllers\BookingController::class, 'calender']);
     Route::post('/mobile-calender', [App\Http\Controllers\BookingController::class, 'mobile_calender']);
     Route::post('/calender-monthly', [App\Http\Controllers\BookingController::class, 'monthly_calender']);
+    Route::post('/calender-daily', [App\Http\Controllers\BookingController::class, 'daily_calender']);
     Route::post('/calender-detail', [App\Http\Controllers\BookingController::class, 'modal_data']);
     Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');
 
