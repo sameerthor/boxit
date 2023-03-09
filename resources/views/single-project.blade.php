@@ -84,11 +84,13 @@
     background-color: #172b4d;
     color: #fff
   }
-  .switch[style*='display: none'] ~ span.status_notes {
+
+  .switch[style*='display: none']~span.status_notes {
     position: absolute;
     margin-top: -26px !important;
     margin-left: -50px;
-}
+  }
+
   .switch input[type="radio"].pending:checked~label[for^="pending_"] {
     background-color: #172b4d;
     color: #fff
@@ -97,6 +99,7 @@
   .switch input[type="radio"].pending~label[for^="pending_"] {
     width: 220px;
   }
+
   input[type="range"] {
     width: 30px;
   }
@@ -1558,13 +1561,13 @@
   })
 
   $("#save_passed_note,#unsave_passed_note").click(function() {
-    var msg = "Note saved successfuly";
+    var msg = true;
     var status = 3;
     var project_id = $(this).data('id');
     var status_label_id = $(this).data('label');;
     var notes = $("#passed_note").val();
     if ($(this).is("#unsave_passed_note")) {
-      var msg = "Status changed successfuly";
+      msg = false;
       var notes = $(this).data('note');;
       $(this).modal("hide")
     }
@@ -1578,19 +1581,23 @@
         notes: notes
       },
       success: function(result) {
-        Toast.fire({
-          icon: 'success',
-          title: msg
-        }).then(function(result) {
+        if (msg === true) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Note saved successfuly'
+          }).then(function(result) {
+            refreshpage();
+          });
+        } else {
           refreshpage();
-        });
+        }
       }
     });
   });
   $(".status_notes").click(function() {
     $("#passedPopup").modal("show");
     $("#passed_note").val($(this).data('notes'));
-    $("#unsave_passed_note").data('note',$(this).data('notes'));
+    $("#unsave_passed_note").data('note', $(this).data('notes'));
     $(".condition_note").data('id', $(this).data('id'));
     $(".condition_note").data('label', $(this).data('label'));
   })
