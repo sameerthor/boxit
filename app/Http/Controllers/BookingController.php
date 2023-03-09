@@ -810,7 +810,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
     public function store_foreman_notes(Request $request)
     {
          $id=$request->get('id');
-         $date=Carbon::parse($request->get('date'))->toDateTimeString();
+         $date=date('Y-m-d 00:00:00',strtotime($request->get('date')));
          $notes=$request->get('notes');
          $matchThese = ['foreman_id'=>$id,'date'=>$date];
          foremanNote::updateOrCreate($matchThese,['notes'=>$notes,'given_by'=>Auth::id()]);
