@@ -111,12 +111,55 @@ class ForemanController extends Controller
         }
         return $html;
     }
+    
+    public function daily_calender(Request $request)
+    {
+        $date = $request->get('today_date');
+        $booking_date = date('Y-m-d',strtotime($date));
+        $foreman_id = Auth::id();
+        $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $data="";
+        foreach ($department_id as $id) {
+            $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
+                    $query->where('foreman_id', $foreman_id);
+            })->whereDate('date', '=', $booking_date)
+                ->get();
+            $b_id = '';
+            foreach ($booking_data as $boo) {
+                $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
+                $dep = $boo->department->title;
+                $style = '';
+                switch ($boo->status) {
+                    case '0':
+                        $class = "orange_box show_booking";
+                        $style = 'background: ' . $boo->booking->pending_background_color . ';color: ' . $boo->booking->pending_text_color . ' !important;border-left: 1px solid ' . $boo->booking->pending_text_color . ';border-bottom: 1px solid ' . $boo->booking->pending_text_color . ';';
+                        break;
+                    case '1':
+                        $class = "green_box show_booking";
+                        $style = 'background: ' . $boo->booking->confirm_background_color . ';color: ' . $boo->booking->confirm_text_color . ' !important;border-left: 1px solid ' . $boo->booking->confirm_text_color . ';border-bottom: 1px solid ' . $boo->booking->confirm_text_color . ';';
+                        break;
+                    case '2':
+                        $class = "red_box show_booking";
+                        break;
+                    default:
+                        $class = "show_booking";
+                }
+                $b_id = $boo->booking_id;
+                $data.= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+            }
+        }
+         if(empty($data))
+         {
+            $data.='<span>No scheduled bookings today</span>';
+         }
+        return response()->json($data);
+    }
 
     public function mobile_calender(Request $request)
     {
         $dates = $request->get('dates');
         $year = $request->get('year');
-        $foreman_id = $request->get('foreman_id');
+        $foreman_id = Auth::id();
         $requested_month = $request->get('month') + 1;
         $data = [];
         foreach ($dates as $date) {
@@ -133,8 +176,7 @@ class ForemanController extends Controller
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
                 $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
-                    if (!empty($foreman_id))
-                        $query->where('foreman_id', Auth::id());
+                        $query->where('foreman_id', $foreman_id);
                 })->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';

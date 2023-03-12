@@ -134,6 +134,7 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/foreman-mobile-calender', [App\Http\Controllers\ForemanController::class, 'mobile_calender']);
   Route::post('/foreman-calender', [App\Http\Controllers\ForemanController::class, 'calender']);
   Route::post('/foreman-calender-monthly', [App\Http\Controllers\ForemanController::class, 'monthly_calender']);
+  Route::post('/foreman-calender-daily', [App\Http\Controllers\ForemanController::class, 'daily_calender']);
   Route::post('/foreman-calender-detail', [App\Http\Controllers\ForemanController::class, 'modal_data']);
   Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
   Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
