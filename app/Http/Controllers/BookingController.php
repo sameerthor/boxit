@@ -444,6 +444,7 @@ class BookingController extends Controller
         $booking_date = date('Y-m-d',strtotime($date));
         $foreman_id = $request->get('foreman_id');
         $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $data="";
         foreach ($department_id as $id) {
             $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
                 if (!empty($foreman_id))
@@ -471,10 +472,13 @@ class BookingController extends Controller
                         $class = "show_booking";
                 }
                 $b_id = $boo->booking_id;
-                $data = "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                $data.= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
             }
         }
-
+         if(empty($data))
+         {
+            $data.='<span>No scheduled bookings today</span>';
+         }
         return response()->json($data);
     }
 
