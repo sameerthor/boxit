@@ -59,6 +59,21 @@ class ForemanController extends Controller
         return cal_days_in_month(CAL_GREGORIAN, $iMonth, $iYear);
     }
 
+    public function notes_dates(Request $request)
+    {
+        $dates = $request->get('dates');
+        $year = $request->get('year');
+        $month = $request->get('month') + 1;
+        $data=[];
+        foreach ($dates as $date) {
+            $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
+            $res = foremanNote::where(array('foreman_id' =>Auth::id()))->whereDate('date', $booking_date)->get();
+            if (count($res) > 0)
+            $data[] = date('d F Y', strtotime($booking_date));
+        }  
+        return $data;
+    }
+
     public function calender(Request $request)
     {
         $dates = $request->get('dates');

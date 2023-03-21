@@ -672,6 +672,16 @@
 					.then((response) => {
 						$(".monthly_dates").html(response.data)
 					})
+
+					axios.post('/foreman-notes-dates', {
+						    year: this.year,
+							month: this.month_index,
+							dates: this.items[this.activeStep]
+						})
+						.then((response) => {
+							$(".cal-days").removeClass('noteExist');
+							response.data.map(item => {$(".cal-days").find(`[data-date='${item}']`).addClass('noteExist')})	
+						})	
 			},
 			randomIndex: function() {
 				return Math.floor(Math.random() * this.items.length)
@@ -728,7 +738,7 @@
 		$("#exampleModal").modal("hide");
 	})
 
-	$(document).on('click', '.foreman_notes_edit', function() {
+	$(document).on('click', '.show_notes', function() {
 		$("#foremanModal").modal("show");
 		var id = <?php echo Auth::user()->id; ?>;
 		var date=$(this).data('date');
