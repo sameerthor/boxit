@@ -255,7 +255,7 @@
                 @foreach($project->BookingData->slice(1) as $res)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$res->department->title}}</td>
+                    <td>{{$res->department->title}} {{$res->service!=''?'('.$res->service.')':''}}</td>
                     <td>
                         <span class="contact_label"> {{$res->contact?->title}}</span>
                     </td>

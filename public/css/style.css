@@ -479,7 +479,7 @@ div#content .row {
 	font-weight: 600;
 	color: #172b4d;
 }
-#booking input ,#booking select ,#booking textarea{
+#booking input[type='text'] ,#booking select ,#booking textarea{
 	font-size: 12px !important;
 	width: 100%;
 	border: 1px solid #172b4d !important;

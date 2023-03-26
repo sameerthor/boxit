@@ -26,30 +26,37 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						@foreach($mail as $res)
 						@php
-						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
-						if(empty($booking_data))
+						$booking_datas=$booking->BookingData->where('department_id','=',$res->department_id);
+						if(empty($booking_datas))
 						{
 						continue;
-						}elseif($booking_data->status==2){
+						}
+						foreach($booking_datas as $booking_data)
+						{
+						if($booking_data->status==2){
 						continue;
 						}
 						@endphp
 						<li class="nav-item" role="presentation">
-							<button style="color:#172b4d" class="nav-link <?php if ($loop->iteration == 1) echo 'active'; ?>" id="tab{{$res->id}}" data-bs-toggle="tab" data-bs-target="#{{$res->department->title}}" type="button" role="tab" aria-controls="{{$res->department->title}}" aria-selected="true">{{$res->department->title}}</button>
+							<button style="color:#172b4d" class="nav-link <?php if ($loop->iteration == 1) echo 'active'; ?>" id="tab{{$res->id}}" data-bs-toggle="tab" data-bs-target="#c_{{$booking_data->id}}" type="button" role="tab" aria-controls="{{$res->department->title}}" aria-selected="true">{{$res->department->title}} {{$booking_data->service!=''?'('.$booking_data->service.')':''}}</button>
 						</li>
+						@php } @endphp
 						@endforeach
 					</ul>
 					<div class="tab-content" id="myTabContent">
 						@foreach($mail as $res)
 						@php
-						$booking_data=$booking->BookingData->where('department_id','=',$res->department_id)->first();
-						if(empty($booking_data))
+						$bookings=$booking->BookingData->where('department_id','=',$res->department_id);
+						if(empty($bookings))
 						{
 						continue;
-						}elseif($booking_data->status==2){
+						}
+						foreach($bookings as $booking_data)
+						{
+						if($booking_data->status==2){
 						continue;
 						}
-
+					
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
 						$product_html='<p></p>';
@@ -73,7 +80,7 @@
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a>";
 						@endphp
-						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> " id="{{$res->department->title}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
+						<div style="padding:5%" data-subject="{{$res->subject}}" data-id="{{$id}}" class="tab-pane fade <?php if ($loop->iteration == 1) echo 'show active'; ?> " id="c_{{$booking_data->id}}" role="tabpanel" aria-labelledby="{{$res->department->title}}-tab">
 							<div>
 								<h5>Attachements</h5>
 								<input type="file" class="form-control col-md-4" multiple>
@@ -97,6 +104,7 @@
 								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 							</div>
 						</div>
+						@php } @endphp
 						@endforeach
 					</div>
 				</div>
@@ -133,65 +141,68 @@
 	});
 	$("#send_email").click(function() {
 		Swal.fire({
-            title: "Do you want to send all mails ?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'No',
-            dangerMode: true,
-        }).then(function(result) {
-            if (result.isConfirmed) {
+			title: "Do you want to send all mails ?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonText: 'Yes',
+			confirmButtonColor: '#28a745',
+			cancelButtonColor: '#dc3545',
+			cancelButtonText: 'No',
+			dangerMode: true,
+		}).then(function(result) {
+			if (result.isConfirmed) {
 				$(this).text("Sending...");
-		var mail_data = [];
-		$(".email_content").find("input").each(function() {
-			if ($(this).val() == '' || $(this).val() == '0') {
-				$(this).parents(".product").remove();
-			} else {
-				$(this).replaceWith('<span style="color:red">' + $(this).val() + '</span>');
+				var mail_data = [];
+				$(".email_content").find("input").each(function() {
+					if ($(this).val() == '' || $(this).val() == '0') {
+						$(this).parents(".product").remove();
+					} else {
+						$(this).replaceWith('<span style="color:red">' + $(this).val() + '</span>');
+					}
+				});
+				$(".email_content").find("textarea").each(function() {
+					$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({
+						format: 'raw'
+					}));
+					tinymce.get($(this).attr('id')).remove();
+				});
+
+				var formdata = new FormData();
+				$(".email_content").each(function(index) {
+					formdata.append('mail_data[' + index + '][booking_id]', $(this).data('id'));
+					formdata.append('mail_data[' + index + '][subject]', $(this).data('subject'));
+					formdata.append('mail_data[' + index + '][body]', $(this).html());
+					$.each($("input[type='file']")[index].files, function(i, file) {
+						formdata.append('mail_data[' + index + '][files][]', file);
+					});
+
+				});
+				jQuery.ajax({
+					type: 'POST',
+					dataType: 'json',
+					cache: false,
+					contentType: false,
+					processData: false,
+					url: "{{ route('send_mail') }}",
+					data: formdata,
+					success: function(data) {
+
+					}
+				});
+				setTimeout(function() {
+					$("#send_email").text("Sent");
+					Toast.fire({
+						icon: 'success',
+						title: "Mail Sent successfuly."
+					}).then(() => {
+						window.location.href = "/";
+					});
+				}, 3000);
+
+
 			}
 		});
-		$(".email_content").find("textarea").each(function() {
-			$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({format : 'raw'}));
-			tinymce.get($(this).attr('id')).remove();
-		});
-
-		var formdata = new FormData();
-		$(".email_content").each(function(index) {
-			formdata.append('mail_data[' + index + '][booking_id]', $(this).data('id'));
-			formdata.append('mail_data[' + index + '][subject]', $(this).data('subject'));
-			formdata.append('mail_data[' + index + '][body]', $(this).html());
-			$.each($("input[type='file']")[index].files, function(i, file) {
-				formdata.append('mail_data[' + index + '][files][]', file);
-			});
-
-		});
-		jQuery.ajax({
-			type: 'POST',
-			dataType: 'json',
-			cache: false,
-			contentType: false,
-			processData: false,
-			url: "{{ route('send_mail') }}",
-			data: formdata,
-			success: function(data) {
-
-			}
-		});
-		setTimeout(function() {
-			$("#send_email").text("Sent");
-			Toast.fire({
-				icon: 'success',
-				title: "Mail Sent successfuly."
-			}).then(() => {
-				window.location.href = "/";
-			});
-		}, 3000);
-
-
-            }});
-		})
+	})
 </script>
 
 @endsection

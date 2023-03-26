@@ -50,7 +50,6 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-
         $booking = new Booking;
         $booking->address = $request->get('address');
         $booking->floor_area = $request->get('floor_area');
@@ -77,21 +76,43 @@ class BookingController extends Controller
         $booking_id = $booking->id;
         $requested_date = $request->get('date');
         foreach ($request->get('department') as $key => $val) {
-            $book_array = array(
-                'department_id' => $key,
-                'contact_id'  => $val,
-                'date' => @$requested_date[$key],
-                'booking_id' => $booking_id
-            );
-            echo $key . "<br>";
-            if ($key == '2') {
-                $book_array['status'] = 1;
-            }
+            if ($key != 7) {
+                $book_array = array(
+                    'department_id' => $key,
+                    'contact_id'  => $val,
+                    'date' => @$requested_date[$key],
+                    'booking_id' => $booking_id
+                );
+                if ($key == '2') {
+                    $book_array['status'] = 1;
+                }
 
-            if (empty($request_status[$key])) {
-                $book_array['status'] = 2;
+                if (empty($request_status[$key])) {
+                    $book_array['status'] = 2;
+                }
+                BookingData::create($book_array);
+            } else {
+                if (is_array($val)) {
+                    foreach ($val as $serk => $serv) {
+                        $book_array = array(
+                            'department_id' => $key,
+                            'contact_id'  => $serv,
+                            'date' => @$requested_date[$key][$serk],
+                            'service' => $serk,
+                            'booking_id' => $booking_id
+                        );
+                        BookingData::create($book_array);
+                    }
+                } else {
+                    $book_array = array(
+                        'department_id' => $key,
+                        'contact_id'  => $val,
+                        'date' => @$requested_date[$key],
+                        'booking_id' => $booking_id
+                    );
+                    BookingData::create($book_array);
+                }
             }
-            BookingData::create($book_array);
         }
 
         if (!empty($request->get('draft_id'))) {
@@ -406,7 +427,7 @@ class BookingController extends Controller
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                            $dep = $booking_data->department->title;
+                            $dep = $booking_data->department->title.$booking_data->service!=''?' ('.$booking_data->service.')':'';
                             $style = '';
                             switch ($booking_data->status) {
                                 case '0':
@@ -441,10 +462,10 @@ class BookingController extends Controller
     public function daily_calender(Request $request)
     {
         $date = $request->get('today_date');
-        $booking_date = date('Y-m-d',strtotime($date));
+        $booking_date = date('Y-m-d', strtotime($date));
         $foreman_id = $request->get('foreman_id');
         $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
-        $data="";
+        $data = "";
         foreach ($department_id as $id) {
             $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
                 if (!empty($foreman_id))
@@ -454,7 +475,7 @@ class BookingController extends Controller
             $b_id = '';
             foreach ($booking_data as $boo) {
                 $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
-                $dep = $boo->department->title;
+                $dep = $boo->department->title.$boo->service!=''?' ('.$boo->service.')':'';
                 $style = '';
                 switch ($boo->status) {
                     case '0':
@@ -472,13 +493,12 @@ class BookingController extends Controller
                         $class = "show_booking";
                 }
                 $b_id = $boo->booking_id;
-                $data.= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                $data .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
             }
         }
-         if(empty($data))
-         {
-            $data.='<span>No scheduled bookings today</span>';
-         }
+        if (empty($data)) {
+            $data .= '<span>No scheduled bookings today</span>';
+        }
         return response()->json($data);
     }
 
@@ -510,7 +530,7 @@ class BookingController extends Controller
                 $b_id = '';
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $dep = $boo->department->title;
+                    $dep = $boo->department->title.$boo->service!=''?' ('.$boo->service.')':'';;
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -610,7 +630,7 @@ class BookingController extends Controller
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
             $booking_date = $res->date;
-            $title = $res->department->title;
+            $title = $res->department->title.$res->service!=''?' ('.$res->service.')':'';;
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -637,7 +657,7 @@ class BookingController extends Controller
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title;
+            $title = $res->department->title.$res->service!=''?' ('.$res->service.')':'';
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -701,16 +721,40 @@ class BookingController extends Controller
         $request_status = $request->get('status');
 
         foreach ($request->get('department') as $key => $val) {
-            $book_array = array(
-                'department_id' => $key,
-                'contact_id'  => $val,
-                'date' => @$requested_date[$key],
-                'draft_id' => $draft_id
-            );
-            if (empty($request_status[$key])) {
-                $book_array['status'] = 2;
+
+            if ($key != 7) {
+                $book_array = array(
+                    'department_id' => $key,
+                    'contact_id'  => $val,
+                    'date' => @$requested_date[$key],
+                    'draft_id' => $draft_id
+                );
+                if (empty($request_status[$key])) {
+                    $book_array['status'] = 2;
+                }
+                DraftData::create($book_array);
+            } else {
+                if (is_array($val)) {
+                    foreach ($val as $serk => $serv) {
+                        $book_array = array(
+                            'department_id' => $key,
+                            'contact_id'  => $serv,
+                            'date' => @$requested_date[$key][$serk],
+                            'service' => $serk,
+                            'draft_id' => $draft_id
+                        );
+                        DraftData::create($book_array);
+                    }
+                } else {
+                    $book_array = array(
+                        'department_id' => $key,
+                        'contact_id'  => $val,
+                        'date' => @$requested_date[$key],
+                        'draft_id' => $draft_id
+                    );
+                    DraftData::create($book_array);
+                }
             }
-            DraftData::create($book_array);
         }
         Session::flash('succes_msg', 'Draft has been saved successfuly.');
 
@@ -720,6 +764,16 @@ class BookingController extends Controller
     public function draft($id)
     {
         $draft = Draft::find($id);
+        $draft->DraftData = $draft->DraftData->groupBy('department_id', 'contact_id');
+        $council_data = $draft->DraftData[7]->toArray();
+        $draft->DraftData[7]=collect();
+        foreach ($council_data as $res) {
+            $array[$res['service']] = $res['date'];
+            $draft->DraftData[7][$res['contact_id']] = $array;
+            $draft->DraftData[7]['status'] = $res['status'];
+
+        }
+      
         $departments = Department::all();
         $foreman = User::whereHas("roles", function ($q) {
             $q->where("name", "Foreman");
@@ -819,7 +873,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $booking->save();
         $notification = new Notification();
         $notification->foreman_id = $booking->booking->foreman_id;
-        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has put <b>' . $booking->department->title . '</b> for <b>' . $booking->booking->address . '</b> on hold';
+        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has put <b>' . $booking->department->title .$booking->service!=''?' ('.$booking->service.')':''. '</b> for <b>' . $booking->booking->address . '</b> on hold';
         $notification->booking_id = $booking->booking_id;
         $notification->save();
 
@@ -843,7 +897,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $bookingdata = BookingData::find($id);
         $booking = $bookingdata->booking;
         $mail = MailTemplate::where(array('status' => 1, 'department_id' => $bookingdata->department_id))->get();
-        return view('new_booking_mail', compact('booking', 'mail'));
+        return view('new_booking_mail', compact('booking', 'mail','id'));
     }
 
     public function change_time()
