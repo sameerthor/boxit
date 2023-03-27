@@ -198,6 +198,7 @@
           <td>{{$res->department->title}} {{$res->service!=''?'('.$res->service.')':''}}</td>
           <td>
             <span class="contact_label"> {{$res->contact?->title}}</span>
+            @if($res->department_id!=7)
             <select class="form-control contact_dropdown" data-id="{{$res->id}}" style="display:none">
               @foreach($contacts as $contact)
               @if($contact->department_id==$res->department_id)
@@ -206,6 +207,7 @@
               @endforeach
             </select>
             <span class="edit_contact"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span>
+            @endif
           </td>
           <td>{{date("d-m-Y h:i A",strtotime($res->date))}}</td>
           <td class="status_pause">@if($res->status=='0')

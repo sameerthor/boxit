@@ -143,7 +143,7 @@ class ForemanController extends Controller
             $b_id = '';
             foreach ($booking_data as $boo) {
                 $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
-                $dep = $boo->department->title.$boo->service!=''?' ('.$boo->service.')':'';;
+                $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
                 $style = '';
                 switch ($boo->status) {
                     case '0':
@@ -198,7 +198,7 @@ class ForemanController extends Controller
                 $b_id = '';
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $dep = $boo->department->title.$boo->service!=''?' ('.$boo->service.')':'';;
+                    $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -260,7 +260,7 @@ class ForemanController extends Controller
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                            $dep = $booking_data->department->title.$booking_data->service!=''?' ('.$booking_data->service.')':'';;
+                            $dep = $booking_data->department->title.($booking_data->service!=''?' ('.$booking_data->service.')':'');
                             $style = '';
                             switch ($booking_data->status) {
                                 case '0':
@@ -304,7 +304,7 @@ class ForemanController extends Controller
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
-            $title = $res->department->title.$res->service!=''?' ('.$res->service.')':'';
+            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -332,7 +332,7 @@ class ForemanController extends Controller
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title.$res->service!=''?' ('.$res->service.')':'';
+            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
