@@ -34,7 +34,7 @@
             "php": "8.0.2"
         },
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": true
     },
     "extra": {
         "laravel": {
