@@ -49,7 +49,7 @@ div.year, div.month {
         <form method="get" id="filterForm" action="{{url('check-list')}}">
               <div class="row">
                 <div class="col-md-4 completed_button">
-                 <a href="{{url('check-list')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}">Completed Projects</a>
+                 <a href="{{url('check-list')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;echo request()->get('q') != '' ? '&q='.request()->get('q'):'';?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}">Completed Projects</a>
                  <input type="text" style="display:none" name="completed_projects" value="{{request()->get('completed_projects')}}" >
                 </div>
                 <div class="col-md-3 month">

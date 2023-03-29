@@ -109,6 +109,7 @@
 											<input type="text" name="q" class="search-input submit_on_enter" value="{{ Request::get('q') }}" placeholder="Type & Press Enter to Search " />
 											<button class="search-icon" type="button" onclick="searchToggle(this, event);"><img src="/img/search.png"></button>
 										</div>
+                                        <?php if(request('completed_projects')=='1') echo '<input type="text" style="display:none" value="1" name="completed_projects"';?>
 										<span class="close" onclick="searchToggle(this, event);"></span>
 									
 									</div>
