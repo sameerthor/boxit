@@ -33,7 +33,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "platform": {
-            "php": "8.0.2"
+            "php": "^7.2||^8.0"
         },
         "sort-packages": true,
         "platform-check": false
