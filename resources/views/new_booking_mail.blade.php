@@ -100,6 +100,7 @@
 								<br>
 								Thank You,<br>
 								Jules<br><br>
+								<p style="display:none">#{{$booking_data->booking_id}}</p>
 								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 							</div>
 						</div>

@@ -99,6 +99,7 @@
 								<?php echo $reply_link . "<br>" ?>
 								@endif
 								<br>
+								<p style="display:none">#{{$booking_data->booking_id}}</p>
 								Thank You,<br>
 								Jules<br><br>
 								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
