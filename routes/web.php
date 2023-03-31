@@ -38,6 +38,8 @@ Route::get('/_mail-viewer/projects-data', function () {
     $projects = \App\Models\Booking::all();
     return $projects;
 });
+Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
+
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
