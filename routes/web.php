@@ -41,6 +41,9 @@ Route::get('/_mail-viewer/projects-data', function () {
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
+    Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
+    Route::post('/edit-product', [App\Http\Controllers\DepartmentController::class, 'edit'])->name('products.edit');
+    Route::post('/update-product', [App\Http\Controllers\DepartmentController::class, 'update'])->name('products.update');
     Route::get('/new-email/{id}', [App\Http\Controllers\BookingController::class, 'new_booking_email']);
     Route::post('/save-foreman-notes', [App\Http\Controllers\BookingController::class, 'store_foreman_notes']);
     Route::post('/hold-project', [App\Http\Controllers\BookingController::class, 'hold_project']);
@@ -150,6 +153,7 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/pods-steel', [App\Http\Controllers\ForemanController::class, 'pods_steel']);
   Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
   Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
+  Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
 
 });
 
