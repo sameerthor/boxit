@@ -24,7 +24,6 @@ Route::post('/admin-reply', [App\Http\Controllers\BookingController::class, 'adm
 
 Route::middleware('role_based_redirect')->group(function () {
     Route::get('/', array('as'=>'home', 'uses'=> "App\Http\Controllers\HomeController@index" ));
-    Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
 
 });
 
@@ -39,6 +38,8 @@ Route::get('/_mail-viewer/projects-data', function () {
     $projects = \App\Models\Booking::all();
     return $projects;
 });
+
+Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
 
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
