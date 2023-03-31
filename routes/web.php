@@ -76,6 +76,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
+    Route::post('/change-checkbox-status', [App\Http\Controllers\ProjectController::class, 'change_checkbox_status']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
     Route::group(['prefix' => 'mail-template'], function () {
         Route::get('/', [App\Http\Controllers\MailController::class, 'index'])->name('mail_template');

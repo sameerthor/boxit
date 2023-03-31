@@ -110,6 +110,70 @@
     top: -9999px;
     left: -9999px;
   }
+  
+ .checkbox-inline{
+	 position: relative;
+	 padding-left: 30px !important;
+	 margin-right: 40px;
+   
+}
+ .check {
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 display: block;
+	 width: 1.4rem;
+	 height: 1.4rem;
+}
+ .form-horizontal .checkbox-inline .check, .form-horizontal .radio-inline .check {
+	 top: 7px;
+}
+ .checked_type {
+	 display: none;
+}
+ .checked_type ~ .check:before {
+	 -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+	 -moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+	 transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+	 -webkit-transform: rotate(-45deg) scale(0, 0);
+	 -moz-transform: rotate(-45deg) scale(0, 0);
+	 -ms-transform: rotate(-45deg) scale(0, 0);
+	 -o-transform: rotate(-45deg) scale(0, 0);
+	 transform: rotate(-45deg) scale(0, 0);
+	 content: "";
+	 position: absolute;
+	 margin-left: 0.1rem;
+	 left: 2px;
+	 top: 0.15rem;
+	 z-index: 1;
+	 width: 0.9rem;
+	 height: 0.5rem;
+	 border: 2px solid #172b4d;
+	 border-top-style: none;
+	 border-right-style: none;
+}
+ .checked_type:checked ~ .check:before {
+	 -webkit-transform: rotate(-45deg) scale(1, 1);
+	 -moz-transform: rotate(-45deg) scale(1, 1);
+	 -ms-transform: rotate(-45deg) scale(1, 1);
+	 -o-transform: rotate(-45deg) scale(1, 1);
+	 transform: rotate(-45deg) scale(1, 1);
+}
+ .checked_type ~ .check:after {
+	 content: "";
+	 position: absolute;
+	 top: -2px;
+	 left: 0;
+	 width: 1.4rem;
+	 height: 1.4rem;
+	 background: #fff;
+	 border: 2px solid #ccc;
+	 cursor: pointer;
+}
+ .checked_type:checked ~ .check:after {
+	 border: 2px solid #172b4d;
+}
+
 </style>
 <div id="project-form-d" class="card-new">
   <div class="card-body">
@@ -151,6 +215,38 @@
       <div class="form-group col-md-6 l-font-s">
         <label>Floor Area <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="floor_area"><i class="fa fa-save fa-lg"></i></span></label>
         <p class="view_item">{{$project->floor_area}}</p><input type="text" class="form-control edit_item" style="display:none" value="{{$project->floor_area}}">
+      </div>
+      <div class="form-group col-md-12">
+        <label><b>Status</b></label>
+        <br>
+        <label class="checkbox-inline" for="status-1">
+          <input type="checkbox" class="checked_type" {{in_array('1',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-1" value="1">Request Consent Conditions
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-2">
+          <input type="checkbox" class="checked_type" {{in_array('2',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-2" value="2">Add to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-3">
+          <input type="checkbox" class="checked_type" {{in_array('3',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-3" value="3">Upload Plumber details to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-4">
+          <input type="checkbox" class="checked_type" {{in_array('4',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-4" value="4">Upload Redacted Concrete Invoice to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-5">
+          <input type="checkbox" class="checked_type" {{in_array('5',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-5" value="5">Quote Accepted
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-6">
+          <input type="checkbox" class="checked_type" {{in_array('6',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-6" value="6">Project Added and Consumables Loaded
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-7">
+          <input type="checkbox" class="checked_type" {{in_array('7',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-7" value="7">FRU Spreadsheet
+          <span class="check"></span>
+        </label>
       </div>
       <div class="form-group col-md-6 l-font-s">
         <label>Foreman <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="foreman_id"><i class="fa fa-save fa-lg"></i></span></label>
@@ -1601,5 +1697,24 @@
     $("#unsave_passed_note").data('note', $(this).data('notes'));
     $(".condition_note").data('id', $(this).data('id'));
     $(".condition_note").data('label', $(this).data('label'));
+  })
+
+  $(".checked_type").on("change",function() {
+   var val=[];
+   $("input:checkbox[name='checkbox_status[]']:checked").each(function(){
+    val.push($(this).val());
+}); 
+   var id=$("input[name='project_id']").val();
+   jQuery.ajax({
+      type: 'POST',
+      url: "/change-checkbox-status",
+      data: {
+        project_id: id,
+        status: val,
+      },
+      success: function(data) {
+        
+      }
+    });
   })
 </script>

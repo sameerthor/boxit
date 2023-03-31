@@ -14,6 +14,7 @@ use App\Models\ProjectStatusLabel;
 use App\Models\ProjectStatus;
 use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
+use App\Models\ProjectCheckboxStatus;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
 use App\Models\Incident;
@@ -403,6 +404,13 @@ class ForemanController extends Controller
         $project = Booking::find($request->get('id'));
         $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
         $markout_checklist = $project->MarkoutChecklist;
+        $checked_checkbox_data=ProjectCheckboxStatus::where('project_id',$request->get('id'))->first();
+        if(!empty($checked_checkbox_data))
+        {
+        $checked_checkbox_status=$checked_checkbox_data->status; 
+        }else{
+        $checked_checkbox_status=[]; 
+        }
         $startup_data = $project->StartupChecklist;
         $safety = $project->SafetyPlan;
         $boxing_data = $project->boxing;
@@ -416,7 +424,7 @@ class ForemanController extends Controller
         })
             ->get();
         $contacts = Contact::all();
-        return view('foreman-single-project', compact('contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('foreman-single-project', compact('checked_checkbox_status','contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)
