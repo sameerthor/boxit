@@ -93,7 +93,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r">
-                  <input name="date[{{$department->id}}]" <?php if (@$contact_name=='NA') {
+                  <input name="date[{{$department->id}}]" <?php if (@$contact_name=='N/A') {
                                                       echo "disabled";
                                                     } ?> class="example dates" value="<?php echo $draft->DraftData[$department->id - 1]->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
@@ -177,7 +177,7 @@
     {
     $(".contacts").each(function() {
       var text = $(this).find('option:selected').text();
-      if (text == 'NA') {
+      if (text == 'N/A') {
         $(this).parents('.department_group').remove();
       }
     });
@@ -215,7 +215,7 @@
   
 $(".contacts").on("change",function(){
   var text= $(this).find('option:selected').text();
-if(text == 'NA')
+if(text == 'N/A')
 {
   $(this).parents('.department_group').find('.dates').prop('disabled', true);
 }else
