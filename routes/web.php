@@ -39,13 +39,16 @@ Route::get('/_mail-viewer/projects-data', function () {
     return $projects;
 });
 
-Route::get('/products', [App\Http\Controllers\DepartmentController::class, 'index'])->name('products');
+Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
 
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
-    Route::post('/edit-product', [App\Http\Controllers\DepartmentController::class, 'edit'])->name('products.edit');
-    Route::post('/update-product', [App\Http\Controllers\DepartmentController::class, 'update'])->name('products.update');
+    Route::post('/add-product', [App\Http\Controllers\ProductController::class, 'add_product'])->name('product.add');
+    Route::post('/productsbydepartment', [App\Http\Controllers\ProductController::class, 'productsbydepartment'])->name('products.get');
+    Route::post('/edit-product', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
+    Route::post('/update-product', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+    Route::post('/delete-product', [App\Http\Controllers\ProductController::class, 'delete_product'])->name('product.delete');
     Route::get('/new-email/{id}', [App\Http\Controllers\BookingController::class, 'new_booking_email']);
     Route::post('/save-foreman-notes', [App\Http\Controllers\BookingController::class, 'store_foreman_notes']);
     Route::post('/hold-project', [App\Http\Controllers\BookingController::class, 'hold_project']);
