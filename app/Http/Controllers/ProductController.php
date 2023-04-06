@@ -83,9 +83,9 @@ class ProductController extends Controller
         return  true;
     }
 
-    public function delete_contact(Request $request)
+    public function delete_product(Request $request)
     {
-        Contact::destroy($request->get('id'));
+        Product::destroy($request->get('id'));
         return true;
     }
 }
