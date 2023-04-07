@@ -17304,6 +17304,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var params,
           merge,
+          urlParams,
+          p_id,
           response,
           _data$emails,
           _args = arguments;
@@ -17314,15 +17316,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               merge = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
               loading.value = true;
               params.search = search.value;
+              urlParams = new URLSearchParams(window.location.search);
+              p_id = urlParams.get('project_id');
+              if (p_id !== null) {
+                params.search = '#' + p_id;
+              }
+              console.log(p_id);
               Object.entries(filters.value).forEach(function (_ref2) {
                 var _ref3 = _slicedToArray(_ref2, 2),
                   key = _ref3[0],
                   value = _ref3[1];
                 return params[key] = value;
               });
-              _context.next = 7;
+              _context.next = 11;
               return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].fetchMails(params);
-            case 7:
+            case 11:
               response = _context.sent;
               if (response) {
                 data.page = response.data['current_page'];
@@ -17333,7 +17341,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }) ? data.currentEmail : (_data$emails = data.emails) === null || _data$emails === void 0 ? void 0 : _data$emails[0];
                 loading.value = false;
               }
-            case 9:
+            case 13:
             case "end":
               return _context.stop();
           }
@@ -17810,6 +17818,8 @@ __webpack_require__.r(__webpack_exports__);
       dateFrom: '',
       dateTo: ''
     });
+    var urlParams = new URLSearchParams(window.location.search);
+    var p_id = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(urlParams.get('project_id'));
     var onInput = lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default()(function () {
       emit('search', search.value);
     }, 500);
@@ -17835,6 +17845,8 @@ __webpack_require__.r(__webpack_exports__);
       search: search,
       showFilter: showFilter,
       filters: filters,
+      urlParams: urlParams,
+      p_id: p_id,
       emit: emit,
       onInput: onInput,
       toggleFilter: toggleFilter,
@@ -18525,7 +18537,9 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-1 w-full relative group", $setup.showFilter ? 'mb-2' : 'mb-4'])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(_ctx.$attrs, {
+  }, [$setup.p_id == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+    key: 0
+  }, _ctx.$attrs, {
     onChange: _cache[0] || (_cache[0] = function ($event) {
       return $setup.onChangeProject($event);
     }),
@@ -18534,7 +18548,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: '#' + project.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.address), 9 /* TEXT, PROPS */, _hoisted_4);
-  }), 256 /* UNKEYED_FRAGMENT */))], 16 /* FULL_PROPS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 256 /* UNKEYED_FRAGMENT */))], 16 /* FULL_PROPS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "absolute top-2 right-4 text-indigo-600 font-bold text-2xl cursor-pointer hidden group-hover:block hover:opacity-70 transition",
     onClick: $setup.clearSearch
   }, " × ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.search]])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
