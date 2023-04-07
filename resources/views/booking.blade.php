@@ -146,7 +146,7 @@
               <div class=" row council_37 council_services" style="display:none">
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Compact Hardfill]" value="37">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Compact Hardfill]" value="37">
                     <label class="form-check-label">Compact Hardfill</label>
                   </div>
                 </div>
@@ -156,7 +156,7 @@
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Pre Pour]" value="37">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Pre Pour]" value="37">
                     <label class="form-check-label">Pre Pour</label>
                   </div>
                 </div>
@@ -198,7 +198,7 @@
               <div class=" row council_38 council_services" style="display:none">
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Compact Hardfill]" value="38">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Compact Hardfill]" value="38">
                     <label class="form-check-label">Compact Hardfill</label>
                   </div>
                 </div>
@@ -208,7 +208,7 @@
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Pre Pour]" value="38">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Pre Pour]" value="38">
                     <label class="form-check-label">Pre Pour</label>
                   </div>
                 </div>
@@ -250,7 +250,7 @@
               <div class=" row council_39 council_services" style="display:none">
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Underslab Drainage]" value="39">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Underslab Drainage]" value="39">
                     <label class="form-check-label">Underslab Drainage</label>
                   </div>
                 </div>
@@ -260,7 +260,7 @@
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input council-checkboxes" value="1" name="department[{{$department->id}}][Pre Pour]" value="39">
+                    <input type="checkbox" class="form-check-input council-checkboxes"  name="department[{{$department->id}}][Pre Pour]" value="39">
                     <label class="form-check-label">Pre Pour</label>
                   </div>
                 </div>
