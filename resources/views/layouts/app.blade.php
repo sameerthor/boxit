@@ -36,6 +36,7 @@
 	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{ asset('js/repeater/repeater.js') }}" defer></script>
+	<script src="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"></script>
 	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -122,18 +122,76 @@
 
 </div>
 <script>
-	tinymce.init({
-		selector: "textarea",
-		plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
-		menubar: 'file edit view insert format tools table tc help',
-		toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
-		autosave_ask_before_unload: true,
-		image_advtab: true,
-		height: 300,
-		image_caption: true,
-		toolbar_mode: 'sliding',
-		contextmenu: 'link image imagetools table configurepermanentpen',
+	$("textarea").each(function() {
+		var id = $(this).attr('id');
 
+		CKEDITOR.replace(id, {
+			// Make the editing area bigger than default.
+			height: 450,
+			// Allow pasting any content.
+			allowedContent: true,
+			fillEmptyBlocks: false,
+
+			// Fit toolbar buttons inside 3 rows.
+			toolbarGroups: [{
+					name: 'document',
+					groups: ['mode', 'document', 'doctools']
+				},
+				{
+					name: 'clipboard',
+					groups: ['clipboard', 'undo']
+				},
+				{
+					name: 'editing',
+					groups: ['find', 'selection', 'spellchecker', 'editing']
+				},
+				{
+					name: 'forms',
+					groups: ['forms']
+				},
+				'/',
+				{
+					name: 'paragraph',
+					groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+				},
+				{
+					name: 'links',
+					groups: ['links']
+				},
+				{
+					name: 'insert',
+					groups: ['insert']
+				},
+				'/',
+				{
+					name: 'styles',
+					groups: ['styles']
+				},
+				{
+					name: 'basicstyles',
+					groups: ['basicstyles', 'cleanup']
+				},
+				{
+					name: 'colors',
+					groups: ['colors']
+				},
+				{
+					name: 'tools',
+					groups: ['tools']
+				},
+				{
+					name: 'others',
+					groups: ['others']
+				},
+				{
+					name: 'about',
+					groups: ['about']
+				}
+			],
+
+			// Remove buttons irrelevant for pasting from external sources.
+			removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
+		});
 	});
 	$.ajaxSetup({
 		headers: {
@@ -162,10 +220,8 @@
 					}
 				});
 				$(".email_content").find("textarea").each(function() {
-					$(this).replaceWith(tinymce.get($(this).attr('id')).getContent({
-						format: 'raw'
-					}));
-					tinymce.get($(this).attr('id')).remove();
+					$(this).replaceWith(CKEDITOR.instances[$(this).attr('id')].getData().trim());
+					CKEDITOR.instances[$(this).attr('id')].destroy();
 				});
 
 				var formdata = new FormData();

@@ -68,10 +68,10 @@
         $html.="<p class='product'>$product- [qty]</p>";
         }
         }
-        if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') 
+        if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5')
         $html .="BCN- [bcn]";
         $html.='<br>
-        Address: [address]<br> 
+        Address: [address]<br>
         Date and Time:<br>
         [date]<br>
         [time]
@@ -108,55 +108,103 @@
   <script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
 
   <script>
-    tinymce.init({
-      selector: "textarea",
-      plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
-      menubar: 'file edit view insert format tools table tc help',
-      toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
-      autosave_ask_before_unload: true,
-      image_advtab: true,
-      height: 500,
-      image_caption: true,
-      toolbar_mode: 'sliding',
-      contextmenu: 'link image imagetools table configurepermanentpen',
-      setup: function(editor) {
-        editor.on('Paste Change input Undo Redo', function(e) {
-          var text = editor.getContent();
-          console.log(text);
-          setTimeout(function() {
-            getIframehtml()
-          }, 100);
+    CKEDITOR.replace('editor', {
+      // Make the editing area bigger than default.
+      height: 450,
+      // Allow pasting any content.
+      allowedContent: true,
+      fillEmptyBlocks: false,
 
-        });
-      }
+      // Fit toolbar buttons inside 3 rows.
+      toolbarGroups: [{
+          name: 'document',
+          groups: ['mode', 'document', 'doctools']
+        },
+        {
+          name: 'clipboard',
+          groups: ['clipboard', 'undo']
+        },
+        {
+          name: 'editing',
+          groups: ['find', 'selection', 'spellchecker', 'editing']
+        },
+        {
+          name: 'forms',
+          groups: ['forms']
+        },
+        '/',
+        {
+          name: 'paragraph',
+          groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+        },
+        {
+          name: 'links',
+          groups: ['links']
+        },
+        {
+          name: 'insert',
+          groups: ['insert']
+        },
+        '/',
+        {
+          name: 'styles',
+          groups: ['styles']
+        },
+        {
+          name: 'basicstyles',
+          groups: ['basicstyles', 'cleanup']
+        },
+        {
+          name: 'colors',
+          groups: ['colors']
+        },
+        {
+          name: 'tools',
+          groups: ['tools']
+        },
+        {
+          name: 'others',
+          groups: ['others']
+        },
+        {
+          name: 'about',
+          groups: ['about']
+        }
+      ],
+
+      // Remove buttons irrelevant for pasting from external sources.
+      removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
     });
-    $(function() {
 
-      $(document).on("keyup",".product_items", function() {
-        getIframehtml();
-      }); 
-
-     
-      $('.repeater-add-btn').click(function() {
-        $("#repeater").append($(".hidden_html").html());
-      })
+    CKEDITOR.instances.editor.on('change', function() {
+      getIframehtml()
     });
+
+
+    $(document).on("keyup", ".product_items", function() {
+      getIframehtml();
+    });
+
+
+    $('.repeater-add-btn').click(function() {
+      $("#repeater").append($(".hidden_html").html());
+    })
+
 
     function getIframehtml() {
-      var html= tinymce.get("editor").getContent();
-      html+="<br>";
-      $(".product_items").each(function(){
-        var p_name=$(this).find("input").val();
-        if(p_name!='')
-        {
-        html+="<p>"+p_name+"- [qty]</p>";
+      var html = CKEDITOR.instances["editor"].getData().trim();
+      html += "<br>";
+      $(".product_items").each(function() {
+        var p_name = $(this).find("input").val();
+        if (p_name != '') {
+          html += "<p>" + p_name + "- [qty]</p>";
         }
       });
-      <?php if($template->department->id=='6' || $template->department->id=='7' || $template->department->id=='5') { ?>
-        html +='BCN- [bcn]';
-       <?php } ?> 
-      html+='<br>Address: [address]<br>';      
-      html+='<br>Date and Time:<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+      <?php if ($template->department->id == '6' || $template->department->id == '7' || $template->department->id == '5') { ?>
+        html += 'BCN- [bcn]';
+      <?php } ?>
+      html += '<br>Address: [address]<br>';
+      html += '<br>Date and Time:<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
 
       document.getElementById("myFrame").srcdoc = html;
 
