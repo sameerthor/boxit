@@ -229,7 +229,7 @@
             <div class="form-group col-md-12 l-font-s">
                 <label>File</label>
                 <br />
-                <div class="row">
+                <div class="row file-listing">
                     @foreach($project->file as $f)
                     <div class="form-group increment col-md-6 bg-shadow">
                         <label>{{$f}}</label>
