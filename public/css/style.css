@@ -1962,3 +1962,8 @@ span.foreman_notes_edit {
 .noteExist{
 color: #ee3a3a !important;
 }
+
+div.file-listing .col-md-6 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
