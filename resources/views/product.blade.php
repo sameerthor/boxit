@@ -15,13 +15,13 @@
         </div>
       </div>
       <div class="row d-flex pb-40">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="inp-relv">
             <img src="img/frame-2@2x.svg">
             <input type="seach" name="search" id="search" placeholder="Search">
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="add-new-c">
             <img src="img/plus.png"><span id="add_product">Add New Product</span>
           </div>
@@ -192,12 +192,12 @@
         $("#title").val("");
         $('#image').val("")
         $("#description").val("");
-        Swal.fire({
-          icon: 'success',
-          title: 'Product has been saved successfully',
-          showConfirmButton: false,
-        })
-        refreshtable();
+        Toast.fire({
+                    icon: 'success',
+                    title: "Product has been saved successfuly."
+                }).then(function(result) {
+                  refreshtable();
+                });
       }
     });
   });
@@ -212,7 +212,16 @@
       contentType: false,
       data: formData,
       success: function(data) {
-        window.location.reload();
+        $("#product_form").modal('hide');
+        $("#title").val("");
+        $('#image').val("")
+        $("#description").val("");
+        Toast.fire({
+                    icon: 'success',
+                    title: "Product has been saved successfuly."
+                }).then(function(result) {
+                  refreshtable();
+                });
       }
     });
   });
