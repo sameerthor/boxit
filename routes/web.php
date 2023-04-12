@@ -58,6 +58,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/add-user', [App\Http\Controllers\UserController::class, 'add_user'])->name('user.add');
     Route::post('/edit-user', [App\Http\Controllers\UserController::class, 'edit_user'])->name('user.edit');
     Route::post('/update-user', [App\Http\Controllers\UserController::class, 'update_user'])->name('user.update');
+    Route::post('/user-mail', [App\Http\Controllers\UserController::class, 'mail_user']);
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
     Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
     Route::get('/delete-draft/{id}', [App\Http\Controllers\BookingController::class, 'delete_draft']);

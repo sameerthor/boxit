@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div id="content">
   <div class="container">
     <div class="card-new ptb-50">
@@ -23,8 +25,11 @@
             <img src="img/plus.png"><span id="add_user">Add New User</span>
           </div>
         </div>
-        <div class="col-md-6 text-r select-style">
+        <div class="col-md-4 text-r select-style">
 
+        </div>
+        <div class="col-md-2 text-r select-style">
+          <button data-toggle="modal" class="btn btn-secondary btn-color" data-target="#email_form">Send mail</button>  
         </div>
       </div>
       <div class="row">
@@ -61,6 +66,41 @@
     </div>
   </div>
 
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="email_form">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Mail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ url('user-mail')  }}">
+          @csrf
+          <div class="form-group">
+            <label for="mail" class="col-form-label">Body</label>
+            <textarea name="mail" required class="form-control" id="mail"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="emails" class="col-form-label">Users (Mail will send to all users if not selected)</label>
+            <br>
+            <select  name="emails[]" id="emails" multiple="multiple">
+            @foreach($users as $user)  
+            <option value="{{$user->email}}">{{ucfirst($user->name)}}</option>
+            @endforeach
+            </select>
+          </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="submit"  class="save_button btn btn-secondary">Send</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
 </div>
 <div class="modal fade" tabindex="-1" role="dialog" id="user_form">
   <div class="modal-dialog" role="document">
@@ -112,6 +152,78 @@
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  $('#email_form').on('shown.bs.modal', function (e) {
+    $('#emails').select2();
+
+})
+
+  CKEDITOR.replace('mail', {
+			// Make the editing area bigger than default.
+			height: 450,
+			// Allow pasting any content.
+			allowedContent: true,
+			fillEmptyBlocks: false,
+
+			// Fit toolbar buttons inside 3 rows.
+			toolbarGroups: [{
+					name: 'document',
+					groups: ['mode', 'document', 'doctools']
+				},
+				{
+					name: 'clipboard',
+					groups: ['clipboard', 'undo']
+				},
+				{
+					name: 'editing',
+					groups: ['find', 'selection', 'spellchecker', 'editing']
+				},
+				{
+					name: 'forms',
+					groups: ['forms']
+				},
+				'/',
+				{
+					name: 'paragraph',
+					groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+				},
+				{
+					name: 'links',
+					groups: ['links']
+				},
+				{
+					name: 'insert',
+					groups: ['insert']
+				},
+				'/',
+				{
+					name: 'styles',
+					groups: ['styles']
+				},
+				{
+					name: 'basicstyles',
+					groups: ['basicstyles', 'cleanup']
+				},
+				{
+					name: 'colors',
+					groups: ['colors']
+				},
+				{
+					name: 'tools',
+					groups: ['tools']
+				},
+				{
+					name: 'others',
+					groups: ['others']
+				},
+				{
+					name: 'about',
+					groups: ['about']
+				}
+			],
+
+			// Remove buttons irrelevant for pasting from external sources.
+			removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
+		});
 
   $('#search').on('keyup change', function() {
     refreshtable();

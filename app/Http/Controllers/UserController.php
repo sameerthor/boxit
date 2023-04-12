@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use App\Jobs\BookingEmailJob;
 use Carbon\Carbon;
+use Session;
 class UserController extends Controller
 {
     
@@ -64,5 +66,27 @@ class UserController extends Controller
         $user->last_notify = Carbon::now()->toDateTimeString();;
         $user->save();
     }
+
+    public function mail_user(Request $request)
+    {
+        $body=$request->mail;
+        $emails=$request->emails;
+        if(empty($emails))
+        $emails=User::all()->pluck('email');
+        foreach($emails as $res)
+        {
+        $details['to'] = $res;
+        $details['url'] = 'testing';
+        $details['subject'] = 'Notification';
+        $details['body'] = $body;
+        $details['files'] = [];
+        dispatch(new BookingEmailJob($details));
+        }
+
+        Session::flash('succes_msg', 'Mail has been sent successfuly.');
+        return redirect('/user-management');
+
+
+    }   
 
 }
