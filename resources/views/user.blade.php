@@ -68,7 +68,7 @@
 
 </div>
 <div class="modal fade" tabindex="-1" role="dialog" id="email_form">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog  modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Send Mail</h5>
@@ -95,7 +95,7 @@
          
       </div>
       <div class="modal-footer">
-        <button type="submit"  class="save_button btn btn-secondary">Send</button>
+        <button type="submit"  class="save_button btn btn-secondary">Send Mail</button>
       </div>
       </form>
 
