@@ -34,10 +34,21 @@ Route::post('/vendor-modal-data', [App\Http\Controllers\ContactController::class
 
 Route::post('/change-project-status', [App\Http\Controllers\ForemanController::class, 'changeStatus']);
 Route::post('/foreman-notes', [App\Http\Controllers\ForemanController::class, 'foreman_notes']);
+Route::get('/_mail-viewer/projects-data', function () {
+    $projects = \App\Models\Booking::all();
+    return $projects;
+});
+
+Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
 
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
+    Route::post('/add-product', [App\Http\Controllers\ProductController::class, 'add_product'])->name('product.add');
+    Route::post('/productsbydepartment', [App\Http\Controllers\ProductController::class, 'productsbydepartment'])->name('products.get');
+    Route::post('/edit-product', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
+    Route::post('/update-product', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+    Route::post('/delete-product', [App\Http\Controllers\ProductController::class, 'delete_product'])->name('product.delete');
     Route::get('/new-email/{id}', [App\Http\Controllers\BookingController::class, 'new_booking_email']);
     Route::post('/save-foreman-notes', [App\Http\Controllers\BookingController::class, 'store_foreman_notes']);
     Route::post('/hold-project', [App\Http\Controllers\BookingController::class, 'hold_project']);
@@ -47,6 +58,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/add-user', [App\Http\Controllers\UserController::class, 'add_user'])->name('user.add');
     Route::post('/edit-user', [App\Http\Controllers\UserController::class, 'edit_user'])->name('user.edit');
     Route::post('/update-user', [App\Http\Controllers\UserController::class, 'update_user'])->name('user.update');
+    Route::post('/user-mail', [App\Http\Controllers\UserController::class, 'mail_user']);
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
     Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
     Route::get('/delete-draft/{id}', [App\Http\Controllers\BookingController::class, 'delete_draft']);
@@ -73,6 +85,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
+    Route::post('/change-checkbox-status', [App\Http\Controllers\ProjectController::class, 'change_checkbox_status']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
     Route::group(['prefix' => 'mail-template'], function () {
         Route::get('/', [App\Http\Controllers\MailController::class, 'index'])->name('mail_template');

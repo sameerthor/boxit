@@ -35,7 +35,7 @@
           <div class="modal-body">
             <div id="confirm_text">
               <p>Address : <strong><u>{{$booking_data->booking->address}}</u></strong></p>
-              <p>Department : <strong><u>{{$booking_data->department->title}}</u></strong></p>
+              <p>Department : <strong><u>{{$booking_data->department->title}} {{$booking_data->service!=''?'('.$booking_data->service.')':''}}</u></strong></p>
               <p>Contact : <strong><u>{{$booking_data->contact->title}}</u></strong></p>
               <p>Date : <strong><u>{{date("d-m-Y h:i A",strtotime($booking_data->date))}}</u></strong></p>
               <br>

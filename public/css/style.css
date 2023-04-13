@@ -101,6 +101,8 @@ left: 25px;
     border-radius: 3px;
     font-size: 12px;
     color: #69768C;
+    width: 100%;
+
 }
 .p-15{
 	padding: 10px 15px;
@@ -479,7 +481,7 @@ div#content .row {
 	font-weight: 600;
 	color: #172b4d;
 }
-#booking input ,#booking select ,#booking textarea{
+#booking input[type='text'] ,#booking select ,#booking textarea{
 	font-size: 12px !important;
 	width: 100%;
 	border: 1px solid #172b4d !important;
@@ -1967,3 +1969,7 @@ div.file-listing .col-md-6 {
   flex: 0 0 100% !important;
   max-width: 100% !important;
 }
+.form-group > .select2-container {
+  width: 100% !important;
+}
+

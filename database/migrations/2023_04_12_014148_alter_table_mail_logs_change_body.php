@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddReasonToProjectStatusTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddReasonToProjectStatusTable extends Migration
      */
     public function up()
     {
-        Schema::table('project_status', function (Blueprint $table) {
-            $table->string("reason")->nullable();
-
+        Schema::table('mail_logs', function (Blueprint $table) {
+            $table->longText('body')->change();
         });
     }
 
@@ -26,8 +25,8 @@ class AddReasonToProjectStatusTable extends Migration
      */
     public function down()
     {
-        Schema::table('project_status_label', function (Blueprint $table) {
+        Schema::table('mail_logs', function (Blueprint $table) {
             //
         });
     }
-}
+};

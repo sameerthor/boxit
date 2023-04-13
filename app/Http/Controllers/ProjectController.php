@@ -9,11 +9,11 @@ use App\Models\ProjectStatusLabel;
 use App\Models\QaChecklist;
 use App\Models\MailTemplate;
 use App\Models\Contact;
+use App\Models\ProjectCheckboxStatus;
 use App\Models\User;
 use App\Jobs\BookingEmailJob;
 use DB;
 use Session;
-
 class ProjectController extends Controller
 {
     /**
@@ -135,13 +135,20 @@ class ProjectController extends Controller
         $safety = $project->SafetyPlan;
         //dd($safety);
         $qaChecklist = QaChecklist::all();
+        $checked_checkbox_data=ProjectCheckboxStatus::where('project_id',$request->get('id'))->first();
+        if(!empty($checked_checkbox_data))
+        {
+        $checked_checkbox_status=$checked_checkbox_data->status; 
+        }else{
+        $checked_checkbox_status=[]; 
+        }
         $ProjectStatusLabel = ProjectStatusLabel::where(function ($query) use ($department_ids) {
             $query->where('department_id', '=', '')
                 ->orWhereIn('department_id', $department_ids);
         })
             ->get();
         $contacts = Contact::all();
-        return view('single-project', compact('contacts', 'foremans', 'safety', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('single-project', compact('checked_checkbox_status','contacts', 'foremans', 'safety', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)
     {
@@ -155,7 +162,7 @@ class ProjectController extends Controller
             $html = '<p>The following booking has been cancelled.</p>';
             $html .= "<p>Address: " . $booking->address . "<br>";
             $html .= "Date: " . $b_date . "</p>";
-            $html .= 'Thank You,<br>
+            $html .= '<p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -171,5 +178,10 @@ class ProjectController extends Controller
         }
 
         echo true;
+    }
+
+    public function change_checkbox_status(Request $request)
+    {
+       ProjectCheckboxStatus::updateOrCreate(['project_id' => $request->get('project_id')],['status'=>$request->get('status')]);
     }
 }

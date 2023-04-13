@@ -14,6 +14,7 @@ use App\Models\ProjectStatusLabel;
 use App\Models\ProjectStatus;
 use App\Jobs\BookingEmailJob;
 use App\Models\ForemanTemplates;
+use App\Models\ProjectCheckboxStatus;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
 use App\Models\Incident;
@@ -143,7 +144,7 @@ class ForemanController extends Controller
             $b_id = '';
             foreach ($booking_data as $boo) {
                 $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
-                $dep = $boo->department->title;
+                $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
                 $style = '';
                 switch ($boo->status) {
                     case '0':
@@ -198,7 +199,7 @@ class ForemanController extends Controller
                 $b_id = '';
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $dep = $boo->department->title;
+                    $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -260,7 +261,7 @@ class ForemanController extends Controller
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                            $dep = $booking_data->department->title;
+                            $dep = $booking_data->department->title.($booking_data->service!=''?' ('.$booking_data->service.')':'');
                             $style = '';
                             switch ($booking_data->status) {
                                 case '0':
@@ -304,7 +305,7 @@ class ForemanController extends Controller
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
-            $title = $res->department->title;
+            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -332,7 +333,7 @@ class ForemanController extends Controller
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title;
+            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -403,6 +404,13 @@ class ForemanController extends Controller
         $project = Booking::find($request->get('id'));
         $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
         $markout_checklist = $project->MarkoutChecklist;
+        $checked_checkbox_data=ProjectCheckboxStatus::where('project_id',$request->get('id'))->first();
+        if(!empty($checked_checkbox_data))
+        {
+        $checked_checkbox_status=$checked_checkbox_data->status; 
+        }else{
+        $checked_checkbox_status=[]; 
+        }
         $startup_data = $project->StartupChecklist;
         $safety = $project->SafetyPlan;
         $boxing_data = $project->boxing;
@@ -416,7 +424,7 @@ class ForemanController extends Controller
         })
             ->get();
         $contacts = Contact::all();
-        return view('foreman-single-project', compact('contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('foreman-single-project', compact('checked_checkbox_status','contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)

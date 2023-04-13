@@ -36,6 +36,7 @@
 	<script src="{{ asset('js/timepicker/jquery.datetimepicker.js') }}" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js" integrity="sha512-bHeT+z+n8rh9CKrSrbyfbINxu7gsBmSHlDCb3gUF1BjmjDzKhoKspyB71k0CIRBSjE5IVQiMMVBgCWjF60qsvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{ asset('js/repeater/repeater.js') }}" defer></script>
+	<script src="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"></script>
 	<link rel="stylesheet" href="{{ asset('js/timepicker/jquery.datetimepicker.css') }}" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,9 +90,11 @@
 							<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 							<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
 							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/users.png">User Management</a></li>
+							<li class="{{ request()->routeIs('products') ? 'active' : '' }}"><a href="{{url('/products')}}" class="nav_link"><img src="/img/contacts.png">Products</a></li>
 							<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/settings.png">Settings</a></li>
 							@endif
 							@if(Auth::user()->hasRole('Foreman'))
+							<li class="{{ request()->routeIs('products') ? 'active' : '' }}"><a href="{{url('/products')}}" class="nav_link"><img src="/img/contacts.png">Products</a></li>
 							<li class="{{ request()->routeIs('check-list') ? 'active' : '' }}"><a href="{{url('/check-list')}}" class="nav_link"><img src="/img/booking.png">Projects</a></li>
 							@endif
 						</ul>
@@ -109,6 +112,7 @@
 											<input type="text" name="q" class="search-input submit_on_enter" value="{{ Request::get('q') }}" placeholder="Type & Press Enter to Search " />
 											<button class="search-icon" type="button" onclick="searchToggle(this, event);"><img src="/img/search.png"></button>
 										</div>
+                                        <?php if(request('completed_projects')=='1') echo '<input type="text" style="display:none" value="1" name="completed_projects"';?>
 										<span class="close" onclick="searchToggle(this, event);"></span>
 									
 									</div>
