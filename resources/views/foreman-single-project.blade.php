@@ -1,4 +1,14 @@
+
 <style>
+    .image-upload>input {
+        display: none;
+    }
+
+    .image-upload img {
+        width: 32px;
+        cursor: pointer;
+    }
+
     .increment {
         padding: 2px 8px 2px 14px;
         border: 1px solid black;
@@ -160,69 +170,77 @@
         margin: 0;
         padding: 0;
     }
-    .checkbox-inline{
-	 position: relative;
-	 padding-left: 30px !important;
-	 margin-right: 40px;
-   
-}
- .check {
-	 position: absolute;
-	 top: 0;
-	 left: 0;
-	 display: block;
-	 width: 1.4rem;
-	 height: 1.4rem;
-}
- .form-horizontal .checkbox-inline .check, .form-horizontal .radio-inline .check {
-	 top: 7px;
-}
- .checked_type {
-	 display: none;
-}
- .checked_type ~ .check:before {
-	 -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
-	 -moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
-	 transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
-	 -webkit-transform: rotate(-45deg) scale(0, 0);
-	 -moz-transform: rotate(-45deg) scale(0, 0);
-	 -ms-transform: rotate(-45deg) scale(0, 0);
-	 -o-transform: rotate(-45deg) scale(0, 0);
-	 transform: rotate(-45deg) scale(0, 0);
-	 content: "";
-	 position: absolute;
-	 margin-left: 0.1rem;
-	 left: 2px;
-	 top: 0.15rem;
-	 z-index: 1;
-	 width: 0.9rem;
-	 height: 0.5rem;
-	 border: 2px solid #172b4d;
-	 border-top-style: none;
-	 border-right-style: none;
-}
- .checked_type:checked ~ .check:before {
-	 -webkit-transform: rotate(-45deg) scale(1, 1);
-	 -moz-transform: rotate(-45deg) scale(1, 1);
-	 -ms-transform: rotate(-45deg) scale(1, 1);
-	 -o-transform: rotate(-45deg) scale(1, 1);
-	 transform: rotate(-45deg) scale(1, 1);
-}
- .checked_type ~ .check:after {
-	 content: "";
-	 position: absolute;
-	 top: -2px;
-	 left: 0;
-	 width: 1.4rem;
-	 height: 1.4rem;
-	 background: #fff;
-	 border: 2px solid #ccc;
-	 cursor: pointer;
-}
- .checked_type:checked ~ .check:after {
-	 border: 2px solid #172b4d;
-}
 
+    .checkbox-inline {
+        position: relative;
+        padding-left: 30px !important;
+        margin-right: 40px;
+
+    }
+
+    .check {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+    .form-horizontal .checkbox-inline .check,
+    .form-horizontal .radio-inline .check {
+        top: 7px;
+    }
+
+    .checked_type {
+        display: none;
+    }
+
+    .checked_type~.check:before {
+        -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+        -moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+        transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+        -webkit-transform: rotate(-45deg) scale(0, 0);
+        -moz-transform: rotate(-45deg) scale(0, 0);
+        -ms-transform: rotate(-45deg) scale(0, 0);
+        -o-transform: rotate(-45deg) scale(0, 0);
+        transform: rotate(-45deg) scale(0, 0);
+        content: "";
+        position: absolute;
+        margin-left: 0.1rem;
+        left: 2px;
+        top: 0.15rem;
+        z-index: 1;
+        width: 0.9rem;
+        height: 0.5rem;
+        border: 2px solid #172b4d;
+        border-top-style: none;
+        border-right-style: none;
+    }
+
+    .checked_type:checked~.check:before {
+        -webkit-transform: rotate(-45deg) scale(1, 1);
+        -moz-transform: rotate(-45deg) scale(1, 1);
+        -ms-transform: rotate(-45deg) scale(1, 1);
+        -o-transform: rotate(-45deg) scale(1, 1);
+        transform: rotate(-45deg) scale(1, 1);
+    }
+
+    .checked_type~.check:after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        background: #fff;
+        border: 2px solid #ccc;
+        cursor: pointer;
+    }
+
+    .checked_type:checked~.check:after {
+        border: 2px solid #172b4d;
+    }
 </style>
 <div class="modal fade" role="dialog" id="reason_form">
     <div class="modal-dialog">
@@ -473,6 +491,7 @@
                                         @php $project_qa=$qaChecklist[0]->ProjectQaChecklist($project->id)->get(); @endphp
                                         <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->initial:''}}" name="initial[1]"></td>
                                         <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->office_use:''}}" name="office_use[1]"></td>
+
                                     </tr>
                                     <tr>
                                         <td>Address:</td>
@@ -516,7 +535,7 @@
                         </form>
                     </div>
                     <div style="padding:2%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
-                        <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form">
+                        <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form" enctype=multipart/form-data>
                             @csrf
                             <h5>Mark Out Checklist</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
@@ -530,13 +549,13 @@
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label "><strong>Address:</strong></label>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" name="markout_data[address]" value="{{ $markout_checklist!=null ? $markout_checklist->address : '' }}">
+                                        <input type="text" class="form-control" name="markout_data[address]" value="{{$project->address}}">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label "><strong>Housing Company:</strong></label>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" name="markout_data[housing_company]" value="{{ $markout_checklist!=null ? $markout_checklist->housing_company : '' }}">
+                                        <input type="text" class="form-control" name="markout_data[housing_company]" value="{{$project->BookingData[0]->contact->title}}">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -544,11 +563,27 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[power]" value="{{ $markout_checklist!=null ? $markout_checklist->power : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($markout_checklist!=null && $markout_checklist->power_image !=null) 
+                                        ? 
+                                        "<input type='hidden' name='markout_data[power_image]' value='$markout_checklist->power_image' ><a class='demo' href='/images/$markout_checklist->power_image' data-lightbox='example-$markout_checklist->power_image'><img class='example-image' width='125' src='/images/$markout_checklist->power_image'></a>"
+                                        :
+                                        "<div class='image-upload'><label for='file-input'><img src='/img/upload-image.svg' /></label><input id='file-input' name='markout_data[power_image]' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Site fenced</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[site_fenced]" value="{{ $markout_checklist!=null ? $markout_checklist->site_fenced : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                    {!! ($markout_checklist!=null && $markout_checklist->site_fenced_image !=null) 
+                                        ? 
+                                        "<input type='hidden' name='markout_data[site_fenced_image]' value='$markout_checklist->site_fenced_image'><a class='demo' href='/images/$markout_checklist->site_fenced_image' data-lightbox='example-$markout_checklist->site_fenced_image'><img class='example-image' width='125' src='/images/$markout_checklist->site_fenced_image'></a>"
+                                        :
+                                        "<div class='image-upload'><label for='file-input'><img src='/img/upload-image.svg' /></label><input id='file-input' name='markout_data[site_fenced_image]' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -1952,4 +1987,18 @@
         });
 
     }
+    lightbox.option({
+        albumLabel: 'Image %1 of %2',
+        alwaysShowNavOnTouchDevices: false,
+        fadeDuration: 600,
+        fitImagesInViewport: true,
+        imageFadeDuration: 600,
+        maxWidth: 900,
+        maxHeight: 700,
+        positionFromTop: 50,
+        resizeDuration: 700,
+        showImageNumberLabel: true,
+        wrapAround: false, // If true, when a user reaches the last image in a set, the right navigation arrow will appear and they will be to continue moving forward which will take them back to the first image in the set.
+        sanitizeTitle: false
+    })
 </script>

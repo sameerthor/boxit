@@ -476,6 +476,14 @@ class ForemanController extends Controller
         $project_id = $request->get('project_id');
         $res = MarkoutChecklist::where('project_id', $project_id)->delete();
         $final_array = $request->get('markout_data');
+        if ($request->hasfile('markout_data')) {
+            foreach ($request->file('markout_data') as $key=>$file) {
+                $file_name = $file->getClientOriginalName();
+                $name = time() . rand(1, 100) . '-' . $file_name;
+                $file->move('images', $name);
+                $final_array[$key] = $name;
+            }
+        }
         $final_array['project_id'] = $project_id;
         MarkoutChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');

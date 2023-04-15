@@ -546,12 +546,28 @@
                 <div class="col-md-4">
                   <input type="text" readonly class="form-control" name="markout_data[power]" value="{{ $markout_checklist!=null ? $markout_checklist->power : '' }}">
                 </div>
+                <div class="col-md-1">
+                                        {!! ($markout_checklist!=null && $markout_checklist->power_image !=null) 
+                                        ? 
+                                        "<a class='demo' href='/images/$markout_checklist->power_image' data-lightbox='example-$markout_checklist->power_image'><img class='example-image' width='125' src='/images/$markout_checklist->power_image'></a>"
+                                        :
+                                        ""
+                                        !!}
+                                    </div>
               </div>
               <div class="row mb-3">
                 <label for="name" class="col-md-6 col-form-label ">Site fenced</label>
                 <div class="col-md-4">
                   <input type="text" readonly class="form-control" name="markout_data[site_fenced]" value="{{ $markout_checklist!=null ? $markout_checklist->site_fenced : '' }}">
                 </div>
+                <div class="col-md-1">
+                                        {!! ($markout_checklist!=null && $markout_checklist->site_fenced_image !=null) 
+                                        ? 
+                                        "<a class='demo' href='/images/$markout_checklist->site_fenced_image' data-lightbox='example-$markout_checklist->site_fenced_image'><img class='example-image' width='125' src='/images/$markout_checklist->site_fenced_image'></a>"
+                                        :
+                                        ""
+                                        !!}
+                                    </div>
               </div>
               <div class="row mb-3">
                 <label for="name" class="col-md-6 col-form-label ">Toilet</label>
@@ -1724,4 +1740,19 @@
             }
           });
         })
+
+        lightbox.option({
+        albumLabel: 'Image %1 of %2',
+        alwaysShowNavOnTouchDevices: false,
+        fadeDuration: 600,
+        fitImagesInViewport: true,
+        imageFadeDuration: 600,
+        maxWidth: 900,
+        maxHeight: 700,
+        positionFromTop: 50,
+        resizeDuration: 700,
+        showImageNumberLabel: true,
+        wrapAround: false, // If true, when a user reaches the last image in a set, the right navigation arrow will appear and they will be to continue moving forward which will take them back to the first image in the set.
+        sanitizeTitle: false
+    })
       </script>
