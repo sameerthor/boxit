@@ -1715,26 +1715,74 @@
                                     <tr>
                                         <td>Pod Rubbish removed</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->pod_rubbished : '' }}" name="stripping_data[pod_rubbished]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '1')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '1' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping1'><img src='/img/upload-image.svg' /></label><input id='stripping1' class='form_image' data-project='$project->id' data-field='1' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Boxing Scraped</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->boxing_scraped : '' }}" name="stripping_data[boxing_scraped]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '2')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '2' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping2'><img src='/img/upload-image.svg' /></label><input id='stripping2' class='form_image' data-project='$project->id' data-field='2' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Boxing Tied On</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->boxing_tied : '' }}" name="stripping_data[boxing_tied]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '3')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '3' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping3'><img src='/img/upload-image.svg' /></label><input id='stripping3' class='form_image' data-project='$project->id' data-field='3' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Trailer loaded</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->trailer_loaded : '' }}" name="stripping_data[trailer_loaded]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '4')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '4' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping4'><img src='/img/upload-image.svg' /></label><input id='stripping4' class='form_image' data-project='$project->id' data-field='4' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Site Gate shut</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->gate_shut : '' }}" name="stripping_data[gate_shut]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '5')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '5' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping5'><img src='/img/upload-image.svg' /></label><input id='stripping5' class='form_image' data-project='$project->id' data-field='5' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Site tidy and photos taken</td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{ $stripping_data!=null ? $stripping_data->photos_taken : '' }}" name="stripping_data[photos_taken]"></td>
+                                        <td>
+                                            {!! ($project->images()->form('stripping', '6')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('stripping', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('stripping', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('stripping', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('stripping', '6' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='stripping6'><img src='/img/upload-image.svg' /></label><input id='stripping6' class='form_image' data-project='$project->id' data-field='6' data-form='stripping' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -1762,7 +1810,14 @@
                                         <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->done_by1 : ''}}" name="done_by1[{{$label->id}}]"></td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->done_by2 : ''}}" name="done_by2[{{$label->id}}]"></td>
                                         <td class="table-w"><input type="text" class="form-control" value="{{count($l_value) > 0 ? $l_value[0]->checked_by : ''}}" name="checked_by[{{$label->id}}]"></td>
-
+                                        <td>
+                                            {!! ($project->images()->form('podssteel', $loop->iteration)->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('podssteel', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('podssteel', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('podssteel', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('podssteel', $loop->iteration )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='podssteel$loop->iteration'><img src='/img/upload-image.svg' /></label><input id='podssteel$loop->iteration' class='form_image' data-project='$project->id' data-field='$loop->iteration' data-form='podssteel' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </table>

@@ -9,11 +9,19 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-  .repeater-add-btn{
-    background-color: #182a4e !important;
-    border: 0px !important;
+  .repeater-add-btn {
+    background-color: white !important;
     padding: 8px 25px;
-  }
+    color: #182a4e !important;
+    border: 2px solid #182a4e !important;
+}
+
+.repeater-add-btn:hover {
+    background-color: #182a4e !important;
+    padding: 8px 25px;
+    color: white !important;
+    border: 2px solid #182a4e !important;
+}
   #tab3 {
     height: 100vh;
   }
@@ -144,7 +152,7 @@
               @foreach($leaves as $leave)
               <div class="items">
                 <div class="item-content">
-                  <div class="form-group">
+                  <div class="form-group" style="width:100%">
                     <label>Occasion</label>
                     <input type="text" value="{{$leave->title}}" required name="title[]" class="form-control">
                   </div>
@@ -170,7 +178,7 @@
           <div class="hidden_html" style="display:none">
             <div class="items leave_items">
               <div class="item-content">
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                   <label>Occasion</label>
                   <input type="text" required name="title[]" class="form-control">
                 </div>
