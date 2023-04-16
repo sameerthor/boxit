@@ -286,7 +286,7 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color:red;border-color: red;'>Click here to approve or make a change request </a><br>";
-            $html .= '<br><p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
+            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -311,7 +311,7 @@ class BookingController extends Controller
             if ($booking_data->created_at != $booking_data->updated_at)
                 $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br><p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
+            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -346,7 +346,7 @@ class BookingController extends Controller
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br><p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
+            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -378,7 +378,7 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
-            $html .= '<br><p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
+            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
     Jules<br><br>
     <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -425,10 +425,14 @@ class BookingController extends Controller
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
                     $booking_datas = BookingData::whereDate('date', '=', $booking_date)
                         ->get();
+                    $leaves = Leave::whereDate('date', '=', $booking_date)->get();
+                    foreach ($leaves as $leave) {
+                        $inner_html .= "<span class='red_bullet monthly_booking' >" . $leave->title . "</span>";
+                    }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                            $dep = $booking_data->department->title.($booking_data->service!=''?' ('.$booking_data->service.')':'');
+                            $dep = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
                             $style = '';
                             switch ($booking_data->status) {
                                 case '0':
@@ -449,12 +453,7 @@ class BookingController extends Controller
                             $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
                     }
-                    $leaves= Leave::whereDate('date', '=', $booking_date)->get();
-                    foreach($leaves as $leave)
-                    {
-                        $inner_html .= "<span class='red_bullet monthly_booking' >".$leave->title."</span>";
-    
-                    }
+
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
                     $date++;
                 }
@@ -481,7 +480,7 @@ class BookingController extends Controller
             $b_id = '';
             foreach ($booking_data as $boo) {
                 $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
-                $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
+                $dep = $boo->department->title . ($boo->service != '' ? ' (' . $boo->service . ')' : '');
                 $style = '';
                 switch ($boo->status) {
                     case '0':
@@ -536,7 +535,7 @@ class BookingController extends Controller
                 $b_id = '';
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
+                    $dep = $boo->department->title . ($boo->service != '' ? ' (' . $boo->service . ')' : '');
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -591,6 +590,10 @@ class BookingController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
+                $leaves = Leave::whereDate('date', '=', $booking_date)->get();
+                foreach ($leaves as $leave) {
+                    $html .= "<span class='red_box' >" . $leave->title . "</span>";
+                }
                 foreach ($booking_data as $boo) {
                     if (MobileDetect::isTablet()) {
                         $address = substr($boo->booking->address, 0, 9);
@@ -616,12 +619,7 @@ class BookingController extends Controller
                     $b_id = $boo->booking_id;
                     $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
-                $leaves= Leave::whereDate('date', '=', $booking_date)->get();
-                foreach($leaves as $leave)
-                {
-                    $html .= "<span class='red_box' >".$leave->title."</span>";
 
-                }
                 $html .= "</div>";
             }
             $html .= "</div>";
@@ -642,7 +640,7 @@ class BookingController extends Controller
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
             $booking_date = $res->date;
-            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -669,7 +667,7 @@ class BookingController extends Controller
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -778,14 +776,13 @@ class BookingController extends Controller
         $draft = Draft::find($id);
         $draft->DraftData = $draft->DraftData->groupBy('department_id', 'contact_id');
         $council_data = $draft->DraftData[7]->toArray();
-        $draft->DraftData[7]=collect();
+        $draft->DraftData[7] = collect();
         foreach ($council_data as $res) {
             $array[$res['service']] = $res['date'];
             $draft->DraftData[7][$res['contact_id']] = $array;
             $draft->DraftData[7]['status'] = $res['status'];
-
         }
-      
+
         $departments = Department::all();
         $foreman = User::whereHas("roles", function ($q) {
             $q->where("name", "Foreman");
@@ -839,7 +836,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             if ($contact->department_id != '2') {
                 $html .= '<p>' . $reply_link . '</p>';
             }
-            $html .= '<p style="display:none">#'.$booking_data->booking_id.'</p>Thank You,<br>
+            $html .= '<p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -885,7 +882,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $booking->save();
         $notification = new Notification();
         $notification->foreman_id = $booking->booking->foreman_id;
-        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has put <b>' . $booking->department->title .($booking->service!=''?' ('.$booking->service.')':''). '</b> for <b>' . $booking->booking->address . '</b> on hold';
+        $notification->notification = '<b>' . ucfirst(Auth::user()->name) . '</b> has put <b>' . $booking->department->title . ($booking->service != '' ? ' (' . $booking->service . ')' : '') . '</b> for <b>' . $booking->booking->address . '</b> on hold';
         $notification->booking_id = $booking->booking_id;
         $notification->save();
 
@@ -909,7 +906,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $bookingdata = BookingData::find($id);
         $booking = $bookingdata->booking;
         $mail = MailTemplate::where(array('status' => 1, 'department_id' => $bookingdata->department_id))->get();
-        return view('new_booking_mail', compact('booking', 'mail','id'));
+        return view('new_booking_mail', compact('booking', 'mail', 'id'));
     }
 
     public function change_time()
@@ -930,5 +927,4 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         foremanNote::updateOrCreate($matchThese, ['notes' => $notes, 'given_by' => Auth::id()]);
         return true;
     }
-
 }

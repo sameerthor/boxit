@@ -103,6 +103,10 @@ class ForemanController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
+                $leaves = Leave::whereDate('date', '=', $booking_date)->get();
+                foreach ($leaves as $leave) {
+                    $html .= "<span class='red_box' >" . $leave->title . "</span>";
+                }
                 foreach ($booking_data as $boo) {
                     $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
                     $style = '';
@@ -124,12 +128,7 @@ class ForemanController extends Controller
                     $b_id = $boo->booking_id;
                     $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
-                $leaves= Leave::whereDate('date', '=', $booking_date)->get();
-                foreach($leaves as $leave)
-                {
-                    $html .= "<span class='red_box' >".$leave->title."</span>";
 
-                }
                 $html .= "</div>";
             }
             $html .= "</div>";
@@ -265,6 +264,10 @@ class ForemanController extends Controller
                         $q->where('foreman_id', Auth::id());
                     })->whereDate('date', '=', $booking_date)
                         ->get();
+                    $leaves = Leave::whereDate('date', '=', $booking_date)->get();
+                    foreach ($leaves as $leave) {
+                        $inner_html .= "<span class='red_bullet monthly_booking' >" . $leave->title . "</span>";
+                    }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
@@ -289,12 +292,7 @@ class ForemanController extends Controller
                             $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
                     }
-                    $leaves= Leave::whereDate('date', '=', $booking_date)->get();
-                    foreach($leaves as $leave)
-                    {
-                        $inner_html .= "<span class='red_bullet monthly_booking' >".$leave->title."</span>";
-    
-                    }
+
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
                     $date++;
                 }
@@ -628,7 +626,7 @@ class ForemanController extends Controller
     public function delete_image(Request $request)
     {
         $image = Image::find($request->id);
-        $url =public_path('images/' . $image->image);
+        $url = public_path('images/' . $image->image);
         if (file_exists($url)) {
             unlink($url);
         }
