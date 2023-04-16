@@ -1851,30 +1851,86 @@
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Site Inspection:</th>
                                             <th style="width:40%;"><textarea name="incident_data[site_inspection]">{{ $incident_data!=null ? $incident_data->site_inspection : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '1')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '1' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident1'><img src='/img/upload-image.svg' /></label><input id='accident1' class='form_image' data-project='$project->id' data-field='1' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Upcoming Work:</th>
                                             <th style="width:40%;"><textarea name="incident_data[upcoming_work]">{{ $incident_data!=null ? $incident_data->upcoming_work : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '2')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '2' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident2'><img src='/img/upload-image.svg' /></label><input id='accident2' class='form_image' data-project='$project->id' data-field='2' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Incidents / Near Misses / Injury Events:</th>
                                             <th style="width:40%;"><textarea name="incident_data[incidents]">{{ $incident_data!=null ? $incident_data->incidents : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '3')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '3' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident3'><img src='/img/upload-image.svg' /></label><input id='accident3' class='form_image' data-project='$project->id' data-field='3' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Equipment Maintenance / Issues</th>
                                             <th style="width:40%;"><textarea name="incident_data[equipment_issues]">{{ $incident_data!=null ? $incident_data->equipment_issues : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '4')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '4' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident4'><img src='/img/upload-image.svg' /></label><input id='accident4' class='form_image' data-project='$project->id' data-field='4' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Employee issues raised:</th>
                                             <th style="width:40%;"><textarea name="incident_data[employee_issues]">{{ $incident_data!=null ? $incident_data->employee_issues : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '5')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '5' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident5'><img src='/img/upload-image.svg' /></label><input id='accident5' class='form_image' data-project='$project->id' data-field='5' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Safe observations reviewed/discussed</th>
                                             <th style="width:40%;"><textarea name="incident_data[safe_reviewed]">{{ $incident_data!=null ? $incident_data->safe_reviewed : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '6')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '6' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident6'><img src='/img/upload-image.svg' /></label><input id='accident6' class='form_image' data-project='$project->id' data-field='6' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                         <tr style="height: 70px;">
                                             <th style="width:60%;">Task Analysis completed/reviewed:</th>
                                             <th style="width:40%;"><textarea name="incident_data[task_reviewed]">{{ $incident_data!=null ? $incident_data->task_reviewed : '' }}</textarea></th>
+                                            <td>
+                                            {!! ($project->images()->form('accident', '7')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '7' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '7' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '7' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='accident7'><img src='/img/upload-image.svg' /></label><input id='accident7' class='form_image' data-project='$project->id' data-field='7' data-form='accident' type='file' /></div>"
+                                        !!}   
+                                        </td>
                                         </tr>
                                     </tbody>
                                 </table>

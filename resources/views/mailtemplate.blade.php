@@ -27,11 +27,17 @@
   }
 
   .items {
-    margin: 10%;
+    margin-top: 5% !important;
+    margin-bottom: 5% !important;
     margin-right: 0px;
     margin-left: 0px;
   }
-
+  .items:nth-of-type(1)
+{
+  margin-top: 10% !important;
+    margin-bottom: 10% !important;
+}
+    
   .pull-right.repeater-remove-btn {
     margin-top: 31px;
     margin-bottom: 19px;
@@ -147,6 +153,7 @@
               <div class="repeater-heading">
                 <button type="button" class="pull-right btn btn-primary btn-color repeater-add-btn"> Add</button>
               </div>
+              <br>
               <br>
               @if(count($leaves)>0)
               @foreach($leaves as $leave)
