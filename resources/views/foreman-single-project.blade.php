@@ -1,5 +1,19 @@
-
 <style>
+    .image_container {
+        width: fit-content;
+        position: relative;
+    }
+
+    .file-remover {
+        position: absolute !important;
+        top: -20px;
+        right: -10px;
+    }
+
+    .image_container{
+    width: fit-content;
+    position: relative;
+    }
     .image-upload>input {
         display: none;
     }
@@ -545,18 +559,21 @@
                                     <div class="col-md-4">
                                         <input type="date" class="form-control" name="markout_data[date]" value="{{ $markout_checklist!=null ? $markout_checklist->date : '' }}">
                                     </div>
+                                    <div class="col-md-1"></div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label "><strong>Address:</strong></label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[address]" value="{{$project->address}}">
                                     </div>
+                                    <div class="col-md-1"></div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label "><strong>Housing Company:</strong></label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[housing_company]" value="{{$project->BookingData[0]->contact->title}}">
                                     </div>
+                                    <div class="col-md-1"></div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Power</label>
@@ -564,11 +581,11 @@
                                         <input type="text" class="form-control" name="markout_data[power]" value="{{ $markout_checklist!=null ? $markout_checklist->power : '' }}">
                                     </div>
                                     <div class="col-md-1">
-                                        {!! ($markout_checklist!=null && $markout_checklist->power_image !=null) 
-                                        ? 
-                                        "<input type='hidden' name='markout_data[power_image]' value='$markout_checklist->power_image' ><a class='demo' href='/images/$markout_checklist->power_image' data-lightbox='example-$markout_checklist->power_image'><img class='example-image' width='125' src='/images/$markout_checklist->power_image'></a>"
+                                        {!! ($project->images()->form('markout', '1')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '1')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '1')->pluck('image')[0]."'></a></div>"
                                         :
-                                        "<div class='image-upload'><label for='file-input'><img src='/img/upload-image.svg' /></label><input id='file-input' name='markout_data[power_image]' type='file' /></div>"
+                                        "<div class='image-upload'><label for='markout1' ><img src='/img/upload-image.svg' /></label><input id='markout1' class='form_image' data-project='$project->id' data-field='1' data-form='markout' type='file' /></div>"
                                         !!}
                                     </div>
                                 </div>
@@ -578,11 +595,11 @@
                                         <input type="text" class="form-control" name="markout_data[site_fenced]" value="{{ $markout_checklist!=null ? $markout_checklist->site_fenced : '' }}">
                                     </div>
                                     <div class="col-md-1">
-                                    {!! ($markout_checklist!=null && $markout_checklist->site_fenced_image !=null) 
-                                        ? 
-                                        "<input type='hidden' name='markout_data[site_fenced_image]' value='$markout_checklist->site_fenced_image'><a class='demo' href='/images/$markout_checklist->site_fenced_image' data-lightbox='example-$markout_checklist->site_fenced_image'><img class='example-image' width='125' src='/images/$markout_checklist->site_fenced_image'></a>"
+                                        {!! ($project->images()->form('markout', '2')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '2')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '2')->pluck('image')[0]."'></a></div>"
                                         :
-                                        "<div class='image-upload'><label for='file-input'><img src='/img/upload-image.svg' /></label><input id='file-input' name='markout_data[site_fenced_image]' type='file' /></div>"
+                                        "<div class='image-upload'><label for='markout2'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='2' data-form='markout' type='file' /></div>"
                                         !!}
                                     </div>
                                 </div>
@@ -591,17 +608,41 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[toilet]" value="{{ $markout_checklist!=null ? $markout_checklist->toilet : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '3')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '3')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '3')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout3'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='3' data-form='markout' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Water</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[water]" value="{{ $markout_checklist!=null ? $markout_checklist->water : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '4')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '4')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '4')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout4'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='4' data-form='markout' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Boundary Pegs all in Place (Mark On Site Plan)</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[boundary_pegs]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_pegs : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '5')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '5')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '5')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout5'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='5' data-form='markout' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
 
@@ -610,12 +651,28 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[boundary_dimension]" value="{{ $markout_checklist!=null ? $markout_checklist->boundary_dimension : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '6')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '6')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '6')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout6'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='6' data-form='markout' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">FFL Set and Marked on Fence
                                     </label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[ffl_set]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_set : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '7')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '7' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '7')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '7')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout7'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='7' data-form='markout' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -627,12 +684,28 @@
                                     <div class="col-md-2">
                                         <input placeholder="max" type="number" class="form-control" name="markout_data[ffl_height_max]" value="{{ $markout_checklist!=null ? $markout_checklist->ffl_height_max : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '8')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '8' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '8')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '8')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '8')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout8'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='8' data-form='markout' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Markout Past Building Line
                                     </label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="markout_data[past_building_line]" value="{{ $markout_checklist!=null ? $markout_checklist->past_building_line : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('markout', '9')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '9' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '9')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '9')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '9')->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='markout9'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='9' data-form='markout' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
                             </div>
@@ -1748,6 +1821,21 @@
     }
 </style>
 <script>
+    function refreshpage() {
+        var id = "<?php echo $project->id; ?>";
+
+        jQuery.ajax({
+            url: "{{ url('/foreman-single-project') }}",
+            method: 'post',
+            data: {
+                id: id,
+            },
+            success: function(result) {
+                jQuery('.main').html(result);
+            }
+        });
+    }
+
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -1987,6 +2075,69 @@
         });
 
     }
+
+    $(".form_image").change(function() {
+        var file_data = $(this).prop('files')[0];
+        var project_id = $(this).data('data-project');
+        var form_name = $(this).data('data-form');
+        var field_id = $(this).data('data-field');
+        var form_data = new FormData();
+        form_data.append('image', file_data);
+        form_data.append('project_id', project_id);
+        form_data.append('form_name', form_name);
+        form_data.append('field_id', field_id);
+        $.ajax({
+            url: "{{ url('/foreman-images') }}",
+            type: "POST",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                Toast.fire({
+                    icon: 'success',
+                    title: "Image saved successfuly."
+                }).then(function(result) {
+                    refreshpage();
+                });
+            }
+        });
+    });
+
+    
+    $(".file-remover").on("click", function() {
+        var id = $(this).data('id');
+        Swal.fire({
+            title: "Are you sure you want to delete the image?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'No',
+            dangerMode: true,
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                jQuery.ajax({
+                    url: "{{ url('/delete-foreman-image') }}",
+                    method: 'post',
+                    data: {
+                        id: id,
+                    },
+                    success: function(result) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: "Image deleted successfuly."
+                        }).then(function(result) {
+                            refreshpage();
+                        });
+                    }
+                });
+            }
+        });
+
+    });
+
     lightbox.option({
         albumLabel: 'Image %1 of %2',
         alwaysShowNavOnTouchDevices: false,

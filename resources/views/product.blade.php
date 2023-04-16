@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('js/lightbox/dist/css/lightbox.min.css')}}">
-<script src="{{asset('js/lightbox/dist/js/lightbox.js')}}"></script>
+
 <div id="content">
   <div class="container">
     <div class="card-new ptb-50">

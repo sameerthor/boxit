@@ -87,6 +87,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
     Route::post('/change-checkbox-status', [App\Http\Controllers\ProjectController::class, 'change_checkbox_status']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
+    Route::post('/save-leaves', [App\Http\Controllers\MailController::class, 'save_leave']);
     Route::group(['prefix' => 'mail-template'], function () {
         Route::get('/', [App\Http\Controllers\MailController::class, 'index'])->name('mail_template');
         Route::post('/', [App\Http\Controllers\MailController::class, 'mail_status'])->name('mail.update');
@@ -151,6 +152,8 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/foreman-calender-detail', [App\Http\Controllers\ForemanController::class, 'modal_data']);
   Route::post('/foreman-notes-dates', [App\Http\Controllers\ForemanController::class, 'notes_dates']);
   Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
+  Route::post('/foreman-images', [App\Http\Controllers\ForemanController::class, 'save_image']);
+  Route::post('/delete-foreman-image', [App\Http\Controllers\ForemanController::class, 'delete_image']);
   Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
   Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
   Route::post('/startup_checklist', [App\Http\Controllers\ForemanController::class, 'storeStartuplist']);

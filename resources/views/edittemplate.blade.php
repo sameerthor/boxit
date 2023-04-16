@@ -103,9 +103,6 @@
       </div>
     </div>
   </div>
-  <script src="/js/tinymce/js/tinymce/tinymce.min.js"></script>
-
-  <script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
 
   <script>
     CKEDITOR.replace('editor', {

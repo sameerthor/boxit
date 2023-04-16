@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
-use App\Models\User;
+use App\Models\Leave;
 use Illuminate\Http\Request;
 use App\Models\MailTemplate;
 use App\Models\ForemanTemplates;
+use Session;
+
 
 
 class MailController extends Controller
@@ -30,7 +31,9 @@ class MailController extends Controller
     {
         $templates = MailTemplate::all();
         $foreman_templates=ForemanTemplates::all();
-        return view('mailtemplate', compact('templates','foreman_templates'));
+        $leaves=Leave::all();
+         
+        return view('mailtemplate', compact('leaves','templates','foreman_templates'));
     }
 
     public function edit(Request $request, $id)
@@ -76,5 +79,21 @@ class MailController extends Controller
         $mailTemplate->body = $request->get('body');
         $mailTemplate->save();
         return redirect()->to('/mail-template')->with('succes_msg', 'Your template has been saved.');
+    }
+
+    
+    public function save_leave(Request $request)
+    {
+        Leave::query()->delete();
+        $titles=$request->get('title');
+        $dates=$request->get('date');
+        $i=0;
+        foreach($titles as $title)
+        {
+            Leave::create(array('title'=>$title,'date'=>date("Y-m-d h:i:s", strtotime($dates[$i] ))));
+            $i++;
+        }
+        Session::flash('succes_msg', 'Leave saved successfuly.');
+        return redirect('/mail-template');
     }
 }

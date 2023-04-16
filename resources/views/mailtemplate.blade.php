@@ -2,16 +2,20 @@
 
 @section('content')
 <style>
-   iframe {
-            display: block;
-            width: 100%;
-            border: none;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-        #tab3{
-            height: 100vh;
-        }
+  iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #tab3 {
+    height: 100vh;
+  }
+  .items{
+    margin:10%
+  }
 </style>
 <div id="content">
   <div class="container">
@@ -32,6 +36,9 @@
         </li>
         <li class="nav-item" role="presentation">
           <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false"> Email Logs</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">Leaves</button>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -73,7 +80,7 @@
           </table>
         </div>
         <div style="padding:2% 1%" d="" class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="2-tab">
-        <table class="table table-stripped">
+          <table class="table table-stripped">
             <thead>
               <tr>
                 <th>#</th>
@@ -101,10 +108,68 @@
               @endforelse
             </tbody>
           </table>
-      </div>
-      <div style="padding:2% 1%"  d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
-      <iframe src="/_mail-viewer" id="iframe" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
-      </div>
+        </div>
+        <div style="padding:2% 1%" d="" class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
+          <iframe src="/_mail-viewer" id="iframe" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">Browser not compatible.</iframe>
+        </div>
+        <div style="padding:2% 1%" d="" class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
+          <form method="post" action="{{url('/save-leaves')}}" class="col-md-6">
+
+            @csrf
+            <h3>Annual Leaves</h3>
+            <div id="repeater">
+              <!-- Repeater Heading -->
+              <div class="repeater-heading">
+                <button type="button" class="pull-right btn btn-primary repeater-add-btn"> Add</button>
+              </div>
+              <br>
+              @if(count($leaves)>0)
+              @foreach($leaves as $leave)
+              <div class="items">
+                <div class="item-content">
+                  <div class="form-group">
+                    <label>Leave Title</label>
+                    <input type="text" value="{{$leave->title}}" required name="title[]" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Leave Date</label>
+                    <input type="date" value="{{date('Y-m-d',strtotime($leave->date))}}" required name="date[]" class="form-control">
+                  </div>
+                </div>
+                <div class="pull-right repeater-remove-btn">
+                  <button id="remove-btn" class="btn btn-danger" onclick="$(this).parents('.items').remove()">
+                    Remove
+                  </button>
+                </div>
+              </div>
+              @endforeach
+              @endif
+
+            </div>
+            <br>
+            <button type="submit" class="save_button pull-right btn btn-secondary">Save</button>
+
+          </form>
+          <div class="hidden_html" style="display:none">
+            <div class="items leave_items">
+              <div class="item-content">
+                <div class="form-group">
+                  <label>Leave Title</label>
+                  <input type="text" required name="title[]" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Leave Date</label>
+                  <input type="date" required name="date[]" class="form-control">
+                </div>
+              </div>
+              <div class="pull-right repeater-remove-btn">
+                <button id="remove-btn" class="btn btn-danger" onclick="$(this).parents('.items').remove();getIframehtml();">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -136,21 +201,10 @@
       }
     });
   });
- 
 </script>
 <script type="text/javascript">
-var frameListener;
-$(window).load(function () {
-    frameListener = setInterval("frameLoaded()", 50);
-});
-function frameLoaded() {
-    var frame = $('iframe').get(0);
-    if (frame != null) {
-        var frmHead = $(frame).contents().find('head');
-        if (frmHead != null) {
-          var css = '<style type="text/css">div#app header {display: none;} </style>';
-jQuery(frmHead).append(css);  }
-    }
-}
+  $('.repeater-add-btn').click(function() {
+    $("#repeater").append($(".hidden_html").html());
+  })
 </script>
 @endsection

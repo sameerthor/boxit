@@ -13,6 +13,7 @@ use App\Jobs\BookingEmailJob;
 use App\Models\foremanNote;
 use App\Mail\BookingMail;
 use App\Models\MailTemplate;
+use App\Models\Leave;
 use App\Models\Contact;
 use App\Models\Notification;
 use Exception;
@@ -448,7 +449,12 @@ class BookingController extends Controller
                             $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
                     }
-
+                    $leaves= Leave::whereDate('date', '=', $booking_date)->get();
+                    foreach($leaves as $leave)
+                    {
+                        $inner_html .= "<span class='red_bullet monthly_booking' >".$leave->title."</span>";
+    
+                    }
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
                     $date++;
                 }
@@ -609,6 +615,12 @@ class BookingController extends Controller
                     }
                     $b_id = $boo->booking_id;
                     $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
+                }
+                $leaves= Leave::whereDate('date', '=', $booking_date)->get();
+                foreach($leaves as $leave)
+                {
+                    $html .= "<span class='red_box' >".$leave->title."</span>";
+
                 }
                 $html .= "</div>";
             }
@@ -918,4 +930,5 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         foremanNote::updateOrCreate($matchThese, ['notes' => $notes, 'given_by' => Auth::id()]);
         return true;
     }
+
 }

@@ -60,6 +60,11 @@ class Booking extends Model
         return $this->hasMany(ProjectStatus::class,'project_id','id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(Image::class,'project_id','id');
+    }
+
     public function PassedProjectStatus()
     {
         return $this->ProjectStatus()->where('status','!=','0');

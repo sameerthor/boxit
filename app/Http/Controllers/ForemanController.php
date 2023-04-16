@@ -17,7 +17,9 @@ use App\Models\ForemanTemplates;
 use App\Models\ProjectCheckboxStatus;
 use App\Models\StartupChecklist;
 use App\Models\Boxing;
+use App\Models\Leave;
 use App\Models\Incident;
+use App\Models\Image;
 use App\Models\foremanNote;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
@@ -65,13 +67,13 @@ class ForemanController extends Controller
         $dates = $request->get('dates');
         $year = $request->get('year');
         $month = $request->get('month') + 1;
-        $data=[];
+        $data = [];
         foreach ($dates as $date) {
             $booking_date = date('Y-m-d', strtotime("$year-$month-" . $date['day']));
-            $res = foremanNote::where(array('foreman_id' =>Auth::id()))->whereDate('date', $booking_date)->get();
+            $res = foremanNote::where(array('foreman_id' => Auth::id()))->whereDate('date', $booking_date)->get();
             if (count($res) > 0)
-            $data[] = date('d F Y', strtotime($booking_date));
-        }  
+                $data[] = date('d F Y', strtotime($booking_date));
+        }
         return $data;
     }
 
@@ -122,29 +124,35 @@ class ForemanController extends Controller
                     $b_id = $boo->booking_id;
                     $html .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$address</span>";
                 }
+                $leaves= Leave::whereDate('date', '=', $booking_date)->get();
+                foreach($leaves as $leave)
+                {
+                    $html .= "<span class='red_box' >".$leave->title."</span>";
+
+                }
                 $html .= "</div>";
             }
             $html .= "</div>";
         }
         return $html;
     }
-    
+
     public function daily_calender(Request $request)
     {
         $date = $request->get('today_date');
-        $booking_date = date('Y-m-d',strtotime($date));
+        $booking_date = date('Y-m-d', strtotime($date));
         $foreman_id = Auth::id();
         $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
-        $data="";
+        $data = "";
         foreach ($department_id as $id) {
             $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
-                    $query->where('foreman_id', $foreman_id);
+                $query->where('foreman_id', $foreman_id);
             })->whereDate('date', '=', $booking_date)
                 ->get();
             $b_id = '';
             foreach ($booking_data as $boo) {
                 $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 5));
-                $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
+                $dep = $boo->department->title . ($boo->service != '' ? ' (' . $boo->service . ')' : '');
                 $style = '';
                 switch ($boo->status) {
                     case '0':
@@ -162,13 +170,12 @@ class ForemanController extends Controller
                         $class = "show_booking";
                 }
                 $b_id = $boo->booking_id;
-                $data.= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
+                $data .= "<span class='$class' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
             }
         }
-         if(empty($data))
-         {
-            $data.='<span>No scheduled bookings today</span>';
-         }
+        if (empty($data)) {
+            $data .= '<span>No scheduled bookings today</span>';
+        }
         return response()->json($data);
     }
 
@@ -193,13 +200,13 @@ class ForemanController extends Controller
             $department_id = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
             foreach ($department_id as $id) {
                 $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
-                        $query->where('foreman_id', $foreman_id);
+                    $query->where('foreman_id', $foreman_id);
                 })->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
                 foreach ($booking_data as $boo) {
                     $address = implode(' ', array_slice(explode(' ', $boo->booking->address), 0, 3));
-                    $dep = $boo->department->title.($boo->service!=''?' ('.$boo->service.')':'');
+                    $dep = $boo->department->title . ($boo->service != '' ? ' (' . $boo->service . ')' : '');
                     $style = '';
                     switch ($boo->status) {
                         case '0':
@@ -261,7 +268,7 @@ class ForemanController extends Controller
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
                             $address = implode(' ', array_slice(explode(' ', $booking_data->booking->address), 0, 3));
-                            $dep = $booking_data->department->title.($booking_data->service!=''?' ('.$booking_data->service.')':'');
+                            $dep = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
                             $style = '';
                             switch ($booking_data->status) {
                                 case '0':
@@ -282,7 +289,12 @@ class ForemanController extends Controller
                             $inner_html .= "<span class='$class show_booking' style='$style' data-id='" . $b_id . "'>$dep:$address</span>";
                         }
                     }
-
+                    $leaves= Leave::whereDate('date', '=', $booking_date)->get();
+                    foreach($leaves as $leave)
+                    {
+                        $inner_html .= "<span class='red_bullet monthly_booking' >".$leave->title."</span>";
+    
+                    }
                     $html .= '<div class="booked_div_monthly">' . $inner_html . '</div>';
                     $date++;
                 }
@@ -305,7 +317,7 @@ class ForemanController extends Controller
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
         foreach ($booking_data->slice(1, 4) as $res) {
-            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -333,7 +345,7 @@ class ForemanController extends Controller
         }
         $html .=        '</div><div class="col-md-6">';
         foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title.($res->service!=''?' ('.$res->service.')':'');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -385,15 +397,14 @@ class ForemanController extends Controller
             $projects = $projects->whereHas('PassedProjectStatus', function ($query) {
                 $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
             });
-        }else
-        {
+        } else {
             $projects = $projects->whereDoesntHave('PassedProjectStatus', function ($query) {
                 $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
-            });   
+            });
         }
 
         if (!empty(request('q')))
-        $projects = $projects->where('address', 'like', '%' . request('q') . '%');
+            $projects = $projects->where('address', 'like', '%' . request('q') . '%');
         $projects = $projects->get();
         return view('foreman-project', compact('projects', 'months'));
     }
@@ -404,12 +415,11 @@ class ForemanController extends Controller
         $project = Booking::find($request->get('id'));
         $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
         $markout_checklist = $project->MarkoutChecklist;
-        $checked_checkbox_data=ProjectCheckboxStatus::where('project_id',$request->get('id'))->first();
-        if(!empty($checked_checkbox_data))
-        {
-        $checked_checkbox_status=$checked_checkbox_data->status; 
-        }else{
-        $checked_checkbox_status=[]; 
+        $checked_checkbox_data = ProjectCheckboxStatus::where('project_id', $request->get('id'))->first();
+        if (!empty($checked_checkbox_data)) {
+            $checked_checkbox_status = $checked_checkbox_data->status;
+        } else {
+            $checked_checkbox_status = [];
         }
         $startup_data = $project->StartupChecklist;
         $safety = $project->SafetyPlan;
@@ -418,13 +428,14 @@ class ForemanController extends Controller
         $incident_data = $project->incident;
         $qaChecklist = QaChecklist::all();
         $pods_steel_label = PodsSteel::all();
+        $foreman_images = Image::query();
         $ProjectStatusLabel = ProjectStatusLabel::where(function ($query) use ($department_ids) {
             $query->where('department_id', '=', '')
                 ->orWhereIn('department_id', $department_ids);
         })
             ->get();
         $contacts = Contact::all();
-        return view('foreman-single-project', compact('checked_checkbox_status','contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('foreman-single-project', compact('foreman_images', 'checked_checkbox_status', 'contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)
@@ -476,14 +487,6 @@ class ForemanController extends Controller
         $project_id = $request->get('project_id');
         $res = MarkoutChecklist::where('project_id', $project_id)->delete();
         $final_array = $request->get('markout_data');
-        if ($request->hasfile('markout_data')) {
-            foreach ($request->file('markout_data') as $key=>$file) {
-                $file_name = $file->getClientOriginalName();
-                $name = time() . rand(1, 100) . '-' . $file_name;
-                $file->move('images', $name);
-                $final_array[$key] = $name;
-            }
-        }
         $final_array['project_id'] = $project_id;
         MarkoutChecklist::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Markout Checklist saved successfuly');
@@ -604,5 +607,32 @@ class ForemanController extends Controller
         if (count($res) > 0)
             $notes = $res[0]->notes;
         return $notes;
+    }
+
+    public function save_image(Request $request)
+    {
+        $image = new Image;
+        $image->project_id = $request->project_id;
+        $image->form_name = $request->form_name;
+        $image->field_id = $request->field_id;
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $file_name = $file->getClientOriginalName();
+            $name = time() . rand(1, 100) . '-' . $file_name;
+            $file->move('images', $name);
+            $image->image = $name;
+        }
+        $image->save();
+        return true;
+    }
+    public function delete_image(Request $request)
+    {
+        $image = Image::find($request->id);
+        $url =public_path('images/' . $image->image);
+        if (file_exists($url)) {
+            unlink($url);
+        }
+        $image->delete();
+        return true;
     }
 }
