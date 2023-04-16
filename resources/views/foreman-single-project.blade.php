@@ -10,10 +10,11 @@
         right: -10px;
     }
 
-    .image_container{
-    width: fit-content;
-    position: relative;
+    .image_container {
+        width: fit-content;
+        position: relative;
     }
+
     .image-upload>input {
         display: none;
     }
@@ -510,7 +511,7 @@
                                         <td>Address:</td>
                                         <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="initial[2]"></td>
                                         <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="office_use[2]"></td>
-                                    
+
                                     </tr>
                                     <tr>
                                         <td>Housing Company:</td>
@@ -536,12 +537,12 @@
                                         <td class="table-w"><input type="text" value="{{$initial}}" name="initial[{{$res->id}}]"></td>
                                         <td class="table-w"><input type="text" value="{{$office_use}}" name="office_use[{{$res->id}}]"></td>
                                         <td>
-                                        {!! ($project->images()->form('onsite', $loop->iteration)->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('onsite', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='onsite$loop->iteration'><img src='/img/upload-image.svg' /></label><input id='onsite$loop->iteration' class='form_image' data-project='$project->id' data-field='$loop->iteration' data-form='onsite' type='file' /></div>"
-                                        !!}
+                                            {!! ($project->images()->form('onsite', $loop->iteration)->count()>0)
+                                            ?
+                                            "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' onsite', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' onsite', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' onsite', $loop->iteration)->pluck('image')[0]."'></a></div>"
+                                            :
+                                            "<div class='image-upload'><label for='onsite$loop->iteration'><img src='/img/upload-image.svg' /></label><input id='onsite$loop->iteration' class='form_image' data-project='$project->id' data-field='$loop->iteration' data-form='onsite' type='file' /></div>"
+                                            !!}
                                         </td>
                                     </tr>
                                     @endforeach
@@ -591,9 +592,9 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '1')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '1')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '1')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '1' )->pluck('image')[0]."'></a></div>"
                                         :
-                                        "<div class='image-upload'><label for='markout1' ><img src='/img/upload-image.svg' /></label><input id='markout1' class='form_image' data-project='$project->id' data-field='1' data-form='markout' type='file' /></div>"
+                                        "<div class='image-upload'><label for='markout1'><img src='/img/upload-image.svg' /></label><input id='markout1' class='form_image' data-project='$project->id' data-field='1' data-form='markout' type='file' /></div>"
                                         !!}
                                     </div>
                                 </div>
@@ -605,7 +606,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '2')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '2')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '2')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '2' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout2'><img src='/img/upload-image.svg' /></label><input id='markout2' class='form_image' data-project='$project->id' data-field='2' data-form='markout' type='file' /></div>"
                                         !!}
@@ -619,7 +620,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '3')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '3')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '3')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '3' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout3'><img src='/img/upload-image.svg' /></label><input id='markout3' class='form_image' data-project='$project->id' data-field='3' data-form='markout' type='file' /></div>"
                                         !!}
@@ -633,7 +634,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '4')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '4')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '4')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '4' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout4'><img src='/img/upload-image.svg' /></label><input id='markout4' class='form_image' data-project='$project->id' data-field='4' data-form='markout' type='file' /></div>"
                                         !!}
@@ -647,7 +648,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '5')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '5')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '5')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '5' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout5'><img src='/img/upload-image.svg' /></label><input id='markout5' class='form_image' data-project='$project->id' data-field='5' data-form='markout' type='file' /></div>"
                                         !!}
@@ -662,7 +663,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '6')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '6')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '6')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '6' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout6'><img src='/img/upload-image.svg' /></label><input id='markout6' class='form_image' data-project='$project->id' data-field='6' data-form='markout' type='file' /></div>"
                                         !!}
@@ -677,7 +678,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '7')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '7' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '7')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '7')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '7' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '7' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '7' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout7'><img src='/img/upload-image.svg' /></label><input id='markout7' class='form_image' data-project='$project->id' data-field='7' data-form='markout' type='file' /></div>"
                                         !!}
@@ -695,7 +696,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '8')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '8' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '8')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '8')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '8')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '8' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '8' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '8')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '8' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout8'><img src='/img/upload-image.svg' /></label><input id='markout8' class='form_image' data-project='$project->id' data-field='8' data-form='markout' type='file' /></div>"
                                         !!}
@@ -710,7 +711,7 @@
                                     <div class="col-md-1">
                                         {!! ($project->images()->form('markout', '9')->count()>0)
                                         ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '9' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '9')->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '9')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '9')->pluck('image')[0]."'></a></div>"
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('markout', '9' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('markout', '9' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('markout', '9')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('markout', '9' )->pluck('image')[0]."'></a></div>"
                                         :
                                         "<div class='image-upload'><label for='markout9'><img src='/img/upload-image.svg' /></label><input id='markout9' class='form_image' data-project='$project->id' data-field='9' data-form='markout' type='file' /></div>"
                                         !!}
@@ -843,6 +844,14 @@
                                             <td>
                                                 <textarea name="safety_plan[safe_access]">{{ $safety!=null ? $safety->safe_access : '' }}</textarea>
                                             </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>1.2</td>
@@ -863,6 +872,14 @@
                                             </td>
                                             <td>
                                                 <textarea name="safety_plan[site_board]">{{ $safety!=null ? $safety->site_board : '' }}</textarea>
+                                            </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
                                             </td>
                                         </tr>
                                         <tr>
@@ -885,6 +902,14 @@
                                             <td>
                                                 <textarea name="safety_plan[ppe]">{{ $safety!=null ? $safety->ppe : '' }}</textarea>
                                             </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>1.4</td>
@@ -905,6 +930,14 @@
                                             </td>
                                             <td>
                                                 <textarea name="safety_plan[safety_documentation]">{{ $safety!=null ? $safety->safety_documentation : '' }}</textarea>
+                                            </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
                                             </td>
                                         </tr>
                                         <tr>
@@ -927,6 +960,14 @@
                                             <td>
                                                 <textarea name="safety_plan[communicate]">{{ $safety!=null ? $safety->communicate : '' }}</textarea>
                                             </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>1.6</td>
@@ -947,6 +988,14 @@
                                             </td>
                                             <td>
                                                 <textarea name="safety_plan[work_activity]">{{ $safety!=null ? $safety->work_activity : '' }}</textarea>
+                                            </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
                                             </td>
                                         </tr>
                                         <tr>
@@ -969,6 +1018,14 @@
                                             <td>
                                                 <textarea name="safety_plan[gate_closed]">{{ $safety!=null ? $safety->gate_closed : '' }}</textarea>
                                             </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>1.8</td>
@@ -990,6 +1047,14 @@
                                             <td>
                                                 <textarea name="safety_plan[hazard_controlled]">{{ $safety!=null ? $safety->hazard_controlled : '' }}</textarea>
                                             </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>1.9</td>
@@ -1010,6 +1075,14 @@
                                             </td>
                                             <td>
                                                 <textarea name="safety_plan[power_access]">{{ $safety!=null ? $safety->power_access : '' }}</textarea>
+                                            </td>
+                                            <td>
+                                                {!! ($project->images()->form('safety', '1')->count()>0)
+                                                ?
+                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' safety', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' safety', '1' )->pluck('image')[0]."'></a></div>"
+                                                :
+                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
+                                                !!}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1960,7 +2033,7 @@
     });
 
     if ($('#markout_canvas').length) {
-        var markout_signature = new SignaturePad($("#markout_canvas")[0]);
+        varmarkout_signature = new SignaturePad($("#markout_canvas")[0]);
     }
 
     if ($('#onsite_canvas').length) {
@@ -2086,9 +2159,9 @@
 
     $(".form_image").change(function() {
         var file_data = $(this).prop('files')[0];
-        var project_id = $(this).data('data-project');
-        var form_name = $(this).data('data-form');
-        var field_id = $(this).data('data-field');
+        var project_id = $(this).data('project');
+        var form_name = $(this).data('form');
+        var field_id = $(this).data('field');
         var form_data = new FormData();
         form_data.append('image', file_data);
         form_data.append('project_id', project_id);
@@ -2112,7 +2185,7 @@
         });
     });
 
-    
+
     $(".file-remover").on("click", function() {
         var id = $(this).data('id');
         Swal.fire({
