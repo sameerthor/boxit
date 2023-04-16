@@ -1399,11 +1399,27 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[height_floor]" value="{{ $startup_data!=null ? $startup_data->height_floor : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '1')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '1' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup1'><img src='/img/upload-image.svg' /></label><input id='startup1' class='form_image' data-project='$project->id' data-field='1' data-form='startup' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Bracket spacing:</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[bracket_spacing]" value="{{ $startup_data!=null ? $startup_data->bracket_spacing : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '2')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '2' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup2'><img src='/img/upload-image.svg' /></label><input id='startup2' class='form_image' data-project='$project->id' data-field='2' data-form='startup' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -1411,11 +1427,27 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[mesh_size]" value="{{ $startup_data!=null ? $startup_data->mesh_size : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '3')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '3' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup3'><img src='/img/upload-image.svg' /></label><input id='startup3' class='form_image' data-project='$project->id' data-field='3' data-form='startup' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Main beam detail</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[main_beam]" value="{{ $startup_data!=null ? $startup_data->main_beam : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '4')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '4' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup4'><img src='/img/upload-image.svg' /></label><input id='startup4' class='form_image' data-project='$project->id' data-field='4' data-form='startup' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -1423,11 +1455,27 @@
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[rib_detail]" value="{{ $startup_data!=null ? $startup_data->rib_detail : '' }}">
                                     </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '5')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '5' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup5'><img src='/img/upload-image.svg' /></label><input id='startup5' class='form_image' data-project='$project->id' data-field='5' data-form='startup' type='file' /></div>"
+                                        !!}
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-6 col-form-label ">Columns</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="startup_data[columns]" value="{{ $startup_data!=null ? $startup_data->columns : '' }}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        {!! ($project->images()->form('startup', '6')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('startup', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('startup', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('startup', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('startup', '6' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='startup6'><img src='/img/upload-image.svg' /></label><input id='startup6' class='form_image' data-project='$project->id' data-field='6' data-form='startup' type='file' /></div>"
+                                        !!}
                                     </div>
                                 </div>
 
