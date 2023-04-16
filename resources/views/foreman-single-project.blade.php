@@ -488,7 +488,7 @@
                             <h5>Onsite & QA Checklist</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
-                                <!-- <div class="row onsite_label">
+                                <!-- <div class="rowonsite_label">
                                    <div class="col-md-6"></div>
                                    <div class="col-md-3">Initial</div>
                                    <div class="col-md-3">Office Use</div> 
@@ -539,7 +539,7 @@
                                         <td>
                                             {!! ($project->images()->form('onsite', $loop->iteration)->count()>0)
                                             ?
-                                            "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form(' onsite', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form(' onsite', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form(' onsite', $loop->iteration)->pluck('image')[0]."'></a></div>"
+                                            "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('onsite', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'></a></div>"
                                             :
                                             "<div class='image-upload'><label for='onsite$loop->iteration'><img src='/img/upload-image.svg' /></label><input id='onsite$loop->iteration' class='form_image' data-project='$project->id' data-field='$loop->iteration' data-form='onsite' type='file' /></div>"
                                             !!}
@@ -1492,7 +1492,7 @@
                             <h5>Boxing</h5>
                             <input type="hidden" name="project_id" value="{{$project->id}}">
                             <div class="qa_checklist marg-lr-none">
-                                <!-- <div class="row onsite_label"><div class="col-md-6"></div><div class="col-md-3">Initial</div><div class="col-md-3">Office Use</div></div> -->
+                                <!-- <div class="rowonsite_label"><div class="col-md-6"></div><div class="col-md-3">Initial</div><div class="col-md-3">Office Use</div></div> -->
                                 <table style="width:100%">
                                     <tbody>
                                         <tr>
@@ -2348,7 +2348,7 @@
     }
 
     if ($('#onsite_canvas').length) {
-        var onsite_signature = new SignaturePad($("#onsite_canvas")[0]);
+        varonsite_signature = new SignaturePad($("#onsite_canvas")[0]);
     }
     if ($('#safetyplan_canvas').length) {
         varsafetyplan_signature = new SignaturePad($("#safetyplan_canvas")[0]);
