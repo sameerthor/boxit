@@ -1500,6 +1500,14 @@
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->nail_doneby : '' }}" name="boxing[nail_doneby]">
                                             </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '1')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '1' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '1' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing1'><img src='/img/upload-image.svg' /></label><input id='boxing1' class='form_image' data-project='$project->id' data-field='1' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="">
@@ -1510,6 +1518,14 @@
                                             <td rowspan="2">Profiles Hit In and Set 50mm Above FFL</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->profiles_doneby : '' }}" name="boxing[profiles_doneby]">
+                                            </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '2')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '2' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '2' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing2'><img src='/img/upload-image.svg' /></label><input id='boxing2' class='form_image' data-project='$project->id' data-field='2' data-form='boxing' type='file' /></div>"
+                                        !!}   
                                             </td>
                                         </tr>
                                         <tr>
@@ -1522,22 +1538,47 @@
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->cut_doneby : '' }}" name="boxing[cut_doneby]">
                                             </td>
+                                            <td>
+                                            {!! ($project->images()->form('boxing', '3')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '3' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '3' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing3'><img src='/img/upload-image.svg' /></label><input id='boxing3' class='form_image' data-project='$project->id' data-field='3' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Boxing Screwed Together</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby1 : '' }}" name="boxing[screwed_doneby1]">
                                             </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '4')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '4' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '4' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing4'><img src='/img/upload-image.svg' /></label><input id='boxing4' class='form_image' data-project='$project->id' data-field='4' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="">
                                                 Done By <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->screwed_doneby2 : '' }}" name="boxing[screwed_doneby2]">
                                             </td>
+                                            
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Boxing Measurements Checked Including Backcuts in Place</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->measure_doneby : '' }}" name="boxing[measure_doneby]">
+                                            </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '5')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '5' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '5' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing5'><img src='/img/upload-image.svg' /></label><input id='boxing5' class='form_image' data-project='$project->id' data-field='5' data-form='boxing' type='file' /></div>"
+                                        !!}   
                                             </td>
                                         </tr>
                                         <tr>
@@ -1550,6 +1591,14 @@
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lines_doneby : '' }}" name="boxing[lines_doneby]">
                                             </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '6')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '6' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '6' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing6'><img src='/img/upload-image.svg' /></label><input id='boxing6' class='form_image' data-project='$project->id' data-field='6' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="">
@@ -1560,6 +1609,14 @@
                                             <td rowspan="2">Pinned to Lines Correct Positions</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->pinned_doneby : '' }}" name="boxing[pinned_doneby]">
+                                            </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '7')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '7' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '7' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '7' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing7'><img src='/img/upload-image.svg' /></label><input id='boxing7' class='form_image' data-project='$project->id' data-field='7' data-form='boxing' type='file' /></div>"
+                                        !!}   
                                             </td>
                                         </tr>
                                         <tr>
@@ -1572,6 +1629,14 @@
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->lift_doneby : '' }}" name="boxing[lift_doneby]">
                                             </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '8')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '8' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '8' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '8')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '8' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing8'><img src='/img/upload-image.svg' /></label><input id='boxing8' class='form_image' data-project='$project->id' data-field='8' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="">
@@ -1582,6 +1647,14 @@
                                             <td rowspan="2">Braced Straight including Checking Position Back to Lines</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->braced_doneby : '' }}" name="boxing[braced_doneby]">
+                                            </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '9')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '9' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '9' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '9')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '9' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing9'><img src='/img/upload-image.svg' /></label><input id='boxing9' class='form_image' data-project='$project->id' data-field='9' data-form='boxing' type='file' /></div>"
+                                        !!}   
                                             </td>
                                         </tr>
                                         <tr>
@@ -1594,11 +1667,27 @@
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->yellow_doneby : '' }}" name="boxing[yellow_doneby]">
                                             </td>
+                                            <td>
+                                            {!! ($project->images()->form('boxing', '10')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '10' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '10' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '10')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '10' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing10'><img src='/img/upload-image.svg' /></label><input id='boxing10' class='form_image' data-project='$project->id' data-field='10' data-form='boxing' type='file' /></div>"
+                                        !!}   
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td rowspan="2">Kick Stand</td>
                                             <td class="">
                                                 Done by <input type="text" class="form-control" value="{{ $boxing_data!=null ? $boxing_data->kick_supervisor : '' }}" name="boxing[kick_supervisor]">
+                                            </td>
+                                            <td rowspan="2">
+                                            {!! ($project->images()->form('boxing', '11')->count()>0)
+                                        ?
+                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('boxing', '11' )->pluck('id')[0]."'><i class='fa fa-trash'></i></span><a class='demo' href='/images/".$project->images()->form('boxing', '11' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('boxing', '11')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('boxing', '11' )->pluck('image')[0]."'></a></div>"
+                                        :
+                                        "<div class='image-upload'><label for='boxing11'><img src='/img/upload-image.svg' /></label><input id='boxing11' class='form_image' data-project='$project->id' data-field='11' data-form='boxing' type='file' /></div>"
+                                        !!}   
                                             </td>
                                         </tr>
                                         <tr>
