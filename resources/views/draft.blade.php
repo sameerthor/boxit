@@ -446,21 +446,7 @@
 
 
   $("#booking").on("submit", function() {
-<<<<<<< HEAD
-    if($("#booking").valid())
-    {
-    $(".contacts").each(function() {
-      var text = $(this).find('option:selected').text();
-      if (text == 'N/A') {
-        $(this).parents('.department_group').remove();
-      }
-    });
-    return true;
-  }else
-  {
-    return false;
-  }
-=======
+   
     if ($("#booking").valid()) {
       $('.council_services:hidden').remove();
       if ($(".council-checkboxes:checked").length == 0) {
@@ -476,7 +462,6 @@
     } else {
       return false;
     }
->>>>>>> staging
   })
   $("#booking").validate();
   $(function() {
@@ -503,18 +488,6 @@
     });
   });
 
-<<<<<<< HEAD
-  
-$(".contacts").on("change",function(){
-  var text= $(this).find('option:selected').text();
-if(text == 'N/A')
-{
-  $(this).parents('.department_group').find('.dates').prop('disabled', true);
-}else
-{
-  $(this).parents('.department_group').find('.dates').prop('disabled', false);
-=======
->>>>>>> staging
 
   $(".contacts").on("change", function() {
     var text = $(this).find('option:selected').text();
