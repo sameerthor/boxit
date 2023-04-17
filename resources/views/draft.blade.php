@@ -458,7 +458,7 @@
           $(this).parents('.department_group').remove();
         }
       });
-      return false;
+      return true;
     } else {
       return false;
     }

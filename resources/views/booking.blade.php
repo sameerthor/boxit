@@ -351,6 +351,9 @@
 
   $("#booking").on("submit", function() {
     if ($("#booking").valid()) {
+      if ($(".council-checkboxes:checked").length == 0) {
+        $('.council_services').remove();
+    }
       $('.council_services:hidden').remove();
       $(".contacts").each(function() {
         var text = $(this).find('option:selected').text();
