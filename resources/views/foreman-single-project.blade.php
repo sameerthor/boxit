@@ -6,7 +6,7 @@
 
     .file-remover {
         position: absolute !important;
-        top: -20px;
+        top: -15px;
         right: -10px;
     }
 
@@ -258,6 +258,8 @@
     }
     i.fa.fa-times {
     color: red;
+    -webkit-text-stroke: 1px white;
+
 }
 </style>
 <div class="modal fade" role="dialog" id="reason_form">
