@@ -446,6 +446,7 @@
 
 
   $("#booking").on("submit", function() {
+   
     if ($("#booking").valid()) {
       $('.council_services:hidden').remove();
       if ($(".council-checkboxes:checked").length == 0) {

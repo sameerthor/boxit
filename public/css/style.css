@@ -2216,7 +2216,11 @@ span.foreman_notes_edit {
   color: #ee3a3a !important;
 }
 
-.form-group>.select2-container {
+div.file-listing .col-md-6 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
+.form-group > .select2-container {
   width: 100% !important;
 }
 
