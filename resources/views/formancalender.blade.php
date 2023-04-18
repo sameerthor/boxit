@@ -84,6 +84,14 @@
 </div>
 @mobile
 <style>
+	div#daily_calender .col-md-12.cal-flex.bookings  {
+		flex-wrap: wrap;
+	}
+
+	div#daily_calender .show_booking{
+      margin-top: 10px !important;
+	}
+	
 	.list-enter-active {
 		animation: fade-in 0.20s ease-in-out;
 	}
