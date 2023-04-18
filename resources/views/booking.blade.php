@@ -385,7 +385,10 @@
         alert("Please enter address to save as draft.");
         return false;
       }
-
+      $('.council_services:hidden').remove();
+      if ($(".council-checkboxes:checked").length == 0) {
+        $('.council_services').remove();
+    } 
       var form = $('#booking')[0];
       var formData = new FormData(form);
       $.ajax({
