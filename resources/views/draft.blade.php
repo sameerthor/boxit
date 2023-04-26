@@ -4,16 +4,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.js"></script>
 <style>
-  .remove_file {
-    position: absolute;
-    top: -15px;
-    right: -5px;
-  }
-
-  .file_container {
-    display: inline-block;
-    position: relative;
-    padding: 5px;
+  .file_container{
+    padding: 2px 8px 2px 14px;
+    border: 1px solid black;
+    border-radius: 11px;
+    margin: 3px 2px 3px 2px;
   }
 </style>
 <div id="content">
@@ -87,7 +82,7 @@
                     <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
                       @foreach($department->contacts as $res)
-                      <option value="{{$res->id}}" <?php if (@$draft->DraftData[$department->id-1][0]->contact_id == $res->id) {
+                      <option value="{{$res->id}}" <?php if (@$draft->DraftData[$department->id]->first()->contact_id == $res->id) {
                                                       echo "selected";
                                                       $contact_name = $res->title;
                                                     } else {
@@ -100,12 +95,12 @@
                 <div class="col-md-5 form-group paid-none-r">
                   <input name="date[{{$department->id}}]" <?php if (@$contact_name == 'N/A') {
                                                             echo "disabled";
-                                                          } ?> class="example dates" value="<?php echo @$draft->DraftData[$department->id-1][0]->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
+                                                          } ?> class="example dates"  value="<?php echo @$draft->DraftData[$department->id]->first()->date; ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
                 <div class="col-md-1">
                   <div class="input-group input-group-xs">
                     <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input customSwitch" <?php if (@$draft->DraftData[$department->id-1][0]->status != 2) echo 'checked'; ?> name="status[{{$department->id}}]" value="1" id="customSwitch{{$department->id}}">
+                      <input type="checkbox" class="custom-control-input customSwitch" <?php if (@$draft->DraftData[$department->id]->first()->status != 2) echo 'checked'; ?> name="status[{{$department->id}}]" value="1" id="customSwitch{{$department->id}}">
                       <label class="custom-control-label" for="customSwitch{{$department->id}}"></label>
                     </div>
                   </div>
@@ -133,9 +128,11 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r">
-                  <input name="date[{{$department->id}}]" <?php if (@$contact_name == 'N/A' || (!array_key_exists("",$draft->DraftData[$department->id][$council_id]))) {
+                  <input name="date[{{$department->id}}]" <?php if (@$contact_name == 'N/A' || (!array_key_exists("", $draft->DraftData[$department->id][$council_id]))) {
                                                             echo "disabled";
-                                                          } ?> class="example dates" value="<?php if(array_key_exists("",$draft->DraftData[$department->id][$council_id])){echo @$draft->DraftData[$department->id][$council_id][''];} ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
+                                                          } ?> class="example dates" value="<?php if (array_key_exists("", $draft->DraftData[$department->id][$council_id])) {
+                                                                                              echo @$draft->DraftData[$department->id][$council_id][''];
+                                                                                            } ?>" type="text" placeholder="Choose Date & Time" required /><i class="fa fa-angle-down"></i>
                 </div>
                 <div class="col-md-1">
                   <div class="input-group input-group-xs">
@@ -174,7 +171,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
-                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}"  class="example dates" type="text" placeholder="Choose Date & Time" />
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
                 <br>
                 <div class="col-md-6">
@@ -226,7 +223,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
-                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}"  class="example dates" type="text" placeholder="Choose Date & Time" />
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
                 <br>
                 <div class="col-md-6">
@@ -278,7 +275,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
-                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}"  class="example dates" type="text" placeholder="Choose Date & Time" />
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
                 <br>
                 <div class="col-md-6">
@@ -330,7 +327,7 @@
                   </div>
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
-                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}"  class="example dates" type="text" placeholder="Choose Date & Time" />
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Blockwork Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Blockwork Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
                 <br>
                 <div class="col-md-6">
@@ -361,18 +358,25 @@
 
           <div class="row">
 
-            <div class="form-group increment col-md-12">
+            <div class="form-group  col-md-12">
               <label>Files</label>
+              <div class="increment">
+                <input type="file" style="padding-top: 6px !important; padding-left:12px !important;" name="file_upload[]" class="myfrm form-control">
+                <div class="add_html icon-pls" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+              </div>
               <br>
               @if(!empty($draft->file))
-              @foreach($draft->file as $f)
-              <div class="file_container"><input type="hidden" name="existing_file[]" value="{{$f}}"><a href="/images/{{$f}}" target="_blank"><embed style="width:100px;height:100px" src="/images/{{$f}}"></embed></a>
-                <div class="remove_file"><i class="fa fa-trash" aria-hidden="true"></i></div>
+              <div class="row file-listing">
+                @foreach($draft->file as $f)
+                <div class="form-group file_container  col-md-6 bg-shadow ">
+                <input type="hidden" name="existing_file[]" value="{{$f}}">
+                  <label>{{$f}}</label>
+                  <div style="float: right;"><i class="fa fa-trash fa-lg remove_file" aria-hidden="true"></i><a href="/images/{{$f}}" target="_blank" style="color:black;position: absolute;right: 38px;top: 4px;"><i class="fa fa-external-link fa-lg" aria-hidden="true"></i></a></div>
+                </div>
+                @endforeach
               </div>
-              @endforeach
               @endif
-              <input type="file" style="padding-top: 6px !important; padding-left:12px !important;" name="file_upload[]" class="myfrm form-control">
-              <div class="add_html icon-pls" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+              
             </div>
           </div>
           <div class="row">
@@ -427,8 +431,8 @@
       return false;
     }
     $('.council_services:hidden').remove();
-      if ($(".council-checkboxes:checked").length == 0) {
-        $('.council_services').remove();
+    if ($(".council-checkboxes:checked").length == 0) {
+      $('.council_services').remove();
     }
     var form = $('#booking')[0];
     var formData = new FormData(form);
@@ -446,12 +450,12 @@
 
 
   $("#booking").on("submit", function() {
-   
+
     if ($("#booking").valid()) {
       $('.council_services:hidden').remove();
       if ($(".council-checkboxes:checked").length == 0) {
         $('.council_services').remove();
-    }
+      }
       $(".contacts").each(function() {
         var text = $(this).find('option:selected').text();
         if (text == 'N/A') {

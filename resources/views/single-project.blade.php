@@ -1727,7 +1727,7 @@
           $("input:checkbox[name='checkbox_status[]']:checked").each(function() {
             val.push($(this).val());
           });
-          var id = $("input[name='project_id']").val();
+          var id = "{{$project->id}}";
           jQuery.ajax({
             type: 'POST',
             url: "/change-checkbox-status",
