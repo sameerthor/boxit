@@ -112,13 +112,34 @@ div.year, div.month {
 </div>
 
 <script>
-  $(document).on("click", ".details", function() {
-    var id = $(this).data('id');
-    $.ajaxSetup({
+   $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+  
+    
+  $(document).ready(function(){
+    var urlParams = new  URLSearchParams(window.location.search);
+     if(urlParams.has('project_id'))
+     {  
+     var id =  urlParams.get('project_id');
+    jQuery.ajax({
+      url: "{{ url('/foreman-single-project') }}",
+      method: 'post',
+      data: {
+        id: id,
+      },
+      success: function(result) {
+        jQuery('.main').html(result);
+      }
+    });
+
+     }
+  });
+  $(document).on("click", ".details", function() {
+    var id = $(this).data('id');
+   
     jQuery.ajax({
       url: "{{ url('/foreman-single-project') }}",
       method: 'post',

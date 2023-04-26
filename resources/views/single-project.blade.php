@@ -276,8 +276,8 @@
         </select>
       </div>
       <div class="form-group col-md-6 l-font-s">
-        <label>Notes <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="notes"><i class="fa fa-save fa-lg"></i></span></label>
-        <p class="view_item">{{$project->notes}}</p><textarea class="form-control edit_item" style="display:none">{{$project->notes}}</textarea>
+        <label>Notes <span class="edit_icon" data-field="notes"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="notes"><i class="fa fa-save fa-lg"></i></span></label>
+        <div class="view_item" style="margin-top: -15px;"><p>{!! $project->notes !!}</p></div><textarea class="form-control edit_item" id="project_note" style="display:none">{{$project->notes}}</textarea>
       </div>
       <div class="form-group col-md-12 l-font-s">
         <label>File</label> <span class="save_file" data-id="{{$project->id}}"><i class="fa fa-upload fa-lg" aria-hidden="true"></i></span>
@@ -1345,15 +1345,28 @@
           $(this).hide();
           $(this).parents(".form-group").find(".save_icon").show();
           $(this).parents(".form-group").find(".view_item").hide();
-          $(this).parents(".form-group").find(".edit_item").show();
+          var field = $(this).data('field');
+           if(field=='notes')
+           {
+            $(this).parents(".form-group").find("#cke_project_note").show();
 
+           }else{
+            $(this).parents(".form-group").find(".edit_item").show();
+
+           }
         });
 
         $(document).on('click', '.save_icon', function() {
           var id = $(this).data('id');
           var field = $(this).data('field');
-          var val = $(this).parents(".form-group").find(".edit_item").val();
+          if(field=='notes')
+           {
+            var val = CKEDITOR.instances['project_note'].getData().trim();
 
+           }else{
+            var val = $(this).parents(".form-group").find(".edit_item").val();
+           }
+          
           jQuery.ajax({
             url: "{{ url('/update-project') }}",
             method: 'post',
@@ -1755,4 +1768,77 @@
         wrapAround: false, // If true, when a user reaches the last image in a set, the right navigation arrow will appear and they will be to continue moving forward which will take them back to the first image in the set.
         sanitizeTitle: false
     })
+    
+		CKEDITOR.replace('project_note', {
+			// Make the editing area bigger than default.
+			height: 100,
+			// Allow pasting any content.
+			allowedContent: true,
+			fillEmptyBlocks: false,
+
+			// Fit toolbar buttons inside 3 rows.
+			toolbarGroups: [{
+					name: 'document',
+					groups: ['mode', 'document', 'doctools']
+				},
+				{
+					name: 'clipboard',
+					groups: ['clipboard', 'undo']
+				},
+				{
+					name: 'editing',
+					groups: ['find', 'selection', 'spellchecker', 'editing']
+				},
+				{
+					name: 'forms',
+					groups: ['forms']
+				},
+				'/',
+				{
+					name: 'paragraph',
+					groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+				},
+				{
+					name: 'links',
+					groups: ['links']
+				},
+				{
+					name: 'insert',
+					groups: ['insert']
+				},
+				'/',
+				{
+					name: 'styles',
+					groups: ['styles']
+				},
+				{
+					name: 'basicstyles',
+					groups: ['basicstyles', 'cleanup']
+				},
+				{
+					name: 'colors',
+					groups: ['colors']
+				},
+				{
+					name: 'tools',
+					groups: ['tools']
+				},
+				{
+					name: 'others',
+					groups: ['others']
+				},
+				{
+					name: 'about',
+					groups: ['about']
+				}
+			],
+
+			// Remove buttons irrelevant for pasting from external sources.
+			removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
+		});
+
+    CKEDITOR.on("instanceReady", function(event)
+   {
+     $("#cke_project_note").hide()
+   });
       </script>

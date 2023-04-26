@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="/js/tinymce/js/tinymce/tinymce.min.js"></script>
-
-<script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
-
 <style>
 	input:focus {
 		outline: none;
@@ -89,6 +85,9 @@
 							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
 								<textarea id="textArea{{$booking_data->id}}">{{$res->body}}</textarea>
 								<?php echo @$product_html; ?>
+								@if(!empty($booking_data->service))
+								<br> Inspection Type - {{$booking->service}} <br>
+								@endif
 								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 								@endif

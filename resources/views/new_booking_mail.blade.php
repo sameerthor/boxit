@@ -85,6 +85,9 @@
 							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
 								<textarea id="textArea{{$loop->iteration}}">{{$res->body}}</textarea>
 								<?php echo @$product_html; ?>
+								@if(!empty($booking_data->service))
+								<br> Inspection Type - {{$booking->service}} <br>
+								@endif
 								@if($booking_data->department_id=='6' || $booking_data->department_id=='7' || $booking_data->department_id=='5')
 								<br> BCN- {{$booking->bcn!=''?$booking->bcn:'NA'}} <br>
 								@endif

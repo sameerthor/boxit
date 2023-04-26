@@ -25,7 +25,7 @@
 					<div class="col-md-4">
 						<div class="info-txt">
 							<span>Address</span>
-							<p id="booking_address">NA</p>
+							<p id="booking_address" style="text-decoration:underline;cursor:pointer">NA</p>
 						</div>
 					</div>
 					<div class="col-md-4">
@@ -770,12 +770,20 @@
 
 		}
 	}).mount("#content");
+
+	$(document).on('click', '#booking_address', function() {
+
+		var id=$(this).attr('data-id');
+		window.location.href="<?php echo URL('projects?project_id=') ?>"+id
+	});
+	
 	$(document).on('click', '.show_booking', function() {
 		var id = $(this).data('id');
 		axios.post('/calender-detail', {
 				id: id
 			})
 			.then((response) => {
+				$("#booking_address").attr('data-id',response.data.id);
 				$("#booking_address").html(response.data.address);
 				$("#floor_type").html(response.data.floor_type);
 				$("#floor_area").html(response.data.floor_area);
