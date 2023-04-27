@@ -20,6 +20,7 @@ use App\Models\Boxing;
 use App\Models\Leave;
 use App\Models\Incident;
 use App\Models\Image;
+use App\Models\StaffLeave;
 use App\Models\foremanNote;
 use App\Models\SafetyPlan;
 use App\Models\Stripping;
@@ -103,6 +104,12 @@ class ForemanController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
+                
+                    $staff_leaves = StaffLeave::whereDate('date', '=', $booking_date)->where('staff_id',$foreman_id)->get();
+                    foreach ($staff_leaves as $leave) {
+                        $html .= "<span class='red_box' >On Leave</span>";
+                    }
+        
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
                     $html .= "<span class='red_box' >" . $leave->title . "</span>";

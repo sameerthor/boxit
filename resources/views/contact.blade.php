@@ -101,6 +101,10 @@
             <label for="sms_enabled" class="col-form-label">SMS Notification Enabled:</label>
             <input type="checkbox" name="sms_enabled" value="1" id="sms_enabled">
           </div>
+          <div class="form-group">
+            <label for="notes" class="col-form-label">Notes:</label>
+            <textarea id="notes" name="notes" class="form-control" rows="4"></textarea>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -150,6 +154,7 @@
         $("#title").val(data.title);
         $("#contact").val(data.contact);
         $("#company").val(data.company);
+        $("#notes").val(data.notes);
         $("#email").val(data.email);
         if(data.sms_enabled=='1')
         $('#sms_enabled').prop('checked', true); 
@@ -170,6 +175,7 @@
     $("#title").val("");
     $("#contact").val("");
     $("#company").val("");
+    $("#notes").val("");
     $("#email").val("");
     $('#sms_enabled').prop('checked', false); 
     $("#contact_form").modal('show');
@@ -222,6 +228,7 @@
       var email = $("#email").val();
       var contact = $("#contact").val();
       var company = $("#company").val();
+      var notes= $("#notes").val();
       var department = $("#department").val();
 
       jQuery.ajax({
@@ -231,6 +238,7 @@
           title: title,
           email: email,
           company:company,
+          notes:notes,
           contact: contact,
           department_id: department
         },
@@ -239,6 +247,7 @@
           $("#title").val("");
           $("#contact").val("");
           $("#company").val("");
+          $("#notes").val("");
           $("#email").val("");
           Swal.fire({
             icon: 'success',
@@ -255,6 +264,7 @@
       var email = $("#email").val();
       var contact = $("#contact").val();
       var company = $("#company").val();
+      var notes = $("#notes").val();
       var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
@@ -267,6 +277,7 @@
           title: title,
           email: email,
           company:company,
+          notes:notes,
           contact: contact,
           sms_enabled:sms_enabled,
           department_id: department
@@ -276,6 +287,7 @@
           $("#title").val("");
           $("#contact").val("");
           $("#company").val("");
+          $("#notes").val("");
           $("#email").val("");
           $("#modal_contact_id").text("");
           Swal.fire({

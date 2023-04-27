@@ -29,7 +29,7 @@
 
         </div>
         <div class="col-md-2 text-r select-style">
-          <button data-toggle="modal" class="btn btn-secondary btn-color" data-target="#email_form">Send mail</button>  
+          <button data-toggle="modal" class="btn btn-secondary btn-color" data-target="#email_form">Send mail</button>
         </div>
       </div>
       <div class="row">
@@ -52,6 +52,9 @@
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
+                    @if(@$user->roles->pluck('name')[0]=='Foreman')
+                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="leaves dropdown-item">Leaves</a>
+                    @endif
                   </div>
                 </td>
               </tr>
@@ -86,19 +89,48 @@
           <div class="form-group">
             <label for="emails" class="col-form-label">Users (Mail will send to all users if not selected)</label>
             <br>
-            <select  name="emails[]" id="emails" multiple="multiple">
-            @foreach($users as $user)  
-            <option value="{{$user->email}}">{{ucfirst($user->name)}}</option>
-            @endforeach
+            <select name="emails[]" id="emails" multiple="multiple">
+              @foreach($users as $user)
+              <option value="{{$user->email}}">{{ucfirst($user->name)}}</option>
+              @endforeach
             </select>
           </div>
-         
+
       </div>
       <div class="modal-footer">
-        <button type="submit"  class="save_button btn btn-secondary">Send Mail</button>
+        <button type="submit" class="btn btn-secondary">Send Mail</button>
       </div>
       </form>
 
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="leaves_form">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> Staff Leaves</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="display:none" id="leave_user_id"></div>
+      <form onsubmit="event.preventDefault();saveLeaves()">
+        <div class="modal-body">
+          <div id="repeater">
+            <!-- Repeater Heading -->
+            <div class="repeater-heading">
+              <button type="button" class="pull-right btn btn-primary btn-color repeater-add-btn"> Add</button>
+            </div>
+            <br>
+            <br>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="save_leaves" class=" btn btn-secondary">Save</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -146,84 +178,37 @@
     </div>
   </div>
 </div>
+<div class="hidden_html" style="display:none">
+  <div class="items leave_items" style="margin-bottom: 45px;">
+    <div class="item-content">
+      <div class="form-group">
+        <input type="date" required name="date[]" class="date form-control">
+        <div class="pull-right mt-1 mb-3 repeater-remove-btn">
+          <button id="remove-btn" class="btn btn-danger " onclick="$(this).parents('.items').remove();getIframehtml();">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script>
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  $('#email_form').on('shown.bs.modal', function (e) {
+  $('#email_form').on('shown.bs.modal', function(e) {
     $('#emails').select2();
 
-})
+  })
 
-  CKEDITOR.replace('mail', {
-			// Make the editing area bigger than default.
-			height: 450,
-			// Allow pasting any content.
-			allowedContent: true,
-			fillEmptyBlocks: false,
 
-			// Fit toolbar buttons inside 3 rows.
-			toolbarGroups: [{
-					name: 'document',
-					groups: ['mode', 'document', 'doctools']
-				},
-				{
-					name: 'clipboard',
-					groups: ['clipboard', 'undo']
-				},
-				{
-					name: 'editing',
-					groups: ['find', 'selection', 'spellchecker', 'editing']
-				},
-				{
-					name: 'forms',
-					groups: ['forms']
-				},
-				'/',
-				{
-					name: 'paragraph',
-					groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
-				},
-				{
-					name: 'links',
-					groups: ['links']
-				},
-				{
-					name: 'insert',
-					groups: ['insert']
-				},
-				'/',
-				{
-					name: 'styles',
-					groups: ['styles']
-				},
-				{
-					name: 'basicstyles',
-					groups: ['basicstyles', 'cleanup']
-				},
-				{
-					name: 'colors',
-					groups: ['colors']
-				},
-				{
-					name: 'tools',
-					groups: ['tools']
-				},
-				{
-					name: 'others',
-					groups: ['others']
-				},
-				{
-					name: 'about',
-					groups: ['about']
-				}
-			],
+  $('.repeater-add-btn').click(function() {
+    $("#repeater").append($(".hidden_html").html());
+  })
 
-			// Remove buttons irrelevant for pasting from external sources.
-			removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
-		});
 
   $('#search').on('keyup change', function() {
     refreshtable();
@@ -243,9 +228,61 @@
     });
   }
 
+  $(document).on("click", ".leaves", function() {
+
+    let id = $(this).data('id');
+    $("#leave_user_id").text(id);
+
+    jQuery.ajax({
+      type: 'POST',
+      url: "{{ route('user.leaves') }}",
+      dataType: "json",
+      data: {
+        id: id,
+      },
+      success: function(data) {
+        $("#leaves_form").modal('show');
+        $("#leaves_form").find(".leave_items").remove();
+        console.log(data);
+        data.map(function(item) {
+          $("#repeater").append($(".hidden_html").html());
+          $("#repeater").find(".date:last").val(new Date(item.date).toISOString().split('T')[0]);
+        });
+      }
+    })
+
+  });
+
+
+  function saveLeaves() {
+    let id = $("#leave_user_id").text();
+    var dates = $("#leaves_form").find("input[name='date[]']")
+      .map(function() {
+        return $(this).val();
+      }).get();
+
+    jQuery.ajax({
+      type: 'POST',
+      url: "{{ route('userleaves.save') }}",
+      data: {
+        id: id,
+        dates: dates
+      },
+      success: function(data) {
+        $("#leaves_form").modal('hide');
+
+        Toast.fire({
+          icon: 'success',
+          title: "Staff leave saved successfuly."
+        })
+      }
+    })
+
+  }
+
   $(document).on("click", ".edit", function() {
-    $("#email").attr('readonly',true);
-    $("#user_type").attr('readonly',true);
+    $("#email").attr('readonly', true);
+    $("#user_type").attr('readonly', true);
     let id = $(this).data('id');
     var user_type = $(this).parents('tr').find(".user_type").html();
     jQuery.ajax({
@@ -281,8 +318,8 @@
     $(".save_button").attr("id", "submit_user")
     $("#modal_user_id").text("");
     $("#modal_title").html("Add");
-    $("#email").attr('readonly',false);
-    $("#user_type").attr('readonly',false);
+    $("#email").attr('readonly', false);
+    $("#user_type").attr('readonly', false);
     $("#name").val("");
     $("#email").val("");
     $("#contact").val("");
@@ -313,7 +350,7 @@
         data: {
           name: name,
           email: email,
-          contact:contact,
+          contact: contact,
           password: password,
           user_type: user_type,
         },
@@ -325,9 +362,9 @@
           $("#password").val("");
           $("#user_type").val("");
           Toast.fire({
-			icon: 'success',
-			title: 'User has been saved successfully'
-		}).then((res) => {
+            icon: 'success',
+            title: 'User has been saved successfully'
+          }).then((res) => {
             window.location.href();
           });
           refreshtable();
@@ -353,7 +390,7 @@
           id: id,
           name: name,
           email: email,
-          contact:contact,
+          contact: contact,
           password: password,
           user_type: user_type,
         },
@@ -366,15 +403,84 @@
           $("#user_type").val("");
           $("#modal_user_id").text("");
           Toast.fire({
-			icon: 'success',
-			title: 'User has been updated successfully'
-		}).then((res) => {
+            icon: 'success',
+            title: 'User has been updated successfully'
+          }).then((res) => {
             window.location.href();
           });
           refreshtable();
         }
       });
     });
+  });
+
+
+  CKEDITOR.replace('mail', {
+    // Make the editing area bigger than default.
+    height: 450,
+    // Allow pasting any content.
+    allowedContent: true,
+    fillEmptyBlocks: false,
+
+    // Fit toolbar buttons inside 3 rows.
+    toolbarGroups: [{
+        name: 'document',
+        groups: ['mode', 'document', 'doctools']
+      },
+      {
+        name: 'clipboard',
+        groups: ['clipboard', 'undo']
+      },
+      {
+        name: 'editing',
+        groups: ['find', 'selection', 'spellchecker', 'editing']
+      },
+      {
+        name: 'forms',
+        groups: ['forms']
+      },
+      '/',
+      {
+        name: 'paragraph',
+        groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+      },
+      {
+        name: 'links',
+        groups: ['links']
+      },
+      {
+        name: 'insert',
+        groups: ['insert']
+      },
+      '/',
+      {
+        name: 'styles',
+        groups: ['styles']
+      },
+      {
+        name: 'basicstyles',
+        groups: ['basicstyles', 'cleanup']
+      },
+      {
+        name: 'colors',
+        groups: ['colors']
+      },
+      {
+        name: 'tools',
+        groups: ['tools']
+      },
+      {
+        name: 'others',
+        groups: ['others']
+      },
+      {
+        name: 'about',
+        groups: ['about']
+      }
+    ],
+
+    // Remove buttons irrelevant for pasting from external sources.
+    removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
   });
 </script>
 @endsection

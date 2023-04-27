@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\BookingData;
 use App\Models\Draft;
 use App\Models\DraftData;
+use App\Models\StaffLeave;
 use App\Jobs\BookingEmailJob;
 use App\Models\foremanNote;
 use App\Mail\BookingMail;
@@ -567,6 +568,8 @@ class BookingController extends Controller
         $dates = $request->get('dates');
         $year = $request->get('year');
         $foreman_id = $request->get('foreman_id');
+        if(!empty($foreman_id))
+        $name=User::find($foreman_id)->name;
         $requested_month = $request->get('month') + 1;
         $html = '';
         foreach ($dates as $date) {
@@ -590,6 +593,13 @@ class BookingController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
+                if (!empty($foreman_id))
+                {
+                    $staff_leaves = StaffLeave::whereDate('date', '=', $booking_date)->where('staff_id',$foreman_id)->get();
+                    foreach ($staff_leaves as $leave) {
+                        $html .= "<span class='red_box' >".ucfirst($name)." - On Leave</span>";
+                    }
+                }
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
                     $html .= "<span class='red_box' >" . $leave->title . "</span>";

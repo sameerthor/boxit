@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\StaffLeave;
 use Auth;
 use App\Jobs\BookingEmailJob;
 use Carbon\Carbon;
@@ -88,5 +89,24 @@ class UserController extends Controller
 
 
     }   
+   
+    public function get_leaves(Request $request){
+        $staff_id=$request->get('id');
+        $data=StaffLeave::where('staff_id',$staff_id)->get();
+        return $data;
+    }
 
+    public function save_leaves(Request $request){
+        
+        $staff_id=$request->get('id');
+        StaffLeave::where('staff_id',$staff_id)->delete();
+        $dates=$request->get('dates');
+        $i=0;
+        foreach($dates as $date)
+        {
+            StaffLeave::create(array('staff_id'=>$staff_id,'date'=>date("Y-m-d h:i:s", strtotime($date))));
+            $i++;
+        }
+        return true;
+     }
 }

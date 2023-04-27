@@ -67,6 +67,7 @@ class ContactController extends Controller
         $contact->email = $request->get('email');
         $contact->title = $request->get('title');
         $contact->company = $request->get('company');
+        $contact->notes = $request->get('notes');
         $contact->contact = $request->get('contact');
         $contact->sms_enabled = $request->get('sms_enabled');
         $contact->save();
