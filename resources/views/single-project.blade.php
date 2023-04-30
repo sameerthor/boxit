@@ -306,13 +306,27 @@
           <th>Contact</th>
           <th>Date</th>
           <th>Status</th>
-          <th class="text-right">Action</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        @foreach($project->BookingData->slice(1) as $res)
+        @php $project_data=$project->BookingData->slice(1)->sortBy('department_id');$y=1;@endphp
+        @foreach($project_data as $key=>$res)
         <tr>
-          <td>{{$loop->iteration}}</td>
+          <td>
+          <?php
+           $c='';
+          if(!$loop->last)
+          {
+            if($project_data[$loop->index+1]->department_id==$res->department_id || $res->reorder_no!=0)
+            {$c=strtolower(chr($res->reorder_no+65)).".";echo $y;}else{echo ++$y;}
+          }else{
+            if($project_data[$loop->index-1]->department_id==$res->department_id || $res->reorder_no!=0)
+            {$c=strtolower(chr($res->reorder_no+65)).".";echo $y;}else{echo ++$y;}
+          }
+          echo " ".$c; 
+           ?>
+          </td>
           <td>{{$res->department->title}} {{$res->service!=''?'('.$res->service.')':''}}</td>
           <td>
             <span class="contact_label"> {{$res->contact?->title}}</span>
@@ -340,7 +354,11 @@
             @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 65%;" src="/img/project_hold.png"></a></span>@endif
             <span data-notes="{{$res->notes}}" data-id="{{$res->id}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
           </td>
-          <td class="text-right"><button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff" data-id="1">Change date</button></td>
+          <td class="text-right">
+          <button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff">Change date</button> 
+          @if(@$project_data[$loop->index+1]->department_id!=$res->department_id)
+          <button type="button" data-id="{{$res->id}}" class="btn btn-sm reorder" style="background-color: #172b4d;color:#fff">Reorder</button></td>
+          @endif
         </tr>
         @endforeach
       </tbody>
@@ -1282,7 +1300,29 @@
 
         </div>
       </div>
+      <div class="modal" id="reorderPopup" role="dialog">
+        <div class="modal-dialog">
 
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Select date for Reorder</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <div class="form-group col-md-6">
+                  <input type="text" placeholder="date/time" class="example form-control" name="reorder_date"> 
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm save-reorder">Save</button>
+              <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
       <style>
         .tooltip-inner {
           color: #172B4D;
@@ -1496,6 +1536,39 @@
           $(".new_email").attr('data-id', id);
           $("#myModal").modal('show');
         })
+       
+        
+        $(".reorder").click(function() {
+          $(".modal").modal('hide');
+          var id = $(this).data('id');
+          $(".save-reorder").attr('data-id', id);
+          $("#reorderPopup").modal('show');
+        });
+      
+        $(".save-reorder").click(function() {
+          var id = $(this).data('id');
+          var date = $("input[name='reorder_date']").val(); 
+          if(date=="")
+          {
+             alert("Please select date");   
+             return false;
+          }
+          jQuery.ajax({
+            type: 'POST',
+            url: "/reorder",
+            data: {
+              id: id,
+              date: date,
+            },
+            success: function(id) {
+
+             var obj = { id: id };
+             var encoded = btoa(JSON.stringify(obj))
+             window.location.href="/new-email/"+encoded;
+             
+            }
+          })
+        });
 
         $(".department_notes").click(function() {
           $("#myModal").modal('hide');

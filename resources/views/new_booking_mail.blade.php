@@ -21,38 +21,16 @@
 				<div class="col-md-12">
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						@foreach($mail as $res)
-						@php
-						$booking_datas=$booking->BookingData->where('id','=',$id);
-						if(empty($booking_datas))
-						{
-						continue;
-						}
-						foreach($booking_datas as $booking_data)
-						{
-						if($booking_data->status==2){
-						continue;
-						}
-						@endphp
+						@if($booking_data->department_id==$res->department_id)
 						<li class="nav-item" role="presentation">
 							<button style="color:#172b4d" class="nav-link <?php if ($loop->iteration == 1) echo 'active'; ?>" id="tab{{$res->id}}" data-bs-toggle="tab" data-bs-target="#c_{{$booking_data->id}}" type="button" role="tab" aria-controls="{{$res->department->title}}" aria-selected="true">{{$res->department->title}} {{$booking_data->service!=''?'('.$booking_data->service.')':''}}</button>
 						</li>
-						@php } @endphp
+						@endif
 						@endforeach
 					</ul>
 					<div class="tab-content" id="myTabContent">
 						@foreach($mail as $res)
 						@php
-						$bookings=$booking->BookingData->where('department_id','=',$res->department_id);
-						if(empty($bookings))
-						{
-						continue;
-						}
-						foreach($bookings as $booking_data)
-						{
-						if($booking_data->status==2){
-						continue;
-						}
-
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
 						$product_html='<p></p>';
@@ -105,7 +83,6 @@
 								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 							</div>
 						</div>
-						@php } @endphp
 						@endforeach
 					</div>
 				</div>
@@ -217,7 +194,7 @@
 					}
 				});
 				$(".email_content").find("textarea").each(function() {
-					$(this).replaceWith(trim(CKEDITOR.instances[$(this).attr('id')].getData()).trim());
+					$(this).replaceWith(CKEDITOR.instances[$(this).attr('id')].getData());
 					CKEDITOR.instances[$(this).attr('id')].destroy();
 				});
 

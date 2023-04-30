@@ -314,15 +314,15 @@ class ForemanController extends Controller
     {
         $id = $request->get('id');
         $booking = Booking::find($id);
-        $booking_data = $booking->BookingData;
+        $booking_data = $booking->BookingData->sortBy('department_id');
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
 										<p>Foreman</p>
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
-        foreach ($booking_data->slice(1, 4) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+           foreach ($booking_data->slice(1, (int)count($booking_data)/2) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -349,8 +349,8 @@ class ForemanController extends Controller
 									';
         }
         $html .=        '</div><div class="col-md-6">';
-        foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+        foreach ($booking_data->slice(((int)count($booking_data)/2)+1) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':

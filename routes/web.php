@@ -43,6 +43,7 @@ Route::get('/products', [App\Http\Controllers\ProductController::class, 'index']
 
 Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
+    Route::post('/reorder', [App\Http\Controllers\BookingController::class, 'reorder'])->name('reorder');
     Route::post('/revised-date', [App\Http\Controllers\BookingController::class, 'revised_date']);
     Route::post('/add-product', [App\Http\Controllers\ProductController::class, 'add_product'])->name('product.add');
     Route::post('/productsbydepartment', [App\Http\Controllers\ProductController::class, 'productsbydepartment'])->name('products.get');

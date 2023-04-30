@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class BookingData extends Model
 {
     use HasFactory;
-    protected $fillable = ['department_id','contact_id','date','booking_id','status','service'];
+    protected $fillable = ['department_id','reorder_no','contact_id','date','booking_id','status','service'];
     protected $casts = [
         'new_date' => 'array',
     ];
