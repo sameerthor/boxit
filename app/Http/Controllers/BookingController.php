@@ -199,6 +199,8 @@ class BookingController extends Controller
                         $e->getMessage();
                     }
                 } else {
+                    if(empty($contact->email))
+                    continue;
                     $attachement_files = [];
                     if (isset($res['files'])) {
                         foreach ($res['files'] as $file) {

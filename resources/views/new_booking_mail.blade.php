@@ -217,7 +217,7 @@
 					}
 				});
 				$(".email_content").find("textarea").each(function() {
-					$(this).replaceWith(trim(CKEDITOR.instances[$(this).attr('id')].getData()).trim());
+					$(this).replaceWith(CKEDITOR.instances[$(this).attr('id')].getData().trim());
 					CKEDITOR.instances[$(this).attr('id')].destroy();
 				});
 
