@@ -310,7 +310,7 @@
         </tr>
       </thead>
       <tbody>
-        @php $project_data=$project->BookingData->slice(1)->sortBy('department_id');$y=1;@endphp
+        @php $project_data=$project->BookingData->slice(1)->sortBy('department_id')->values()->all();$y=1;@endphp
         @foreach($project_data as $key=>$res)
         <tr>
           <td>
@@ -319,12 +319,13 @@
           if(!$loop->last)
           {
             if($project_data[$loop->index+1]->department_id==$res->department_id || $res->reorder_no!=0)
-            {$c=strtolower(chr($res->reorder_no+65)).".";echo $y;}else{echo ++$y;}
+            {$c=strtolower(chr($res->reorder_no+65)).".";echo $res->reorder_no==0?($loop->index==0?1:++$y):$y;}else{echo $loop->index==0?1:++$y;}
           }else{
             if($project_data[$loop->index-1]->department_id==$res->department_id || $res->reorder_no!=0)
-            {$c=strtolower(chr($res->reorder_no+65)).".";echo $y;}else{echo ++$y;}
+            {$c=strtolower(chr($res->reorder_no+65)).".";echo $res->reorder_no==0?++$y:$y;}else{echo ++$y;}
           }
           echo " ".$c; 
+          
            ?>
           </td>
           <td>{{$res->department->title}} {{$res->service!=''?'('.$res->service.')':''}}</td>
