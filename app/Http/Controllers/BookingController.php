@@ -182,17 +182,17 @@ class BookingController extends Controller
                 $booking_data = BookingData::find($res['booking_id']);
                 $booking_id = $booking_data->booking_id;
                 $contact = Contact::find($booking_data->contact_id);
-                if ($contact->sms_enabled == '1' && !empty($contact->contact)) {
+                if ($contact->sms_enabled == '1' && !empty($contact->contact) && !empty($res['sms_text'])) {
 
                     try {
-                        $output_string = preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $res['body']);
-                        $output_string = preg_replace("/<a.+href=['|\"]([^\"\']*)['|\"].*>(.+)<\/a>/i", '\1', $output_string);
+                        $output_string = $res['sms_text'];
+                        $output_string .= "\nReply to this SMS will be charged";
                         $res = $client->messages->create(
                             // Where to send a text message (your cell phone?)
                             $contact->contact,
                             array(
                                 'from' => $twilio_number,
-                                'body' => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($output_string))))
+                                'body' => $output_string
                             )
                         );
                     } catch (Exception $e) {

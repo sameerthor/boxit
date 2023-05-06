@@ -82,8 +82,10 @@
 								<input type="file" class="form-control col-md-4" multiple>
 							</div>
 							<br>
+							<textarea class="form-control sms_text" placeholder="Put SMS text here.."></textarea>
+							<br>
 							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
-								<textarea id="textArea{{$booking_data->id}}">{{$res->body}}</textarea>
+								<textarea id="textArea{{$booking_data->id}}" class="email_body">{{$res->body}}</textarea>
 								<?php echo @$product_html; ?>
 								<br>
 								@if(!empty($booking_data->service))
@@ -122,7 +124,7 @@
 
 </div>
 <script>
-	$("textarea").each(function() {
+	$(".email_body").each(function() {
 		var id = $(this).attr('id');
 
 		CKEDITOR.replace(id, {
@@ -232,7 +234,7 @@
 					$.each($("input[type='file']")[index].files, function(i, file) {
 						formdata.append('mail_data[' + index + '][files][]', file);
 					});
-
+					formdata.append('mail_data[' + index + '][sms_text]', $(".sms_text").eq(index).val()); 
 				});
 				jQuery.ajax({
 					type: 'POST',
