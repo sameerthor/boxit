@@ -97,9 +97,7 @@
 								Address: {{$booking->address}}<br>
 								Date and Time: {{$date}} {{$time}}
 								<br><br>
-								@if($booking_data->department_id != '2')
 								<?php echo $reply_link . "<br>" ?>
-								@endif
 								<br>
 								Thank You,<br>
 								Jules<br><br>

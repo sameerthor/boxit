@@ -85,9 +85,7 @@ class BookingController extends Controller
                     'date' => @$requested_date[$key],
                     'booking_id' => $booking_id
                 );
-                if ($key == '2') {
-                    $book_array['status'] = 1;
-                }
+                
 
                 if (empty($request_status[$key])) {
                     $book_array['status'] = 2;
@@ -845,9 +843,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $new_date = date("d-m-Y", strtotime($date));
             $new_time = date("h:i:s A", strtotime($date));
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
-            if ($contact->department_id != '2') {
-                $html .= '<p>' . $reply_link . '</p>';
-            }
+            $html .= '<p>' . $reply_link . '</p>';
+        
             $html .= '<p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
@@ -855,9 +852,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
                 ';
 
             $update_array = ['date' => date("Y-m-d H:i:s", strtotime($date))];
-            if ($contact->department_id != '2') {
                 $update_array['status'] = 0;
-            }
+            
             $details['to'] = $contact->email;
             $details['name'] = $contact->title;
             $details['url'] = 'testing';
