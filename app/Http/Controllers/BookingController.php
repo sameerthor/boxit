@@ -287,7 +287,7 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color:red;border-color: red;'>Click here to approve or make a change request </a><br>";
-            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
+            $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -312,7 +312,7 @@ class BookingController extends Controller
             if ($booking_data->created_at != $booking_data->updated_at)
                 $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
+            $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -347,7 +347,7 @@ class BookingController extends Controller
             $html .= "<p>Boxit Foundations has accepted the requested timing for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
-            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
+            $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -379,7 +379,7 @@ class BookingController extends Controller
 	text-decoration: none !important;
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
-            $html .= '<br><p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
+            $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
     Jules<br><br>
     <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
@@ -845,7 +845,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
             $html .= '<p>' . $reply_link . '</p>';
         
-            $html .= '<p style="display:none">#' . $booking_data->booking_id . '</p>Thank You,<br>
+            $html .= '<p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
