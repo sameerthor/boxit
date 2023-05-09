@@ -20,8 +20,7 @@ use App\Models\Notification;
 use Exception;
 use Session;
 use Auth;
-use Carbon\Carbon;
-use DB;
+use Mail;
 use MobileDetect;
 use Twilio\Rest\Client;
 
@@ -718,6 +717,14 @@ class BookingController extends Controller
         if (!empty($request->get('existing_file'))) {
             $files = $request->get('existing_file');
         }
+        $admin_email=\config('const.admin1');
+        if($admin_email!=auth()->user()->email)
+        {
+        $email_body="Hi,<br><b>".$request->get('address')."</b> has been saved as Draft by ".auth()->user()->name.".";
+        $email_body.='<br>Thank You,<br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">'; 
+        dispatch(new BookingEmailJob(['to'=>$admin_email,'subject'=>'Draft Saved','body'=>$email_body]));
+        
+        }
         $draft = new Draft;
         $draft->address = $request->get('address');
         $draft->floor_area = $request->get('floor_area');
@@ -735,7 +742,8 @@ class BookingController extends Controller
         }
         $draft->file = $files;
         $draft->save();
-
+        
+        
         $draft_id = $draft->id;
         $requested_date = $request->get('date');
         $request_status = $request->get('status');
