@@ -357,7 +357,7 @@
             </div>
             <div class="form-group col-md-6 l-font-s">
                 <label>Notes</label>
-                <p class="view_item">{{$project->notes}}</p>
+                <pre class="view_item">{{ $project->notes }}</pre>
             </div>
             <div class="form-group col-md-12 l-font-s">
                 <label>File</label>
