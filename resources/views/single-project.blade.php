@@ -1,8 +1,4 @@
 <style>
-  pre{
-    font-family: inherit;
-    font-size: 1em !important;
-}
   iframe {
             display: block;
             width: 100%;
