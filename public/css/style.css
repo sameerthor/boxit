@@ -2226,6 +2226,6 @@ div.file-listing .col-md-6 {
 
 
 pre{
-  font-family: inherit;
+  font-family: inherit !important;
   font-size: 1em !important;
 }
