@@ -39,6 +39,7 @@ class ContactController extends Controller
         $search = $request->get('search');
         $departments = Department::with(["contacts" => function ($q) use ($search) {
             $q->where('title', 'like', $search . "%");
+            $q->orderBy('title','ASC');
         }])->find($id);
         return view('contacttable', compact('departments'))->render();
     }
