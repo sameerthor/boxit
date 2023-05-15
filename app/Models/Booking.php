@@ -70,6 +70,11 @@ class Booking extends Model
         return $this->ProjectStatus()->where('status','!=','0');
     }
 
+    public function PassedWithCond()
+    {
+        return $this->ProjectStatus()->where('status','=','3');
+    }
+
     public function SafetyPlan()
     {
         return $this->hasOne(SafetyPlan::class,'project_id','id');

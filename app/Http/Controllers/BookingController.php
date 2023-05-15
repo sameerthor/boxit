@@ -183,6 +183,9 @@ class BookingController extends Controller
 
                     try {
                         $output_string = $res['sms_text'];
+                        $enc_key=base64_encode($booking_data->id);
+						$url=URL("reply/$enc_key");
+                        $output_string=str_replace('[link]',$url,$output_string);
                         $output_string .= "\nReply to this SMS will be charged";
                         $res = $client->messages->create(
                             // Where to send a text message (your cell phone?)

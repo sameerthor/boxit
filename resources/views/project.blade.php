@@ -43,16 +43,20 @@ div.year, div.month {
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-5">
           </div>
-          <div class="col-md-6">
+          <div class="col-md-7">
             <form method="get" id="filterForm" action="{{url('projects')}}">
               <div class="row">
-                <div class="col-md-4 completed_button">
+                <div class="col-md-3 completed_button">
                  <a href="{{url('projects')}}?completed_projects=<?php echo request()->get('completed_projects') == 1?0:1 ;echo request()->get('q') != '' ? '&q='.request()->get('q'):'';?>" class="form-control {{request()->get('completed_projects') == 1? 'active_completed_button' : ''}}" >Completed Projects</a>
                  <input type="text" style="display:none" name="completed_projects" value="{{request()->get('completed_projects')}}" >
                 </div>
-                <div class="col-md-3 month">
+                <div class="col-md-3 completed_button">
+                 <a href="{{url('projects')}}?passed_with_cond=<?php echo request()->get('passed_with_cond') == 1?0:1 ;echo request()->get('q') != '' ? '&q='.request()->get('q'):'';?>" class="form-control {{request()->get('passed_with_cond') == 1? 'active_completed_button' : ''}}" >Passed With Conditions</a>
+                 <input type="text" style="display:none" name="completed_projects" value="{{request()->get('passed_with_cond')}}" >
+                </div>
+                <div class="col-md-2 month">
                   <select class="form-control" name="month">
                     <option value="">Month</option>
                     @foreach($months as $key=>$val)
@@ -72,7 +76,7 @@ div.year, div.month {
                     @endfor
                   </select>
                 </div>
-                <div class="col-md-3 filter_button">
+                <div class="col-md-1 filter_button">
                   <button type="submit" class="btn btn-info btn-color">FILTER</button>
                   @if(!empty(request()->get('completed_projects')) || !empty(request()->get('month')) || !empty(request()->get('year')))
                   <span onclick="window.location.href=window.location.pathname"><i class="fa fa-times fa-lg" aria-hidden="true"></i></span>

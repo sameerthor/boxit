@@ -59,8 +59,15 @@ class ProjectController extends Controller
             });   
         }
 
+        if (!empty(request('passed_with_cond'))) {
+            $projects =  $projects->whereHas('PassedWithCond', function ($query) {
+               
+            });
+        }
+
         if (!empty(request('q')))
         $projects = $projects->where('address', 'like', '%' . request('q') . '%');
+
         $projects = $projects->get();
         return view('project', compact('projects', 'months'))->render();
     }
