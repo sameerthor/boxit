@@ -165,6 +165,7 @@
           <div class="form-group">
             <label for="user_type" class="col-form-label">User Type:</label>
             <select name="user_type" class="form-control" id="user_type">
+            <option value="">Select user role</option>
               <option value="Admin">Admin</option>
               <option value="Foreman">Foreman</option>
               <option value="Project Manager">Project Manager</option>
@@ -343,7 +344,21 @@
       var contact = $("#contact").val();
       var password = $("#password").val();
       var user_type = $("#user_type").val();
-
+      if(name=="")
+      {
+       alert("Please enter name."); 
+       return false;
+      }
+      if(email=="")
+      {
+       alert("Please enter email."); 
+       return false;
+      }
+      if(user_type=="")
+      {
+       alert("Please select user role."); 
+       return false;
+      }
       jQuery.ajax({
         type: 'POST',
         url: "{{ route('user.add') }}",
