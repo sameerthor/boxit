@@ -415,7 +415,13 @@ class ForemanController extends Controller
                 $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
             });
         }
-
+        
+        if (!empty(request('passed_with_cond'))) {
+            $projects =  $projects->whereHas('PassedWithCond', function ($query) {
+               
+            });
+        }
+        
         if (!empty(request('q')))
             $projects = $projects->where('address', 'like', '%' . request('q') . '%');
         $projects = $projects->get();

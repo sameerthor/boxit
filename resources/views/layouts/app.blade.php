@@ -108,7 +108,7 @@
 						<div id="header" class="mb-40 prl-30 marg-bot-n">
 							<div class="row d-flex flex-n">
 								<div class="col-md-8 search-icon-w">
-									<form method="get" action="/projects">
+									<form method="get" action="/{{Auth::user()->hasRole('Foreman')==true?'check-list':'projects'}}">
 										<div class="search-wrapper <?php if (request('q')) echo 'active'; ?>">
 											<div class="input-holder">
 												<input type="text" name="q" class="search-input submit_on_enter" value="{{ Request::get('q') }}" placeholder="Type & Press Enter to Search " />
