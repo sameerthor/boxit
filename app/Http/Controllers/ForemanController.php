@@ -32,6 +32,7 @@ use Auth;
 use DB;
 use Twilio\Rest\Client;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ForemanController extends Controller
 {
@@ -83,6 +84,7 @@ class ForemanController extends Controller
         $dates = $request->get('dates');
         $year = $request->get('year');
         $requested_month = $request->get('month') + 1;
+        $foreman_id=Auth::id();
         $html = '';
         foreach ($dates as $date) {
             $html .= '<div class="foo pd-boxes">';
@@ -100,6 +102,8 @@ class ForemanController extends Controller
             foreach ($department_id as $id) {
                 $booking_data = BookingData::whereHas('booking', function ($q) {
                     $q->where('foreman_id', Auth::id());
+                    $q->orWhere('foreman_id', 19);
+
                 })->where(array('department_id' => $id))->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
@@ -153,6 +157,8 @@ class ForemanController extends Controller
         foreach ($department_id as $id) {
             $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
                 $query->where('foreman_id', $foreman_id);
+                $query->orWhere('foreman_id', 19);
+
             })->whereDate('date', '=', $booking_date)
                 ->get();
             $b_id = '';
@@ -207,6 +213,7 @@ class ForemanController extends Controller
             foreach ($department_id as $id) {
                 $booking_data = BookingData::where(array('department_id' => $id))->whereHas('booking', function ($query) use ($foreman_id) {
                     $query->where('foreman_id', $foreman_id);
+                    $query->orWhere('foreman_id', 19);
                 })->whereDate('date', '=', $booking_date)
                     ->get();
                 $b_id = '';
@@ -269,6 +276,7 @@ class ForemanController extends Controller
                     $booking_date = date('Y-m-d', strtotime($year . "-" . $requested_month . "-" . $date));
                     $booking_datas = BookingData::whereHas('booking', function ($q) {
                         $q->where('foreman_id', Auth::id());
+                        $q->orWhere('foreman_id', 19);
                     })->whereDate('date', '=', $booking_date)
                         ->get();
                     $leaves = Leave::whereDate('date', '=', $booking_date)->get();
