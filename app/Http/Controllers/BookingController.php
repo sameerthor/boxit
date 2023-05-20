@@ -112,6 +112,18 @@ class BookingController extends Controller
                     BookingData::create($book_array);
                 }
             }
+
+            if($key=='5'||$key=='6'||$key=='7')
+            {
+               $department=Department::find($key)->title; 
+               $email_body="Hi,<br>";
+               $email_body.="This is a reminder to check if we have the report for <b>$department</b> at <b>".$request->get('address')."</b>.";
+               $email_body.='<br>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+           $details['to'] = \config('const.admin1');
+           $details['subject'] = 'Booking Cancelled';
+           $details['body'] = $email_body;
+           dispatch(new BookingEmailJob($details))->delay(now()->addHours(24));
+            }
         }
 
         if (!empty($request->get('draft_id'))) {
