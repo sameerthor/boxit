@@ -100,11 +100,12 @@ class UserController extends Controller
         
         $staff_id=$request->get('id');
         StaffLeave::where('staff_id',$staff_id)->delete();
-        $dates=$request->get('dates');
+        $from_dates=$request->get('from_dates');
+        $to_dates=$request->get('to_dates');
         $i=0;
-        foreach($dates as $date)
+        foreach($from_dates as $date)
         {
-            StaffLeave::create(array('staff_id'=>$staff_id,'date'=>date("Y-m-d h:i:s", strtotime($date))));
+            StaffLeave::create(array('staff_id'=>$staff_id,'to_date'=>date("Y-m-d h:i:s", strtotime($to_dates[$i])),'from_date'=>date("Y-m-d h:i:s", strtotime($date))));
             $i++;
         }
         return true;

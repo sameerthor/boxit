@@ -105,14 +105,14 @@ class ForemanController extends Controller
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
                 
-                    $staff_leaves = StaffLeave::whereDate('date', '=', $booking_date)->where('staff_id',$foreman_id)->get();
+                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id',Auth::id())->get();
                     foreach ($staff_leaves as $leave) {
                         $html .= "<span class='red_box' >On Leave</span>";
                     }
         
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
-                    $html .= "<span class='red_box' >" . $leave->title . "</span>";
+                    $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "'>" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                 }
                 foreach ($booking_data as $boo) {
                     $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
@@ -273,7 +273,7 @@ class ForemanController extends Controller
                         ->get();
                     $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                     foreach ($leaves as $leave) {
-                        $inner_html .= "<span class='red_bullet monthly_booking' >" . $leave->title . "</span>";
+                        $inner_html .= "<span class='red_bullet monthly_booking annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                     }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {

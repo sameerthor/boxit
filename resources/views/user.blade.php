@@ -123,8 +123,7 @@
               <button type="button" class="pull-right btn btn-primary btn-color repeater-add-btn"> Add</button>
             </div>
             <br>
-            <br>
-
+          
           </div>
         </div>
         <div class="modal-footer">
@@ -179,16 +178,19 @@
   </div>
 </div>
 <div class="hidden_html" style="display:none">
-  <div class="items leave_items" style="margin-bottom: 45px;">
+  <div class="items leave_items" style="margin-bottom: 45px;margin-top: 13%;">
     <div class="item-content">
-      <div class="form-group">
-        <input type="date" required name="date[]" class="date form-control">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <label class="col-md-5">From Date:<input type="date" required name="from_date[]" class="from_date form-control"></label>
+        <label class="col-md-5">To Date:<input type="date" required name="to_date[]" class="to_date form-control"></label>
+        <div class="col-md-1"></div>
+      </div>
         <div class="pull-right mt-1 mb-3 repeater-remove-btn">
           <button id="remove-btn" class="btn btn-danger " onclick="$(this).parents('.items').remove();getIframehtml();">
             Remove
           </button>
         </div>
-      </div>
     </div>
 
   </div>
@@ -246,7 +248,8 @@
         console.log(data);
         data.map(function(item) {
           $("#repeater").append($(".hidden_html").html());
-          $("#repeater").find(".date:last").val(new Date(item.date).toISOString().split('T')[0]);
+          $("#repeater").find(".from_date:last").val(new Date(item.from_date).toISOString().split('T')[0]);
+          $("#repeater").find(".to_date:last").val(new Date(item.to_date).toISOString().split('T')[0]);
         });
       }
     })
@@ -256,17 +259,22 @@
 
   function saveLeaves() {
     let id = $("#leave_user_id").text();
-    var dates = $("#leaves_form").find("input[name='date[]']")
+    var to_dates = $("#leaves_form").find("input[name='to_date[]']")
       .map(function() {
         return $(this).val();
       }).get();
+      var from_dates = $("#leaves_form").find("input[name='from_date[]']")
+      .map(function() {
+        return $(this).val();
+      }).get();  
 
     jQuery.ajax({
       type: 'POST',
       url: "{{ route('userleaves.save') }}",
       data: {
         id: id,
-        dates: dates
+        to_dates: to_dates,
+        from_dates: from_dates
       },
       success: function(data) {
         $("#leaves_form").modal('hide');
@@ -482,5 +490,6 @@
     // Remove buttons irrelevant for pasting from external sources.
     removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
   });
+  
 </script>
 @endsection
