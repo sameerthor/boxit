@@ -460,7 +460,7 @@
                         @endif
                       </div>
                       @if($pending_checked == 'checked')
-                      <span data-notes="{{$notes}}" data-label="{{$label->id}}" data-id="{{$project->id}}" class="status_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+                      <span data-notes="{{$notes}}" data-label="{{$label->id}}" data-id="{{$project->id}}" class="status_notes"><i class="fa fa-sticky-note{{empty($notes)?'-o':''}} fa-lg" aria-hidden="true"></i></span>
                       @endif
                     </td>
                   </tr>
