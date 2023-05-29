@@ -2229,3 +2229,8 @@ pre{
   font-family: inherit !important;
   font-size: 1em !important;
 }
+
+
+.foo_monthly.pd-boxes:nth-child(odd) {
+  background-color: #E5E9F3 !important;
+}

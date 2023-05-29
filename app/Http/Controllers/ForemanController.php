@@ -291,11 +291,11 @@ class ForemanController extends Controller
                             switch ($booking_data->status) {
                                 case '0':
                                     $class = "orange_bullet monthly_booking";
-                                    $style = 'color:' . $booking_data->booking->pending_text_color;
+                                    $style = 'background: ' . $booking_data->booking->pending_background_color . ';color:' . $booking_data->booking->pending_text_color;
                                     break;
                                 case '1':
                                     $class = "green_bullet monthly_booking";
-                                    $style = 'color:' . $booking_data->booking->confirm_text_color;
+                                    $style = 'background: ' . $booking_data->booking->confirm_background_color . ';color:' . $booking_data->booking->confirm_text_color;
                                     break;
                                 case '2':
                                     $class = "red_bullet monthly_booking";
