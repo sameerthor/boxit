@@ -48,8 +48,8 @@
               <tr>
                 <td><b>{{$contact->title}}</b></td>
                 <td><b>{{$contact->company}}</b></td>
-                <td>{{$contact->email}}</td>
-                <td>{{$contact->contact}}</td>
+                <td><a href = "mailto:{{$contact->email}}">{{$contact->email}}</a></td>
+                <td><a href = "tel:{{$contact->contact}}">{{$contact->contact}}</a></td>
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>

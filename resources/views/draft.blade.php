@@ -41,7 +41,7 @@
               <i id="pos-r" class="fa fa-angle-down"></i>
               <select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="" disabled>Building Company*</option>
-                @foreach($departments[0]->contacts as $res)
+                @foreach($departments[0]->contacts->sortBy('title') as $res)
                 <option value="{{$res->id}}" <?php if ($draft->DraftData[1][0]->contact_id == $res->id) {
                                                 echo "selected";
                                               } ?>>{{$res->title}}</option>
@@ -81,7 +81,7 @@
                     <i class="fa fa-angle-down"></i>
                     <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
-                      @foreach($department->contacts as $res)
+                      @foreach($department->contacts->sortBy('title') as $res)
                       <option value="{{$res->id}}" <?php if (@$draft->DraftData[$department->id]->first()->contact_id == $res->id) {
                                                       echo "selected";
                                                       $contact_name = $res->title;
@@ -116,7 +116,7 @@
                     <i class="fa fa-angle-down"></i>
                     <select class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
-                      @foreach($department->contacts as $res)
+                      @foreach($department->contacts->sortBy('title') as $res)
                       <option value="{{$res->id}}" <?php if ($council_id == $res->id) {
                                                       echo "selected";
                                                       $contact_name = $res->title;

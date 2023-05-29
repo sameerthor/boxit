@@ -17,8 +17,8 @@
               <tr>
                 <td><b>{{$contact->title}}</b></td>
                 <td><b>{{$contact->company}}</b></td>
-                <td>{{$contact->email}}</td>
-                <td>{{$contact->contact}}</td>
+                <td><a href = "mailto:{{$contact->email}}">{{$contact->email}}</a></td>
+                <td><a href = "tel:{{$contact->contact}}">{{$contact->contact}}</a></td>
                 @if($departments->id != 1)
                 <th><button class="btn btn-sm btn-info btn-color"  onclick="copyToClipboard('<?= URL::to('/vendors/').'/'.base64_encode($contact->id); ?>')">Copy Link</button></th>
                @endif 
