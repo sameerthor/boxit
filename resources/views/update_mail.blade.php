@@ -82,7 +82,7 @@
 								<input type="file" class="form-control col-md-4" multiple>
 							</div>
 							<br>
-							<textarea class="form-control sms_text" placeholder="Please place text message (SMS) content here"></textarea>
+							<textarea class="form-control sms_text" placeholder="Please place text message (SMS) content here">Address- {{$booking->address}} on {{$date}} {{$time}} &#013; {{$url}} &#013; </textarea>
 							<br>
 							<div class="email_content" data-subject="{{$res->subject}}" data-id="{{$id}}">
 								<textarea id="textArea{{$booking_data->id}}" class="email_body">{{$res->body}}</textarea>
