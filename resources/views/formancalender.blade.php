@@ -374,6 +374,14 @@
 		background-color: #182a4e;
 		color: white !important;
 	}
+	div#daily_calender .col-md-12.cal-flex.bookings {
+    flex-wrap: wrap;
+	flex-direction: column;
+
+}
+div#daily_calender .show_booking {
+    margin-top: 2% !important;
+}
 </style>
 @verbatim
 <div id="content">
@@ -387,6 +395,11 @@
 			</div>
 			<div class="arrow-l-style" v-on:click="month_nav(+1)">
 				<img src="img/arrow-r.png">
+			</div>
+		</div>
+		<div class="col-md-3 cal-flex date_div" style="display:none">
+			<div class="mnth-style">
+				{{today_date}}
 			</div>
 		</div>
 		<div class="col-md-2 wickly-btn">
@@ -439,6 +452,13 @@
 			</div>
 		</div>
 	</div>
+	<div id="daily_calender" class="calenders" style="display:none">
+		<div class="row p-15">
+			<div class="col-md-12 cal-flex bookings" style="justify-content:center" >
+			
+			</div>
+		</div>
+	</div>
 	<div id="monthly_calender" class="calenders" style="display:none">
 		<div class="row ptb-30 bd-btm">
 			<div class="col-md-1" style="
@@ -477,7 +497,7 @@
 		is_mobile = true;
 
 		$(document).on('change', '#calender_type', function() {
-		if ($(this).val() == 'week') {
+			if ($(this).val() == 'week') {
 			$('#weekly_calender').show();
 			$('#monthly_calender').hide();
 			$('#daily_calender').hide();
@@ -486,11 +506,15 @@
 		}
 		if ($(this).val() == 'month') {
 			$('#weekly_calender').hide();
+			$('#daily_calender').hide();
 			$('#monthly_calender').show();
+			$('.month_div').show();
+			$('.date_div').hide();
 		}
 		if ($(this).val() == 'daily') {
 			$('#daily_calender').show();
 			$('#weekly_calender').hide();
+			$('#monthly_calender').hide();
 			$('.month_div').hide()
 			$('.date_div').show();
 		}
@@ -654,14 +678,7 @@
 							// console.log(this.mobile_calender);
 						});
 
-						axios.post('/foreman-calender-daily', {
-							today_date: this.today_date,
-							foreman_id: this.foreman_id
-						})
-						.then((response) => {
-
-							$("#daily_calender").find(".bookings").html(response.data)
-						})
+						
 
 				} else {
 					axios.post('/foreman-calender', {
@@ -673,6 +690,15 @@
 							$(".calender").html(response.data)
 						})
 				}
+				axios.post('/foreman-calender-daily', {
+							today_date: this.today_date,
+							foreman_id: this.foreman_id
+						})
+						.then((response) => {
+
+							$("#daily_calender").find(".bookings").html(response.data)
+						})
+						
 				axios.post('/foreman-calender-monthly', {
 						year: this.year,
 						month: this.month_index,

@@ -409,11 +409,19 @@
 		background-color: #182a4e;
 		color: white !important;
 	}
+	div#daily_calender .col-md-12.cal-flex.bookings {
+    flex-wrap: wrap;
+	flex-direction: column;
+
+}
+div#daily_calender .show_booking {
+    margin-top: 2% !important;
+}
 </style>
 @verbatim
 <div id="content">
 	<div class="row p-15 prl-30 border-all ">
-		<div class="col-md-3 cal-flex">
+		<div class="col-md-3 cal-flex month_div">
 			<div class="arrow-l-style" v-on:click="month_nav(-1)">
 				<img src="img/arrow-l.png">
 			</div>
@@ -424,10 +432,18 @@
 				<img src="img/arrow-r.png">
 			</div>
 		</div>
+		<div class="col-md-3 cal-flex date_div" style="display:none">
+			<div class="mnth-style">
+				{{today_date}}
+			</div>
+		</div>
 		<div class="col-md-2 wickly-btn">
 			<select class="select-styles bgc-new" id="calender_type">
 				<option value="week">
 					Weekly
+				</option>
+				<option value="daily">
+					Daily
 				</option>
 				<option value="month">
 					Monthly
@@ -445,7 +461,7 @@
 			</select>
 		</div>
 	</div>
-	<div id="weekly_calender" class="calenders">
+	<div id="weekly_calender" class="calenders" >
 		<div class="row ptb-30 bd-btm">
 			<div class="col-md-1"></div>
 			<div class="col-md-11">
@@ -481,6 +497,13 @@
 			</div>
 			<div class="col-md-11 mt-100 calender">
 
+			</div>
+		</div>
+	</div>
+	<div id="daily_calender" class="calenders" style="display:none">
+		<div class="row p-15">
+			<div class="col-md-12 cal-flex bookings" style="justify-content:center" >
+			
 			</div>
 		</div>
 	</div>
@@ -532,11 +555,15 @@
 		}
 		if ($(this).val() == 'month') {
 			$('#weekly_calender').hide();
+			$('#daily_calender').hide();
 			$('#monthly_calender').show();
+			$('.month_div').show();
+			$('.date_div').hide();
 		}
 		if ($(this).val() == 'daily') {
 			$('#daily_calender').show();
 			$('#weekly_calender').hide();
+			$('#monthly_calender').hide();
 			$('.month_div').hide()
 			$('.date_div').show();
 		}
@@ -700,14 +727,7 @@
 								console.log(key, result[key]);
 							}
 						})
-					axios.post('/calender-daily', {
-							today_date: this.today_date,
-							foreman_id: this.foreman_id
-						})
-						.then((response) => {
-
-							$("#daily_calender").find(".bookings").html(response.data)
-						})
+				
 
 				} else {
 
@@ -722,6 +742,14 @@
 						})
 				}
 
+				axios.post('/calender-daily', {
+							today_date: this.today_date,
+							foreman_id: this.foreman_id
+						})
+						.then((response) => {
+
+							$("#daily_calender").find(".bookings").html(response.data)
+						})
 
 				axios.post('/calender-monthly', {
 						year: this.year,
