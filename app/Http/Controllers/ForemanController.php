@@ -410,11 +410,12 @@ class ForemanController extends Controller
             $projects = $projects->whereHas('PassedProjectStatus', function ($query) {
                 $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
             });
-        } else {
-            $projects = $projects->whereDoesntHave('PassedProjectStatus', function ($query) {
-                $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
-            });
         }
+        //  else {
+        //     $projects = $projects->whereDoesntHave('PassedProjectStatus', function ($query) {
+        //         $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
+        //     });
+        // }
         
         if (!empty(request('passed_with_cond'))) {
             $projects =  $projects->whereHas('PassedWithCond', function ($query) {

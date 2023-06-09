@@ -32,7 +32,8 @@ class ProjectController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
+    {   
+        DB::enableQueryLog();
         $months = [];
         for ($m = 1; $m <= 12; $m++) {
             $months[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
@@ -52,12 +53,13 @@ class ProjectController extends Controller
             $projects = $projects->whereHas('PassedProjectStatus', function ($query) {
                 $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
             });
-        }else
-        {
-            $projects = $projects->whereDoesntHave('PassedProjectStatus', function ($query) {
-                $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
-            });   
-        }
+         }
+        //else
+        // {
+        //     $projects = $projects->whereDoesntHave('PassedProjectStatus', function ($query) {
+        //         $query->select(DB::raw('count(*)'))->havingRaw('COUNT(*) = ' . DB::RAW("(SELECT COUNT(*)  FROM `project_status_label` WHERE `department_id` = '' OR `department_id` IN (SELECT department_id  FROM `booking_data` WHERE `booking_id` = `bookings`.`id`))"));
+        //     });   
+        // }
 
         if (!empty(request('passed_with_cond'))) {
             $projects =  $projects->whereHas('PassedWithCond', function ($query) {
@@ -69,6 +71,7 @@ class ProjectController extends Controller
         $projects = $projects->where('address', 'like', '%' . request('q') . '%');
 
         $projects = $projects->get();
+
         return view('project', compact('projects', 'months'))->render();
     }
 
