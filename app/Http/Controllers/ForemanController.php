@@ -109,14 +109,14 @@ class ForemanController extends Controller
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
                 
-                    $staff_leaves = StaffLeave::whereDate('date', '=', $booking_date)->where('staff_id',$foreman_id)->get();
+                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id',Auth::id())->get();
                     foreach ($staff_leaves as $leave) {
                         $html .= "<span class='red_box' >On Leave</span>";
                     }
         
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
-                    $html .= "<span class='red_box' >" . $leave->title . "</span>";
+                    $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "'>" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                 }
                 foreach ($booking_data as $boo) {
                     $address = strlen($boo->booking->address) > 24 ? substr($boo->booking->address, 0, 24) . "..." : $boo->booking->address;
@@ -281,7 +281,7 @@ class ForemanController extends Controller
                         ->get();
                     $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                     foreach ($leaves as $leave) {
-                        $inner_html .= "<span class='red_bullet monthly_booking' >" . $leave->title . "</span>";
+                        $inner_html .= "<span class='red_bullet monthly_booking annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                     }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
@@ -322,15 +322,15 @@ class ForemanController extends Controller
     {
         $id = $request->get('id');
         $booking = Booking::find($id);
-        $booking_data = $booking->BookingData;
+        $booking_data = $booking->BookingData->sortBy('department_id');
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
 										<p>Foreman</p>
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
-        foreach ($booking_data->slice(1, 4) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+           foreach ($booking_data->slice(1, (int)count($booking_data)/2) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -357,8 +357,8 @@ class ForemanController extends Controller
 									';
         }
         $html .=        '</div><div class="col-md-6">';
-        foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+        foreach ($booking_data->slice(((int)count($booking_data)/2)+1) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':

@@ -440,7 +440,7 @@ class BookingController extends Controller
                         ->get();
                     $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                     foreach ($leaves as $leave) {
-                        $inner_html .= "<span class='red_bullet monthly_booking' >" . $leave->title . "</span>";
+                        $inner_html .= "<span class='red_bullet monthly_booking annual_leave' data-note='" . $leave->note . "'>" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                     }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
@@ -607,14 +607,15 @@ class BookingController extends Controller
                 $html .= "<div class='booked_div'>";
                 if (!empty($foreman_id))
                 {
-                    $staff_leaves = StaffLeave::whereDate('date', '=', $booking_date)->where('staff_id',$foreman_id)->get();
+                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id',$foreman_id)->get();
                     foreach ($staff_leaves as $leave) {
                         $html .= "<span class='red_box' >".ucfirst($name)." - On Leave</span>";
                     }
+          
                 }
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
-                    $html .= "<span class='red_box' >" . $leave->title . "</span>";
+                    $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
                 }
                 foreach ($booking_data as $boo) {
                     if (MobileDetect::isTablet()) {
@@ -653,16 +654,16 @@ class BookingController extends Controller
     {
         $id = $request->get('id');
         $booking = Booking::find($id);
-        $booking_data = $booking->BookingData;
+        $booking_data = $booking->BookingData->sortBy('department_id');
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
 										<p>Foreman</p>
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
-        foreach ($booking_data->slice(1, 4) as $res) {
+        foreach ($booking_data->slice(1, (int)count($booking_data)/2) as $res) {
             $booking_date = $res->date;
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -688,8 +689,8 @@ class BookingController extends Controller
 									';
         }
         $html .=        '</div><div class="col-md-6">';
-        foreach ($booking_data->slice(5) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '');
+        foreach ($booking_data->slice(((int)count($booking_data)/2)+1) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -932,10 +933,27 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         }
         $id = $data['id'];
         BookingData::where('id', $id)->update($update_array);
-        $bookingdata = BookingData::find($id);
-        $booking = $bookingdata->booking;
-        $mail = MailTemplate::where(array('status' => 1, 'department_id' => $bookingdata->department_id))->get();
-        return view('new_booking_mail', compact('booking', 'mail', 'id'));
+        $booking_data = BookingData::find($id);
+        $booking = $booking_data->booking;
+        $mail = MailTemplate::where(array('status' => 1, 'department_id' => $booking_data->department_id))->get();
+        return view('new_booking_mail', compact('booking_data','booking', 'mail', 'id'));
+    }
+    
+    public function reorder(Request $request){
+       $id = $request->get('id');
+       $date = $request->get('date');
+       $booking_data=BookingData::find($id);
+       $book_array = array(
+        'department_id' => $booking_data->department_id,
+        'contact_id'  => $booking_data->contact_id,
+        'date' => $date,
+        'service' => $booking_data->service,
+        'booking_id' => $booking_data->booking_id,
+        'reorder_no'=>$booking_data->reorder_no+1
+    );
+    $new = BookingData::create($book_array);
+    return $new['id'];
+
     }
 
     public function change_time()

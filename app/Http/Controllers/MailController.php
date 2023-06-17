@@ -87,10 +87,11 @@ class MailController extends Controller
         Leave::query()->delete();
         $titles=$request->get('title');
         $dates=$request->get('date');
+        $notes=$request->get('note');
         $i=0;
         foreach($titles as $title)
         {
-            Leave::create(array('title'=>$title,'date'=>date("Y-m-d h:i:s", strtotime($dates[$i] ))));
+            Leave::create(array('title'=>$title,'note'=>$notes[$i],'date'=>$dates[$i] ));
             $i++;
         }
         Session::flash('succes_msg', 'Leave saved successfuly.');

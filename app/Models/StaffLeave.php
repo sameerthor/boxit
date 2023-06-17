@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class StaffLeave extends Model
 {
     use HasFactory;
-    protected $fillable = ['staff_id','date'];
+    protected $fillable = ['staff_id','from_date','to_date'];
 
 }

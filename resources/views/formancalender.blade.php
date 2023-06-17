@@ -82,6 +82,24 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+	<div class="modal-dialog home_modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header  no-border">
+				<span class="modal-title" id="leaveModalLabel">
+					<h5>Leave Note: </h5>
+				</span>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">	
+				<div id="leave_note">	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @mobile
 <style>
 	div#daily_calender .col-md-12.cal-flex.bookings  {
@@ -798,6 +816,15 @@ window.location.href="<?php echo URL('check-list?project_id=') ?>"+id
 
 			})
 	})
-
+    $(document).on("click",".annual_leave",function() {
+		var note=$(this).attr("data-note");
+		console.log(note);
+		if(note=="" || note===null)
+		{
+            note="N/A";
+		}
+		$("#leave_note").html(note);
+		$("#leaveModal").modal("show");
+	});
 </script>
 @endsection
