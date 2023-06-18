@@ -48,7 +48,7 @@ class BuildingCron extends Command
                 foreach($result as $con)
                 {
                     $b_date=   date("d-m-Y h:i A",strtotime($con->date));  
-                  $html.="<p>".$con->department->title.": ".$con->contact->title."<br>";
+                  $html.="<p>".$con->department->title. ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '').": ".$con->contact->title."<br>";
                   $html.="Date: ".$b_date."</p>";
                 }
                 $html.='<p style="display:none">Project ID #'.$booking_data->booking_id.'</p>Thank You,<br>

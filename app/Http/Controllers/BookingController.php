@@ -113,9 +113,15 @@ class BookingController extends Controller
                 }
             }
 
-            if($key=='5'||$key=='6'||$key=='7')
+            
+        }
+        
+        $booking_data=BookingData::where('booking_id',$booking_id)->get();
+        foreach($booking_data as $res)
+        {
+            if($res->department_id=='5'||$res->department_id=='6'||$res->department_id=='7')
             {
-               $department=Department::find($key)->title; 
+               $department=$res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : ''); 
                $email_body="Hi,<br>";
                $email_body.="This is a reminder to check if we have the report for <b>$department</b> at <b>".$request->get('address')."</b>.";
                $email_body.='<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
@@ -274,7 +280,7 @@ class BookingController extends Controller
             $html = '';
             $html .= "<p>There is a date/time change request for the following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
-            $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
+            $html .= "<p>Department : <strong><u>$department->title". ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '')."</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= "<br><p>Contact has suggested the below alternate time(s)</p>";
@@ -320,7 +326,7 @@ class BookingController extends Controller
             else
                 $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
-            $html .= "<p>Department : <strong><u>$department->title</u></strong></p>";
+            $html .= "<p>Department : <strong><u>$department->title". ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '')."</u></strong></p>";
             if ($booking_data->created_at != $booking_data->updated_at)
                 $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
