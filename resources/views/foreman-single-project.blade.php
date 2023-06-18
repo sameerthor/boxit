@@ -418,7 +418,7 @@
                         @else
                         <div class="orange_box">Pending</div>
                         @endif
-                        <span data-toggle="tooltip" title="{{$res->notes}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+                        <span data-toggle="tooltip" title="{{$res->notes}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg {{!empty($res->notes)?'fill_notes':''}}" aria-hidden="true"></i></span>
                     </td>
                 </tr>
                 @endforeach

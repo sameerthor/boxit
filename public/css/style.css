@@ -2234,3 +2234,9 @@ pre{
 .foo_monthly.pd-boxes:nth-child(odd) {
   background-color: #E5E9F3 !important;
 }
+
+.fill_notes:before {
+  content: "\f24a";
+  background-color: #efef00 !important;
+  padding: 2px;
+}

@@ -349,7 +349,7 @@
             <div class="orange_box">Pending</div>
             @endif
             @if($res->status!='2')<span><a href="javascript:void(0)" class="hold_project" data-id="{{$res->id}}"><img style="width: 65%;" src="/img/project_hold.png"></a></span>@endif
-            <span data-notes="{{$res->notes}}" data-id="{{$res->id}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></span>
+            <span data-notes="{{$res->notes}}" data-id="{{$res->id}}" class="department_notes"><i class="fa fa-sticky-note-o fa-lg {{!empty($res->notes)?'fill_notes':''}}" aria-hidden="true"></i></span>
           </td>
           <td class="text-right">
           <button type="button" data-id="{{$res->id}}" class="btn btn-sm change_date" style="background-color: #172b4d;color:#fff">Change date</button> 
@@ -479,7 +479,7 @@
                         @endif
                       </div>
                       @if($pending_checked == 'checked')
-                      <span data-notes="{{$notes}}" data-label="{{$label->id}}" data-id="{{$project->id}}" class="status_notes"><i class="fa fa-sticky-note{{empty($notes)?'-o':''}} fa-lg" aria-hidden="true"></i></span>
+                      <span data-notes="{{$notes}}" data-label="{{$label->id}}" data-id="{{$project->id}}" class="status_notes"><i class="fa fa-sticky-note-o {{!empty($res->notes)?'fill_notes':''}} fa-lg" aria-hidden="true"></i></span>
                       @endif
                     </td>
                   </tr>
