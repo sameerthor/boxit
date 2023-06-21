@@ -144,6 +144,7 @@ div.year, div.month {
         id: id,
       },
       success: function(result) {
+        history.pushState(null, "", location.href.split("?")[0]);
         jQuery('.main').html(result);
       }
     });

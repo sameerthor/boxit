@@ -575,6 +575,7 @@ class ForemanController extends Controller
         if (count($email_template) > 0) {
             $details['to'] = \config('const.admin1');
             $details['name'] = 'test';
+            $details['name'] =Booking::find($request->get('project_id'))->address;
             $details['subject'] = $email_template[0]->subject;
             $details['body'] = $email_template[0]->body;
             dispatch(new BookingEmailJob($details));

@@ -33,6 +33,7 @@
 						@php
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
+						$booking_id=$booking_data->booking_id;
 						$product_html='<p></p>';
 						if(!empty($res->products))
 						{
@@ -226,7 +227,7 @@
 						icon: 'success',
 						title: "Mail Sent successfuly."
 					}).then(() => {
-						window.location.href = "/";
+						window.location.href = "/projects?project_id={{$booking_id}}";
 					});
 				}, 3000);
 
