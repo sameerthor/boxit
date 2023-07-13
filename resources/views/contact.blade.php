@@ -229,6 +229,7 @@
       var contact = $("#contact").val();
       var company = $("#company").val();
       var notes= $("#notes").val();
+      var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
       var department = $("#department").val();
 
       jQuery.ajax({
@@ -239,6 +240,7 @@
           email: email,
           company:company,
           notes:notes,
+          sms_enabled:sms_enabled,
           contact: contact,
           department_id: department
         },
