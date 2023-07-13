@@ -12,7 +12,7 @@ class Contact extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable = [
-        'title','company','email','notes','contact','department_id',
+        'title','company','email','notes','contact','sms_enabled','department_id',
     ];
     public function departments()
 {
