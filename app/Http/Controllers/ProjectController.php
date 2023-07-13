@@ -65,6 +65,10 @@ class ProjectController extends Controller
             $projects =  $projects->whereHas('PassedWithCond', function ($query) {
                
             });
+        }else{
+            $projects =  $projects->whereDoesntHave('PassedWithCond', function ($query) {
+               
+            });
         }
 
         if (!empty(request('q')))
