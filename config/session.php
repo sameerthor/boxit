@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => '.boxitfoundations.co.nz',
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
