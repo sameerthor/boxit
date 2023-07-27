@@ -569,7 +569,7 @@
 				var last_c = count - 3;
 				$(this).find('span').slice(0 - last_c).addClass("hidden_bookings");
 				$(this).find('span').slice(0 - last_c).hide();
-				$(this).append("<span class='show_more' >" + last_c + " more projects..</span>");
+				$(this).append("<span class='show_more' >" + last_c + " more project"+last_c==1?'':'s'+"..</span>");
 				$(this).append("<span class='show_less' style='display:none'>Show Less</span>");
 
 			}
