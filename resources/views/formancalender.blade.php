@@ -242,7 +242,7 @@
 		display: flex;
 		margin-left: 5%;
 		width: 94%;
-		height: 12.5%;
+		min-height: 12.5%;
 	}
 
 	.foo:first-child {
@@ -510,6 +510,19 @@ div#daily_calender .show_booking {
 @endverbatim
 @endmobile
 <script>
+	function wrapupSpan() {
+		$(".booked_div").each(function() {
+			var count = $(this).find('span').length;
+			if (count > 3) {
+				var last_c = count - 3;
+				$(this).find('span').slice(0 - last_c).addClass("hidden_bookings");
+				$(this).find('span').slice(0 - last_c).hide();
+				$(this).append("<span class='show_more' >" + last_c + " more..</span>");
+				$(this).append("<span class='show_less' style='display:none'>Show Less</span>");
+
+			}
+		});
+	}
 	var is_mobile = false;
 	if (/Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 		is_mobile = true;
@@ -706,6 +719,7 @@ div#daily_calender .show_booking {
 						})
 						.then((response) => {
 							$(".calender").html(response.data)
+							wrapupSpan();
 						})
 				}
 				axios.post('/foreman-calender-daily', {

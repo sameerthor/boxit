@@ -2240,3 +2240,8 @@ pre{
   background-color: #efef00 !important;
   padding: 2px;
 }
+
+.show_more,.show_less{
+cursor: pointer;
+text-align: center;
+}
