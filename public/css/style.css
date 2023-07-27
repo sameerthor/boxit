@@ -2244,4 +2244,6 @@ pre{
 .show_more,.show_less{
 cursor: pointer;
 text-align: center;
+font-weight: bold;
+
 }
