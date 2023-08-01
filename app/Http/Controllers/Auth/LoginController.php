@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Redirect;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -56,5 +57,13 @@ class LoginController extends Controller
         }
 
         return redirect("login")->withSuccess('You have entered invalid credentials !');
+    }
+
+    public function proxylogin($id)
+    {
+        $user = User::find($id);
+        if($user)
+        $v = Auth::login($user);
+        return Redirect::to('https://pm.boxitfoundations.co.nz/');
     }
 }
