@@ -17,7 +17,6 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.4",
         "masterro/laravel-mail-viewer": "*",
-        "miniorange/saml-laravel-free": "^2.3",
         "plivo/plivo-php": "^4.38",
         "psr/log": "3.0.0",
         "riverskies/laravel-mobile-detect": "^1.3",
