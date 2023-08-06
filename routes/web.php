@@ -137,15 +137,6 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
 });
 
 
-Route::get('/send', function () {
-    $details['to'] = 'khanayan36042@gmail.com';
-    $details['name'] = 'Sameer';
-    $details['url'] = 'testing';
-    $details['subject'] = 'testing';
-    $details['body'] = 'This is test message.';
-    dispatch(new BookingEmailJob($details));
-});
-
 Route::middleware('role:Foreman')->group(function () {
   Route::get('/check-list', [App\Http\Controllers\ForemanController::class, 'check_list'])->name('check-list');
   Route::post('/foreman-mobile-calender', [App\Http\Controllers\ForemanController::class, 'mobile_calender']);
@@ -168,6 +159,10 @@ Route::middleware('role:Foreman')->group(function () {
 
 });
 
+Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
+    Route::get('/contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+    Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
+});
 
 // User Authentication Routes
 Route::get('login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');

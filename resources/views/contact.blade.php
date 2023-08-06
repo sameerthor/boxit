@@ -20,8 +20,10 @@
         </div>
         <div class="col-md-3">
           <div class="add-new-c">
+            @if(Auth::user()->hasRole('Admin')||Auth::user()->hasRole('Project Manager'))
             <img src="img/plus.png"><span id="add_contact">Add New Contact</span>
           </div>
+          @endif
         </div>
         <div class="col-md-6 text-r select-style">
           <select id="department">
@@ -36,26 +38,39 @@
           @if(count($departments[0]->contacts)>0)
           <table class="table table-w-80">
             <thead class="border-n">
+
               <tr>
                 <th>Company Name</th>
                 <th>Name</th>
                 <th>Email ID</th>
                 <th>Contact No.</th>
+                @if($departments[0]->id != 1)
+                <th>Calender Link</th>
+                @endif
+                @if(Auth::user()->hasRole('Admin')||Auth::user()->hasRole('Project Manager'))
+                <th>Actions</th>
+                @endif
               </tr>
+
             </thead>
             <tbody class="tr-border td-styles tr-hover">
               @foreach($departments[0]->contacts as $contact)
               <tr>
                 <td><b>{{$contact->title}}</b></td>
                 <td><b>{{$contact->company}}</b></td>
-                <td><a href = "mailto:{{$contact->email}}">{{$contact->email}}</a></td>
-                <td><a href = "tel:{{$contact->contact}}">{{$contact->contact}}</a></td>
+                <td><a href="mailto:{{$contact->email}}">{{$contact->email}}</a></td>
+                <td><a href="tel:{{$contact->contact}}">{{$contact->contact}}</a></td>
+                @if($departments[0]->id != 1)
+                <td><button class="btn btn-sm btn-info btn-color" onclick="copyToClipboard('<?= URL::to('/vendors/') . '/' . base64_encode($contact->id); ?>')">Copy Link</button></td>
+                @endif
+                @if(Auth::user()->hasRole('Admin')||Auth::user()->hasRole('Project Manager'))
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="delete dropdown-item">Delete</a>
                   </div>
                 </td>
+                @endif
               </tr>
               @endforeach
             </tbody>
@@ -156,12 +171,12 @@
         $("#company").val(data.company);
         $("#notes").val(data.notes);
         $("#email").val(data.email);
-        if(data.sms_enabled=='1')
-        $('#sms_enabled').prop('checked', true); 
+        if (data.sms_enabled == '1')
+          $('#sms_enabled').prop('checked', true);
         else
-        $('#sms_enabled').prop('checked', false); 
+          $('#sms_enabled').prop('checked', false);
 
-        $(".save_button").attr("id","update_contact")
+        $(".save_button").attr("id", "update_contact")
         $("#contact_form").modal('show');
 
       }
@@ -169,7 +184,7 @@
   });
 
   $(document).on("click", "#add_contact", function() {
-    $(".save_button").attr("id","submit_contact")
+    $(".save_button").attr("id", "submit_contact")
     $("#modal_contact_id").text("");
     $("#modal_title").html("Add");
     $("#title").val("");
@@ -177,7 +192,7 @@
     $("#company").val("");
     $("#notes").val("");
     $("#email").val("");
-    $('#sms_enabled').prop('checked', false); 
+    $('#sms_enabled').prop('checked', false);
     $("#contact_form").modal('show');
   });
 
@@ -223,13 +238,13 @@
 
   $(document).ready(function() {
 
-    $(document).on('click',"#submit_contact",function() {
+    $(document).on('click', "#submit_contact", function() {
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
       var company = $("#company").val();
-      var notes= $("#notes").val();
-      var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
+      var notes = $("#notes").val();
+      var sms_enabled = $("#sms_enabled").prop('checked') === true ? '1' : '0';
       var department = $("#department").val();
 
       jQuery.ajax({
@@ -238,9 +253,9 @@
         data: {
           title: title,
           email: email,
-          company:company,
-          notes:notes,
-          sms_enabled:sms_enabled,
+          company: company,
+          notes: notes,
+          sms_enabled: sms_enabled,
           contact: contact,
           department_id: department
         },
@@ -260,14 +275,14 @@
         }
       });
     });
-    $(document).on('click',"#update_contact",function() {
+    $(document).on('click', "#update_contact", function() {
       console.log("yes");
       var title = $("#title").val();
       var email = $("#email").val();
       var contact = $("#contact").val();
       var company = $("#company").val();
       var notes = $("#notes").val();
-      var sms_enabled = $("#sms_enabled").prop('checked')===true?'1':'0';
+      var sms_enabled = $("#sms_enabled").prop('checked') === true ? '1' : '0';
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
 
@@ -275,13 +290,13 @@
         type: 'POST',
         url: "{{ route('contact.update') }}",
         data: {
-          id:id,
+          id: id,
           title: title,
           email: email,
-          company:company,
-          notes:notes,
+          company: company,
+          notes: notes,
           contact: contact,
-          sms_enabled:sms_enabled,
+          sms_enabled: sms_enabled,
           department_id: department
         },
         success: function(data) {
@@ -303,17 +318,17 @@
     });
   });
 
-  function copyToClipboard(textToCopy){
-  navigator.clipboard.writeText(textToCopy).then(
-    function() {
-      /* clipboard successfully set */
-      window.alert('Success! The Link was copied to your clipboard') 
-    }, 
-    function() {
-      /* clipboard write failed */
-      window.alert('Opps! Your browser does not support the Clipboard API')
-    }
-  )
+  function copyToClipboard(textToCopy) {
+    navigator.clipboard.writeText(textToCopy).then(
+      function() {
+        /* clipboard successfully set */
+        window.alert('Success! The Link was copied to your clipboard')
+      },
+      function() {
+        /* clipboard write failed */
+        window.alert('Opps! Your browser does not support the Clipboard API')
+      }
+    )
   }
 </script>
 @endsection

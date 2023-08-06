@@ -266,7 +266,7 @@ Please click on link below to confirm
 						icon: 'success',
 						title: "Mail Sent successfuly."
 					}).then(() => {
-						//window.location.href = "/";
+						window.location.href = "/";
 					});
 				}, 3000);
 
