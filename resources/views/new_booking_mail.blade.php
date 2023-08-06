@@ -64,17 +64,16 @@
 							<div>
 								<h5>SMS</h5>
 							<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
-							Boxit Foundations	
-							&#013;
-							 {{$booking->address}} &#013;
-							{{$date}} {{$time}}
-							Placer: {{$booking->BookingData->contains('department_id', '9')?$booking->BookingData->firstWhere('department_id', '9')->contact->title:'N/A'}} &#013;
-							Pump: {{$booking->BookingData->contains('department_id', '10')?$booking->BookingData->firstWhere('department_id', '10')->contact->title:'N/A'}} &#013;
-							Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->BookingData->firstWhere('department_id', '8')->contact->title:'N/A'}}
-							{{$booking->floor_area}} M2 
-							{{$booking->floor_type}} Floor&#013; 
-							Please click on link below to confirm 
-							{{$url}} 
+Boxit Foundations &#013;	
+{{$booking->address}} &#013;
+{{$date}} {{$time}}
+Placer: {{$booking->BookingData->contains('department_id', '9')?$booking->BookingData->firstWhere('department_id', '9')->contact->title:'N/A'}} &#013;
+Pump: {{$booking->BookingData->contains('department_id', '10')?$booking->BookingData->firstWhere('department_id', '10')->contact->title:'N/A'}} &#013;
+Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->BookingData->firstWhere('department_id', '8')->contact->title:'N/A'}}
+{{$booking->floor_area}} M2 
+{{$booking->floor_type}} Floor&#013; 
+Please click on link below to confirm 
+{{$url}} 
 							</textarea>
 							</div>
 							<br>

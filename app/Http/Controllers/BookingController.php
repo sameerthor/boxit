@@ -23,6 +23,7 @@ use Auth;
 use Mail;
 use MobileDetect;
 use Twilio\Rest\Client;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -84,7 +85,7 @@ class BookingController extends Controller
                     'date' => @$requested_date[$key],
                     'booking_id' => $booking_id
                 );
-                
+
 
                 if (empty($request_status[$key])) {
                     $book_array['status'] = 2;
@@ -112,26 +113,10 @@ class BookingController extends Controller
                     BookingData::create($book_array);
                 }
             }
+        }
 
-            
-        }
-        
-        $booking_data=BookingData::where('booking_id',$booking_id)->get();
-        foreach($booking_data as $res)
-        {
-            if($res->department_id=='5'||$res->department_id=='6'||$res->department_id=='7')
-            {
-               $department=$res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : ''); 
-               $email_body="Hi,<br>";
-               $email_body.="This is a reminder to check if we have the report for <b>$department</b> at <b>".$request->get('address')."</b>.";
-               $email_body.='<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
-           $details['to'] = \config('const.admin1');
-           $details['address'] = $res->booking->address;
-           $details['subject'] = 'Booking Cancelled';
-           $details['body'] = $email_body;
-           dispatch(new BookingEmailJob($details))->delay(now()->addHours(24));
-            }
-        }
+        $booking_data = BookingData::where('booking_id', $booking_id)->get();
+
 
         if (!empty($request->get('draft_id'))) {
             $draft_id = $request->get('draft_id');
@@ -197,12 +182,27 @@ class BookingController extends Controller
             foreach ($mail_data as $k => $res) {
                 $booking_data = BookingData::find($res['booking_id']);
                 $booking_id = $booking_data->booking_id;
+
+                if ($booking_data->department_id == '5' || $booking_data->department_id == '6' || $booking_data->department_id == '7') {
+                    $details=[];
+                    $department = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
+                    $email_body = "Hi,<br>";
+                    $email_body .= "This is a reminder to check if we have the report for <b>$department</b> at <b>" . $booking_data->booking->address . "</b>.";
+                    $email_body .= '<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+                    $details['to'] = \config('const.admin1');
+                    $details['address'] = $booking_data->booking->address;
+                    $details['subject'] = 'Booking Cancelled';
+                    $details['body'] = $email_body;
+                    dispatch(new BookingEmailJob($details))->delay(Carbon::parse($booking_data->date)->addDays(1));
+                    $details=[];
+                }
+
                 $contact = Contact::find($booking_data->contact_id);
                 if ($contact->sms_enabled == '1' && !empty($contact->contact) && !empty($res['sms_text'])) {
 
                     try {
                         $output_string = $res['sms_text'];
-                        $enc_key=base64_encode($booking_data->id);
+                        $enc_key = base64_encode($booking_data->id);
                         $output_string .= "\nReply to this SMS will be charged";
                         $res = $client->messages->create(
                             // Where to send a text message (your cell phone?)
@@ -216,8 +216,8 @@ class BookingController extends Controller
                         $e->getMessage();
                     }
                 } else {
-                    if(empty($contact->email))
-                    continue;
+                    if (empty($contact->email))
+                        continue;
                     $attachement_files = [];
                     if (isset($res['files'])) {
                         foreach ($res['files'] as $file) {
@@ -233,7 +233,7 @@ class BookingController extends Controller
                     $details['subject'] = $res['subject'];
                     $details['body'] = $res['body'];
                     $details['files'] = $attachement_files;
-                    dispatch(new BookingEmailJob($details));
+                     dispatch(new BookingEmailJob($details));
                 }
             }
             Booking::where('id', $booking_id)
@@ -281,7 +281,7 @@ class BookingController extends Controller
             $html = '';
             $html .= "<p>There is a date/time change request for the following booking.</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
-            $html .= "<p>Department : <strong><u>$department->title". ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '')."</u></strong></p>";
+            $html .= "<p>Department : <strong><u>$department->title" . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '') . "</u></strong></p>";
             $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= "<br><p>Contact has suggested the below alternate time(s)</p>";
@@ -328,7 +328,7 @@ class BookingController extends Controller
             else
                 $html .= "<p>Your date/time change has been accepted for the following booking:</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
-            $html .= "<p>Department : <strong><u>$department->title". ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '')."</u></strong></p>";
+            $html .= "<p>Department : <strong><u>$department->title" . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '') . "</u></strong></p>";
             if ($booking_data->created_at != $booking_data->updated_at)
                 $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
@@ -449,7 +449,7 @@ class BookingController extends Controller
                         ->get();
                     $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                     foreach ($leaves as $leave) {
-                        $inner_html .= "<span class='red_bullet monthly_booking annual_leave' data-note='" . $leave->note . "'>" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
+                        $inner_html .= "<span class='red_bullet monthly_booking annual_leave' data-note='" . $leave->note . "'>" . $leave->title . " - " . date("h:i A", strtotime($leave->date)) . "</span>";
                     }
                     foreach ($booking_datas as $booking_data) {
                         if (!empty($booking_data->booking)) {
@@ -589,8 +589,8 @@ class BookingController extends Controller
         $dates = $request->get('dates');
         $year = $request->get('year');
         $foreman_id = $request->get('foreman_id');
-        if(!empty($foreman_id))
-        $name=User::find($foreman_id)->name;
+        if (!empty($foreman_id))
+            $name = User::find($foreman_id)->name;
         $requested_month = $request->get('month') + 1;
         $html = '';
         foreach ($dates as $date) {
@@ -614,17 +614,15 @@ class BookingController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
-                if (!empty($foreman_id))
-                {
-                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id',$foreman_id)->get();
+                if (!empty($foreman_id)) {
+                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id', $foreman_id)->get();
                     foreach ($staff_leaves as $leave) {
-                        $html .= "<span class='red_box' >".ucfirst($name)." - On Leave</span>";
+                        $html .= "<span class='red_box' >" . ucfirst($name) . " - On Leave</span>";
                     }
-          
                 }
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
-                    $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - ".date("h:i A",strtotime($leave->date))."</span>";
+                    $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - " . date("h:i A", strtotime($leave->date)) . "</span>";
                 }
                 foreach ($booking_data as $boo) {
                     if (MobileDetect::isTablet()) {
@@ -670,9 +668,9 @@ class BookingController extends Controller
 										<p>Foreman</p>
 										<span>' . ucfirst($booking->foreman->name) . '</span>
 									</div>';
-        foreach ($booking_data->slice(1, (int)count($booking_data)/2) as $res) {
+        foreach ($booking_data->slice(1, (int)count($booking_data) / 2) as $res) {
             $booking_date = $res->date;
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') . ($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             switch ($res->status) {
                 case '0':
                     $class = "pending-txt";
@@ -698,8 +696,8 @@ class BookingController extends Controller
 									';
         }
         $html .=        '</div><div class="col-md-6">';
-        foreach ($booking_data->slice(((int)count($booking_data)/2)+1) as $res) {
-            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
+        foreach ($booking_data->slice(((int)count($booking_data) / 2) + 1) as $res) {
+            $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') . ($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');
             $booking_date = $res->date;
             switch ($res->status) {
                 case '0':
@@ -727,7 +725,7 @@ class BookingController extends Controller
 
         $html .= '</div></div>';
 
-        return array('id'=>$booking->id,'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
+        return array('id' => $booking->id, 'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)
@@ -740,13 +738,11 @@ class BookingController extends Controller
         if (!empty($request->get('existing_file'))) {
             $files = $request->get('existing_file');
         }
-        $admin_email=\config('const.admin1');
-        if($admin_email!=auth()->user()->email)
-        {
-        $email_body="Hi,<br><b>".$request->get('address')."</b> has been saved as Draft by ".auth()->user()->name.".";
-        $email_body.='<br>Thank You,<br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">'; 
-        dispatch(new BookingEmailJob(['to'=>$admin_email,'address'=>$request->get('address'),'subject'=>'Draft Saved','body'=>$email_body]));
-        
+        $admin_email = \config('const.admin1');
+        if ($admin_email != auth()->user()->email) {
+            $email_body = "Hi,<br><b>" . $request->get('address') . "</b> has been saved as Draft by " . auth()->user()->name . ".";
+            $email_body .= '<br>Thank You,<br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+            dispatch(new BookingEmailJob(['to' => $admin_email, 'address' => $request->get('address'), 'subject' => 'Draft Saved', 'body' => $email_body]));
         }
         $draft = new Draft;
         $draft->address = $request->get('address');
@@ -765,8 +761,8 @@ class BookingController extends Controller
         }
         $draft->file = $files;
         $draft->save();
-        
-        
+
+
         $draft_id = $draft->id;
         $requested_date = $request->get('date');
         $request_status = $request->get('status');
@@ -875,7 +871,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $new_time = date("h:i:s A", strtotime($date));
             $html .= "<p>TO<br>Date - $new_date<br>Time- $new_time</p>";
             $html .= '<p>' . $reply_link . '</p>';
-        
+
             $html .= '<p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
                 Jules<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
@@ -883,8 +879,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
                 ';
 
             $update_array = ['date' => date("Y-m-d H:i:s", strtotime($date))];
-                $update_array['status'] = 0;
-            
+            $update_array['status'] = 0;
+
             $details['to'] = $contact->email;
             $details['name'] = $contact->title;
             $details['url'] = 'testing';
@@ -945,24 +941,24 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         $booking_data = BookingData::find($id);
         $booking = $booking_data->booking;
         $mail = MailTemplate::where(array('status' => 1, 'department_id' => $booking_data->department_id))->get();
-        return view('new_booking_mail', compact('booking_data','booking', 'mail', 'id'));
+        return view('new_booking_mail', compact('booking_data', 'booking', 'mail', 'id'));
     }
-    
-    public function reorder(Request $request){
-       $id = $request->get('id');
-       $date = $request->get('date');
-       $booking_data=BookingData::find($id);
-       $book_array = array(
-        'department_id' => $booking_data->department_id,
-        'contact_id'  => $booking_data->contact_id,
-        'date' => $date,
-        'service' => $booking_data->service,
-        'booking_id' => $booking_data->booking_id,
-        'reorder_no'=>$booking_data->reorder_no+1
-    );
-    $new = BookingData::create($book_array);
-    return $new['id'];
 
+    public function reorder(Request $request)
+    {
+        $id = $request->get('id');
+        $date = $request->get('date');
+        $booking_data = BookingData::find($id);
+        $book_array = array(
+            'department_id' => $booking_data->department_id,
+            'contact_id'  => $booking_data->contact_id,
+            'date' => $date,
+            'service' => $booking_data->service,
+            'booking_id' => $booking_data->booking_id,
+            'reorder_no' => $booking_data->reorder_no + 1
+        );
+        $new = BookingData::create($book_array);
+        return $new['id'];
     }
 
     public function change_time()

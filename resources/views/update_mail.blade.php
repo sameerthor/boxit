@@ -52,7 +52,7 @@
 						if($booking_data->status==2){
 						continue;
 						}
-					
+
 						$booking_date=$booking_data->date;
 						$id=$booking_data->id;
 						$product_html='<p></p>';
@@ -84,18 +84,17 @@
 							<br>
 							<div>
 								<h5>SMS</h5>
-							<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
-							Boxit Foundations	
-							&#013;
-							 {{$booking->address}} &#013;
-							{{$date}} {{$time}}
-							Placer: {{$booking->BookingData->contains('department_id', '9')?$booking->BookingData->firstWhere('department_id', '9')->contact->title:'N/A'}} &#013;
-							Pump: {{$booking->BookingData->contains('department_id', '10')?$booking->BookingData->firstWhere('department_id', '10')->contact->title:'N/A'}} &#013;
-							Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->BookingData->firstWhere('department_id', '8')->contact->title:'N/A'}}
-							{{$booking->floor_area}} M2
-							{{$booking->floor_type}} Floor&#013; 
-							Please click on link below to confirm 
-							{{$url}} 	
+								<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
+Boxit Foundations	&#013;				
+{{$booking->address}} &#013;
+{{$date}} {{$time}}
+Placer: {{$booking->BookingData->contains('department_id', '9')?$booking->BookingData->firstWhere('department_id', '9')->contact->title:'N/A'}} &#013;
+Pump: {{$booking->BookingData->contains('department_id', '10')?$booking->BookingData->firstWhere('department_id', '10')->contact->title:'N/A'}} &#013;
+Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->BookingData->firstWhere('department_id', '8')->contact->title:'N/A'}}
+{{$booking->floor_area}} M2
+{{$booking->floor_type}} Floor&#013; 
+Please click on link below to confirm 
+{{$url}} 	
 						   </textarea>
 							</div>
 							<br>
@@ -247,7 +246,7 @@
 					$.each($("input[type='file']")[index].files, function(i, file) {
 						formdata.append('mail_data[' + index + '][files][]', file);
 					});
-					formdata.append('mail_data[' + index + '][sms_text]', $(".sms_text").eq(index).val()); 
+					formdata.append('mail_data[' + index + '][sms_text]', $(".sms_text").eq(index).val());
 				});
 				jQuery.ajax({
 					type: 'POST',
@@ -267,7 +266,7 @@
 						icon: 'success',
 						title: "Mail Sent successfuly."
 					}).then(() => {
-						window.location.href = "/";
+						//window.location.href = "/";
 					});
 				}, 3000);
 
