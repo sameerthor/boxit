@@ -11,6 +11,8 @@ use App\Models\MailTemplate;
 use App\Models\Contact;
 use App\Models\ProjectCheckboxStatus;
 use App\Models\User;
+use App\Models\FormPerDate;
+use App\Models\Image;
 use App\Jobs\BookingEmailJob;
 use DB;
 use Session;
@@ -141,14 +143,14 @@ class ProjectController extends Controller
     public function renderproject(Request $request)
     {
         $project = Booking::find($request->get('id'));
+        $forms=FormPerDate::where(['project_id'=>$project->id])->get();
+
         $foremans = User::whereHas("roles", function ($q) {
             $q->where("name", "Foreman");
         })->get();
         $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
         $markout_checklist = $project->MarkoutChecklist;
-        $safety = $project->SafetyPlan;
         //dd($safety);
-        $qaChecklist = QaChecklist::all();
         $checked_checkbox_data=ProjectCheckboxStatus::where('project_id',$request->get('id'))->first();
         if(!empty($checked_checkbox_data))
         {
@@ -162,7 +164,7 @@ class ProjectController extends Controller
         })
             ->get();
         $contacts = Contact::all();
-        return view('single-project', compact('checked_checkbox_status','contacts', 'foremans', 'safety', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('single-project', compact('forms','checked_checkbox_status','contacts', 'foremans', 'project', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
     public function delete(Request $request)
     {
@@ -198,4 +200,38 @@ class ProjectController extends Controller
     {
        ProjectCheckboxStatus::updateOrCreate(['project_id' => $request->get('project_id')],['status'=>$request->get('status')]);
     }
+
+    public function viewForm(Request $request)
+    {
+        $form=FormPerDate::find($request->get('id'));
+        $project = Booking::find($form->project_id);
+        $safety = $form->SafetyPlan;
+        $incident_data = $form->incident;
+        $qaChecklist = QaChecklist::all();
+        $foreman_images = Image::query();
+        if($form->form_type==1)
+        {
+          return view('forms.view-onsite', compact('form','foreman_images', 'project',  'qaChecklist'))->render();
+        }elseif($form->form_type==2)
+        {
+          return view('forms.view-safety', compact('form','foreman_images', 'project', 'safety'))->render();
+        }elseif($form->form_type==3)
+        {
+          return view('forms.view-accident', compact('form','foreman_images', 'project',  'incident_data'))->render();
+  
+        }
+  
+    }
+
+    public function deleteForm(Request $request)
+    {
+       $id=$request->get('id');
+       $form=FormPerDate::find($id);
+       $form->qasign()->delete();
+       $form->incident()->delete();
+       $form->SafetyPlan()->delete();
+       $form->images()->delete();
+       $form->delete();
+       return true;
+    }    
 }

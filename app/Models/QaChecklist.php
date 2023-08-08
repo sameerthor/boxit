@@ -17,7 +17,7 @@ class QaChecklist extends Model
 
     public function ProjectQaChecklist($id)
     {
-        return $this->hasMany(ProjectQaChecklist::class)->where('project_qa_checklist.project_id','=', $id);
+        return $this->hasMany(ProjectQaChecklist::class)->where('project_qa_checklist.form_id','=', $id);
     }
 
 }

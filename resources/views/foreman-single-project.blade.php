@@ -504,79 +504,37 @@
 
                     </div>
                     <div style="padding:15px;" d class="tab-pane fade paid-l-none" id="tab2" role="tabpanel" aria-labelledby="2-tab">
-                        <form action="{{URL('/qa_checklist')}}" method="post" id="qa_form">
-                            @csrf
-                            <h5>Onsite & QA Checklist</h5>
-                            <input type="hidden" name="project_id" value="{{$project->id}}">
-                            <div class="qa_checklist marg-lr-none">
-                                <!-- <div class="rowonsite_label">
-                                   <div class="col-md-6"></div>
-                                   <div class="col-md-3">Initial</div>
-                                   <div class="col-md-3">Office Use</div> 
-                                </div> -->
-                                <table style="width:100%">
-                                    <tr class="bor-none">
-                                        <td></td>
-                                        <td>Initial</td>
-                                        <td>Office Use</td>
-
-
-                                    </tr>
-                                    <tr>
-                                        <td>Date:</td>
-                                        @php $project_qa=$qaChecklist[0]->ProjectQaChecklist($project->id)->get(); @endphp
-                                        <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->initial:''}}" name="initial[1]"></td>
-                                        <td class="table-w"><input type="date" value="{{count($project_qa)>0?$project_qa[0]->office_use:''}}" name="office_use[1]"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Address:</td>
-                                        <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="initial[2]"></td>
-                                        <td class="table-w"><input type="text" readonly value="{{$project->address}}" name="office_use[2]"></td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Housing Company:</td>
-                                        <td class="table-w"><input type="text" readonly value="{{$project->BookingData[0]->contact->title}}" name="initial[3]"></td>
-                                        <td class="table-w"><input type="text" readonly value="{{$project->BookingData[0]->contact->title}}" name="office_use[3]"></td>
-                                    </tr>
-                                    @foreach($qaChecklist->slice(3) as $res)
-                                    <tr>
-                                        <td>{{$res->subject}}</td>
-                                        @php
-                                        $project_qa= $res->ProjectQaChecklist($project->id)->get();
-                                        if(count($project_qa)>0)
-                                        {
-
-                                        $initial=$project_qa[0]->initial;
-                                        $office_use=$project_qa[0]->office_use;
-                                        }else
-                                        {
-                                        $initial="";
-                                        $office_use="";
-                                        }
-                                        @endphp
-                                        <td class="table-w"><input type="text" value="{{$initial}}" name="initial[{{$res->id}}]"></td>
-                                        <td class="table-w"><input type="text" value="{{$office_use}}" name="office_use[{{$res->id}}]"></td>
-                                        <td>
-                                            {!! ($project->images()->form('onsite', $loop->iteration)->count()>0)
-                                            ?
-                                            "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('onsite', $loop->iteration )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('onsite', $loop->iteration)->pluck('image')[0]."'></a></div>"
-                                            :
-                                            "<div class='image-upload'><label for='onsite$loop->iteration'><img src='/img/upload-image.svg' /></label><input id='onsite$loop->iteration' class='form_image' data-project='$project->id' data-field='$loop->iteration' data-form='onsite' type='file' /></div>"
-                                            !!}
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </table>
-                            </div>
-                            @if(!empty($project->qasign->foreman_sign))
-                            <img src="{{$project->qasign->foreman_sign}}" id="m_sign" width="200">
-                            @else
-                            <canvas id="onsite_canvas" class="canvas-size" style="border: 1px solid black;"></canvas>
-                            <button type="button" data-id="onsite_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                            @endif
-                            <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
-                        </form>
+                   <div class="create-form-container">
+                    <h5>Onsite & QA Checklist</h5>
+                    <br>    
+                    <div class="row date-form">
+    <input type="hidden" class="form-type" value="1">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
+<table class="table table-sm">
+    <thead>
+        <th>Date</th>
+        <th class="t-center">Actions</th>
+    </thead>
+    <tbody>
+        @if(count($forms->where('form_type',1)->all()))
+        @foreach($forms->where('form_type',1)->all() as $form)
+        <tr>  
+          <td>{{$form->date}}</td>
+          <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a></td></td></tr>
+      </tr>
+        @endforeach
+        @else
+        <tr>
+            <td colspan="2">No form found.</td>
+        </tr>
+        @endif
+    </tbody>
+</table>
+</div>
+<div class="edit-form-container"></div>
                     </div>
                     <div style="padding:2%" d class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="3-tab">
                         <form action="{{URL('/markout_checklist')}}" method="post" id="markout_form" enctype=multipart/form-data>
@@ -750,664 +708,37 @@
                         </form>
                     </div>
                     <div style="padding:3%" d class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="4-tab">
-                        <h5>Safety plan</h5>
+                    <div class="create-form-container">   
+                    <h5>Safety plan</h5>
                         <br>
-                        <form action="{{URL('/safety-plan')}}" id="safety_form" method="post">
-                            @csrf
-                            <input type="hidden" name="project_id" value="{{$project->id}}">
-                            <div class="rowsafety_plan">
-                                <p>This plan is to be completed with all workers prior to works beginning. All personnel must complete a site induction</p>
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="2">Site / Address: {{$project->address}}</th>
-                                            <th colspan="2">Client: <input type="text" style="width:70%" name="safety_plan[client]" value="{{ $safety!=null ? $safety->client : '' }}"></th>
-                                        </tr>
-                                        <tr>
-                                            <th style="width:25%">Completed By: Jimmy</th>
-                                            <th style="width:35%">Date: <input type="date" style="width:70%" name="safety_plan[date]" value="{{ $safety!=null ? $safety->date : '' }}"></th>
-                                            <th style="width:20%">Time In: <input type="text" style="width:40%" name="safety_plan[time_in]" value="{{ $safety!=null ? $safety->time_in : '' }}"></th>
-                                            <th style="width:20%">Time Out: <input type="text" style="width:40%" name="safety_plan[time_out]" value="{{ $safety!=null ? $safety->time_out : '' }}"></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="6" style="text-align:center;background-color:#c9ced6;">EMERGENCY INFORMATION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th rowspan="2" scope="rowgroup">Locations of
-                                                Emergency
-                                                Provisions:</th>
-                                            <th>First Aid Kit
-                                            </th>
-                                            <th>Extinguisher
-                                            </th>
-                                            <th>Evacuation Assembly Point
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Site Vehicle
-                                            </td>
-                                            <td>
-                                                Site Vehicle
-                                            </td>
-                                            <td>
-                                                At Site Entrance
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th rowspan="2" scope="rowgroup">Key Emergency
-                                                Contacts:</th>
-                                            <td>
-                                                Emergency Response Dial: <br>111
-                                            </td>
-                                            <td>
-                                                Ch Hospital:<br> 03 364 0270
-                                            </td>
-                                            <td>
-                                                Andy Knight:<br> 027 702 1055
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Moorhouse Medical:<br> 03 365 7900
-                                            </td>
-                                            <td>
-                                                24 Hr Medical:<br> 03 365 7777
-                                            </td>
-                                            <td>
-                                                Hayden Vessey:<br> 027 672 1812
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">1.0 SITE SET UP / FACILITIES
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="col" style="width: 10%">#
-                                            </th>
-                                            <th style="width: 50%">ITEM
-                                            </th>
-                                            <th style="width: 10%">&#10004/&#x2717
-                                            </th>
-                                            <th style="width: 30%">
-                                                NOTES / ACTIONS
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>1.1</td>
-                                            <td>
-                                                Is there safe access to the site? (clear / level / no overhead lines)
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" <?php if (!empty($safety)) {
-                                                                        if ($safety->safe_access_tick == '1') {
-                                                                            echo "checked";
-                                                                        }
-                                                                    }  ?> value="1" name="safety_plan[safe_access_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" <?php if (!empty($safety)) {
-                                                                                        if ($safety->safe_access_tick == '0') {
-                                                                                            echo "checked";
-                                                                                        }
-                                                                                    }  ?> value="0" name="safety_plan[safe_access_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[safe_access]">{{ $safety!=null ? $safety->safe_access : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '1')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '1' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '1' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety1'><img src='/img/upload-image.svg' /></label><input id='safety1' class='form_image' data-project='$project->id' data-field='1' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.2</td>
-                                            <td>
-                                                Have you read the site hazards board?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->site_board_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[site_board_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->site_board_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[site_board_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[site_board]">{{ $safety!=null ? $safety->site_board : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '2')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '2' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '2' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety2'><img src='/img/upload-image.svg' /></label><input id='safety2' class='form_image' data-project='$project->id' data-field='2' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.3</td>
-                                            <td>
-                                                Do you have adequate PPE? Hi vis / steel caps
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->ppe_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[ppe_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->ppe_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[ppe_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[ppe]">{{ $safety!=null ? $safety->ppe : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '3')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '3' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '3' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety3'><img src='/img/upload-image.svg' /></label><input id='safety3' class='form_image' data-project='$project->id' data-field='3' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.4</td>
-                                            <td>
-                                                Have you completed the Clientsafety documentation on site?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->safety_documentation_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[safety_documentation_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->safety_documentation_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[safety_documentation_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[safety_documentation]">{{ $safety!=null ? $safety->safety_documentation : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '4')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '4' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '4' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety4'><img src='/img/upload-image.svg' /></label><input id='safety4' class='form_image' data-project='$project->id' data-field='4' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.5</td>
-                                            <td>
-                                                Are there others on site we need to communicate with?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->communicate_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[communicate_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->communicate_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[communicate_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[communicate]">{{ $safety!=null ? $safety->communicate : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '5')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '5' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '5' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety5'><img src='/img/upload-image.svg' /></label><input id='safety5' class='form_image' data-project='$project->id' data-field='5' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.6</td>
-                                            <td>
-                                                Is the site tidy and clear for you work activity?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->work_activity_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[work_activity_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->work_activity_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[work_activity_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[work_activity]">{{ $safety!=null ? $safety->work_activity : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '6')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '6' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '6' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety6'><img src='/img/upload-image.svg' /></label><input id='safety6' class='form_image' data-project='$project->id' data-field='6' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.7</td>
-                                            <td>
-                                                Is the site secure, i.e. fenced / gate closed?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->gate_closed_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[gate_closed_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->gate_closed_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[gate_closed_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[gate_closed]">{{ $safety!=null ? $safety->gate_closed : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '7')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '7' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '7' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '7' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety7'><img src='/img/upload-image.svg' /></label><input id='safety7' class='form_image' data-project='$project->id' data-field='7' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.8</td>
-                                            <td>
-                                                Are site hazards adequately controlled?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->hazard_controlled_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->hazard_controlled_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[hazard_controlled_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[hazard_controlled]">{{ $safety!=null ? $safety->hazard_controlled : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '8')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '8' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '8' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '8')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '8' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety8'><img src='/img/upload-image.svg' /></label><input id='safety8' class='form_image' data-project='$project->id' data-field='8' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1.9</td>
-                                            <td>
-                                                Do you have access to Power / Water / Toilet?
-                                            </td>
-                                            <td class="paid-t">
-                                                <input type="radio" value="1" <?php if (!empty($safety)) {
-                                                                                    if ($safety->power_access_tick == '1') {
-                                                                                        echo "checked";
-                                                                                    }
-                                                                                }  ?> name="safety_plan[power_access_tick]"><label>&#10004</label>
-                                                <input class="marg-l" type="radio" value="0" <?php if (!empty($safety)) {
-                                                                                                    if ($safety->power_access_tick == '0') {
-                                                                                                        echo "checked";
-                                                                                                    }
-                                                                                                }  ?> name="safety_plan[power_access_tick]"><label>&#x2717</label>
-                                            </td>
-                                            <td>
-                                                <textarea name="safety_plan[power_access]">{{ $safety!=null ? $safety->power_access : '' }}</textarea>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '9')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '9' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '9' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '9')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '9' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety9'><img src='/img/upload-image.svg' /></label><input id='safety9' class='form_image' data-project='$project->id' data-field='9' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">3.0 JOBsafety ANALYSIS AND HAZARD MANAGEMENT
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="2" scope="colgroup">&#10004 JOB STEP
-                                            </th>
-                                            <th>RISK IDENTIFIED
-                                            </th>
-                                            <th>HAZARD CONTROL METHOD<br>
-                                                E Eliminate / M - Minimise
-                                            </th>
-                                            <th>
-                                                &#10004
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                Foundation
-                                                Install / Strip
-                                            </td>
-                                            <td>
-                                                Power Tools
-                                            </td>
-                                            <td>
-                                                M Ensure all electrical is tagged and made safe
-                                                <br>
-                                                M - Check guards are in place
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
-                                                                                        if ($safety->foundation == '1') {
-                                                                                            echo "checked";
-                                                                                        }
-                                                                                    }  ?> name="safety_plan[foundation]">
-                                                <br>
-                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
-                                                                                        if ($safety->foundation_guard == '1') {
-                                                                                            echo "checked";
-                                                                                        }
-                                                                                    }  ?> name="safety_plan[foundation_guard]">
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '10')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '10' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '10' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '10')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '10' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety10'><img src='/img/upload-image.svg' /></label><input id='safety10' class='form_image' data-project='$project->id' data-field='10' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Noise
-                                            </td>
-                                            <td>
-                                                M Ear muffs to be worn
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" <?php if (!empty($safety)) {
-                                                                                        if ($safety->noise == '1') {
-                                                                                            echo "checked";
-                                                                                        }
-                                                                                    }  ?> name="safety_plan[noise]">
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '11')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '11' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '11' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '11')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '11' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety11'><img src='/img/upload-image.svg' /></label><input id='safety11' class='form_image' data-project='$project->id' data-field='11' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Dust
-                                            </td>
-                                            <td>
-                                                M Dust masks to be worn
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[dust]" <?php if (!empty($safety)) {
-                                                                                                                if ($safety->dust == '1') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                            }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '12')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '12' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '12' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '12')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '12' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety12'><img src='/img/upload-image.svg' /></label><input id='safety12' class='form_image' data-project='$project->id' data-field='12' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Hit by Plant
-                                            </td>
-                                            <td>
-                                                M Hi Vis to be worn
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[hit_plant]" <?php if (!empty($safety)) {
-                                                                                                                    if ($safety->hit_plant == '1') {
-                                                                                                                        echo "checked";
-                                                                                                                    }
-                                                                                                                }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '13')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '13' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '13' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '13')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '13' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety13'><img src='/img/upload-image.svg' /></label><input id='safety13' class='form_image' data-project='$project->id' data-field='13' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Poor Housekeeping
-                                            </td>
-                                            <td>
-                                                M Keep the site tidy, stack materials in designated areas
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[poor_housekeeping]" <?php if (!empty($safety)) {
-                                                                                                                            if ($safety->poor_housekeeping == '1') {
-                                                                                                                                echo "checked";
-                                                                                                                            }
-                                                                                                                        }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '14')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '14' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '14' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '14')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '14' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety14'><img src='/img/upload-image.svg' /></label><input id='safety14' class='form_image' data-project='$project->id' data-field='14' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Exposed Steel
-                                            </td>
-                                            <td>
-                                                M Ensure exposed steel is identified / capped
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[exposed_steel]" <?php if (!empty($safety)) {
-                                                                                                                        if ($safety->exposed_steel == '1') {
-                                                                                                                            echo "checked";
-                                                                                                                        }
-                                                                                                                    }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '15')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '15' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '15' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '15')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '15' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety15'><img src='/img/upload-image.svg' /></label><input id='safety15' class='form_image' data-project='$project->id' data-field='15' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Loose Materials
-                                            </td>
-                                            <td>
-                                                M Ensure materials are secured
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[loose_material]" <?php if (!empty($safety)) {
-                                                                                                                        if ($safety->loose_material == '1') {
-                                                                                                                            echo "checked";
-                                                                                                                        }
-                                                                                                                    }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '16')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '16' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '16' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '16')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '16' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety16'><img src='/img/upload-image.svg' /></label><input id='safety16' class='form_image' data-project='$project->id' data-field='16' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                Services
-                                            </td>
-                                            <td>
-                                                M Check for overhead and underground services
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" value="1" name="safety_plan[services]" <?php if (!empty($safety)) {
-                                                                                                                    if ($safety->services == '1') {
-                                                                                                                        echo "checked";
-                                                                                                                    }
-                                                                                                                }  ?>>
-                                            </td>
-                                            <td>
-                                                {!! ($project->images()->form('safety', '17')->count()>0)
-                                                ?
-                                                "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('safety', '17' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('safety', '17' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('safety', '17')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('safety', '17' )->pluck('image')[0]."'></a></div>"
-                                                :
-                                                "<div class='image-upload'><label for='safety17'><img src='/img/upload-image.svg' /></label><input id='safety17' class='form_image' data-project='$project->id' data-field='17' data-form='safety' type='file' /></div>"
-                                                !!}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p>All personnel and visitors have been shown and advised of all of the hazards and controls identified.
-                                    All workers must be involved in completing this Sitesafety Plan. All persons signed below fully
-                                    understand and acknowledge their requirements</p>
-
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="6" style="text-align:center;background-color:#c9ced6;">SIGN IN / INDUCTION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="induction_body">
-                                        <tr>
-                                            <th scope="row">Date
-                                            </th>
-                                            <th>Name
-                                            </th>
-                                            <th>Signature
-                                            </th>
-                                        </tr>
-                                        @if(!empty($safety->induction_date))
-                                        @for($key=1;$key<=count($safety->induction_date);$key++)
-                                            <tr>
-                                                <td scope="row">
-                                                    <input type="date" readonly value="{{ $safety!=null ? $safety->induction_date['date'.$key] : '' }}" name="safety_plan[induction_date][date{{$key}}]">
-                                                </td>
-                                                <td>
-                                                    <input type="text" readonly value="{{ $safety!=null ? $safety->induction_name['name'.$key] : '' }}" name="safety_plan[induction_name][name{{$key}}]">
-                                                </td>
-                                                <td>
-                                                    @if(!empty($safety->sign['sign'.$key]))
-                                                    <img src="{{$safety->sign['sign'.$key]}}" id="induction_sign{{$key}}" width="200">
-                                                    @else
-                                                    <canvas id="induction_canvas{{$key}}" style="border: 1px solid black;"></canvas>
-                                                    <button type="button" data-id="indunction_signaturePad{{$key}}" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endfor
-                                            @endif
-                                    </tbody>
-                                </table>
-                                <div class="row">
-                                    <div class="col-md-10"></div>
-                                    <div class="col-md-2"><button type="button" onclick="addsignaturepad();" class="btn" style="color:#fff;background-color:#172b4d">Add Signaturepad</button></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8"></div>
-                                    <div class="col-md-3" style="display: none;">
-                                        @if(!empty($safety->foreman_sign))
-                                        <img src="{{$safety->foreman_sign}}" id="safetyplan_sign" width="200">
-                                        @else
-                                        <canvas id="safetyplan_canvas" style="border: 1px solid black;"></canvas>
-                                        <button type="button" data-id="safetyplan_signature" class="btn btn-sm clear" style="color:#fff;background-color:#172b4d">Clear</button>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                </div>
-                                <div style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
-                            </div>
-                        </form>
+                    <div class="row date-form">
+    <input type="hidden" class="form-type" value="2">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
+<table class="table table-sm">
+    <thead>
+        <th>Date</th>
+        <th class="t-center">Actions</th>
+    </thead>
+    <tbody>
+        @if(count($forms->where('form_type',2)->all()))
+        @foreach($forms->where('form_type',2)->all() as $form)
+        <tr>  
+          <td>{{$form->date}}</td>
+          <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a></td></td></tr>
+      </tr>
+        @endforeach
+        @else
+        <tr>
+            <td colspan="2">No form found.</td>
+        </tr>
+        @endif
+    </tbody>
+</table>
+                                        </div>
+<div class="edit-form-container"></div>
                     </div>
                     <div style="padding:3%" d="" class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="5-tab">
                         <form action="{{URL('/startup_checklist')}}" method="post" id="startup_form">
@@ -1848,374 +1179,37 @@
                         </form>
                     </div>
                     <div style="padding:3%;" d class="tab-pane fade" id="tab9" role="tabpanel" aria-labelledby="9-tab">
-                        <form action="{{URL('/accident-investigation')}}" method="post">
-                            @csrf
-                            <h5>Accident/Incident Investigation</h5>
-                            <input type="hidden" name="project_id" value="{{$project->id}}">
-                            <div class="row incident_form">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="2" style="background-color:#c9ced6;">PROJECT/SITE: {{$project->address}}</th>
-                                        </tr>
-                                        <tr style="height: 30px;">
-                                            <th style="width:55%;background-color:#c9ced6;">FOREMAN/SUPERVISOR: {{$project->foreman->name}}</th>
-                                            <th style="width:45%;background-color:#c9ced6;">Date: <input type="date" style="width:70%;background-color: #c9ced6;" value="{{ $incident_data!=null ? $incident_data->date : '' }}" name="incident_data[date]" value=""></th>
-                                        </tr>
-                                        <tr style="height: 130px;">
-                                            <th colspan="2">Attendees Names<textarea name="incident_data[attendees]">{{ $incident_data!=null ? $incident_data->attendees : '' }}</textarea></th>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Actions to follow up from last week:</th>
-                                            <th style="width:40%;">Action Required Who / When</th>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Site Inspection:</th>
-                                            <th style="width:40%;"><textarea name="incident_data[site_inspection]">{{ $incident_data!=null ? $incident_data->site_inspection : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '1')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '1' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '1' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '1')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '1' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident1'><img src='/img/upload-image.svg' /></label><input id='accident1' class='form_image' data-project='$project->id' data-field='1' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Upcoming Work:</th>
-                                            <th style="width:40%;"><textarea name="incident_data[upcoming_work]">{{ $incident_data!=null ? $incident_data->upcoming_work : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '2')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '2' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '2' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '2')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '2' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident2'><img src='/img/upload-image.svg' /></label><input id='accident2' class='form_image' data-project='$project->id' data-field='2' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Incidents / Near Misses / Injury Events:</th>
-                                            <th style="width:40%;"><textarea name="incident_data[incidents]">{{ $incident_data!=null ? $incident_data->incidents : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '3')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '3' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '3' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '3')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '3' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident3'><img src='/img/upload-image.svg' /></label><input id='accident3' class='form_image' data-project='$project->id' data-field='3' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Equipment Maintenance / Issues</th>
-                                            <th style="width:40%;"><textarea name="incident_data[equipment_issues]">{{ $incident_data!=null ? $incident_data->equipment_issues : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '4')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '4' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '4' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '4')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '4' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident4'><img src='/img/upload-image.svg' /></label><input id='accident4' class='form_image' data-project='$project->id' data-field='4' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Employee issues raised:</th>
-                                            <th style="width:40%;"><textarea name="incident_data[employee_issues]">{{ $incident_data!=null ? $incident_data->employee_issues : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '5')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '5' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '5' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '5')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '5' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident5'><img src='/img/upload-image.svg' /></label><input id='accident5' class='form_image' data-project='$project->id' data-field='5' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Safe observations reviewed/discussed</th>
-                                            <th style="width:40%;"><textarea name="incident_data[safe_reviewed]">{{ $incident_data!=null ? $incident_data->safe_reviewed : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '6')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '6' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '6' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '6')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '6' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident6'><img src='/img/upload-image.svg' /></label><input id='accident6' class='form_image' data-project='$project->id' data-field='6' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                        <tr style="height: 70px;">
-                                            <th style="width:60%;">Task Analysis completed/reviewed:</th>
-                                            <th style="width:40%;"><textarea name="incident_data[task_reviewed]">{{ $incident_data!=null ? $incident_data->task_reviewed : '' }}</textarea></th>
-                                            <td>
-                                            {!! ($project->images()->form('accident', '7')->count()>0)
-                                        ?
-                                        "<div class='image_container'><span class='file-remover' data-id='".$project->images()->form('accident', '7' )->pluck('id')[0]."'><i class='fa fa-times'></i></span><a class='demo' href='/images/".$project->images()->form('accident', '7' )->pluck('image')[0]."' data-lightbox='example-".$project->images()->form('accident', '7')->pluck('image')[0]."'><img class='example-image' width='125' src='/images/".$project->images()->form('accident', '7' )->pluck('image')[0]."'></a></div>"
-                                        :
-                                        "<div class='image-upload'><label for='accident7'><img src='/img/upload-image.svg' /></label><input id='accident7' class='form_image' data-project='$project->id' data-field='7' data-form='accident' type='file' /></div>"
-                                        !!}   
-                                        </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">PARTICULARS OF ACCIDENT
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 20%">Date of accident <input type="date" name="incident_data[date_accident]" value="{{ $incident_data!=null ? $incident_data->date_accident : '' }}"></td>
-                                            <td style="width: 10%">Time <input type="text" name="incident_data[time]" value="{{ $incident_data!=null ? $incident_data->time : '' }}"></td>
-                                            <td style="width: 30%">Location <input type="text" name="incident_data[location]" value="{{ $incident_data!=null ? $incident_data->location : '' }}"></td>
-                                            <td style="width: 20%">Date reported <input type="date" name="incident_data[date_reported]" value="{{ $incident_data!=null ? $incident_data->date_reported : '' }}"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">THE INJURED PERSON
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">Name <input type="text" name="incident_data[name]" value="{{ $incident_data!=null ? $incident_data->name : '' }}"></td>
-                                            <td rowspan="2" colspan="2">Address <input type="text" name="incident_data[address]" value="{{ $incident_data!=null ? $incident_data->address : '' }}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="12%">Age <input type="number" name="incident_data[age]" value="{{ $incident_data!=null ? $incident_data->age : '' }}"></td>
-                                            <td width="28%">Phone number <input type="number" name="incident_data[phone_number]" value="{{ $incident_data!=null ? $incident_data->phone_number : '' }}"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-                                        <tr>
-                                            <td width="">TYPE OF INJURY:</td>
-                                            <td width=""><input name="incident_data[bruiding_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->bruiding_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Bruising</td>
-                                            <td width=""><input name="incident_data[disclotion_checkbox]" <?php if ($incident_data != null) {
-                                                                                                                if ($incident_data->disclotion_checkbox == 'yes') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                            } ?> value="yes" type="checkbox"> Dislocation</td>
-                                            <td width=""><input name="incident_data[other_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->other_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Other (specify)</td>
-                                            <td width="" rowspan="2">Injured part of body<textarea name="incident_data[injured_part]">{{ $incident_data!=null ? $incident_data->injured_part : '' }}</textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td width=""><input name="incident_data[strain_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->strain_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Strain/sprain</td>
-                                            <td width=""><input name="incident_data[scratch_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->scratch_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Scratch/abrasion</td>
-                                            <td width=""><input name="incident_data[internal_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->internal_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Internal</td>
-                                            <td width=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td width=""><input name="incident_data[fracture_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->fracture_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Fracture</td>
-                                            <td width=""><input name="incident_data[amputation_checkbox]" <?php if ($incident_data != null) {
-                                                                                                                if ($incident_data->amputation_checkbox == 'yes') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                            } ?> value="yes" type="checkbox"> Amputation</td>
-                                            <td width=""><input name="incident_data[foreign_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->foreign_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Foreign body</td>
-                                            <td width="" rowspan="2" colspan="2">Remarks<textarea name="incident_data[remarks]">{{ $incident_data!=null ? $incident_data->remarks : '' }}</textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td width=""><input name="incident_data[cut_checkbox]" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->cut_checkbox == 'yes') {
-                                                                                                            echo "checked";
-                                                                                                        }
-                                                                                                    } ?> value="yes" type="checkbox"> Laceration/cut</td>
-                                            <td width=""><input name="incident_data[burn_checkbox]" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->burn_checkbox == 'yes') {
-                                                                                                            echo "checked";
-                                                                                                        }
-                                                                                                    } ?> value="yes" type="checkbox"> Burn scald</td>
-                                            <td width=""><input name="incident_data[chemical_checkbox]" <?php if ($incident_data != null) {
-                                                                                                            if ($incident_data->chemical_checkbox == 'yes') {
-                                                                                                                echo "checked";
-                                                                                                            }
-                                                                                                        } ?> value="yes" type="checkbox"> Chemical reaction</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">DAMAGED PROPERTY
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="8">Property/ material damaged<textarea name="incident_data[property_damaged]">{{ $incident_data!=null ? $incident_data->property_damaged : '' }}</textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">THE ACCIDENT
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="8">Description - Describe what happened (space overleaf for diagram □ essential for all vehicle accidents)<textarea name="incident_data[desciption]">{{ $incident_data!=null ? $incident_data->desciption : '' }}</textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="8">Analysis - What were the causes of the accident?<textarea name="incident_data[analysis]">{{ $incident_data!=null ? $incident_data->analysis : '' }}</textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%">HOW BAD COULD IT HAVE BEEN?
-                                                <br>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->bad_radio == "1") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio1" value="1">
-                                                    <label class="form-check-label">Very</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->bad_radio == "2") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio2" value="2">
-                                                    <label class="form-check-label">Serious</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->bad_radio == "3") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[bad_radio]" id="inlineRadio3" value="3">
-                                                    <label class="form-check-label">Minor Serious</label>
-                                                </div>
-                                            </td>
-                                            <td width="50%">WHAT IS THE CHANCE OF IT HAPPENING AGAIN?
-                                                <br>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->chance_radio == "1") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio1" value="1">
-                                                    <label class="form-check-label">Minor</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->chance_radio == "2") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio2" value="2">
-                                                    <label class="form-check-label">Occasional</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" <?php if ($incident_data != null) {
-                                                                                                        if ($incident_data->chance_radio == "3") {
-                                                                                                            echo 'checked';
-                                                                                                        }
-                                                                                                    } ?> name="incident_data[chance_radio]" id="inlineRadio3" value="3">
-                                                    <label class="form-check-label">Rare</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-
-                                        <tr>
-                                            <th colspan="8">Prevention
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%">What action has or will be taken to prevent a recurrence?</td>
-                                            <td></td>
-                                            <td style="width: 20%">By whom</td>
-                                            <td style="width: 20%">When</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%"><textarea name="incident_data[action_1]">{{ $incident_data!=null ? $incident_data->action_1 : '' }}</textarea></td>
-                                            <td></td>
-                                            <td style="width: 20%"><input name="incident_data[whom_1]" value="{{ $incident_data!=null ? $incident_data->whom_1 : '' }}" type="text"></td>
-                                            <td style="width: 20%"><input name="incident_data[when_1]" value="{{ $incident_data!=null ? $incident_data->when_1 : '' }}" type="date"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%"><textarea name="incident_data[action_2]">{{ $incident_data!=null ? $incident_data->action_2 : '' }}</textarea></td>
-                                            <td></td>
-                                            <td style="width: 20%"><input name="incident_data[whom_2]" value="{{ $incident_data!=null ? $incident_data->whom_2 : '' }}" type="text"></td>
-                                            <td style="width: 20%"><input name="incident_data[when_2]" value="{{ $incident_data!=null ? $incident_data->when_2 : '' }}" type="date"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%"><textarea name="incident_data[action_3]">{{ $incident_data!=null ? $incident_data->action_3 : '' }}</textarea></td>
-                                            <td></td>
-                                            <td style="width: 20%"><input name="incident_data[whom_3]" value="{{ $incident_data!=null ? $incident_data->whom_3 : '' }}" type="text"></td>
-                                            <td style="width: 20%"><input name="incident_data[when_3]" value="{{ $incident_data!=null ? $incident_data->when_3 : '' }}" type="date"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%"><textarea name="incident_data[action_4]">{{ $incident_data!=null ? $incident_data->action_4 : '' }}</textarea></td>
-                                            <td></td>
-                                            <td style="width: 20%"><input name="incident_data[whom_4]" value="{{ $incident_data!=null ? $incident_data->whom_4 : '' }}" type="text"></td>
-                                            <td style="width: 20%"><input name="incident_data[when_4]" value="{{ $incident_data!=null ? $incident_data->when_4 : '' }}" type="date"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%"><textarea name="incident_data[action_5]">{{ $incident_data!=null ? $incident_data->action_5 : '' }}</textarea></td>
-                                            <td></td>
-                                            <td style="width: 20%"><input name="incident_data[whom_5]" value="{{ $incident_data!=null ? $incident_data->whom_5 : '' }}" type="text"></td>
-                                            <td style="width: 20%"><input name="incident_data[when_5]" value="{{ $incident_data!=null ? $incident_data->when_5 : '' }}" type="date"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 60%">Use space overleaf if required</td>
-                                            <td></td>
-                                            <td style="width: 20%"></td>
-                                            <td style="width: 20%"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered single-table">
-                                    <tbody>
-
-                                        <tr>
-                                            <th colspan="8" style="background-color:#c9ced6;">TREATMENT AND INVESTIGATION OF ACCIDENT
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>Type of treatment given <input type="text" name="incident_data[treatment_type]" value="{{ $incident_data!=null ? $incident_data->treatment_type : '' }}"></td>
-                                            <td>Name of person giving first aid <input type="text" name="incident_data[person_name]" value="{{ $incident_data!=null ? $incident_data->person_name : '' }}"></td>
-                                            <td>Doctor/Hospital <input type="text" name="incident_data[doctor]" value="{{ $incident_data!=null ? $incident_data->doctor : '' }}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Accident investigated by <input type="text" name="incident_data[investigated_by]" value="{{ $incident_data!=null ? $incident_data->investigated_by : '' }}"></td>
-                                            <td>WorkSafe NZ advised YES / NO <input type="text" name="incident_data[worksafe]" value="{{ $incident_data!=null ? $incident_data->worksafe : '' }}"></td>
-                                            <td>Date <input type="date" name="incident_data[treatment_date]" value="{{ $incident_data!=null ? $incident_data->treatment_date : '' }}"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="mt-3" style="float:right"><button type="submit" class="btn btn-secondary">Save</button></div>
-                        </form>
+                   <div class="create-form-container">
+                    <h5>Accident/Incident Investigation</h5>
+                    <br>   
+                    <div class="row date-form">
+    <input type="hidden" class="form-type" value="3">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
+<table class="table table-sm">
+    <thead>
+        <th>Date</th>
+        <th class="t-center">Actions</th>
+    </thead>
+    <tbody>
+        @if(count($forms->where('form_type',3)->all()))
+        @foreach($forms->where('form_type',3)->all() as $form)
+        <tr>  
+          <td>{{$form->date}}</td>
+          <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a></td></td></tr>
+      </tr>
+        @endforeach
+        @else
+        <tr>
+            <td colspan="2">No form found.</td>
+        </tr>
+        @endif
+    </tbody>
+</table>
+</div>
+<div class="edit-form-container"></div>
                     </div>
                 </div>
             </div>
@@ -2489,9 +1483,10 @@
 
     }
 
-    $(".form_image").change(function() {
+    $(document).on("change",".form_image",function() {
         var file_data = $(this).prop('files')[0];
         var project_id = $(this).data('project');
+        var form_id = $(this).attr('data-formid');
         var form_name = $(this).data('form');
         var field_id = $(this).data('field');
         var form_data = new FormData();
@@ -2499,6 +1494,8 @@
         form_data.append('project_id', project_id);
         form_data.append('form_name', form_name);
         form_data.append('field_id', field_id);
+        form_data.append('form_id',form_id);
+
         $.ajax({
             url: "{{ url('/foreman-images') }}",
             type: "POST",
@@ -2565,4 +1562,68 @@
         wrapAround: false, // If true, when a user reaches the last image in a set, the right navigation arrow will appear and they will be to continue moving forward which will take them back to the first image in the set.
         sanitizeTitle: false
     })
+
+    $(document).on("click",".add-form",function(){
+        var ele=$(this);
+         var date=$(this).parents(".date-form").find(".form-date").val();
+         var type=$(this).parents(".date-form").find(".form-type").val();
+         var project_id=$(this).attr("data-project");
+         if(date=='')
+         {
+            alert("Please select date first");
+            return false;
+         }
+
+         $.ajax({
+            url: "{{ url('/create-dateform') }}",
+            type: "POST",
+            dataType:"json",
+            data: {date:date,type:type,project_id:project_id},
+            success: function(data) {
+                var res=data;
+                if(res.success=='true')
+             {   
+                Toast.fire({
+                    icon: 'success',
+                    title: "form created successfuly."
+                }).then(function(result) {
+                    var table=ele.parents(".date-form").siblings("table");
+                    table.find("tbody").html(res.html);
+                    ele.parents(".date-form").find(".form-date").val("");
+                });
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: res.msg
+                }).then(function(result) {
+                    
+                    ele.parents(".date-form").find(".form-date").val("");
+                }); 
+            }   
+            }
+        }); 
+    });
+
+    $(document).on("click",".edit-form",function(){
+        var id=$(this).attr('data-id');
+        var ele=$(this)
+         $.ajax({
+            url: "{{ url('/get-form') }}",
+            type: "POST",
+            data: {id:id},
+            success: function(html) {
+              var par=ele.parents(".create-form-container");
+              par.hide();
+              par.siblings(".edit-form-container").html(html)
+            }
+        }); 
+    });
+
+    $(document).on("click",".back-form",function(){
+        
+        var ele =  $(this).parents(".edit-form-container");
+        ele.siblings(".create-form-container").show();
+        ele.html("");
+        });
+        
 </script>

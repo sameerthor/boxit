@@ -87,6 +87,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/save-image', [App\Http\Controllers\ProjectController::class, 'save_image']);
     Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
+    Route::post('/delete-form', [App\Http\Controllers\ProjectController::class, 'deleteForm']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
     Route::post('/change-checkbox-status', [App\Http\Controllers\ProjectController::class, 'change_checkbox_status']);
     Route::get('/job-status', [App\Http\Controllers\JobStatusController::class, 'index'])->name('job_status');
@@ -156,12 +157,16 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/pods-steel', [App\Http\Controllers\ForemanController::class, 'pods_steel']);
   Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
   Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
+  Route::post('/create-dateform', [App\Http\Controllers\ForemanController::class, 'create_form']);
 
 });
 
 Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
     Route::get('/contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
     Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
+    Route::post('/get-form', [App\Http\Controllers\ForemanController::class, 'getForm']);
+    Route::post('/view-form', [App\Http\Controllers\ProjectController::class, 'viewForm']);
+
 });
 
 // User Authentication Routes

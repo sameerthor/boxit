@@ -28,6 +28,7 @@ use App\Models\QaSign;
 use Carbon\Carbon;
 use App\Models\PodsSteel;
 use App\Models\PodsSteelValue;
+use App\Models\FormPerDate;
 use Auth;
 use DB;
 use Twilio\Rest\Client;
@@ -438,6 +439,7 @@ class ForemanController extends Controller
     {
 
         $project = Booking::find($request->get('id'));
+        $forms=FormPerDate::where(['creator_id'=>Auth::id(),'project_id'=>$project->id])->get();
         $department_ids = BookingData::where('booking_id', $request->get('id'))->pluck('department_id');
         $markout_checklist = $project->MarkoutChecklist;
         $checked_checkbox_data = ProjectCheckboxStatus::where('project_id', $request->get('id'))->first();
@@ -447,11 +449,8 @@ class ForemanController extends Controller
             $checked_checkbox_status = [];
         }
         $startup_data = $project->StartupChecklist;
-        $safety = $project->SafetyPlan;
         $boxing_data = $project->boxing;
         $stripping_data = $project->stripping;
-        $incident_data = $project->incident;
-        $qaChecklist = QaChecklist::all();
         $pods_steel_label = PodsSteel::all();
         $foreman_images = Image::query();
         $ProjectStatusLabel = ProjectStatusLabel::where(function ($query) use ($department_ids) {
@@ -460,7 +459,7 @@ class ForemanController extends Controller
         })
             ->get();
         $contacts = Contact::all();
-        return view('foreman-single-project', compact('foreman_images', 'checked_checkbox_status', 'contacts', 'incident_data', 'pods_steel_label', 'stripping_data', 'safety', 'boxing_data', 'startup_data', 'project', 'qaChecklist', 'markout_checklist', 'ProjectStatusLabel'))->render();
+        return view('foreman-single-project', compact('forms','foreman_images', 'checked_checkbox_status', 'contacts', 'pods_steel_label', 'stripping_data', 'boxing_data', 'startup_data', 'project', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
 
     public function pods_steel(Request $request)
@@ -486,14 +485,14 @@ class ForemanController extends Controller
 
     public function storeQaChecklist(Request $request)
     {
-        $res = ProjectQaChecklist::where('project_id', $request->get('project_id'))->delete();
+        $res = ProjectQaChecklist::where('form_id', $request->get('form_id'))->delete();
         $initial = $request->get('initial');
         $office_use = $request->get('office_use');
-        $project_id = $request->get('project_id');
+        $form_id = $request->get('form_id');
         $insert_array = [];
         $final_array = [];
         foreach ($initial as $key => $val) {
-            $insert_array['project_id'] = $project_id;
+            $insert_array['form_id'] = $form_id;
             $insert_array['qa_checklist_id'] = $key;
             $insert_array['initial'] = $val != null ? $val : '';
             $insert_array['office_use'] = $office_use[$key] != null ? $office_use[$key] : '';
@@ -501,7 +500,7 @@ class ForemanController extends Controller
         }
         ProjectQaChecklist::insert($final_array);
         if (!empty($request->get('onsite_sign'))) {
-            QaSign::updateOrCreate(['qa_id' => $project_id], ['foreman_sign' => $request->get('onsite_sign')]);
+            QaSign::updateOrCreate(['qa_id' => $form_id], ['foreman_sign' => $request->get('onsite_sign')]);
         }
         return redirect()->to('check-list/')->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
     }
@@ -539,10 +538,10 @@ class ForemanController extends Controller
 
     public function accident_investigation(Request $request)
     {
-        $project_id = $request->get('project_id');
-        $res = Incident::where('project_id', $project_id)->delete();
+        $form_id = $request->get('form_id');
+        $res = Incident::where('form_id', $form_id)->delete();
         $final_array = $request->get('incident_data');
-        $final_array['project_id'] = $project_id;
+        $final_array['form_id'] = $form_id;
         Incident::insert($final_array);
         return redirect()->to('check-list/')->with('succes_msg', 'Incident data saved successfuly');
     }
@@ -620,7 +619,7 @@ class ForemanController extends Controller
     {
         $data = $request->except('_method', '_token');
         $post_data = $data['safety_plan'];
-        SafetyPlan::updateOrCreate(['project_id' => $request->get('project_id')], $post_data);
+        SafetyPlan::updateOrCreate(['form_id' => $request->get('form_id')], $post_data);
         return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
     }
 
@@ -641,6 +640,7 @@ class ForemanController extends Controller
         $image->project_id = $request->project_id;
         $image->form_name = $request->form_name;
         $image->field_id = $request->field_id;
+        $image->form_id = $request->form_id;
         if ($request->hasfile('image')) {
             $file = $request->file('image');
             $file_name = $file->getClientOriginalName();
@@ -660,5 +660,49 @@ class ForemanController extends Controller
         }
         $image->delete();
         return true;
+    }
+
+    public function create_form(Request $request)
+    {
+      $exist = FormPerDate::where(['project_id'=>$request->get('project_id'),'date'=>(new Carbon($request->get('date')))->format('Y-m-d'),'creator_id'=>Auth::id(),'form_type'=>$request->get('type')])->get();
+      if(!count($exist)>0)
+      {
+      FormPerDate::insert(['project_id'=>$request->get('project_id'),'date'=>(new Carbon($request->get('date')))->format('Y-m-d'),'creator_id'=>Auth::id(),'form_type'=>$request->get('type')]);
+        $forms=FormPerDate::where('form_type',$request->get('type'))->get();
+        $html='';
+        foreach($forms as $form)
+        {
+          $html.='<tr>';  
+          $html.='<td>'.$form->date.'</td>';
+          $html.='<td class="t-center"><a href="#" data-id="'.$form->id.'" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a></td>';
+      $html.='</tr>';
+        }   
+        return array("success"=>"true",'html'=>$html);
+       }else{
+        return array("success"=>"false",'msg'=>"Form already exist with given date.");
+
+       }
+    }
+
+    public function getForm(Request $request)
+    {
+      $form=FormPerDate::find($request->get('id'));
+      $project = Booking::find($form->project_id);
+      $safety = $form->SafetyPlan;
+      $incident_data = $form->incident;
+      $qaChecklist = QaChecklist::all();
+      $foreman_images = Image::query();
+      if($form->form_type==1)
+      {
+        return view('forms.onsite', compact('form','foreman_images', 'project',  'qaChecklist'))->render();
+      }elseif($form->form_type==2)
+      {
+        return view('forms.safety', compact('form','foreman_images', 'project', 'safety'))->render();
+      }elseif($form->form_type==3)
+      {
+        return view('forms.accident', compact('form','foreman_images', 'project',  'incident_data'))->render();
+
+      }
+
     }
 }
