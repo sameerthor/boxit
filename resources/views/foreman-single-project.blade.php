@@ -354,6 +354,26 @@
                     <input type="checkbox" disabled class="checked_type" {{in_array('7',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-7" value="7">FRU Spreadsheet
                     <span class="check"></span>
                 </label>
+                <label class="checkbox-inline" for="status-8">
+          <input type="checkbox" disabled class="checked_type" {{in_array('8',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-8" value="8">Cut Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-9">
+          <input type="checkbox" disabled class="checked_type" {{in_array('9',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-9" value="9">Upload Cut Inspection to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-10">
+          <input type="checkbox" disabled class="checked_type" {{in_array('10',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-10" value="10">Engineers Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-11">
+          <input type="checkbox" disabled class="checked_type" {{in_array('11',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-11" value="11">Upload Engineers Inspection to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-12">
+          <input type="checkbox" disabled class="checked_type" {{in_array('12',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-12" value="12">Council Inspection Received
+          <span class="check"></span>
+        </label>
             </div>
             <div class="form-group col-md-6 l-font-s">
                 <label>Notes</label>
