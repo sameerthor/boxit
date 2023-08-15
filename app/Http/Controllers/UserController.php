@@ -54,6 +54,8 @@ class UserController extends Controller
         {
         $user->password=bcrypt($request->password);
         }
+        $user->roles()->detach();
+        $user->assignRole($request->user_type);
         $user->email=$request->email;
         $user->contact=$request->contact;
         $user->save();
@@ -109,5 +111,10 @@ class UserController extends Controller
             $i++;
         }
         return true;
+     }
+
+     public function delete(Request $request){
+          User::find($request->get('id'))->delete();
+          return true;
      }
 }

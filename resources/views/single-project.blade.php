@@ -238,10 +238,6 @@
       <div class="form-group col-md-12">
         <label><b>Status</b></label>
         <br>
-        <label class="checkbox-inline" for="status-1">
-          <input type="checkbox" class="checked_type" {{in_array('1',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-1" value="1">Request Consent Conditions
-          <span class="check"></span>
-        </label>
         <label class="checkbox-inline" for="status-2">
           <input type="checkbox" class="checked_type" {{in_array('2',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-2" value="2">Add to Alpha One
           <span class="check"></span>
@@ -250,10 +246,24 @@
           <input type="checkbox" class="checked_type" {{in_array('3',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-3" value="3">Upload Plumber details to Alpha One
           <span class="check"></span>
         </label>
-        <label class="checkbox-inline" for="status-4">
-          <input type="checkbox" class="checked_type" {{in_array('4',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-4" value="4">Upload Redacted Concrete Invoice to Alpha One
+        <label class="checkbox-inline" for="status-9">
+          <input type="checkbox" class="checked_type" {{in_array('9',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-9" value="9">Upload Cut Inspection to Alpha One
           <span class="check"></span>
         </label>
+        <label class="checkbox-inline" for="status-13">
+          <input type="checkbox" class="checked_type" {{in_array('13',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-13" value="13">Upload BLC to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-11">
+          <input type="checkbox" class="checked_type" {{in_array('11',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-11" value="11">Upload Engineers Inspection to Alpha One
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-4">
+                    <input type="checkbox"  class="checked_type" {{in_array('4',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-4" value="4">Upload Redacted Concrete Invoice to Alpha One
+                    <span class="check"></span>
+                </label>
+        <br>
+        <br>
         <label class="checkbox-inline" for="status-5">
           <input type="checkbox" class="checked_type" {{in_array('5',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-5" value="5">Quote Accepted
           <span class="check"></span>
@@ -266,20 +276,20 @@
           <input type="checkbox" class="checked_type" {{in_array('7',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-7" value="7">FRU Spreadsheet
           <span class="check"></span>
         </label>
+         <label class="checkbox-inline" for="status-1">
+          <input type="checkbox" class="checked_type" {{in_array('1',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-1" value="1">Request Consent Conditions
+          <span class="check"></span>
+        </label>
         <label class="checkbox-inline" for="status-8">
           <input type="checkbox" class="checked_type" {{in_array('8',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-8" value="8">Cut Inspection Received
           <span class="check"></span>
         </label>
-        <label class="checkbox-inline" for="status-9">
-          <input type="checkbox" class="checked_type" {{in_array('9',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-9" value="9">Upload Cut Inspection to Alpha One
+        <label class="checkbox-inline" for="status-14">
+          <input type="checkbox" class="checked_type" {{in_array('14',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-14" value="14">BLC Received
           <span class="check"></span>
         </label>
-        <label class="checkbox-inline" for="status-10">
+       <label class="checkbox-inline" for="status-10">
           <input type="checkbox" class="checked_type" {{in_array('10',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-10" value="10">Engineers Inspection Received
-          <span class="check"></span>
-        </label>
-        <label class="checkbox-inline" for="status-11">
-          <input type="checkbox" class="checked_type" {{in_array('11',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-11" value="11">Upload Engineers Inspection to Alpha One
           <span class="check"></span>
         </label>
         <label class="checkbox-inline" for="status-12">

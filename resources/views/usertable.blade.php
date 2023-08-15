@@ -16,8 +16,11 @@
                 <td>{{@$user->roles->pluck('name')[0]}}</td>
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
-                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
-                  </div>
+                  <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
+                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="delete dropdown-item">Delete</a>
+                    @if(@$user->roles->pluck('name')[0]=='Foreman')
+                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="leaves dropdown-item">Leaves</a>
+                    @endif                  </div>
                 </td>
               </tr>
               @endforeach

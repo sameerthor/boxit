@@ -52,6 +52,7 @@
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
+                    <a href="javascript:void(0)" data-id='{{$user->id}}' class="delete dropdown-item">Delete</a>
                     @if(@$user->roles->pluck('name')[0]=='Foreman')
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="leaves dropdown-item">Leaves</a>
                     @endif
@@ -123,7 +124,7 @@
               <button type="button" class="pull-right btn btn-primary btn-color repeater-add-btn"> Add</button>
             </div>
             <br>
-          
+
           </div>
         </div>
         <div class="modal-footer">
@@ -164,7 +165,7 @@
           <div class="form-group">
             <label for="user_type" class="col-form-label">User Type:</label>
             <select name="user_type" class="form-control" id="user_type">
-            <option value="">Select user role</option>
+              <option value="">Select user role</option>
               <option value="Admin">Admin</option>
               <option value="Foreman">Foreman</option>
               <option value="Project Manager">Project Manager</option>
@@ -187,11 +188,11 @@
         <label class="col-md-5">To Date:<input type="date" required name="to_date[]" class="to_date form-control"></label>
         <div class="col-md-1"></div>
       </div>
-        <div class="pull-right mt-1 mb-3 repeater-remove-btn">
-          <button id="remove-btn" class="btn btn-danger " onclick="$(this).parents('.items').remove();getIframehtml();">
-            Remove
-          </button>
-        </div>
+      <div class="pull-right mt-1 mb-3 repeater-remove-btn">
+        <button id="remove-btn" class="btn btn-danger " onclick="$(this).parents('.items').remove();getIframehtml();">
+          Remove
+        </button>
+      </div>
     </div>
 
   </div>
@@ -264,10 +265,10 @@
       .map(function() {
         return $(this).val();
       }).get();
-      var from_dates = $("#leaves_form").find("input[name='from_date[]']")
+    var from_dates = $("#leaves_form").find("input[name='from_date[]']")
       .map(function() {
         return $(this).val();
-      }).get();  
+      }).get();
 
     jQuery.ajax({
       type: 'POST',
@@ -289,9 +290,42 @@
 
   }
 
+  $(document).on("click", ".delete", function() {
+    var id = $(this).data('id');
+    Swal.fire({
+      title: "Do you want to delete this user ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'No',
+      dangerMode: true,
+    }).then(function(result) {
+      if (result.isConfirmed) {
+
+        jQuery.ajax({
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            id: id
+          },
+          url: "{{ route('user.delete') }}",
+          success: function(data) {
+            refreshtable();
+            Toast.fire({
+              icon: 'success',
+              title: "User deleted  successfuly."
+            })
+          }
+        });
+
+      }
+    });
+  })
+
   $(document).on("click", ".edit", function() {
     $("#email").attr('readonly', true);
-    $("#user_type").attr('readonly', true);
     let id = $(this).data('id');
     var user_type = $(this).parents('tr').find(".user_type").html();
     jQuery.ajax({
@@ -352,20 +386,17 @@
       var contact = $("#contact").val();
       var password = $("#password").val();
       var user_type = $("#user_type").val();
-      if(name=="")
-      {
-       alert("Please enter name."); 
-       return false;
+      if (name == "") {
+        alert("Please enter name.");
+        return false;
       }
-      if(email=="")
-      {
-       alert("Please enter email."); 
-       return false;
+      if (email == "") {
+        alert("Please enter email.");
+        return false;
       }
-      if(user_type=="")
-      {
-       alert("Please select user role."); 
-       return false;
+      if (user_type == "") {
+        alert("Please select user role.");
+        return false;
       }
       jQuery.ajax({
         type: 'POST',
@@ -505,6 +536,5 @@
     // Remove buttons irrelevant for pasting from external sources.
     removeButtons: 'ExportPdf,Form,Checkbox,Radio,TextField,Select,Textarea,Button,ImageButton,HiddenField,NewPage,CreateDiv,Flash,Iframe,About,ShowBlocks,Maximize',
   });
-  
 </script>
 @endsection
