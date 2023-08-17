@@ -182,7 +182,17 @@
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
                   <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Waste Pipe Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Waste Pipe Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
+                </div>`
+                <br>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input council-checkboxes" {{array_key_exists('Underslab Drainage Inspection',$draft->DraftData[$department->id][$council_id])?'checked':''}} name="department[{{$department->id}}][Underslab Drainage Inspection]" value="36">
+                    <label class="form-check-label">Underslab Drainage Inspection</label>
+                  </div>
                 </div>
+                <div class="col-md-5 form-group paid-none-r bg-shadow">
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Underslab Drainage Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Underslab Drainage Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
+                </div>`
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">
@@ -234,6 +244,16 @@
                 </div>
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
                   <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Waste Pipe Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Waste Pipe Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
+                </div>
+                <br>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input council-checkboxes" {{array_key_exists('Underslab Drainage Inspection',$draft->DraftData[$department->id][$council_id])?'checked':''}} name="department[{{$department->id}}][Underslab Drainage Inspection]" value="37">
+                    <label class="form-check-label">Underslab Drainage Inspection</label>
+                  </div>
+                </div>
+                <div class="col-md-5 form-group paid-none-r bg-shadow">
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Underslab Drainage Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Underslab Drainage Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
                 <br>
                 <div class="col-md-6">
@@ -290,6 +310,16 @@
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">
+                    <input type="checkbox" class="form-check-input council-checkboxes" {{array_key_exists('Underslab Drainage Inspection',$draft->DraftData[$department->id][$council_id])?'checked':''}} name="department[{{$department->id}}][Underslab Drainage Inspection]" value="38">
+                    <label class="form-check-label">Underslab Drainage Inspection</label>
+                  </div>
+                </div>
+                <div class="col-md-5 form-group paid-none-r bg-shadow">
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Underslab Drainage Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Underslab Drainage Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
+                </div>
+                <br>
+                <div class="col-md-6">
+                  <div class="form-check">
                     <input type="checkbox" class="form-check-input council-checkboxes" {{array_key_exists('Other',$draft->DraftData[$department->id][$council_id])?'checked':''}} name="department[{{$department->id}}][Other]" value="38">
                     <label class="form-check-label">Other</label>
                   </div>
@@ -339,6 +369,16 @@
                 <div class="col-md-5 form-group paid-none-r bg-shadow">
                   <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Waste Pipe Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Waste Pipe Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
                 </div>
+                <br>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input council-checkboxes" {{array_key_exists('Underslab Drainage Inspection',$draft->DraftData[$department->id][$council_id])?'checked':''}} name="department[{{$department->id}}][Underslab Drainage Inspection]" value="39">
+                    <label class="form-check-label">Underslab Drainage Inspection</label>
+                  </div>
+                </div>
+                <div class="col-md-5 form-group paid-none-r bg-shadow">
+                  <i class="fa fa-angle-down"></i> <input name="date[{{$department->id}}][Underslab Drainage Inspection]" value="{{@$draft->DraftData[$department->id][$council_id]['Underslab Drainage Inspection']}}" class="example dates" type="text" placeholder="Choose Date & Time" />
+                </div>`
                 <br>
                 <div class="col-md-6">
                   <div class="form-check">

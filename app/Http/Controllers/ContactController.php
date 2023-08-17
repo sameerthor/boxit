@@ -28,7 +28,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::with(["contacts" => function ($q) {
+            $q->orderBy('title','ASC');
+        }])->get();
 
         return view('contact', compact('departments'));
     }

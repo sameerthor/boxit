@@ -53,9 +53,7 @@
                   <div class="dropdown-menu">
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="edit dropdown-item">Edit</a>
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="delete dropdown-item">Delete</a>
-                    @if(@$user->roles->pluck('name')[0]=='Foreman')
                     <a href="javascript:void(0)" data-id='{{$user->id}}' class="leaves dropdown-item">Leaves</a>
-                    @endif
                   </div>
                 </td>
               </tr>
