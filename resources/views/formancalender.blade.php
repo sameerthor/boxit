@@ -155,13 +155,13 @@
 <div id="content">
 	<div class="row p-15 prl-30 border-all">
 		<div class="col-md-3 cal-flex month_div" style="display:none">
-			<div class="arrow-l-style" v-on:click="daily_nav(-1)">
+			<div class="arrow-l-style" v-on:click="monthly_nav(-1)">
 				<img src="img/arrow-l.png">
 			</div>
 			<div class="mnth-style">
 				{{months[month_index]}} {{year}}
 			</div>
-			<div class="arrow-l-style" v-on:click="daily_nav(+1)">
+			<div class="arrow-l-style" v-on:click="monthly_nav(+1)">
 				<img src="img/arrow-r.png">
 			</div>
 		</div>
