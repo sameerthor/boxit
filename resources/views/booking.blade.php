@@ -39,7 +39,7 @@
             <div class="form-group col-md-4 bg-shadow">
               <i id="pos-r" class="fa fa-angle-down"></i><select class="form-control" style="width: 100%;" name="department[{{$departments[0]->id}}]" required>
                 <option value="">Building Company*</option>
-                @foreach($departments[0]->contacts->sortBy('title') as $res)
+                @foreach($departments[0]->contacts as $res)
                 <option value="{{$res->id}}">{{$res->title}}</option>
                 @endforeach
               </select>
@@ -72,7 +72,7 @@
                   <div class="input-group input-group-xs">
                     <i class="fa fa-angle-down"></i> <select class="form-control contacts koma" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
-                      @foreach($department->contacts->sortBy('title') as $res)
+                      @foreach($department->contacts as $res)
                       <option value="{{$res->id}}">{{$res->title}}</option>
                       @endforeach
                     </select>

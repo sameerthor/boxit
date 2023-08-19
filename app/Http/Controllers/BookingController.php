@@ -43,7 +43,10 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::with(["contacts" => function ($q) {
+            $q->orderBy('title','ASC');
+        }])->get();
+        
         $foreman = User::whereHas("roles", function ($q) {
             $q->where("name", "Foreman");
         })->get();
