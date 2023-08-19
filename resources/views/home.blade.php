@@ -192,9 +192,11 @@
 			</div>
 		</div>
 		<div class="col-md-3 cal-flex date_div">
+
 			<div class="mnth-style">
 				{{today_date}}
 			</div>
+
 		</div>
 	</div>
 	<div class="row">
@@ -454,8 +456,14 @@
 			</div>
 		</div>
 		<div class="col-md-3 cal-flex date_div" style="display:none">
+			<div class="arrow-l-style" v-on:click="daily_nav(-1)">
+				<img src="img/arrow-l.png">
+			</div>
 			<div class="mnth-style">
 				{{today_date}}
+			</div>
+			<div class="arrow-l-style" v-on:click="daily_nav(+1)">
+				<img src="img/arrow-r.png">
 			</div>
 		</div>
 		<div class="col-md-2 wickly-btn">
@@ -569,7 +577,7 @@
 				var last_c = count - 3;
 				$(this).find('span').slice(0 - last_c).addClass("hidden_bookings");
 				$(this).find('span').slice(0 - last_c).hide();
-				$(this).append("<span class='show_more' >" + last_c + " more project"+(last_c==1?'':'s')+"..</span>");
+				$(this).append("<span class='show_more' >" + last_c + " more project" + (last_c == 1 ? '' : 's') + "..</span>");
 				$(this).append("<span class='show_less' style='display:none'>Show Less</span>");
 
 			}
@@ -577,8 +585,8 @@
 	}
 
 	$(document).on("click", ".show_more", function() {
-       $(this).parents(".booked_div").find("span").show();
-	   $(this).hide();
+		$(this).parents(".booked_div").find("span").show();
+		$(this).hide();
 	});
 
 	$(document).on("click", ".show_less", function() {
@@ -825,6 +833,13 @@
 				this.foreman_id = event.target.value;
 				this.getCalender();
 
+			},
+			daily_nav: function(todo) {
+				if (todo == 1)
+					this.today_date = moment(this.today_date, "DD MMMM YYYY").add('days', 1).format('DD MMMM YYYY');
+				if (todo == -1)
+					this.today_date = moment(this.today_date, "DD MMMM YYYY").subtract('days', 1).format('DD MMMM YYYY');
+				this.getCalender();
 			},
 			month_nav: function(todo) {
 				var new_index = this.month_index + todo;

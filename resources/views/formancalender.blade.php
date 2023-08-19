@@ -75,8 +75,8 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">	
-				<div id="single_note">	
+			<div class="modal-body">
+				<div id="single_note">
 				</div>
 			</div>
 		</div>
@@ -93,8 +93,8 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">	
-				<div id="leave_note">	
+			<div class="modal-body">
+				<div id="leave_note">
 				</div>
 			</div>
 		</div>
@@ -102,14 +102,14 @@
 </div>
 @mobile
 <style>
-	div#daily_calender .col-md-12.cal-flex.bookings  {
+	div#daily_calender .col-md-12.cal-flex.bookings {
 		flex-wrap: wrap;
 	}
 
-	div#daily_calender .show_booking{
-      margin-top: 10px !important;
+	div#daily_calender .show_booking {
+		margin-top: 10px !important;
 	}
-	
+
 	.list-enter-active {
 		animation: fade-in 0.20s ease-in-out;
 	}
@@ -185,8 +185,8 @@
 	</div>
 	<div id="daily_calender" class="calenders">
 		<div class="row p-15">
-			<div class="col-md-12 cal-flex bookings" style="justify-content:center" >
-			
+			<div class="col-md-12 cal-flex bookings" style="justify-content:center">
+
 			</div>
 		</div>
 	</div>
@@ -392,14 +392,16 @@
 		background-color: #182a4e;
 		color: white !important;
 	}
-	div#daily_calender .col-md-12.cal-flex.bookings {
-    flex-wrap: wrap;
-	flex-direction: column;
 
-}
-div#daily_calender .show_booking {
-    margin-top: 2% !important;
-}
+	div#daily_calender .col-md-12.cal-flex.bookings {
+		flex-wrap: wrap;
+		flex-direction: column;
+
+	}
+
+	div#daily_calender .show_booking {
+		margin-top: 2% !important;
+	}
 </style>
 @verbatim
 <div id="content">
@@ -416,8 +418,14 @@ div#daily_calender .show_booking {
 			</div>
 		</div>
 		<div class="col-md-3 cal-flex date_div" style="display:none">
+			<div class="arrow-l-style" v-on:click="daily_nav(-1)">
+				<img src="img/arrow-l.png">
+			</div>
 			<div class="mnth-style">
 				{{today_date}}
+			</div>
+			<div class="arrow-l-style" v-on:click="daily_nav(+1)">
+				<img src="img/arrow-r.png">
 			</div>
 		</div>
 		<div class="col-md-2 wickly-btn">
@@ -472,8 +480,8 @@ div#daily_calender .show_booking {
 	</div>
 	<div id="daily_calender" class="calenders" style="display:none">
 		<div class="row p-15">
-			<div class="col-md-12 cal-flex bookings" style="justify-content:center" >
-			
+			<div class="col-md-12 cal-flex bookings" style="justify-content:center">
+
 			</div>
 		</div>
 	</div>
@@ -517,7 +525,7 @@ div#daily_calender .show_booking {
 				var last_c = count - 3;
 				$(this).find('span').slice(0 - last_c).addClass("hidden_bookings");
 				$(this).find('span').slice(0 - last_c).hide();
-				$(this).append("<span class='show_more' >" + last_c + " more project"+(last_c==1?'':'s')+"..</span>");
+				$(this).append("<span class='show_more' >" + last_c + " more project" + (last_c == 1 ? '' : 's') + "..</span>");
 				$(this).append("<span class='show_less' style='display:none'>Show Less</span>");
 
 			}
@@ -527,8 +535,8 @@ div#daily_calender .show_booking {
 	if (/Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 		is_mobile = true;
 
-		$(document).on('change', '#calender_type', function() {
-			if ($(this).val() == 'week') {
+	$(document).on('change', '#calender_type', function() {
+		if ($(this).val() == 'week') {
 			$('#weekly_calender').show();
 			$('#monthly_calender').hide();
 			$('#daily_calender').hide();
@@ -709,7 +717,7 @@ div#daily_calender .show_booking {
 							// console.log(this.mobile_calender);
 						});
 
-						
+
 
 				} else {
 					axios.post('/foreman-calender', {
@@ -723,14 +731,14 @@ div#daily_calender .show_booking {
 						})
 				}
 				axios.post('/foreman-calender-daily', {
-							today_date: this.today_date,
-							foreman_id: this.foreman_id
-						})
-						.then((response) => {
+						today_date: this.today_date,
+						foreman_id: this.foreman_id
+					})
+					.then((response) => {
 
-							$("#daily_calender").find(".bookings").html(response.data)
-						})
-						
+						$("#daily_calender").find(".bookings").html(response.data)
+					})
+
 				axios.post('/foreman-calender-monthly', {
 						year: this.year,
 						month: this.month_index,
@@ -739,15 +747,17 @@ div#daily_calender .show_booking {
 						$(".monthly_dates").html(response.data)
 					})
 
-					axios.post('/foreman-notes-dates', {
-						    year: this.year,
-							month: this.month_index,
-							dates: this.items[this.activeStep]
+				axios.post('/foreman-notes-dates', {
+						year: this.year,
+						month: this.month_index,
+						dates: this.items[this.activeStep]
+					})
+					.then((response) => {
+						$(".cal-days").removeClass('noteExist');
+						response.data.map(item => {
+							$(".cal-days").find(`[data-date='${item}']`).addClass('noteExist')
 						})
-						.then((response) => {
-							$(".cal-days").removeClass('noteExist');
-							response.data.map(item => {$(".cal-days").find(`[data-date='${item}']`).addClass('noteExist')})	
-						})	
+					})
 			},
 			randomIndex: function() {
 				return Math.floor(Math.random() * this.items.length)
@@ -756,6 +766,13 @@ div#daily_calender .show_booking {
 				this.activeStep++;
 				this.getCalender();
 
+			},
+			daily_nav: function(todo) {
+				if (todo == 1)
+					this.today_date = moment(this.today_date, "DD MMMM YYYY").add('days', 1).format('DD MMMM YYYY');
+				if (todo == -1)
+					this.today_date = moment(this.today_date, "DD MMMM YYYY").subtract('days', 1).format('DD MMMM YYYY');
+				this.getCalender();
 			},
 			remove: function() {
 				this.activeStep--;
@@ -785,9 +802,9 @@ div#daily_calender .show_booking {
 
 	$(document).on('click', '#booking_address', function() {
 
-var id=$(this).attr('data-id');
-window.location.href="<?php echo URL('check-list?project_id=') ?>"+id
-});
+		var id = $(this).attr('data-id');
+		window.location.href = "<?php echo URL('check-list?project_id=') ?>" + id
+	});
 
 	$(document).on('click', '.show_booking', function() {
 		var id = $(this).data('id');
@@ -795,7 +812,7 @@ window.location.href="<?php echo URL('check-list?project_id=') ?>"+id
 				id: id
 			})
 			.then((response) => {
-				$("#booking_address").attr('data-id',response.data.id);
+				$("#booking_address").attr('data-id', response.data.id);
 				$("#booking_address").html(response.data.address);
 				$("#floor_type").html(response.data.floor_type);
 				$("#floor_area").html(response.data.floor_area);
@@ -815,7 +832,7 @@ window.location.href="<?php echo URL('check-list?project_id=') ?>"+id
 	$(document).on('click', '.show_notes', function() {
 		$("#foremanModal").modal("show");
 		var id = <?php echo Auth::user()->id; ?>;
-		var date=$(this).data('date');
+		var date = $(this).data('date');
 		$("#foremanModalLabel").find("span").html(date);
 
 		axios.post('/foreman-notes', {
@@ -823,19 +840,18 @@ window.location.href="<?php echo URL('check-list?project_id=') ?>"+id
 				id: id
 			})
 			.then((response) => {
-				if(response.data!="")
-				$("#single_note").html(response.data);
+				if (response.data != "")
+					$("#single_note").html(response.data);
 				else
-				$("#single_note").html("<p>No note available for this date.</p>");
+					$("#single_note").html("<p>No note available for this date.</p>");
 
 			})
 	})
-    $(document).on("click",".annual_leave",function() {
-		var note=$(this).attr("data-note");
+	$(document).on("click", ".annual_leave", function() {
+		var note = $(this).attr("data-note");
 		console.log(note);
-		if(note=="" || note===null)
-		{
-            note="N/A";
+		if (note == "" || note === null) {
+			note = "N/A";
 		}
 		$("#leave_note").html(note);
 		$("#leaveModal").modal("show");
