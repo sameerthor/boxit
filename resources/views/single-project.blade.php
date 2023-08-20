@@ -1,4 +1,29 @@
 <style>
+      .image_container {
+        width: fit-content;
+        position: relative;
+    }
+
+    .file-remover {
+        position: absolute !important;
+        top: -15px;
+        right: -10px;
+    }
+
+    .image_container {
+        width: fit-content;
+        position: relative;
+    }
+
+    .image-upload>input {
+        display: none;
+    }
+
+    .image-upload img {
+        width: 32px;
+        cursor: pointer;
+    }
+
   iframe {
     display: block;
     width: 100%;
@@ -259,9 +284,9 @@
           <span class="check"></span>
         </label>
         <label class="checkbox-inline" for="status-4">
-                    <input type="checkbox"  class="checked_type" {{in_array('4',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-4" value="4">Upload Redacted Concrete Invoice to Alpha One
-                    <span class="check"></span>
-                </label>
+          <input type="checkbox" class="checked_type" {{in_array('4',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-4" value="4">Upload Redacted Concrete Invoice to Alpha One
+          <span class="check"></span>
+        </label>
         <br>
         <br>
         <label class="checkbox-inline" for="status-5">
@@ -276,7 +301,7 @@
           <input type="checkbox" class="checked_type" {{in_array('7',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-7" value="7">FRU Spreadsheet
           <span class="check"></span>
         </label>
-         <label class="checkbox-inline" for="status-1">
+        <label class="checkbox-inline" for="status-1">
           <input type="checkbox" class="checked_type" {{in_array('1',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-1" value="1">Request Consent Conditions
           <span class="check"></span>
         </label>
@@ -288,7 +313,7 @@
           <input type="checkbox" class="checked_type" {{in_array('14',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-14" value="14">BLC Received
           <span class="check"></span>
         </label>
-       <label class="checkbox-inline" for="status-10">
+        <label class="checkbox-inline" for="status-10">
           <input type="checkbox" class="checked_type" {{in_array('10',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-10" value="10">Engineers Inspection Received
           <span class="check"></span>
         </label>
@@ -555,7 +580,7 @@
                   <tr>
                     <td>{{$form->date}}</td>
                     <td>{{$form->creator->name}}</td>
-                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
                   </tr>
@@ -692,7 +717,7 @@
                   <tr>
                     <td>{{$form->date}}</td>
                     <td>{{$form->creator->name}}</td>
-                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
                   </tr>
@@ -726,7 +751,7 @@
                   <tr>
                     <td>{{$form->date}}</td>
                     <td>{{$form->creator->name}}</td>
-                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                    <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
                   </tr>
@@ -1427,39 +1452,122 @@
         });
       });
 
-      $(document).on("click",".back-form",function(){
-        
-      var ele =  $(this).parents(".edit-form-container");
-      ele.siblings(".create-form-container").show();
-      ele.html("");
-      });
 
-      
-      $(document).on("click", ".delete-form", function() {
+      $(document).on("click", ".edit-form", function() {
         var id = $(this).attr('data-id');
         var ele = $(this)
-        Swal.fire({
-      title: "Do you want to delete ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'No',
-      dangerMode: true,
-    }).then(function(result) {
-      if (result.isConfirmed) {
         $.ajax({
-          url: "{{ url('/delete-form') }}",
+          url: "{{ url('/get-form') }}",
           type: "POST",
           data: {
             id: id
           },
-          success: function(data) {
-            ele.parents("tr").remove();
+          success: function(html) {
+            var par = ele.parents(".create-form-container");
+            par.hide();
+            par.siblings(".edit-form-container").html(html)
           }
         });
-      }
-    });
+      });
+
+      $(document).on("click", ".back-form", function() {
+
+        var ele = $(this).parents(".edit-form-container");
+        ele.siblings(".create-form-container").show();
+        ele.html("");
+      });
+
+
+      $(document).on("click", ".delete-form", function() {
+        var id = $(this).attr('data-id');
+        var ele = $(this)
+        Swal.fire({
+          title: "Do you want to delete ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          confirmButtonColor: '#28a745',
+          cancelButtonColor: '#dc3545',
+          cancelButtonText: 'No',
+          dangerMode: true,
+        }).then(function(result) {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "{{ url('/delete-form') }}",
+              type: "POST",
+              data: {
+                id: id
+              },
+              success: function(data) {
+                ele.parents("tr").remove();
+              }
+            });
+          }
+        });
+      });
+
+      $(document).on("change", ".form_image", function() {
+        var file_data = $(this).prop('files')[0];
+        var project_id = $(this).data('project');
+        var form_id = $(this).attr('data-formid');
+        var form_name = $(this).data('form');
+        var field_id = $(this).data('field');
+        var form_data = new FormData();
+        form_data.append('image', file_data);
+        form_data.append('project_id', project_id);
+        form_data.append('form_name', form_name);
+        form_data.append('field_id', field_id);
+        form_data.append('form_id', form_id);
+
+        $.ajax({
+          url: "{{ url('/foreman-images') }}",
+          type: "POST",
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(data) {
+            Toast.fire({
+              icon: 'success',
+              title: "Image saved successfuly."
+            }).then(function(result) {
+              refreshpage();
+            });
+          }
+        });
+      });
+
+
+      $(".file-remover").on("click", function() {
+        var id = $(this).data('id');
+        Swal.fire({
+          title: "Are you sure you want to delete the image?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          confirmButtonColor: '#28a745',
+          cancelButtonColor: '#dc3545',
+          cancelButtonText: 'No',
+          dangerMode: true,
+        }).then(function(result) {
+          if (result.isConfirmed) {
+            jQuery.ajax({
+              url: "{{ url('/delete-foreman-image') }}",
+              method: 'post',
+              data: {
+                id: id,
+              },
+              success: function(result) {
+                Toast.fire({
+                  icon: 'success',
+                  title: "Image deleted successfuly."
+                }).then(function(result) {
+                  refreshpage();
+                });
+              }
+            });
+          }
+        });
+
       });
     </script>

@@ -502,7 +502,7 @@ class ForemanController extends Controller
         if (!empty($request->get('onsite_sign'))) {
             QaSign::updateOrCreate(['qa_id' => $form_id], ['foreman_sign' => $request->get('onsite_sign')]);
         }
-        return redirect()->to('check-list/')->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
+        return redirect()->back()->with('succes_msg', 'Onsite & QA Checklist saved successfuly');
     }
 
 
@@ -543,7 +543,7 @@ class ForemanController extends Controller
         $final_array = $request->get('incident_data');
         $final_array['form_id'] = $form_id;
         Incident::insert($final_array);
-        return redirect()->to('check-list/')->with('succes_msg', 'Incident data saved successfuly');
+        return redirect()->back()->with('succes_msg', 'Incident data saved successfuly');
     }
 
     public function boxing(Request $request)
@@ -620,7 +620,7 @@ class ForemanController extends Controller
         $data = $request->except('_method', '_token');
         $post_data = $data['safety_plan'];
         SafetyPlan::updateOrCreate(['form_id' => $request->get('form_id')], $post_data);
-        return redirect()->to('check-list/')->with('succes_msg', 'Safety plan saved successfuly');
+        return redirect()->back()->with('succes_msg', 'Safety plan saved successfuly');
     }
 
     public function foreman_notes(Request $request)

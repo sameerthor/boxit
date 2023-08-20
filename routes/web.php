@@ -148,16 +148,10 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/foreman-calender-detail', [App\Http\Controllers\ForemanController::class, 'modal_data']);
   Route::post('/foreman-notes-dates', [App\Http\Controllers\ForemanController::class, 'notes_dates']);
   Route::post('/foreman-single-project', [App\Http\Controllers\ForemanController::class, 'renderproject']);
-  Route::post('/foreman-images', [App\Http\Controllers\ForemanController::class, 'save_image']);
-  Route::post('/delete-foreman-image', [App\Http\Controllers\ForemanController::class, 'delete_image']);
-  Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
-  Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
   Route::post('/startup_checklist', [App\Http\Controllers\ForemanController::class, 'storeStartuplist']);
   Route::post('/boxing', [App\Http\Controllers\ForemanController::class, 'boxing']);
-  Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
   Route::post('/pods-steel', [App\Http\Controllers\ForemanController::class, 'pods_steel']);
   Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
-  Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
   Route::post('/create-dateform', [App\Http\Controllers\ForemanController::class, 'create_form']);
 
 });
@@ -167,7 +161,12 @@ Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
     Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
     Route::post('/get-form', [App\Http\Controllers\ForemanController::class, 'getForm']);
     Route::post('/view-form', [App\Http\Controllers\ProjectController::class, 'viewForm']);
-
+    Route::post('/foreman-images', [App\Http\Controllers\ForemanController::class, 'save_image']);
+    Route::post('/delete-foreman-image', [App\Http\Controllers\ForemanController::class, 'delete_image']);
+    Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
+    Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
+    Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
+    Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
 });
 
 // User Authentication Routes
