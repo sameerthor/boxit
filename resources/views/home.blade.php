@@ -90,7 +90,7 @@
 							@foreach($foremans as $foreman)
 							<tr>
 								<th scope="row">{{$loop->iteration}}</th>
-								<td>{{$foreman->name}}</td>
+								<td>{{$foreman?->name}}</td>
 								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><img src="{{asset('img/edit-box-fill.png')}}"></span></td>
 							</tr>
 							@endforeach
@@ -215,7 +215,7 @@
 				<option value="">All Foreman</option>
 				<?php foreach ($foremans as $foreman) { ?>
 					<option value="<?= $foreman->id ?>">
-						<?= ucfirst($foreman->name); ?>
+						<?= ucfirst($foreman?->name); ?>
 					</option>
 				<?php } ?>
 			</select>
@@ -484,7 +484,7 @@
 				<option value="">All Foreman</option>
 				<?php foreach ($foremans as $foreman) { ?>
 					<option value="<?= $foreman->id ?>">
-						<?= ucfirst($foreman->name); ?>
+						<?= ucfirst($foreman?->name); ?>
 					</option>
 				<?php } ?>
 			</select>

@@ -328,7 +328,7 @@ class ForemanController extends Controller
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
 										<p>Foreman</p>
-										<span>' . ucfirst($booking->foreman->name) . '</span>
+										<span>' . ucfirst($booking->foreman?->name) . '</span>
 									</div>';
            foreach ($booking_data->slice(1, (int)count($booking_data)/2) as $res) {
             $title = $res->department->title . ($res->service != '' ? ' (' . $res->service . ')' : '') .($res->reorder_no != '0' ? ' (Reorder' . $res->reorder_no . ')' : '');

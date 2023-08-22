@@ -12,7 +12,7 @@
                                             <th colspan="2" style="background-color:#c9ced6;">PROJECT/SITE: {{$project->address}}</th>
                                         </tr>
                                         <tr style="height: 30px;">
-                                            <th style="width:55%;background-color:#c9ced6;">FOREMAN/SUPERVISOR: {{$project->foreman->name}}</th>
+                                            <th style="width:55%;background-color:#c9ced6;">FOREMAN/SUPERVISOR: {{$project->foreman?->name}}</th>
                                             <th style="width:45%;background-color:#c9ced6;">Date: <input type="date" style="width:70%;background-color: #c9ced6;" value="{{ $incident_data!=null ? $incident_data->date : '' }}" name="incident_data[date]" value=""></th>
                                         </tr>
                                         <tr style="height: 130px;">
