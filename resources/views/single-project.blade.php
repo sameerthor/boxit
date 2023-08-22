@@ -324,7 +324,7 @@
       </div>
       <div class="form-group col-md-6 l-font-s">
         <label>Foreman <span class="edit_icon"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></span><span style="display:none" data-id="<?php echo $project->id; ?>" class="save_icon" data-field="foreman_id"><i class="fa fa-save fa-lg"></i></span></label>
-        <p class="view_item">{{ucfirst($project->foreman->name)}}</p>
+        <p class="view_item">{{ucfirst($project->foreman?->name)}}</p>
         <select class="form-control edit_item col-md-3" style="display:none;">
           @foreach($foremans as $f)
           <option value="{{$f->id}}" <?php if ($f->id == $project->foreman_id) echo "selected"; ?>>{{ucfirst($f->name)}}</option>
