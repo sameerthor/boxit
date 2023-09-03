@@ -152,7 +152,6 @@ Route::middleware('role:Foreman')->group(function () {
   Route::post('/boxing', [App\Http\Controllers\ForemanController::class, 'boxing']);
   Route::post('/pods-steel', [App\Http\Controllers\ForemanController::class, 'pods_steel']);
   Route::post('/stripping', [App\Http\Controllers\ForemanController::class, 'stripping']);
-  Route::post('/create-dateform', [App\Http\Controllers\ForemanController::class, 'create_form']);
 
 });
 
@@ -167,6 +166,8 @@ Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
     Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);
     Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
     Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
+    Route::post('/create-dateform', [App\Http\Controllers\ForemanController::class, 'create_form']);
+
 });
 
 // User Authentication Routes

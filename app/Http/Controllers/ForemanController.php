@@ -668,7 +668,7 @@ class ForemanController extends Controller
       if(!count($exist)>0)
       {
       FormPerDate::insert(['project_id'=>$request->get('project_id'),'date'=>(new Carbon($request->get('date')))->format('Y-m-d'),'creator_id'=>Auth::id(),'form_type'=>$request->get('type')]);
-        $forms=FormPerDate::where('form_type',$request->get('type'))->get();
+        $forms=FormPerDate::where('form_type',$request->get('type'))->where('project_id',$request->get('project_id'))->get();
         $html='';
         foreach($forms as $form)
         {

@@ -567,7 +567,12 @@
             <div class="create-form-container">
               <h5>Onsite & QA Checklist</h5>
               <br>
-
+              <div class="row date-form">
+    <input type="hidden" class="form-type" value="1">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
               <table class="table table-sm">
                 <thead>
                   <th>Date</th>
@@ -704,7 +709,12 @@
             <div class="create-form-container">
               <h5>Safety plan</h5>
               <br>
-
+              <div class="row date-form">
+    <input type="hidden" class="form-type" value="2">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
               <table class="table table-sm">
                 <thead>
                   <th>Date</th>
@@ -739,6 +749,12 @@
             <div class="create-form-container">
               <h5>Accident/Incident Investigation</h5>
               <br>
+              <div class="row date-form">
+    <input type="hidden" class="form-type" value="3">
+    <div class="col-md-3"><input type="date" class="form-control form-date"></div>
+    <div class="col-md-3"><button class="btn btn-primary add-form" data-project="{{$project->id}}">Add Form</button></div>
+    <div class="col-md-6"></div>
+</div>
               <table class="table table-sm">
                 <thead>
                   <th>Date</th>
@@ -1570,4 +1586,44 @@
         });
 
       });
+      $(document).on("click",".add-form",function(){
+        var ele=$(this);
+         var date=$(this).parents(".date-form").find(".form-date").val();
+         var type=$(this).parents(".date-form").find(".form-type").val();
+         var project_id=$(this).attr("data-project");
+         if(date=='')
+         {
+            alert("Please select date first");
+            return false;
+         }
+
+         $.ajax({
+            url: "{{ url('/create-dateform') }}",
+            type: "POST",
+            dataType:"json",
+            data: {date:date,type:type,project_id:project_id},
+            success: function(data) {
+                var res=data;
+                if(res.success=='true')
+             {   
+                Toast.fire({
+                    icon: 'success',
+                    title: "form created successfuly."
+                }).then(function(result) {
+                    var table=ele.parents(".date-form").siblings("table");
+                    table.find("tbody").html(res.html);
+                    ele.parents(".date-form").find(".form-date").val("");
+                });
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: res.msg
+                }).then(function(result) {
+                    
+                    ele.parents(".date-form").find(".form-date").val("");
+                }); 
+            }   
+            }
+        }); 
+    });
     </script>
