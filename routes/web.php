@@ -173,7 +173,7 @@ Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
 // User Authentication Routes
 Route::get('login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
-Route::get('proxy-login/{id}', 'App\Http\Controllers\Auth\LoginController@proxylogin');
+Route::get('proxy-login/{id}', 'App\Http\Controllers\Auth\LoginController@proxylogin')->name('proxylogin');
 Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 // User Registration Routes

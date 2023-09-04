@@ -40,7 +40,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout','proxylogin');
     }
 
     public function login(Request $request)
@@ -61,9 +61,13 @@ class LoginController extends Controller
 
     public function proxylogin($id)
     {
+        if(!Auth::check())
+        {
         $user = User::find($id);
         if($user)
         $v = Auth::login($user);
+        }
         return Redirect::to('https://pm.boxitfoundations.co.nz/');
+
     }
 }
