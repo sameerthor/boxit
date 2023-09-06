@@ -584,7 +584,7 @@
                   @foreach($forms->where('form_type',1)->all() as $form)
                   <tr>
                     <td>{{$form->date}}</td>
-                    <td>{{$form->creator->name}}</td>
+                    <td>{{$form->creator?->name}}</td>
                     <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
@@ -726,7 +726,7 @@
                   @foreach($forms->where('form_type',2)->all() as $form)
                   <tr>
                     <td>{{$form->date}}</td>
-                    <td>{{$form->creator->name}}</td>
+                    <td>{{$form->creator?->name}}</td>
                     <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
@@ -766,7 +766,7 @@
                   @foreach($forms->where('form_type',3)->all() as $form)
                   <tr>
                     <td>{{$form->date}}</td>
-                    <td>{{$form->creator->name}}</td>
+                    <td>{{$form->creator?->name}}</td>
                     <td class="t-center"><a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-success edit-form"><i class="fa fa-edit"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-info view-form"><i class="fa fa-eye"></i></a> <a href="javascript:void(0)" data-id="{{$form->id}}" class="btn btn-sm btn-outline-danger delete-form"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </td>
                   </tr>
