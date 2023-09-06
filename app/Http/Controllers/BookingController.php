@@ -1006,7 +1006,8 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
     
     curl_close($curl);
     $result=json_decode($response);
-
+    echo $response;
+    exit;
     $store_array[]=$result->storesCounts;
     
 }
