@@ -982,4 +982,71 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         foremanNote::updateOrCreate($matchThese, ['notes' => $notes, 'given_by' => Auth::id()]);
         return true;
     }
+
+   public function scrap()
+   {
+    $store_array=[];
+    foreach(range('a','z') as $v){
+            $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://www.operamediaworks.com/zmn/v1/allstoreinfo?qry='.$v,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_SSL_VERIFYPEER=>false,
+      CURLOPT_SSL_VERIFYHOST=>false,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
+    
+    $response = curl_exec($curl);
+    
+    curl_close($curl);
+    $result=json_decode($response);
+
+    $store_array[]=$result->storesCounts;
+    
+}
+$i=0;
+$data=[];
+foreach($store_array as $res)
+{
+  foreach($res as $val)
+  {
+    $data[]=array($val->name,$val->slug,$val->store_logo,$val->web_url,$val->coupons_count);
+  }
+}
+ob_start();
+
+// Set PHP headers for CSV output.
+header('Content-Type: text/csv; charset=utf-8');
+header('Content-Disposition: attachment; filename=csv_export.csv');
+
+// Create the headers.
+$header_args = array( 'Name', 'Slug', 'Store Logo', 'Web URL', 'Coupons Count' );
+
+
+
+// Clean up output buffer before writing anything to CSV file.
+ob_end_clean();
+
+// Create a file pointer with PHP.
+$output = fopen( 'php://output', 'w' );
+
+// Write headers to CSV file.
+fputcsv( $output, $header_args );
+
+// Loop through the prepared data to output it to CSV file.
+foreach( $data as $data_item ){
+    fputcsv( $output, $data_item );
+}
+
+// Close the file pointer with PHP with the updated output.
+fclose( $output );
+exit;
+
+}
 }
