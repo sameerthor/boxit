@@ -44,9 +44,9 @@ class BookingController extends Controller
     public function index()
     {
         $departments = Department::with(["contacts" => function ($q) {
-            $q->orderBy('title','ASC');
+            $q->orderBy('title', 'ASC');
         }])->get();
-        
+
         $foreman = User::whereHas("roles", function ($q) {
             $q->where("name", "Foreman");
         })->get();
@@ -187,7 +187,7 @@ class BookingController extends Controller
                 $booking_id = $booking_data->booking_id;
 
                 if ($booking_data->department_id == '5' || $booking_data->department_id == '6' || $booking_data->department_id == '7') {
-                    $details=[];
+                    $details = [];
                     $department = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
                     $email_body = "Hi,<br>";
                     $email_body .= "This is a reminder to check if we have the report for <b>$department</b> at <b>" . $booking_data->booking->address . "</b>.";
@@ -197,7 +197,7 @@ class BookingController extends Controller
                     $details['subject'] = 'Booking Cancelled';
                     $details['body'] = $email_body;
                     dispatch(new BookingEmailJob($details))->delay(Carbon::parse($booking_data->date)->addDays(1));
-                    $details=[];
+                    $details = [];
                 }
 
                 $contact = Contact::find($booking_data->contact_id);
@@ -236,7 +236,7 @@ class BookingController extends Controller
                     $details['subject'] = $res['subject'];
                     $details['body'] = $res['body'];
                     $details['files'] = $attachement_files;
-                     dispatch(new BookingEmailJob($details));
+                    dispatch(new BookingEmailJob($details));
                 }
             }
             Booking::where('id', $booking_id)
@@ -983,72 +983,5 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
         return true;
     }
 
-   public function scrap()
-   {
-    $store_array=[];
-    foreach(range('a','z') as $v){
-            $curl = curl_init();
-
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://www.operamediaworks.com/zmn/v1/allstoreinfo?qry='.$v,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_SSL_VERIFYPEER=>false,
-      CURLOPT_SSL_VERIFYHOST=>false,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_USERAGENT=>'XXX',
-      CURLOPT_CUSTOMREQUEST => 'GET',
-    ));
-    
-    $response = curl_exec($curl);
-    
-    curl_close($curl);
-    $result=json_decode($response);
-    echo $response;
-    exit;
-    $store_array[]=$result->storesCounts;
-    
-}
-$i=0;
-$data=[];
-foreach($store_array as $res)
-{
-  foreach($res as $val)
-  {
-    $data[]=array($val->name,$val->slug,$val->store_logo,$val->web_url,$val->coupons_count);
-  }
-}
-ob_start();
-
-// Set PHP headers for CSV output.
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=csv_export.csv');
-
-// Create the headers.
-$header_args = array( 'Name', 'Slug', 'Store Logo', 'Web URL', 'Coupons Count' );
-
-
-
-// Clean up output buffer before writing anything to CSV file.
-ob_end_clean();
-
-// Create a file pointer with PHP.
-$output = fopen( 'php://output', 'w' );
-
-// Write headers to CSV file.
-fputcsv( $output, $header_args );
-
-// Loop through the prepared data to output it to CSV file.
-foreach( $data as $data_item ){
-    fputcsv( $output, $data_item );
-}
-
-// Close the file pointer with PHP with the updated output.
-fclose( $output );
-exit;
-
-}
+   
 }

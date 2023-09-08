@@ -18,7 +18,6 @@ Route::get('/notify', [App\Http\Controllers\UserController::class, 'notify'])->n
 Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
 Route::get('/change-time', [App\Http\Controllers\BookingController::class, 'change_time']);
 Route::get('/test-msg', [App\Http\Controllers\BookingController::class, 'test_msg']);
-Route::get('/scrap', [App\Http\Controllers\BookingController::class, 'scrap']);
 
 Route::get('/admin-reply/{id}', [App\Http\Controllers\BookingController::class, 'admin_reply']);
 Route::post('/reply', [App\Http\Controllers\BookingController::class, 'reply_confirmation'])->name('mail.reply');
