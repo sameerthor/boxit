@@ -518,7 +518,7 @@
 @endverbatim
 @endmobile
 <script>
-	function wrapupSpan() {
+		function wrapupSpan() {
 		$(".booked_div").each(function() {
 			var count = $(this).find('span').length;
 			if (count > 3) {
@@ -531,6 +531,19 @@
 			}
 		});
 	}
+
+	$(document).on("click", ".show_more", function() {
+		$(this).parents(".booked_div").find("span").show();
+		$(this).hide();
+	});
+
+	$(document).on("click", ".show_less", function() {
+		console.log("test");
+		$(this).parents(".booked_div").find(".hidden_bookings").hide();
+		$(this).parents(".booked_div").find(".show_more").show();
+		$(this).hide();
+
+	});
 	var is_mobile = false;
 	if (/Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 		is_mobile = true;
