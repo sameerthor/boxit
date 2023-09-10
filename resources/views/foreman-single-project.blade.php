@@ -372,6 +372,10 @@
           <input type="checkbox" disabled class="checked_type" {{in_array('8',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-8" value="8">Cut Inspection Received
           <span class="check"></span>
         </label>
+        <label class="checkbox-inline" for="status-15">
+          <input type="checkbox" disabled class="checked_type" {{in_array('15',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-15" value="15">ND Testing Received
+          <span class="check"></span>
+        </label>
         <label class="checkbox-inline" for="status-14">
           <input type="checkbox" disabled class="checked_type" {{in_array('14',$checked_checkbox_status)?'checked':''}} name="checkbox_status[]" id="status-14" value="14">BLC Received
           <span class="check"></span>
