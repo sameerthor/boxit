@@ -10,4 +10,8 @@ class StaffLeave extends Model
     use HasFactory;
     protected $fillable = ['staff_id','from_date','to_date'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class,'staff_id');
+    }
 }

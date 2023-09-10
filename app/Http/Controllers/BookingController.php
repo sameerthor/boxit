@@ -617,12 +617,12 @@ class BookingController extends Controller
                     ->get();
                 $b_id = '';
                 $html .= "<div class='booked_div'>";
-                if (!empty($foreman_id)) {
-                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->where('staff_id', $foreman_id)->get();
+                
+                    $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->get();
                     foreach ($staff_leaves as $leave) {
-                        $html .= "<span class='red_box' >" . ucfirst($name) . " - On Leave</span>";
+                        $html .= "<span class='red_box' >" . ucfirst($leave->user?->name) . " - On Leave</span>";
                     }
-                }
+            
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();
                 foreach ($leaves as $leave) {
                     $html .= "<span class='red_box annual_leave' data-note='" . $leave->note . "' >" . $leave->title . " - " . date("h:i A", strtotime($leave->date)) . "</span>";
