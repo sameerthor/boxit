@@ -85,6 +85,7 @@
 							<div>
 								<h5>SMS</h5>
 								<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
+@if($booking_data->department_id!='2') 
 Boxit Foundations	&#013;				
 {{$booking->address}} &#013;
 {{$date}} {{$time}}
@@ -96,7 +97,15 @@ Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->Book
 {{$booking->floor_area}} M2
 {{$booking->floor_type}} Floor&#013; 
 Please click on link below to confirm 
-{{$url}} 	
+{{$url}}
+@else
+Boxit Foundations	&#013;				
+We would like to book your service for the project below -
+{{$booking->address}} &#013;
+{{$date}} {{$time}}    &#013;&#013;
+Please click on link below to confirm this booking
+{{$url}}
+@endif 	
 						   </textarea>
 							</div>
 							<br>

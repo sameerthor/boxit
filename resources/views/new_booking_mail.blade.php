@@ -63,7 +63,8 @@
 							<br>
 							<div>
 								<h5>SMS</h5>
-							<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
+								<textarea class="form-control sms_text" rows="13" placeholder="Please place text message (SMS) content here">
+@if($booking_data->department_id!='2') 
 Boxit Foundations &#013;	
 {{$booking->address}} &#013;
 {{$date}} {{$time}}
@@ -76,6 +77,14 @@ Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->Book
 {{$booking->floor_type}} Floor&#013; 
 Please click on link below to confirm 
 {{$url}} 
+@else
+Boxit Foundations	&#013;				
+We would like to book your service for the project below -
+{{$booking->address}} &#013;
+{{$date}} {{$time}}    &#013;&#013;
+Please click on link below to confirm this booking
+{{$url}}
+@endif 	
 							</textarea>
 							</div>
 							<br>
@@ -223,7 +232,7 @@ Please click on link below to confirm
 					$.each($("input[type='file']")[index].files, function(i, file) {
 						formdata.append('mail_data[' + index + '][files][]', file);
 					});
-					formdata.append('mail_data[' + index + '][sms_text]', $(".sms_text").eq(index).val()); 
+					formdata.append('mail_data[' + index + '][sms_text]', $(".sms_text").eq(index).val());
 				});
 				jQuery.ajax({
 					type: 'POST',
