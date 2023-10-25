@@ -71,7 +71,7 @@
           <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false"> Email Logs</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">Annual Leaves</button>
+          <button style="color:#172b4d" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">Annual Leave</button>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -149,7 +149,7 @@
           <form method="post" action="{{url('/save-leaves')}}" class="col-md-10">
 
             @csrf
-            <h3>Annual Leaves</h3>
+            <h3>Annual Leave</h3>
             <div id="repeater">
               <!-- Repeater Heading -->
               <div class="repeater-heading">
