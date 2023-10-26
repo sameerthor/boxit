@@ -14,6 +14,15 @@ use App\Jobs\BookingEmailJob;
 |
 */
 
+Route::get('/test-mail',function(){
+    $details = [];
+    $details['to'] = "sameer@thor.solutions";
+    $details['address'] = "testing this";
+    $details['subject'] = "this this, ignore";
+    $details['body'] = "this this, ignore";
+    dispatch(new BookingEmailJob($details));
+});
+
 Route::get('/notify', [App\Http\Controllers\UserController::class, 'notify'])->name('user.notify');
 Route::get('/reply/{id}', [App\Http\Controllers\BookingController::class, 'reply']);
 Route::get('/change-time', [App\Http\Controllers\BookingController::class, 'change_time']);
