@@ -159,7 +159,7 @@ class BookingController extends Controller
                 );
                 $msg = 'success';
             } catch (Exception $e) {
-                $msg = $e->getMessage();
+                $msg = $e->getMessage();;
             }
         }
         return view('test_mail', compact('msg'));
