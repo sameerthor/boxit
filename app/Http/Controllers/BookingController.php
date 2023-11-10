@@ -620,7 +620,7 @@ class BookingController extends Controller
                 
                     $staff_leaves = StaffLeave::whereDate('from_date', '<=', $booking_date)->whereDate('to_date', '>=', $booking_date)->get();
                     foreach ($staff_leaves as $leave) {
-                        $html .= "<span class='red_box' >" . ucfirst($leave->user?->name) . " - On Leave</span>";
+                        $html .= "<span class='red_box staff-leaves' style='display:none'>" . ucfirst($leave->user?->name) . " - On Leave</span>";
                     }
             
                 $leaves = Leave::whereDate('date', '=', $booking_date)->get();

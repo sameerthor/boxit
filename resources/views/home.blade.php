@@ -253,6 +253,7 @@
 
 @elsemobile
 <style>
+	
 	.modal-dialog {
 		max-width: 50%;
 	}
@@ -479,7 +480,10 @@
 				</option>
 			</select>
 		</div>
-		<div class="col-md-7 text-right">
+		<div class="col-md-2">
+		<button class="btn btn-sm btn-color btn-info leave_toggle">Show Leaves</button>
+		</div>
+		<div class="col-md-5 text-right">
 			<select class="select-styles bgc-new" @change="changeforeman($event)">
 				<option value="">All Foreman</option>
 				<?php foreach ($foremans as $foreman) { ?>
@@ -582,6 +586,7 @@
 
 			}
 		});
+		$(".leave_toggle").text("Show Leaves");
 	}
 
 	$(document).on("click", ".show_more", function() {
@@ -939,6 +944,12 @@
 	$(".show_note_list").click(function() {
 		$("#single_note").hide();
 		$("#notes_list").show();
+	});
+    
+	$(".leave_toggle").click(function() {
+		$(".staff-leaves").toggle();
+		var text=($(this).text() == 'Show Leaves' ? 'Hide Leaves' : 'Show Leaves');
+		$(this).text(text);
 	});
 
 	$(document).on("click", ".annual_leave", function() {
