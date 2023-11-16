@@ -391,8 +391,6 @@ class BookingController extends Controller
             $b_date = date("d-m-Y h:i A", strtotime($booking_data->date));
             $html .= "<p>Boxit Foundations has suggested the below alternate time(s)</p>";
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
-            $html .= "<p>Floor Area : <strong><u>$booking->floor_area</u></strong></p>";
-            $html .= "<p>Floor Type : <strong><u>$booking->floor_type</u></strong></p>";
             $html .= "<p>Revised Date : <strong><u>$b_date</u></strong></p>";
             $enc_key = base64_encode($booking_data->id);
             $url = URL("reply/$enc_key");
