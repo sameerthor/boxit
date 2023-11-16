@@ -17319,7 +17319,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               urlParams = new URLSearchParams(window.location.search);
               p_id = urlParams.get('project_id');
               if (p_id !== null) {
-                params.search = '#' + p_id;
+                params.search = 'Project ID #' + p_id;
               }
               console.log(p_id);
               Object.entries(filters.value).forEach(function (_ref2) {
