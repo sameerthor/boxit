@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\BuildingCron::class,
+        Commands\EmailReminder::class,
     ];
 
     /**
@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('building:cron')
-            ->hourly();
+        $schedule->command('daily:reminder')
+            ->daily();
     }
 
     /**

@@ -186,20 +186,7 @@ class BookingController extends Controller
                 $booking_data = BookingData::find($res['booking_id']);
                 $booking_id = $booking_data->booking_id;
 
-                if ($booking_data->department_id == '5' || $booking_data->department_id == '6' || $booking_data->department_id == '7') {
-                    $details = [];
-                    $department = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
-                    $email_body = "Hi,<br>";
-                    $email_body .= "This is a reminder to check if we have the report for <b>$department</b> at <b>" . $booking_data->booking->address . "</b>.";
-                    $email_body .= '<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
-                    $details['to'] = \config('const.admin1');
-                    $details['address'] = $booking_data->booking->address;
-                    $details['subject'] = 'Booking Cancelled';
-                    $details['body'] = $email_body;
-                    dispatch(new BookingEmailJob($details))->delay(Carbon::parse($booking_data->date)->addDays(1));
-                    $details = [];
-                }
-
+           
                 $contact = Contact::find($booking_data->contact_id);
                 if ($contact->sms_enabled == '1' && !empty($contact->contact) && !empty($res['sms_text'])) {
 
