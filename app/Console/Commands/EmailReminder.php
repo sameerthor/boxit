@@ -30,7 +30,7 @@ class EmailReminder extends Command
      */
     public function handle()
     {
-        $bookings=BookingData::whereDate('date', '=', '2023-11-16')->whereIn('department_id',[5,6,7])->get();
+        $bookings=BookingData::whereDate('date', '=', \Carbon\Carbon::yesterday())->whereIn('department_id',[5,6,7])->get();
         foreach($bookings as $booking_data) {
             $details = [];
             $booking_id=$booking_data->booking_id;
@@ -38,8 +38,8 @@ class EmailReminder extends Command
             $email_body = "Hi,<br>";
             $email_body .= "This is a reminder to check if we have the report for <b>$department</b> at <b>" . $booking_data->booking->address . "</b>.";
             $email_body .= '<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
-     //       $details['to'] = \config('const.admin1');
-                $details['to'] = "sameer@thor.solutions";
+            $details['to'] = \config('const.admin1');
+                // $details['to'] = "sameer@thor.solutions";
 
             $details['address'] = $booking_data->booking->address;
             $details['subject'] = 'Booking Cancelled';
