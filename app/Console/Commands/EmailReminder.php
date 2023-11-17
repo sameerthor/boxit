@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\BookingData;
-use App\Mail\BookingMail;
-use Mail;
+use App\Jobs\BookingEmailJob;
+
 
 class EmailReminder extends Command
 {
@@ -45,9 +45,8 @@ class EmailReminder extends Command
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $email_body;
 
-            Mail::to($details['to'])
-            ->send(new BookingMail($details));
-                        $details = [];
+            dispatch(new BookingEmailJob($details));
+
         }
     }
 }
