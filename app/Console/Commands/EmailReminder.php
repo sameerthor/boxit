@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\BookingData;
-use App\Jobs\BookingEmailJob;
-
+use App\Mail\BookingMail;
+use Mail;
 
 class EmailReminder extends Command
 {
@@ -30,7 +30,7 @@ class EmailReminder extends Command
      */
     public function handle()
     {
-        $bookings=BookingData::whereDate('date', '=', \Carbon\Carbon::yesterday())->whereIn('department_id',[5,6,7])->get();
+        $bookings=BookingData::whereDate('date', '=', '2023-11-16')->whereIn('department_id',[5,6,7])->get();
         foreach($bookings as $booking_data) {
             $details = [];
             $booking_id=$booking_data->booking_id;
@@ -44,9 +44,9 @@ class EmailReminder extends Command
             $details['address'] = $booking_data->booking->address;
             $details['subject'] = 'Booking Cancelled';
             $details['body'] = $email_body;
-
-            dispatch(new BookingEmailJob($details));
-
+            $this->info("mailsent");
+            Mail::to($details['to'])
+            ->send(new BookingMail($details));
         }
     }
 }
