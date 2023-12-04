@@ -323,7 +323,6 @@
   })
 
   $(document).on("click", ".edit", function() {
-    $("#email").attr('readonly', true);
     let id = $(this).data('id');
     var user_type = $(this).parents('tr').find(".user_type").html();
     jQuery.ajax({
