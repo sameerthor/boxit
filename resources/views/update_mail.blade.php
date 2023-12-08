@@ -9,6 +9,7 @@
 <div id="content">
 	<div class="container">
 		@if($booking->mail_sent==0)
+		<input type="hidden" id="project_id" value="{{$booking->id}}">
 		<div class="card ptb-50">
 			<div class="row">
 				<div class="col-md-12">
@@ -277,7 +278,7 @@ Please click on link below to confirm this booking
 						icon: 'success',
 						title: "Mail Sent successfuly."
 					}).then(() => {
-						window.location.href = "/";
+						window.location.href = "/projects?project_id="+$("#project_id").val();
 					});
 				}, 3000);
 
