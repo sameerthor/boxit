@@ -248,8 +248,8 @@
         console.log(data);
         data.map(function(item) {
           $("#repeater").append($(".hidden_html").html());
-          $("#repeater").find(".from_date:last").val(new Date(item.from_date).toISOString().split('T')[0]);
-          $("#repeater").find(".to_date:last").val(new Date(item.to_date).toISOString().split('T')[0]);
+          $("#repeater").find(".from_date:last").val(item.from_date.split(' ')[0]);
+          $("#repeater").find(".to_date:last").val(item.to_date.split(' ')[0]);
         });
       }
     })
