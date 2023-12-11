@@ -155,7 +155,7 @@ class ProjectController extends Controller {
                 ->orWhereIn('department_id', $department_ids);
         })
             ->get();
-        $contacts = Contact::all();
+        $contacts = Contact::orderBy('title')->get();
         return view('single-project', compact('forms', 'checked_checkbox_status', 'contacts', 'foremans', 'project', 'markout_checklist', 'ProjectStatusLabel'))->render();
     }
     public function delete(Request $request) {
