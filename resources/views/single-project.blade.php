@@ -367,7 +367,7 @@
       </thead>
       <tbody>
         @php $project_data=$project->BookingData->slice(1)->sortBy(function ($item) { 
-         return $item->department->title; 
+         return $item->department->priority; 
     })->values()->all();$y=1;@endphp
         @foreach($project_data as $key=>$res)
         <tr>
