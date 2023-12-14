@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\BookingData;
+use App\Models\Booking;
 use App\Mail\BookingMail;
 use Mail;
 
@@ -30,23 +31,28 @@ class EmailReminder extends Command
      */
     public function handle()
     {
-        $bookings=BookingData::whereDate('date', '=', \Carbon\Carbon::yesterday())->whereIn('department_id',[5,6,7])->get();
-        foreach($bookings as $booking_data) {
-            $details = [];
-            $booking_id=$booking_data->booking_id;
-            $department = $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '');
-            $email_body = "Hi,<br>";
-            $email_body .= "This is a reminder to check if we have the report for <b>$department</b> at <b>" . $booking_data->booking->address . "</b>.";
-            $email_body .= '<br><p style="display:none">Project ID #' . $booking_id . '</p>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
-            $details['to'] = \config('const.admin1');
-                // $details['to'] = "sameer@thor.solutions";
-
-            $details['address'] = $booking_data->booking->address;
-            $details['subject'] = 'Booking Cancelled';
-            $details['body'] = $email_body;
-            $this->info("mailsent");
-            Mail::to($details['to'])
-            ->send(new BookingMail($details));
+        $bookings = Booking::whereHas('BookingData', function ($query) {
+            $query->whereDate('date', '=', \Carbon\Carbon::today())->whereIn('department_id', [5, 6, 7]);
+        })->get();
+        $email_body = 'Hi, this is a reminder that the following bookings need to be followed today ie ' . date('d/m/Y');
+        foreach ($bookings as $booking) {
+            $email_body .= "<br><br>";
+            $email_body .= $booking->address."<br>";
+            $booking_datas = BookingData::where('booking_id', $booking->id)->whereDate('date', '=', \Carbon\Carbon::today())->whereIn('department_id', [5, 6, 7])->get();
+            foreach($booking_datas as $booking_data)
+            {
+                $email_body .=  $booking_data->department->title . ($booking_data->service != '' ? ' (' . $booking_data->service . ')' : '').' - '.$booking_data->contact->title."<br>";
+            }
         }
+        $email_body .= '<br>Thank You,<br><br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+
+        $details['subject'] = 'Booking Reminder';
+        $details['body'] = $email_body;
+       $details['to'] = \config('const.admin1');
+        // $details['to'] = "sameer@thor.solutions";
+
+        $this->info("mailsent");
+        Mail::to($details['to'])
+            ->send(new BookingMail($details));
     }
 }
