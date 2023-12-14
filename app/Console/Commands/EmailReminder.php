@@ -48,8 +48,8 @@ class EmailReminder extends Command
 
         $details['subject'] = 'Booking Reminder';
         $details['body'] = $email_body;
-       //$details['to'] = \config('const.admin1');
-         $details['to'] = "sameer@thor.solutions";
+       $details['to'] = \config('const.admin1');
+         //$details['to'] = "sameer@thor.solutions";
 
         $this->info("mailsent");
         Mail::to($details['to'])
