@@ -62,9 +62,9 @@
 					<div id="myLinks">
 						<a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a>
 						<a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a>
+						<a href="{{url('/drafts')}}" class="nav_link"><img src="/img/booking.png">Drafts</a>
 						@if(Auth::user()->hasRole('Admin') ||  Auth::user()->hasRole('Project Manager'))
 						<a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
-						<a href="{{url('/drafts')}}" class="nav_link"><img src="/img/booking.png">Drafts</a>
 						<a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a>
 						<a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/job.png">Settings</a>
 						@endif
@@ -86,9 +86,9 @@
 						</div>
 						<ul class="li-flex li-styles p-none list-none">
 							<li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav_link"><img src="/img/calendar.png">Calendar</a></li>
+							<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" class="nav_link"><img src="/img/draft.png">Drafts</a>
 							@if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Project Manager'))
 							<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
-							<li class="{{ request()->routeIs('drafts') || request()->routeIs('draft') ? 'active' : '' }}"><a href="{{url('/drafts')}}" class="nav_link"><img src="/img/draft.png">Drafts</a>
 							<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 							<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
 							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/users.png">User Management</a></li>

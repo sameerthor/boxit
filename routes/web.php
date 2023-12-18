@@ -76,8 +76,6 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
     Route::post('/save-draft', [App\Http\Controllers\BookingController::class, 'save_draft']);
     Route::get('/delete-draft/{id}', [App\Http\Controllers\BookingController::class, 'delete_draft']);
-    Route::get('/draft/{id}', [App\Http\Controllers\BookingController::class, 'draft'])->name('draft');
-    Route::get('/drafts', [App\Http\Controllers\BookingController::class, 'drafts'])->name('drafts');
     Route::post('/calender', [App\Http\Controllers\BookingController::class, 'calender']);
     Route::post('/mobile-calender', [App\Http\Controllers\BookingController::class, 'mobile_calender']);
     Route::post('/calender-monthly', [App\Http\Controllers\BookingController::class, 'monthly_calender']);
@@ -171,6 +169,8 @@ Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
     Route::post('/get-form', [App\Http\Controllers\ForemanController::class, 'getForm']);
     Route::post('/view-form', [App\Http\Controllers\ProjectController::class, 'viewForm']);
     Route::post('/foreman-images', [App\Http\Controllers\ForemanController::class, 'save_image']);
+    Route::get('/draft/{id}', [App\Http\Controllers\BookingController::class, 'draft'])->name('draft');
+    Route::get('/drafts', [App\Http\Controllers\BookingController::class, 'drafts'])->name('drafts');
     Route::post('/delete-foreman-image', [App\Http\Controllers\ForemanController::class, 'delete_image']);
     Route::post('/qa_checklist', [App\Http\Controllers\ForemanController::class, 'storeQaChecklist']);
     Route::post('/markout_checklist', [App\Http\Controllers\ForemanController::class, 'storeMarkoutlist']);

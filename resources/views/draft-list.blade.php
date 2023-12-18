@@ -29,7 +29,9 @@
                     <td>{{$res->address}}</td>
                     <td class="t-center">
                         <a href="/draft/{{$res->id}}"  class="btn btn-sm btn-outline-success"><i class='fa fa-edit'></i></a>
+                        @if(!Auth::user()->hasRole('Foreman'))
                         <a href="javascript:void(0)" data-url="/delete-draft/{{$res->id}}"  class="btn btn-sm btn-outline-danger delete-draft"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
