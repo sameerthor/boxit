@@ -3,9 +3,11 @@
 @section('content')
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="/js/tinymce/js/tinymce/tinymce.min.js"></script>
-<script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/jq9mby0hzla0mq6byj05yjmflbj55i7tl74g9v8w8no32jb6/tinymce/6/plugins.min.js"
+	referrerpolicy="origin"></script>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog home_modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header  no-border">
@@ -52,6 +54,14 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="info-txt">
+							<span>Status</span>
+							<p id="project_status">NA</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="info-txt">
 							<span>Notes</span>
 							<p id="booking_notes">NA</p>
 						</div>
@@ -67,7 +77,8 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="foremanModal" tabindex="-1" role="dialog" aria-labelledby="foremanModalLabel" aria-hidden="true">
+<div class="modal fade" id="foremanModal" tabindex="-1" role="dialog" aria-labelledby="foremanModalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog home_modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header  no-border">
@@ -91,7 +102,8 @@
 							<tr>
 								<th scope="row">{{$loop->iteration}}</th>
 								<td>{{$foreman?->name}}</td>
-								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><img src="{{asset('img/edit-box-fill.png')}}"></span></td>
+								<td><span data-id="{{$foreman->id}}" class="foreman_notes_edit"><img
+											src="{{asset('img/edit-box-fill.png')}}"></span></td>
 							</tr>
 							@endforeach
 						</tbody>
@@ -108,7 +120,8 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog home_modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header  no-border">
@@ -214,9 +227,9 @@
 			<select class="select-styles bgc-new" @change="changeforeman($event)">
 				<option value="">All Foreman</option>
 				<?php foreach ($foremans as $foreman) { ?>
-					<option value="<?= $foreman->id ?>">
-						<?= ucfirst($foreman?->name); ?>
-					</option>
+				<option value="<?= $foreman->id ?>">
+					<?= ucfirst($foreman?->name); ?>
+				</option>
 				<?php } ?>
 			</select>
 		</div>
@@ -236,9 +249,11 @@
 		<transition-group name="list" tag="ul" class="cal-trans">
 			<li v-for="step in currentitem" :key="step.day">
 				<div class="d-flex mobile_calender_strip show_notes">
-					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']" style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
+					<div class="p-1  align-items-center" v-bind:class="[step.today=='yes' ? 'active-day':'']"
+						style="width:20%"><span>{{step.name}}</span><br>{{step.day}}</div>
 					<div class="p-1  d-flex flex-column" v-if="mobile_calender.length-1 > 0" style="width:100%">
-						<div class="p-2" v-for="booking in mobile_calender[step.day]" :key="date.day" v-html='booking'></div>
+						<div class="p-2" v-for="booking in mobile_calender[step.day]" :key="date.day" v-html='booking'>
+						</div>
 					</div>
 				</div>
 			</li>
@@ -253,7 +268,6 @@
 
 @elsemobile
 <style>
-	
 	.modal-dialog {
 		max-width: 50%;
 	}
@@ -481,15 +495,15 @@
 			</select>
 		</div>
 		<div class="col-md-2">
-		<button class="btn btn-sm btn-color btn-info leave_toggle">Show Leaves</button>
+			<button class="btn btn-sm btn-color btn-info leave_toggle">Show Leaves</button>
 		</div>
 		<div class="col-md-5 text-right">
 			<select class="select-styles bgc-new" @change="changeforeman($event)">
 				<option value="">All Foreman</option>
 				<?php foreach ($foremans as $foreman) { ?>
-					<option value="<?= $foreman->id ?>">
-						<?= ucfirst($foreman?->name); ?>
-					</option>
+				<option value="<?= $foreman->id ?>">
+					<?= ucfirst($foreman?->name); ?>
+				</option>
 				<?php } ?>
 			</select>
 		</div>
@@ -520,7 +534,11 @@
 
 					<transition-group name="list" tag="ul" class="cal-days">
 
-						<li v-for="step in currentitem" v-bind:data-date="step.date" class="show_notes" :key="step.day" v-bind:class="[step.today=='yes' ? 'active-day':'']" :style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}"><span>{{step.name}}</span><br>{{step.day}}</li>
+						<li v-for="step in currentitem" v-bind:data-date="step.date" class="show_notes" :key="step.day"
+							v-bind:class="[step.today=='yes' ? 'active-day':'']"
+							:style="{'color': step.thisMonth===false ?'#ECEDF1' : ''}">
+							<span>{{step.name}}</span><br>{{step.day}}
+						</li>
 					</transition-group>
 
 				</div>
@@ -575,7 +593,7 @@
 
 <script>
 	function wrapupSpan() {
-		$(".booked_div").each(function() {
+		$(".booked_div").each(function () {
 			var count = $(this).find('span').length;
 			if (count > 3) {
 				var last_c = count - 3;
@@ -589,12 +607,12 @@
 		$(".leave_toggle").text("Show Leaves");
 	}
 
-	$(document).on("click", ".show_more", function() {
+	$(document).on("click", ".show_more", function () {
 		$(this).parents(".booked_div").find("span").show();
 		$(this).hide();
 	});
 
-	$(document).on("click", ".show_less", function() {
+	$(document).on("click", ".show_less", function () {
 		console.log("test");
 		$(this).parents(".booked_div").find(".hidden_bookings").hide();
 		$(this).parents(".booked_div").find(".show_more").show();
@@ -606,7 +624,7 @@
 	if (/Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 		is_mobile = true;
 
-	$(document).on('change', '#calender_type', function() {
+	$(document).on('change', '#calender_type', function () {
 		if ($(this).val() == 'week') {
 			$('#weekly_calender').show();
 			$('#monthly_calender').hide();
@@ -776,11 +794,11 @@
 				if (is_mobile) {
 
 					axios.post('/mobile-calender', {
-							year: this.year,
-							month: this.month_index,
-							dates: this.items[this.activeStep],
-							foreman_id: this.foreman_id
-						})
+						year: this.year,
+						month: this.month_index,
+						dates: this.items[this.activeStep],
+						foreman_id: this.foreman_id
+					})
 						.then((response) => {
 							var result = response.data;
 							for (let key in result) {
@@ -793,11 +811,11 @@
 				} else {
 
 					axios.post('/calender', {
-							year: this.year,
-							month: this.month_index,
-							dates: this.items[this.activeStep],
-							foreman_id: this.foreman_id
-						})
+						year: this.year,
+						month: this.month_index,
+						dates: this.items[this.activeStep],
+						foreman_id: this.foreman_id
+					})
 						.then((response) => {
 							$(".calender").html(response.data)
 							wrapupSpan();
@@ -805,48 +823,48 @@
 				}
 
 				axios.post('/calender-daily', {
-						today_date: this.today_date,
-						foreman_id: this.foreman_id
-					})
+					today_date: this.today_date,
+					foreman_id: this.foreman_id
+				})
 					.then((response) => {
 
 						$("#daily_calender").find(".bookings").html(response.data)
 					})
 
 				axios.post('/calender-monthly', {
-						year: this.year,
-						month: this.month_index,
-					})
+					year: this.year,
+					month: this.month_index,
+				})
 					.then((response) => {
 						$(".monthly_dates").html(response.data)
 					})
 			},
-			randomIndex: function() {
+			randomIndex: function () {
 				return Math.floor(Math.random() * this.items.length)
 			},
-			add: function() {
+			add: function () {
 				this.activeStep++;
 				this.getCalender();
 
 			},
-			remove: function() {
+			remove: function () {
 				this.activeStep--;
 				this.getCalender();
 
 			},
-			changeforeman: function(event) {
+			changeforeman: function (event) {
 				this.foreman_id = event.target.value;
 				this.getCalender();
 
 			},
-			daily_nav: function(todo) {
+			daily_nav: function (todo) {
 				if (todo == 1)
 					this.today_date = moment(this.today_date, "DD MMMM YYYY").add('days', 1).format('DD MMMM YYYY');
 				if (todo == -1)
 					this.today_date = moment(this.today_date, "DD MMMM YYYY").subtract('days', 1).format('DD MMMM YYYY');
 				this.getCalender();
 			},
-			month_nav: function(todo) {
+			month_nav: function (todo) {
 				var new_index = this.month_index + todo;
 
 				if (new_index > 11) {
@@ -868,22 +886,23 @@
 		}
 	}).mount("#content");
 
-	$(document).on('click', '#booking_address', function() {
+	$(document).on('click', '#booking_address', function () {
 
 		var id = $(this).attr('data-id');
 		window.location.href = "<?php echo URL('projects?project_id=') ?>" + id
 	});
 
-	$(document).on('click', '.show_booking', function() {
+	$(document).on('click', '.show_booking', function () {
 		var id = $(this).data('id');
 		axios.post('/calender-detail', {
-				id: id
-			})
+			id: id
+		})
 			.then((response) => {
 				$("#booking_address").attr('data-id', response.data.id);
 				$("#booking_address").html(response.data.address);
 				$("#floor_type").html(response.data.floor_type);
 				$("#floor_area").html(response.data.floor_area);
+				$("#project_status").html(response.data.project_status);
 				$("#building_company").html(response.data.building_company);
 				if (response.data.bcn != "") {
 					$("#bcn").html(response.data.bcn);
@@ -893,10 +912,10 @@
 				$("#exampleModal").modal("show");
 			})
 	})
-	$(document).on('click', '.close', function() {
+	$(document).on('click', '.close', function () {
 		$(".modal").modal("hide");
 	})
-	$(document).on('click', '.show_notes', function() {
+	$(document).on('click', '.show_notes', function () {
 		$("#single_note").hide();
 		$("#notes_list").show();
 		var date = $(this).data("date");
@@ -904,31 +923,31 @@
 		$("#foremanModal").modal("show");
 
 	})
-	$(document).on('click', '.foreman_notes_edit', function() {
+	$(document).on('click', '.foreman_notes_edit', function () {
 		var date = $("#foremanModalLabel").find("span").html();
 		$("#single_note").show();
 		$("#notes_list").hide();
 		var id = $(this).data('id');
 		$(".save_note").attr('data-id', id)
 		axios.post('/foreman-notes', {
-				date: date,
-				id: id
-			})
+			date: date,
+			id: id
+		})
 			.then((response) => {
 				tinymce.get('note_editor').setContent(response.data);
 
 			})
 	})
 
-	$(document).on('click', '.save_note', function() {
+	$(document).on('click', '.save_note', function () {
 		var notes = tinymce.get("note_editor").getContent();
 		var date = $("#foremanModalLabel").find("span").html();
 		var id = $(this).attr('data-id');
 		axios.post('/save-foreman-notes', {
-				date: date,
-				id: id,
-				notes: notes
-			})
+			date: date,
+			id: id,
+			notes: notes
+		})
 			.then((response) => {
 				Toast.fire({
 					icon: 'success',
@@ -941,18 +960,18 @@
 			})
 	})
 
-	$(".show_note_list").click(function() {
+	$(".show_note_list").click(function () {
 		$("#single_note").hide();
 		$("#notes_list").show();
 	});
-    
-	$(".leave_toggle").click(function() {
+
+	$(".leave_toggle").click(function () {
 		$(".staff-leaves").toggle();
-		var text=($(this).text() == 'Show Leaves' ? 'Hide Leaves' : 'Show Leaves');
+		var text = ($(this).text() == 'Show Leaves' ? 'Hide Leaves' : 'Show Leaves');
 		$(this).text(text);
 	});
 
-	$(document).on("click", ".annual_leave", function() {
+	$(document).on("click", ".annual_leave", function () {
 		var note = $(this).attr("data-note");
 		$("#leave_note").html(note);
 		$("#leaveModal").modal("show");

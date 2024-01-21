@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\BookingData;
 use App\Models\Draft;
 use App\Models\DraftData;
+use App\Models\ProjectCheckboxStatus;
 use App\Models\StaffLeave;
 use App\Jobs\BookingEmailJob;
 use App\Models\foremanNote;
@@ -59,6 +60,9 @@ class BookingController extends Controller
         $booking->address = $request->get('address');
         $booking->floor_area = $request->get('floor_area');
         $booking->floor_type = $request->get('floor_type');
+        $booking->volume = $request->get('volume');
+        $booking->mix = $request->get('mix');
+        $booking->time_onsite = $request->get('time_onsite');
         $booking->notes = $request->get('notes');
         $booking->bcn = $request->get('bcn');
         $booking->foreman_id = $request->get('foreman');
@@ -297,7 +301,7 @@ class BookingController extends Controller
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color:red;border-color: red;'>Click here to approve or make a change request </a><br>";
             $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
-                Jules<br><br>
+                Andy<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -323,7 +327,7 @@ class BookingController extends Controller
                 $html .= "<p>Contact : <strong><u>$contact->title</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
-                Jules<br><br>
+                Andy<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -359,7 +363,7 @@ class BookingController extends Controller
             $html .= "<p>Address : <strong><u>$address</u></strong></p>";
             $html .= "<p>Date : <strong><u>$b_date</u></strong></p>";
             $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
-                Jules<br><br>
+                Andy<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';
@@ -389,7 +393,7 @@ class BookingController extends Controller
     line-height: 1.5;
     border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4d;'>Click here to approve or make a change request</a><br>";
             $html .= '<br><p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
-    Jules<br><br>
+    Andy<br><br>
     <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
     ';
@@ -649,6 +653,12 @@ class BookingController extends Controller
     {
         $id = $request->get('id');
         $booking = Booking::find($id);
+        $checked_checkbox_data = ProjectCheckboxStatus::where('project_id', $id)->first();
+        if(!empty($checked_checkbox_data)) {
+            $checked_checkbox_status = $checked_checkbox_data->status;
+        } else {
+            $checked_checkbox_status = [];
+        }
         $booking_data = $booking->BookingData->sortBy('department_id');
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
@@ -712,8 +722,28 @@ class BookingController extends Controller
         }
 
         $html .= '</div></div>';
-
-        return array('id' => $booking->id, 'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
+        $project_status_html='
+        <label class="checkbox-inline" for="status-8">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("8",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-8" value="8"> Cut Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-15">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("15",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-15" value="15"> ND Testing Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-14">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("14",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-14" value="14"> BLC Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-10">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("10",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-10" value="10"> Engineers Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-12">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("12",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-12" value="12"> Council Inspection Received
+          <span class="check"></span>
+        </label>';   
+        return array('id' => $booking->id,'project_status'=>$project_status_html,'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'html' => $html);
     }
 
     public function save_draft(Request $request)
@@ -861,7 +891,7 @@ border-radius: 0.25rem;color:#fff;background-color: #172b4d;border-color: #172b4
             $html .= '<p>' . $reply_link . '</p>';
 
             $html .= '<p style="display:none">Project ID #' . $booking_data->booking_id . '</p>Thank You,<br>
-                Jules<br><br>
+                Andy<br><br>
                 <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
                 ';

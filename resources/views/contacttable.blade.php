@@ -27,7 +27,7 @@
                @if(Auth::user()->hasRole('Admin')||Auth::user()->hasRole('Project Manager'))
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
-                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
+                    <a href="javascript:void(0)" data-type="{{$contact->department_id}}" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="delete dropdown-item">Delete</a>
                   </div>
                 </td>

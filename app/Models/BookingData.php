@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class BookingData extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = ['department_id','reorder_no','contact_id','date','booking_id','status','service'];
     protected $casts = [
         'new_date' => 'array',

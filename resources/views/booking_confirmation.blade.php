@@ -57,7 +57,7 @@
                    <br/> <h4>Change Request Pending</h4> <br/>
                    We have received your date/time change request and will get back to you soon.
                 @endif
-                <br/><br/>If there are any changes please feel free to reach out to Jules at <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
+                <br/><br/>If there are any changes please feel free to reach out to Andy at <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
             </div>
 
             </div>

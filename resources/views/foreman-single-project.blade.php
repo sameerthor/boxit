@@ -508,6 +508,7 @@
                                     {
                                     $yes_checked=$project_status[0]->status==1?'checked':'';
                                     $no_checked=$project_status[0]->status==0?'checked':'';
+                                    $order_correct=$project_status[0]->order_correct;
                                     }else
                                     {
                                     $yes_checked="";
@@ -527,6 +528,23 @@
                                                 @endif
                                             </div>
                                         </td>
+                                        <td>
+                      @if($label->id==3 || $label->id==4)
+                Order Correct - 
+                      <div class="form-check">
+  <input class="form-check-input order_correct" data-label="{{$label->id}}" data-project="{{$project->id}}" type="radio" name="order_correct[$label->id]" @if($order_correct=="yes") echo 'checked' @endif value="yes">
+  <label class="form-check-label">
+    Yes
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input order_correct" data-label="{{$label->id}}" data-project="{{$project->id}}"  type="radio" name="order_correct[$label->id]" @if($order_correct=="no") echo 'checked' @endif value="no">
+  <label class="form-check-label">
+    No
+  </label>
+</div>
+                      @endif
+                    </td>
                                     </tr>
                                     @endif
                                     @endforeach
@@ -1254,6 +1272,31 @@
 
 </div>
 </div>
+<div class="modal" id="orderInCorrect" role="dialog">
+      <div class="modal-dialog">
+        <form method="post" action="{{url('/save-order-correct')}}">
+        <input type="hidden" name="project_id" value="" >
+        <input type="hidden" name="label_id" value="" >
+        <input type="hidden" name="order_correct" value="no" >
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Note</h4>
+          </div>
+          <div class="modal-body">
+            <div class="">
+              <textarea name="note" required rows="8" class="form-control" id="department_note"
+                placeholder="Please enter note here..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary btn-sm">Save</button>
+            <button type="button" class="btn btn-secondary btn-sm cancel">Cancel</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
 <style>
     .tooltip-inner {
         color: #172B4D;
@@ -1262,6 +1305,27 @@
     }
 </style>
 <script>
+    $(".order_correct").on("change",function(){
+       var val= $( this ).val();
+       if(val=="yes")
+       {
+        jQuery.ajax({
+            url: "{{ url('/save-correct-order') }}",
+            method: 'post',
+            data: {
+                project_id: $(this).data('project'),
+                label_id:$(this).data('label'),
+                order_correct:"yes"
+            },
+            success: function(result) {
+                refreshpage();            }
+        });
+       }else{
+        $("#orderInCorrect").modal("show")
+        $("#orderInCorrect").find("input[name='project_id']").val($(this).data('project'));
+        $("#orderInCorrect").find("input[name='label_id']").val($(this).data('label'));;
+       }
+    });
     function refreshpage() {
         var id = "<?php echo $project->id; ?>";
 

@@ -80,7 +80,7 @@
         <br>
         <br>
         Thank You,<br>
-        Jules</br>
+        Andy</br>
         <img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 
         ' ;
@@ -201,7 +201,7 @@
         html += 'BCN- [bcn]';
       <?php } ?>
       html += '<br>Address: [address]<br>';
-      html += '<br>Date and Time:<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Jules</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
+      html += '<br>Date and Time:<br>[date]<br>[time]<br><br>[link]<br>Thank You</br></br>Andy</br><img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">';
 
       document.getElementById("myFrame").srcdoc = html;
 

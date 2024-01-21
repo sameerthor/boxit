@@ -66,7 +66,7 @@
                 @if(Auth::user()->hasRole('Admin')||Auth::user()->hasRole('Project Manager'))
                 <td><img src="img/dots.png" id="dropdownMenuButton" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
                   <div class="dropdown-menu">
-                    <a href="javascript:void(0)" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
+                    <a href="javascript:void(0)" data-type="{{$contact->department_id}}" data-id='{{$contact->id}}' class="edit dropdown-item">Edit</a>
                     <a href="javascript:void(0)" data-id='{{$contact->id}}' class="delete dropdown-item">Delete</a>
                   </div>
                 </td>
@@ -107,6 +107,10 @@
           <div class="form-group">
             <label for="email" class="col-form-label">Email:</label>
             <input type="email" name="email" class="form-control" id="email">
+          </div>
+          <div class="form-group concrete_box" style="display:none">
+            <label for="email" class="col-form-label">Email for Booking Sheet:</label>
+            <input type="email" name="concrete_email" class="form-control" id="concrete_email">
           </div>
           <div class="form-group">
             <label for="contact" class="col-form-label">Contact No:</label>
@@ -157,6 +161,13 @@
 
   $(document).on("click", ".edit", function() {
     let id = $(this).data('id');
+    let type=$(this).data('type');
+    if(type=='8')
+    {
+       $(".concrete_box").show()
+    }else{
+      $(".concrete_box").hide()
+    }
     jQuery.ajax({
       type: 'POST',
       url: "{{ route('contact.edit') }}",
@@ -169,6 +180,7 @@
         $("#title").val(data.title);
         $("#contact").val(data.contact);
         $("#company").val(data.company);
+        $("#concrete_email").val(data.concrete_email);
         $("#notes").val(data.notes);
         $("#email").val(data.email);
         if (data.sms_enabled == '1')
@@ -184,11 +196,19 @@
   });
 
   $(document).on("click", "#add_contact", function() {
+    let type = $("#department").val()
+    if(type=='8')
+    {
+       $(".concrete_box").show()
+    }else{
+      $(".concrete_box").hide()
+    }
     $(".save_button").attr("id", "submit_contact")
     $("#modal_contact_id").text("");
     $("#modal_title").html("Add");
     $("#title").val("");
     $("#contact").val("");
+    $("#concrete_email").val("");
     $("#company").val("");
     $("#notes").val("");
     $("#email").val("");
@@ -246,6 +266,7 @@
       var notes = $("#notes").val();
       var sms_enabled = $("#sms_enabled").prop('checked') === true ? '1' : '0';
       var department = $("#department").val();
+      var concrete_email = $("#concrete_email").val();
 
       jQuery.ajax({
         type: 'POST',
@@ -254,6 +275,7 @@
           title: title,
           email: email,
           company: company,
+          concrete_email:concrete_email,
           notes: notes,
           sms_enabled: sms_enabled,
           contact: contact,
@@ -285,6 +307,7 @@
       var sms_enabled = $("#sms_enabled").prop('checked') === true ? '1' : '0';
       var department = $("#department").val();
       var id = $("#modal_contact_id").text();
+      var concrete_email = $("#concrete_email").val();
 
       jQuery.ajax({
         type: 'POST',
@@ -294,6 +317,7 @@
           title: title,
           email: email,
           company: company,
+          concrete_email:concrete_email,
           notes: notes,
           contact: contact,
           sms_enabled: sms_enabled,
@@ -304,6 +328,7 @@
           $("#title").val("");
           $("#contact").val("");
           $("#company").val("");
+          $("#concrete_email").val("");
           $("#notes").val("");
           $("#email").val("");
           $("#modal_contact_id").text("");

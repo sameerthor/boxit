@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.js"></script>
+
 
 <div id="content">
   <div class="container booking-form-w">
@@ -46,11 +45,20 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-md-6 bg-shadow">
+            <div class="form-group col-md-3 bg-shadow">
               <input name="floor_type" required type="text" placeholder="Floor Type*" />
             </div>
-            <div class="form-group col-md-6 bg-shadow">
+            <div class="form-group col-md-2 bg-shadow">
               <input name="floor_area" required type="text" placeholder="Floor Area*" />
+            </div>
+            <div class="form-group col-md-2 bg-shadow">
+              <input name="volume"  type="text" placeholder="Volume" />
+            </div>
+            <div class="form-group col-md-2 bg-shadow">
+              <input name="mix"  type="text" placeholder="Mix" />
+            </div>
+            <div class="form-group col-md-3 bg-shadow">
+              <input name="time_onsite"  type="text" placeholder="Time On Site" />
             </div>
           </div>
           <div class="row">

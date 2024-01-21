@@ -36,6 +36,8 @@ Route::middleware('role_based_redirect')->group(function () {
     Route::get('/', array('as'=>'home', 'uses'=> "App\Http\Controllers\HomeController@index" ));
 
 });
+Route::get('/send-excel', [App\Http\Controllers\MailController::class, 'send_excel'])->name('send.excel');
+
 
 Route::get('/vendors/{id}', [App\Http\Controllers\ContactController::class, 'vendor'])->name('vendor');
 Route::get('/vendor-download/{id}', [App\Http\Controllers\ContactController::class, 'generate_link']);
@@ -84,6 +86,10 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/send-mail', [App\Http\Controllers\BookingController::class, 'send_mail'])->name('send_mail');
 
     Route::get('/booking/{id}', [App\Http\Controllers\BookingController::class, 'booking']);
+    Route::get('/concrete', [App\Http\Controllers\ConcreteController::class, 'index'])->name('concrete');
+    Route::post('/concrete-table', [App\Http\Controllers\ConcreteController::class, 'concrete_table'])->name('concrete.table');
+    Route::get('/concrete-download/{contact_id}', [App\Http\Controllers\ConcreteController::class, 'download_sheet']);
+    Route::get('/concrete-email/{contact_id}', [App\Http\Controllers\ConcreteController::class, 'send_email']);
     Route::get('/contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
     Route::post('/add-contact', [App\Http\Controllers\ContactController::class, 'add_contact'])->name('contact.add');
     Route::post('/update-contact', [App\Http\Controllers\ContactController::class, 'update_contact'])->name('contact.update');
@@ -91,10 +97,13 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::post('/delete-contact', [App\Http\Controllers\ContactController::class, 'delete_contact'])->name('contact.delete');
     Route::post('/contactsbydepartment', [App\Http\Controllers\ContactController::class, 'contactsbydepartment'])->name('contact.get');
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('project');
+    Route::post('/add-bookingdata', [App\Http\Controllers\ProjectController::class, 'addBookingData'])->name('add.bookingData');
     Route::post('/update-project', [App\Http\Controllers\ProjectController::class, 'update_project']);
     Route::post('/delete-file', [App\Http\Controllers\ProjectController::class, 'delete_file']);
     Route::post('/save-image', [App\Http\Controllers\ProjectController::class, 'save_image']);
     Route::post('/save-note', [App\Http\Controllers\ProjectController::class, 'save_note']);
+    Route::post('/change-council', [App\Http\Controllers\ProjectController::class, 'change_council'])->name('changeCouncil');
+    Route::post('/delete-department', [App\Http\Controllers\ProjectController::class, 'delete_department'])->name('department.delete');
     Route::post('/single-project', [App\Http\Controllers\ProjectController::class, 'renderproject']);
     Route::post('/delete-form', [App\Http\Controllers\ProjectController::class, 'deleteForm']);
     Route::post('/delete-project', [App\Http\Controllers\ProjectController::class, 'delete']);
@@ -129,7 +138,7 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
             [link]
             <br>
             Thank You</br>
-            Jules<br><br>
+            Andy<br><br>
             BOXIT Sales</br>
             <a href="mailto:admin@boxitfoundations.co.nz">admin@boxitfoundations.co.nz</a>
             </br>
@@ -177,6 +186,7 @@ Route::middleware('role:Admin|Project Manager|Foreman')->group(function () {
     Route::post('/safety-plan', [App\Http\Controllers\ForemanController::class, 'safety_plan']);
     Route::post('/accident-investigation', [App\Http\Controllers\ForemanController::class, 'accident_investigation']);
     Route::post('/create-dateform', [App\Http\Controllers\ForemanController::class, 'create_form']);
+    Route::post('/save-correct-order', [App\Http\Controllers\ForemanController::class, 'order_correct']);
 
 });
 

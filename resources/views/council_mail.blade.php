@@ -23,7 +23,7 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						@foreach($mail as $res)
 						@php
-						$booking_datas=$booking->BookingData->where('department_id','=',$res->department_id);
+						$booking_datas=$council_data;
 						if(empty($booking_datas))
 						{
 						continue;
@@ -43,7 +43,7 @@
 					<div class="tab-content" id="myTabContent">
 						@foreach($mail as $res)
 						@php
-						$bookings=$booking->BookingData->where('department_id','=',$res->department_id);
+						$bookings=$council_data;
 						if(empty($bookings))
 						{
 						continue;
@@ -90,11 +90,6 @@
 Boxit Foundations	&#013;				
 {{$booking->address}} &#013;
 {{$date}} {{$time}}
-@if($booking_data->department_id=='8' || $booking_data->department_id=='9' || $booking_data->department_id=='10')
-Placer: {{$booking->BookingData->contains('department_id', '9')?$booking->BookingData->firstWhere('department_id', '9')->contact->title:'N/A'}} &#013;
-Pump: {{$booking->BookingData->contains('department_id', '10')?$booking->BookingData->firstWhere('department_id', '10')->contact->title:'N/A'}} &#013;
-Concrete: {{$booking->BookingData->contains('department_id', '8')?$booking->BookingData->firstWhere('department_id', '8')->contact->title:'N/A'}}
-@endif
 {{$booking->floor_area}} M2
 {{$booking->floor_type}} Floor&#013; 
 Please click on link below to confirm 

@@ -324,6 +324,12 @@ class ForemanController extends Controller
         $id = $request->get('id');
         $booking = Booking::find($id);
         $booking_data = $booking->BookingData->sortBy('department_id');
+        $checked_checkbox_data = ProjectCheckboxStatus::where('project_id', $id)->first();
+        if(!empty($checked_checkbox_data)) {
+            $checked_checkbox_status = $checked_checkbox_data->status;
+        } else {
+            $checked_checkbox_status = [];
+        }
         $html = '<div class="row">
 								<div class="col-md-6" style="border-right: 1px solid #E7E7E7;">
 									<div class="pods confirmed-txt pop-flex">
@@ -386,8 +392,28 @@ class ForemanController extends Controller
         }
 
         $html .= '</div></div>';
-
-        return array('id'=>$booking->id,'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'notes' => $booking->notes, 'html' => $html);
+        $project_status_html='
+        <label class="checkbox-inline" for="status-8">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("8",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-8" value="8"> Cut Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-15">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("15",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-15" value="15"> ND Testing Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-14">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("14",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-14" value="14"> BLC Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-10">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("10",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-10" value="10"> Engineers Inspection Received
+          <span class="check"></span>
+        </label>
+        <label class="checkbox-inline" for="status-12">
+          <input type="checkbox" disabled class="checked_type" '.(in_array("12",$checked_checkbox_status)?"checked":"").' name="checkbox_status[]" id="status-12" value="12"> Council Inspection Received
+          <span class="check"></span>
+        </label>';   
+        return array('id'=>$booking->id,'project_status'=>$project_status_html,'address' => $booking->address, 'bcn' => $booking->bcn, 'floor_type' => $booking->floor_type, 'floor_area' => $booking->floor_area, 'building_company' => $booking_data[0]->department_id == '1' ? $booking_data[0]->contact->title : 'NA', 'notes' => $booking->notes != '' ? $booking->notes : 'NA', 'notes' => $booking->notes, 'html' => $html);
     }
 
     public function check_list()
@@ -703,6 +729,32 @@ class ForemanController extends Controller
         return view('forms.accident', compact('form','foreman_images', 'project',  'incident_data'))->render();
 
       }
+
+    }
+
+    public function order_correct(Request $request)
+    {
+        $matchThese = ['project_id' => $request->get('project_id'), 'status_label_id' => $request->get('label_id')];
+        $data = ['status' => "4","order_correct"=>$request->get('order_correct')];
+        ProjectStatus::updateOrCreate($matchThese, $data);
+        if($request->get('order_correct')=="no")
+        {
+          $note=$request->get('note');  
+          $f_name=Auth::user()->name;
+          $d_name=$request->get('label_id')=="3"?'PODS':'Steel';
+          $p_name=Booking::find($request->get('project_id'))->address;
+          $mail_body="$p_name Order isn't correct for $d_name and $f_name has added a note - $note";
+          $details['to'] = \config('const.admin1');
+          $details['name'] =$p_name;
+          $details['subject'] = "Order Incorrect";
+          $details['body'] = $mail_body;
+          dispatch(new BookingEmailJob($details));
+          $details['to'] = "andy@boxitfoundations.co.nz";
+          dispatch(new BookingEmailJob($details));
+          $details['to'] = "dan@boxitfoundations.co.nz";
+          dispatch(new BookingEmailJob($details));
+        }
+        return redirect()->to('check-list/')->with('succes_msg', 'Status saved successfuly');
 
     }
 }

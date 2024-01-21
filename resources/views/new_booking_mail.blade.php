@@ -104,7 +104,7 @@ Please click on link below to confirm this booking
 								<?php echo $reply_link . "<br>" ?>
 								<br>
 								Thank You,<br>
-								Jules<br><br>
+								Andy<br><br>
 								<p style="display:none">Project ID #{{$booking_data->booking_id}}</p>
 								<img src="https://boxit.staging.app/img/logo2581-1.png" style="width:75px;height:30px" class="mail-logo" alt="Boxit Logo">
 							</div>

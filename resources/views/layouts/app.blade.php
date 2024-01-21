@@ -28,6 +28,8 @@
 	<link rel="stylesheet" href="{{ asset('js/font-awesome/css/font-awesome.min.css') }}">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
@@ -91,6 +93,7 @@
 							<li class="{{ request()->routeIs('booking') ? 'active' : '' }}"><a href="{{url('/bookings')}}" class="nav_link"><img src="/img/booking.png">Bookings</a>
 							<li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{url('/contacts')}}" class="nav_link"><img src="/img/contacts.png">Contacts</a></li>
 							<li class="{{ request()->routeIs('project') ? 'active' : '' }}"><a href="{{url('/projects/')}}" class="nav_link"><img src="/img/projects.png">Projects</a></li>
+							<li class="{{ request()->routeIs('concrete') ? 'active' : '' }}"><a href="{{url('/concrete/')}}" class="nav_link"><img src="/img/booking.png">Concrete</a></li>
 							<li class="{{ request()->routeIs('user_management') ? 'active' : '' }}"><a href="{{url('/user-management')}}" class="nav_link"><img src="/img/users.png">User Management</a></li>
 							<li class="{{ request()->routeIs('products') ? 'active' : '' }}"><a href="{{url('/products')}}" class="nav_link"><img src="/img/contacts.png">Products</a></li>
 							<li class="{{ request()->routeIs('mail_template') ? 'active' : '' }}"><a href="{{url('/mail-template')}}" class="nav_link"><img src="/img/settings.png">Settings</a></li>
@@ -210,6 +213,13 @@
 		Toast.fire({
 			icon: 'success',
 			title: "<?php echo session('succes_msg'); ?>"
+		})
+	<?php } ?>
+	<?php
+	if (session('error_msg')) { ?>
+		Toast.fire({
+			icon: 'error',
+			title: "<?php echo session('error_msg'); ?>"
 		})
 	<?php } ?>
 

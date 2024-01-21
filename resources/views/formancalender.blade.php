@@ -49,6 +49,14 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="info-txt">
+							<span>Status</span>
+							<p id="project_status">NA</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="info-txt">
 							<span>Notes</span>
 							<p id="booking_notes">NA</p>
 						</div>
@@ -829,6 +837,7 @@
 				$("#booking_address").html(response.data.address);
 				$("#floor_type").html(response.data.floor_type);
 				$("#floor_area").html(response.data.floor_area);
+				$("#project_status").html(response.data.project_status);
 				$("#building_company").html(response.data.building_company);
 				$("#booking_notes").html(response.data.notes);
 				if (response.data.bcn != "") {

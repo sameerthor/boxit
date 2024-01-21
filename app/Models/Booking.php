@@ -20,6 +20,11 @@ class Booking extends Model
         return $this->hasMany(BookingData::class);
     }
 
+    public function CouncilData()
+    {
+        return $this->hasMany(BookingData::class)->where('booking_data.department_id',7);
+    }
+
     public function foreman()
     {
         return $this->belongsTo(User::class);
@@ -78,5 +83,13 @@ class Booking extends Model
     public function SafetyPlan()
     {
         return $this->hasOne(SafetyPlan::class,'project_id','id');
+    }
+
+    public function placer() {
+        return $this->BookingData()->where('department_id','=', 9);
+    }
+
+    public function pump() {
+        return $this->BookingData()->where('department_id','=', 10);
     }
 }
