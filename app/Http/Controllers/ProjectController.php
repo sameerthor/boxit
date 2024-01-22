@@ -76,8 +76,8 @@ class ProjectController extends Controller
         if (!empty(request('q')))
             $projects = $projects->where(function ($query) {
                 $query->where('address', 'like', '%' . request('q') . '%')
-                    ->orWhere('bcn', 'like', '%' . request('q') . '%')->orWhereHas('departments', function ($query) {
-                        $query->where('department_id', 1)->where('title', 'like', '%' . request('q') . '%');
+                    ->orWhere('bcn', 'like', '%' . request('q') . '%')->orWhereHas('BookingData.department', function ($query1) {
+                        $query1->where('department_id', 1)->where('title', 'like', '%' . request('q') . '%');
                     });
                 ;
             });
