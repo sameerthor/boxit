@@ -513,6 +513,7 @@
                                     {
                                     $yes_checked="";
                                     $no_checked="";
+                                    $order_correct="";
                                     }
                                     @endphp
                                     <tr>
