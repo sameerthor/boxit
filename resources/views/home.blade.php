@@ -663,8 +663,18 @@
 		return monthStart;
 	}
 
-	function daysInMonth(zeroBasedMonthNumber) {
+	function leapYear(year)
+{
+  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+	function daysInMonth(zeroBasedMonthNumber,year) {
 		var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if(leapYear(year))
+		{
+			days[1] = 29;
+
+		}
 		return days[zeroBasedMonthNumber];
 	}
 
@@ -692,7 +702,7 @@
 		var daysFromLastMonth = firstDay;
 		var result = [];
 
-		var daysInLastMonth = daysInMonth(monthIndex - 1);
+		var daysInLastMonth = daysInMonth(monthIndex - 1,year);
 		var first = daysInLastMonth - daysFromLastMonth + 1;
 		var count = 0;
 		if (monthIndex == cur_month) {
@@ -717,7 +727,7 @@
 			}
 		}
 
-		for (var i = 1; i <= daysInMonth(monthIndex); i++)
+		for (var i = 1; i <= daysInMonth(monthIndex,year); i++)
 			//result.push( i );
 			result.push(new MonthDay(i, true, year, monthIndex + 1));
 
