@@ -105,6 +105,6 @@ class ConcreteController extends Controller
         Mail::to($contact->concrete_email)
             ->send(new BookingMail(['to'=>$contact->concrete_email,'files'=>[$files],'body'=>$html]));
             Session::flash('succes_msg', 'Mail sent successfuly.');
-
+            return Redirect::back();
     }
 }
