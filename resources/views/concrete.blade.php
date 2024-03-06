@@ -12,15 +12,25 @@
                 </div>
             </div>
             <div class="row d-flex pb-40">
-                <div class="col-md-3 select-style">
-                    <select id="concrete_contacts">
-                        <option value="0">All Concrete</option>
-                        @foreach($concrete_contacts as $contact)
-                        <option value="{{$contact->id}}">{{$contact->title}}</option>
+            <div class="col-md-3 select-style">
+                    <h6> Period</h6>
+                    <select id="concrete_week">
+                        @foreach($byweek as $res)
+                         <option @if( $loop->first) selected @endif value="{{$res->date}}">{{ \Carbon\Carbon::parse($res->date)->startOfWeek()->format('d M') }}-{{ \Carbon\Carbon::parse($res->date)->endOfWeek()->format('d M') }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-9 text-r">
+                <div class="col-md-3 select-style">
+                    <h6> Suplliers</h6>
+                    <select id="concrete_contacts">
+                        <option value="0">All Concrete</option>
+                        @foreach($concrete_contacts as $contact)
+                        <option  value="{{$contact->id}}">{{$contact->title}}</option>
+                        @endforeach
+                    </select>
+                </div>
+              
+                <div class="col-md-6 text-r">
                     <button type="button" data-toggle="modal" data-target="#contact_form"  class="btn btn-lg btn-info btn-color">Download/Email Sheet</button>
                 </div>
             </div>
@@ -74,11 +84,11 @@
                             </tr>
 
                         </thead>
-                        <tbody class="tr-border td-styles tr-hover" id="concrete_table">
+                        <tbody class="tr-border td-styles tr-hover" id="concrete_modal_table">
                         @foreach($concrete_contacts as $contact)
                             <tr>
                                 <th>{{$contact->title}}</th>
-                                <th><a href="/concrete-download/{{$contact->id}}" class="btn btn-sm btn-info btn-color">Download</a> <a href="/concrete-email/{{$contact->id}}" class="btn btn-sm btn-info btn-color">Email</a></th>
+                                <th><a href="/concrete-download/{{$contact->id}}"  class="download-button btn btn-sm btn-info btn-color">Download</a> <a href="/concrete-email/{{$contact->id}}" id="email-button" class="btn btn-sm btn-info btn-color">Email</a></th>
                             </tr>
                             @endforeach
                         </tbody>
@@ -91,25 +101,37 @@
 </div>
 
 <script>
+   
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
         $('#concrete_contacts').on('change', function () {
+         
             refreshtable();
+        });
+
+        $('#concrete_week').on('change', function () {
+        $('#concrete_contacts option:eq(0)').attr('selected', 'selected')
+          refreshtable();
         });
 
         function refreshtable() {
             var contact_id = $("#concrete_contacts").val();
+            var week_date = $("#concrete_week").val();
             $.ajax({
                 type: 'POST',
                 url: "{{ route('concrete.table') }}",
                 data: {
                     contact_id: contact_id,
+                    week_date:week_date
                 },
+                dataType:"json",
                 success: function (data) {
-                    $("#concrete_table").html(data)
+                    $("#concrete_table").html(data.table_html)
+                    $("#concrete_modal_table").html(data.modal_html)
+                    $("#concrete_contacts").html(data.option_html)
                 }
             });
         }

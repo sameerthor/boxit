@@ -88,8 +88,8 @@ Route::middleware('role:Admin|Project Manager')->group(function () {
     Route::get('/booking/{id}', [App\Http\Controllers\BookingController::class, 'booking']);
     Route::get('/concrete', [App\Http\Controllers\ConcreteController::class, 'index'])->name('concrete');
     Route::post('/concrete-table', [App\Http\Controllers\ConcreteController::class, 'concrete_table'])->name('concrete.table');
-    Route::get('/concrete-download/{contact_id}', [App\Http\Controllers\ConcreteController::class, 'download_sheet']);
-    Route::get('/concrete-email/{contact_id}', [App\Http\Controllers\ConcreteController::class, 'send_email']);
+    Route::get('/concrete-download/{contact_id}/{week_date}', [App\Http\Controllers\ConcreteController::class, 'download_sheet']);
+    Route::get('/concrete-email/{contact_id/{week_date}}', [App\Http\Controllers\ConcreteController::class, 'send_email']);
     Route::get('/contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
     Route::post('/add-contact', [App\Http\Controllers\ContactController::class, 'add_contact'])->name('contact.add');
     Route::post('/update-contact', [App\Http\Controllers\ContactController::class, 'update_contact'])->name('contact.update');
