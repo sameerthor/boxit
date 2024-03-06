@@ -83,13 +83,12 @@
                     <i class="fa fa-angle-down"></i>
                     <select  @if(Auth::user()->hasRole('Foreman')) readonly @endif   class="form-control contacts" style="width: 100%;" name="department[{{$department->id}}]" required>
                       <option value="">{{$department->title}}*</option>
+                      @php $contact_name = "";@endphp
                       @foreach($department->contacts->sortBy('title') as $res)
                       <option value="{{$res->id}}" <?php if (@$draft->DraftData[$department->id]->first()->contact_id == $res->id) {
                                                       echo "selected";
                                                       $contact_name = $res->title;
-                                                    } else {
-                                                      $contact_name = '';
-                                                    } ?>>{{$res->title}}</option>
+                                                    }  ?>>{{$res->title}}</option>
                       @endforeach
                     </select>
                   </div>
