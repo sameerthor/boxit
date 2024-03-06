@@ -435,7 +435,7 @@
             @if(!Auth::user()->hasRole('Foreman'))
             <div class="col-md-2">
               <div class="form-btn">
-                <input  @if(Auth::user()->hasRole('Foreman')) readonly @endif class="submit" type="submit" value="Submit">
+                <input  @if(Auth::user()->hasRole('Foreman')) readonly @endif class="submit" id="submit-button" type="submit" value="Submit">
               </div>
             </div>
             @endif
@@ -502,6 +502,7 @@
   $("#booking").on("submit", function() {
 
     if ($("#booking").valid()) {
+      $("#submit-button").prop('disabled', true);
       $('.council_services:hidden').remove();
       if ($(".council-checkboxes:checked").length == 0) {
         $('.council_services').remove();

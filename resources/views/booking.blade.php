@@ -357,7 +357,7 @@
             <div class="form-group col-md-6 bg-shadow">
               <textarea placeholder="Notes" name="notes"></textarea>
               <div class="form-btn">
-                <input class="submit" type="submit" value="Submit">
+                <input class="submit" type="submit" id="submit-button" value="Submit">
               </div>
             </div>
             <div class="form-group increment col-md-6 bg-shadow">
@@ -399,6 +399,7 @@
 
   $("#booking").on("submit", function() {
     if ($("#booking").valid()) {
+      $("#submit-button").prop('disabled', true);
       if ($(".council-checkboxes:checked").length == 0) {
         $('.council_services').remove();
     }
