@@ -33,7 +33,7 @@ class ConcreteController extends Controller
      */
     public function index()
     {
-        $concrete_bookings = BookingData::whereHas('contact', function ($query) {
+        $concrete_bookings = BookingData::has('booking')->whereHas('contact', function ($query) {
             return $query->whereNot('title', 'N/A')->whereNot('title', 'To Be Confirmed');
         })->where("department_id", "8")->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('date')->get();
         $contact_ids = $concrete_bookings->pluck('contact_id')->toArray();
@@ -50,9 +50,9 @@ class ConcreteController extends Controller
         $start=Carbon::parse($week_date)->startOfWeek();
         $end=Carbon::parse($week_date)->endOfWeek();
         if (!empty($contact_id)) {
-            $concrete_bookings = BookingData::where("department_id", "8")->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
+            $concrete_bookings = BookingData::has('booking')->where("department_id", "8")->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
         } else {
-            $concrete_bookings = BookingData::whereHas('contact', function ($query) {
+            $concrete_bookings = BookingData::has('booking')->whereHas('contact', function ($query) {
                 return $query->whereNot('title', 'N/A')->whereNot('title', 'To Be Confirmed');
             })->where("department_id", "8")->whereBetween('date', [$start, $end])->orderBy('date')->get();
         }
@@ -78,7 +78,7 @@ class ConcreteController extends Controller
         $filename = "concrete";
         $start=Carbon::parse($week_date)->startOfWeek();
         $end=Carbon::parse($week_date)->endOfWeek();
-        $concrete_bookings = BookingData::where("department_id", "8")->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
+        $concrete_bookings = BookingData::where("department_id", "8")->has('booking')->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
         ;
         $concrete_bookings = $concrete_bookings->mapToGroups(function ($item) {
             return [date('l', strtotime($item['date'])) => $item]; // assuming 'locale' key
@@ -104,7 +104,7 @@ class ConcreteController extends Controller
                 }
         $filename = "concrete";
 
-        $concrete_bookings = BookingData::where("department_id", "8")->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
+        $concrete_bookings = BookingData::has('booking')->where("department_id", "8")->where('contact_id', $contact_id)->whereBetween('date', [$start, $end])->orderBy('date')->get();
         ;
         $concrete_bookings = $concrete_bookings->mapToGroups(function ($item) {
             return [date('l', strtotime($item['date'])) => $item]; // assuming 'locale' key
