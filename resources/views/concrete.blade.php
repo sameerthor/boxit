@@ -88,7 +88,7 @@
                         @foreach($concrete_contacts as $contact)
                             <tr>
                                 <th>{{$contact->title}}</th>
-                                <th><a href="/concrete-download/{{$contact->id}}"  class="download-button btn btn-sm btn-info btn-color">Download</a> <a href="/concrete-email/{{$contact->id}}" id="email-button" class="btn btn-sm btn-info btn-color">Email</a></th>
+                                <th><a href="/concrete-download/{{$contact->id}}/{{date('Y-m-d')}}"  class="download-button btn btn-sm btn-info btn-color">Download</a> <a href="/concrete-email/{{$contact->id}}/{{date('Y-m-d')}}" id="email-button" class="btn btn-sm btn-info btn-color">Email</a></th>
                             </tr>
                             @endforeach
                         </tbody>
