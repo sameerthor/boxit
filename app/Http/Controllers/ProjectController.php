@@ -162,7 +162,7 @@ class ProjectController extends Controller
         $markout_checklist = $project->MarkoutChecklist;
         //dd($safety);
         $checked_checkbox_data = ProjectCheckboxStatus::where('project_id', $request->get('id'))->first();
-        if (!empty($checked_checkbox_data)) {
+        if (!empty($checked_checkbox_data->status)) {
             $checked_checkbox_status = $checked_checkbox_data->status;
         } else {
             $checked_checkbox_status = [];
